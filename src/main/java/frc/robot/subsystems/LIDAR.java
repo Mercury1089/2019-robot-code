@@ -7,8 +7,6 @@ import org.usfirst.frc.team1089.util.MercMath;
 
 /**
  * Wrapper class for the entire LIDAR system that we are using to check for distance.
- * HIIIII!
- * TESTING
  */
 public class LIDAR  implements PIDSource {
     private CANifier canifier;
