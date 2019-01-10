@@ -1,6 +1,6 @@
 package frc.robot.util;
 
-import org.usfirst.frc.team1089.robot.Robot;
+import frc.robot.Robot;
 
 import java.nio.ByteBuffer;
 
