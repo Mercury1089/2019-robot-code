@@ -206,8 +206,8 @@ public class MoveOnPath extends Command {
             trajPointR.profileSlotSelect0 = DriveTrain.SLOT_0;
 
             // Sets the duration of each trajectory point to 20ms
-            trajPointL.timeDur = TrajectoryPoint.TrajectoryDuration.Trajectory_Duration_20ms;
-            trajPointR.timeDur = TrajectoryPoint.TrajectoryDuration.Trajectory_Duration_20ms;
+            trajPointL.timeDur = 20;
+            trajPointR.timeDur = 20;
 
             // Set these to true on the first point
             trajPointL.zeroPos = isZero;

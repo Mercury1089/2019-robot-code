@@ -19,7 +19,8 @@ public class DriveTrainSettings extends Config {
      * {@code LEGACY}: 2 Talon SRX followers, 2 Talon SRX leaders
      */
     public enum DriveTrainLayout {
-        DEFAULT,
+        SPARKS,
+        TALONS,
         LEGACY
     }
 

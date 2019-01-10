@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.usfirst.frc.team1089.robot.commands.DriveWithJoysticks;
-import org.usfirst.frc.team1089.util.MercMath;
-import org.usfirst.frc.team1089.util.TalonDrive;
-import org.usfirst.frc.team1089.util.config.DriveTrainSettings;
+import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.util.MercMath;
+import frc.robot.util.TalonDrive;
+import frc.robot.util.config.DriveTrainSettings;
 
 /**
  * Subsystem that encapsulates the drive train.
@@ -61,18 +61,19 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 	 * @param br Back-right Talon ID
 	 */
 	public DriveTrain(int fl, int fr, int bl, int br) {
-		//Use WPI_TalonSRX instead of TalonSRX to make sure it interacts properly with WPILib.
-		tMasterLeft = new WPI_TalonSRX(fl);
-		tMasterRight = new WPI_TalonSRX(fr);
-
         // At this point it's based on what the layout is
         switch(LAYOUT) {
             case LEGACY:
+                tMasterLeft = new WPI_TalonSRX(fl);
+	        	tMasterRight = new WPI_TalonSRX(fr);
                 vFollowerLeft = new WPI_TalonSRX(bl);
                 vFollowerRight = new WPI_TalonSRX(br);
                 break;
-			case DEFAULT:
-			default:
+            //case SPARKS:
+            //    vFollowerLeft = new 
+			case TALONS:
+                tMasterLeft = new WPI_TalonSRX(fl);
+	        	tMasterRight = new WPI_TalonSRX(fr);
 				vFollowerLeft = new WPI_VictorSPX(bl);
 				vFollowerRight = new WPI_VictorSPX(br);
 				break;
