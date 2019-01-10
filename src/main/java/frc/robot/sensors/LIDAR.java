@@ -1,9 +1,9 @@
-package org.usfirst.frc.team1089.robot.sensors;
+package frc.robot.sensors;
 import com.ctre.phoenix.CANifier;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.filters.LinearDigitalFilter;
-import org.usfirst.frc.team1089.util.MercMath;
+import frc.robot.util.MercMath;
 
 /**
  * Wrapper class for the entire LIDAR system that we are using to check for distance.

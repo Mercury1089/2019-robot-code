@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1089.robot.sensors;
+package frc.robot.sensors;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Notifier;
@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.usfirst.frc.team1089.util.BoundingBox;
-import org.usfirst.frc.team1089.util.config.SensorsSettings;
+import frc.robot.util.BoundingBox;
+import frc.robot.util.config.SensorsSettings;
 
 /**
  * PixyCam implementation using the I2C interface

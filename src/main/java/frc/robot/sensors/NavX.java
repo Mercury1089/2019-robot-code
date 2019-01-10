@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1089.robot.sensors;
+package frc.robot.sensors;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;

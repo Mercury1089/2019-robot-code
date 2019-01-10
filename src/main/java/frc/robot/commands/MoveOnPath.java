@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1089.robot.commands;
+package frc.robot.commands;
 
 import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.SetValueMotionProfile;
@@ -13,10 +13,10 @@ import jaci.pathfinder.Trajectory;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.usfirst.frc.team1089.robot.Robot;
-import org.usfirst.frc.team1089.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team1089.util.MercMath;
-import org.usfirst.frc.team1089.util.config.DriveTrainSettings;
+import frc.robot.Robot;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.util.MercMath;
+import frc.robot.util.config.DriveTrainSettings;
 
 import java.io.File;
 
@@ -206,8 +206,8 @@ public class MoveOnPath extends Command {
             trajPointR.profileSlotSelect0 = DriveTrain.SLOT_0;
 
             // Sets the duration of each trajectory point to 20ms
-            trajPointL.timeDur = TrajectoryPoint.TrajectoryDuration.Trajectory_Duration_20ms;
-            trajPointR.timeDur = TrajectoryPoint.TrajectoryDuration.Trajectory_Duration_20ms;
+            trajPointL.timeDur = 20;
+            trajPointR.timeDur = 20;
 
             // Set these to true on the first point
             trajPointL.zeroPos = isZero;

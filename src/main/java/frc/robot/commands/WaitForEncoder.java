@@ -1,10 +1,10 @@
-package org.usfirst.frc.team1089.robot.commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.usfirst.frc.team1089.robot.Robot;
-import org.usfirst.frc.team1089.util.DelayableLogger;
+import frc.robot.Robot;
+import frc.robot.util.DelayableLogger;
 
 import java.util.concurrent.TimeUnit;
 
