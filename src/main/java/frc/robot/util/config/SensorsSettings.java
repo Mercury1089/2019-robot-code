@@ -1,6 +1,6 @@
 package frc.robot.util.config;
 
-import org.usfirst.frc.team1089.robot.sensors.LIDAR;
+import frc.robot.sensors.LIDAR;
 
 import java.awt.*;
 import java.util.Properties;
