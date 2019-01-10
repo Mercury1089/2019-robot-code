@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import frc.robot.commands.DriveWithJoysticks;
-import frc.robot.util.MercMath;
-import frc.robot.util.TalonDrive;
-import frc.robot.util.config.DriveTrainSettings;
+import org.usfirst.frc.team1089.robot.commands.DriveWithJoysticks;
+import org.usfirst.frc.team1089.util.MercMath;
+import org.usfirst.frc.team1089.util.TalonDrive;
+import org.usfirst.frc.team1089.util.config.DriveTrainSettings;
 
 /**
  * Subsystem that encapsulates the drive train.
