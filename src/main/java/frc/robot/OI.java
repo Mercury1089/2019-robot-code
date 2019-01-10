@@ -7,36 +7,44 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.RobotMap.*;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  //// CREATING BUTTONS
-  // One type of button is a joystick button which is any button on a
-  //// joystick.
-  // You create one by telling it which joystick it's on and which button
-  // number it is.
-  // Joystick stick = new Joystick(port);
-  // Button button = new JoystickButton(stick, buttonNumber);
+  private Joystick rightJoystick, leftJoystick, gamepad;
 
-  // There are a few additional built in buttons you can use. Additionally,
-  // by subclassing Button you can create custom triggers and bind those to
-  // commands the same as any other Button.
+  public OI() {
+    leftJoystick = new Joystick(DS_USB.LEFT_STICK);
+    rightJoystick = new Joystick(DS_USB.RIGHT_STICK);
+    gamepad = new Joystick(DS_USB.GAMEPAD);
+  }
 
-  //// TRIGGERING COMMANDS WITH BUTTONS
-  // Once you have a button, it's trivial to bind it to a button in one of
-  // three ways:
+  //COMPLETE:
+  public double getX(int port) {
+    //return 0;
+    switch(port) {
+      case DS_USB.LEFT_STICK:
+        return leftJoystick.getX();
+      case DS_USB.RIGHT_STICK:
+        return rightJoystick.getX();
+      default:
+        return 0;
+    }
+  }
 
-  // Start the command when the button is pressed and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenPressed(new ExampleCommand());
-
-  // Run the command while the button is being held down and interrupt it once
-  // the button is released.
-  // button.whileHeld(new ExampleCommand());
-
-  // Start the command when the button is released and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenReleased(new ExampleCommand());
+  //COMPLETE:
+  public double getY(int port) {
+    //return 0;
+    switch(port) {
+      case DS_USB.LEFT_STICK:
+        return leftJoystick.getY();
+      case DS_USB.RIGHT_STICK:
+        return rightJoystick.getY();
+      default:
+        return 0;
+    }
+  }
 }

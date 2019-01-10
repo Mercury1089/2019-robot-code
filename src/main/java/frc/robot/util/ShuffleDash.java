@@ -1,10 +1,10 @@
-package org.usfirst.frc.team1089.util;
+package frc.robot.util;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team1089.robot.Robot;
-import org.usfirst.frc.team1089.robot.subsystems.DriveTrain;
+import frc.robot.Robot;
+import frc.robot.subsystems.DriveTrain;
 
 /**
  * Helper class to interface with the Shuffleboard Dashboard.

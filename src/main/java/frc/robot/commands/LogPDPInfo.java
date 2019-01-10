@@ -1,11 +1,11 @@
-package org.usfirst.frc.team1089.robot.commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.usfirst.frc.team1089.robot.Robot;
-import org.usfirst.frc.team1089.robot.subsystems.PDP;
+import frc.robot.Robot;
+import frc.robot.subsystems.PDP;
 
 import java.io.*;
 import java.time.LocalDateTime;
