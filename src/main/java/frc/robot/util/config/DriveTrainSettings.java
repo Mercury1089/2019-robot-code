@@ -20,8 +20,8 @@ public class DriveTrainSettings extends Config {
      */
     public enum DriveTrainLayout {
         SPARKS,
-        TALONS,
-        LEGACY
+        TALON_VICTOR,
+        TALONS
     }
 
     private static Properties instance;
