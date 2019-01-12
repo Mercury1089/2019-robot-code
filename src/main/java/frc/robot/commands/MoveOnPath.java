@@ -17,6 +17,7 @@ import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.util.MercMath;
 import frc.robot.util.config.DriveTrainSettings;
+import frc.robot.util.interfaces.IMercMotorController;
 
 import java.io.File;
 
@@ -25,8 +26,8 @@ import java.io.File;
  */
 public class MoveOnPath extends Command {
     private static Logger log = LogManager.getLogger(MoveOnPath.class);
-	private TalonSRX left;
-	private TalonSRX right;
+	private IMercMotorController left;
+	private IMercMotorController right;
 
 	private int TRAJECTORY_SIZE;
 
@@ -224,17 +225,8 @@ public class MoveOnPath extends Command {
     }
 
     private void configurePID(double p, double i, double d, double f) {
-        left.config_kP(DriveTrain.SLOT_0, p, DriveTrain.TIMEOUT_MS);
-        right.config_kP(DriveTrain.SLOT_0, p, DriveTrain.TIMEOUT_MS);
-
-        left.config_kI(DriveTrain.SLOT_0, i, DriveTrain.TIMEOUT_MS);
-        right.config_kI(DriveTrain.SLOT_0, i, DriveTrain.TIMEOUT_MS);
-
-        left.config_kD(DriveTrain.SLOT_0, d, DriveTrain.TIMEOUT_MS);
-        right.config_kD(DriveTrain.SLOT_0, d, DriveTrain.TIMEOUT_MS);
-
-        left.config_kF(DriveTrain.SLOT_0, f, DriveTrain.TIMEOUT_MS);
-        right.config_kF(DriveTrain.SLOT_0, f, DriveTrain.TIMEOUT_MS);
+        left.configPID(p, i, d, f);
+        right.configPID(p, i, d, f);
     }
 
     private void setMotionProfileMode(SetValueMotionProfile value) {
