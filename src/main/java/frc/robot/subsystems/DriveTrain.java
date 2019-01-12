@@ -9,8 +9,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import org.apache.logging.log4j.LogManager;
@@ -50,8 +54,9 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public static final double WHEEL_DIAMETER_INCHES;
     public static final double NOMINAL_OUT = 0.0, PEAK_OUT = 1.0;
 
+    private DriveTrainLayout layout;
+
     static {
-        LAYOUT = DriveTrainSettings.getControllerLayout();
         GEAR_RATIO = DriveTrainSettings.getGearRatio();
         MAX_RPM = DriveTrainSettings.getMaxRPM();
         WHEEL_DIAMETER_INCHES = DriveTrainSettings.getWheelDiameter();
@@ -72,6 +77,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 	 */
 	public DriveTrain(DriveTrain.DriveTrainLayout layout, int fl, int fr, int bl, int br) {
         // At this point it's based on what the layout is
+        this.layout = layout;
         switch(layout) {
             case LEGACY:
                 masterLeft = new MercTalonSRX(fl);
@@ -233,17 +239,27 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     }
 
     public void setNeutralMode(NeutralMode neutralMode) {
-        if (masterLeft instanceof MercTalonSRX) {
-            TalonSRX left = ((MercTalonSRX)masterLeft).get();
-            TalonSRX right = ((MercTalonSRX)masterRight).get();
-            if (followerLeft instanceof MercVictorSPX)
-                VictorSPX left = ((MercVictorSPX)masterLeft).get();
-                VictorSPX right = ((MercTalonSRX)masterRight).get();
-            left.setNeutralMode(neutralMode);
-            right.setNeutralMode(neutralMode);
-            fleft.setNeutralMode(neutralMode);
-            fright.setNeutralMode(neutralMode);
+        if (!(layout == DriveTrainLayout.SPARKS)) {
+            ((MercTalonSRX)masterLeft).get().setNeutralMode(neutralMode);
+            ((MercTalonSRX)masterRight).get().setNeutralMode(neutralMode);
+            if (layout == DriveTrainLayout.TALONS) {
+                ((MercVictorSPX)followerLeft).get().setNeutralMode(neutralMode);
+                ((MercVictorSPX)followerRight).get().setNeutralMode(neutralMode);
+            } else if (layout == DriveTrainLayout.LEGACY) {
+                ((MercTalonSRX)followerLeft).get().setNeutralMode(neutralMode);
+                ((MercTalonSRX)followerRight).get().setNeutralMode(neutralMode);
+            }
+        } else {
+            CANSparkMax.IdleMode mode;
+            if (neutralMode == NeutralMode.Brake) {
+                mode = IdleMode.kBrake;
+            } else {
+                mode = IdleMode.kCoast;
+            }
+            ((MercSparkMax)masterLeft).get().setIdleMode(mode);
+            ((MercSparkMax)masterRight).get().setIdleMode(mode);
+            ((MercSparkMax)followerLeft).get().setIdleMode(mode);
+            ((MercSparkMax)followerRight).get().setIdleMode(mode);
         }
-        
     }
 }
