@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -47,7 +48,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 	public static final double GEAR_RATIO;
     public static final double MAX_RPM;
     public static final double WHEEL_DIAMETER_INCHES;
-    public static final DriveTrainSettings.DriveTrainLayout LAYOUT;
+    public static final double NOMINAL_OUT = 0.0, PEAK_OUT = 1.0;
 
     static {
         LAYOUT = DriveTrainSettings.getControllerLayout();
@@ -104,15 +105,22 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         setNeutralMode(NeutralMode.Brake);
 
         if (!(layout == DriveTrainLayout.SPARKS)) {
+            TalonSRX left = ((MercTalonSRX)masterLeft).get();
+            TalonSRX right = ((MercTalonSRX)masterRight).get();
+
             //Account for encoder orientation.
-            ((MercTalonSRX)masterLeft).get().setSensorPhase(true);
-            ((MercTalonSRX)masterRight).get().setSensorPhase(true);
+            left.setSensorPhase(true);
+            right.setSensorPhase(true);
 
             // Set up feedback sensors
             // Using CTRE_MagEncoder_Relative allows for relative ticks when encoder is zeroed out.
             // This allows us to measure the distance from any given point to any ending point.
-            ((MercTalonSRX)masterLeft).get().configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PRIMARY_PID_LOOP, TIMEOUT_MS);
-            ((MercTalonSRX)masterRight).get().configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PRIMARY_PID_LOOP, TIMEOUT_MS);
+            left.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PRIMARY_PID_LOOP, TIMEOUT_MS);
+            right.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PRIMARY_PID_LOOP, TIMEOUT_MS);
+
+            //Reset encoders (can't do this with Sparks)
+            left.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
+            right.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
         }
 
         tDrive = new DriveAssist(masterLeft, masterRight);
@@ -128,16 +136,18 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     }
 
     public void resetEncoders() {
-        tMasterLeft.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
-        tMasterRight.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
+        if (masterLeft instanceof MercTalonSRX) {
+            ((MercTalonSRX)masterLeft).get().getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
+            ((MercTalonSRX)masterRight).get().getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
+        }
     }
 
     /**
-     * Stops the motors by zeroing the left and right Talons.
+     * Stops the motor.
      */
     public void stop() {
-        tMasterLeft.set(ControlMode.Velocity, 0);
-        tMasterRight.set(ControlMode.Velocity, 0);
+        masterLeft.stop();
+        masterRight.stop();
     }
 
     public void initDefaultCommand() {
@@ -151,14 +161,19 @@ public class DriveTrain extends Subsystem implements PIDOutput {
      * @param peakOutput    The desired peak voltage output of the left and right talons, both forward and reverse
      */
     public void configVoltage(double nominalOutput, double peakOutput) {
-        tMasterLeft.configNominalOutputForward(nominalOutput, TIMEOUT_MS);
-        tMasterLeft.configNominalOutputReverse(-nominalOutput, TIMEOUT_MS);
-        tMasterLeft.configPeakOutputForward(peakOutput, TIMEOUT_MS);
-        tMasterLeft.configPeakOutputReverse(-peakOutput, TIMEOUT_MS);
-        tMasterRight.configNominalOutputForward(nominalOutput, TIMEOUT_MS);
-        tMasterRight.configNominalOutputReverse(-nominalOutput, TIMEOUT_MS);
-        tMasterRight.configPeakOutputForward(peakOutput, TIMEOUT_MS);
-        tMasterRight.configPeakOutputReverse(-peakOutput, TIMEOUT_MS);
+        if (masterLeft instanceof MercTalonSRX) {
+            TalonSRX left = ((MercTalonSRX)masterLeft).get();
+            TalonSRX right = ((MercTalonSRX)masterRight).get();
+
+            left.configNominalOutputForward(nominalOutput, TIMEOUT_MS);
+            left.configNominalOutputReverse(-nominalOutput, TIMEOUT_MS);
+            left.configPeakOutputForward(peakOutput, TIMEOUT_MS);
+            left.configPeakOutputReverse(-peakOutput, TIMEOUT_MS);
+            right.configNominalOutputForward(nominalOutput, TIMEOUT_MS);
+            right.configNominalOutputReverse(-nominalOutput, TIMEOUT_MS);
+            right.configPeakOutputForward(peakOutput, TIMEOUT_MS);
+            right.configPeakOutputReverse(-peakOutput, TIMEOUT_MS);
+        }
     }
 
     /**
@@ -218,9 +233,17 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     }
 
     public void setNeutralMode(NeutralMode neutralMode) {
-        tMasterLeft.setNeutralMode(neutralMode);
-        tMasterRight.setNeutralMode(neutralMode);
-        vFollowerLeft.setNeutralMode(neutralMode);
-        vFollowerRight.setNeutralMode(neutralMode);
+        if (masterLeft instanceof MercTalonSRX) {
+            TalonSRX left = ((MercTalonSRX)masterLeft).get();
+            TalonSRX right = ((MercTalonSRX)masterRight).get();
+            if (followerLeft instanceof MercVictorSPX)
+                VictorSPX left = ((MercVictorSPX)masterLeft).get();
+                VictorSPX right = ((MercTalonSRX)masterRight).get();
+            left.setNeutralMode(neutralMode);
+            right.setNeutralMode(neutralMode);
+            fleft.setNeutralMode(neutralMode);
+            fright.setNeutralMode(neutralMode);
+        }
+        
     }
 }
