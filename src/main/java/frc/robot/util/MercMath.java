@@ -129,6 +129,11 @@ public class MercMath {
 				DriveTrain.MAG_ENCODER_TICKS_PER_REVOLUTION : DriveTrain.NEO_ENCODER_TICKS_PER_REVOLUTION);
 	}
 
+	public static double revsToEncoderTicks(double revs) {
+		return revs * (Robot.driveTrain.getLayout() != DriveTrainLayout.SPARKS ? 
+				DriveTrain.MAG_ENCODER_TICKS_PER_REVOLUTION : DriveTrain.NEO_ENCODER_TICKS_PER_REVOLUTION);
+	}
+
 	/**
 	 * <pre>
 	 *     public double ticksPerTenthToRevsPerMinute(double ticksPerTenthSecond)

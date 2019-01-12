@@ -64,4 +64,12 @@ public interface IMercMotorController {
      * @return the encoder velocity of the controller
      */
     public double getEncVelo();
+
+    /**
+     * Want the error from setpoint?
+     * NOTE: Not to be used with Victors (no connected encoder)
+     * 
+     * @return the error from setpoint in ticks
+     */
+    public double getClosedLoopError();
 }

@@ -10,6 +10,7 @@ import frc.robot.util.interfaces.IMercMotorController;
 public class MercSparkMax implements IMercMotorController {
     private CANSparkMax sparkmax;
     private int port;
+    private double setPos;
 
     public MercSparkMax(int port) {
         sparkmax = new CANSparkMax(port, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -23,7 +24,8 @@ public class MercSparkMax implements IMercMotorController {
 
     @Override
     public void setPosition(double ticks) {
-        sparkmax.getPIDController().setReference(MercMath.encoderTicksToRevs(ticks), ControlType.kPosition);
+        setPos = MercMath.encoderTicksToRevs(ticks);
+        sparkmax.getPIDController().setReference(setPos, ControlType.kPosition);
     }
 
     @Override
@@ -62,6 +64,11 @@ public class MercSparkMax implements IMercMotorController {
     @Override
     public double getEncVelo() {
         return sparkmax.getEncoder().getVelocity();
+    }
+
+    @Override
+    public double getClosedLoopError() {
+        return setPos - sparkmax.getEncoder().getPosition();
     }
 
 //_________________________________________________________________________________

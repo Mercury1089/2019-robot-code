@@ -63,6 +63,11 @@ public class MercTalonSRX implements IMercMotorController {
         return talonsrx.getSelectedSensorVelocity(0);
     }
 
+    @Override
+    public double getClosedLoopError() {
+        return talonsrx.getClosedLoopError(0);
+    }
+
 //_________________________________________________________________________________
     /**
      * Get the TalonSRX tied to this class

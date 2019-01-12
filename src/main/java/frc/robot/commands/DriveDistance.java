@@ -91,8 +91,8 @@ public class DriveDistance extends Command implements Recallable<Double> {
     protected boolean isFinished() {
         boolean isFinished = false;
 
-        double leftError = Robot.driveTrain.getLeft().getClosedLoopError(PRIMARY_PID_LOOP);
-        double rightError = Robot.driveTrain.getRight().getClosedLoopError(PRIMARY_PID_LOOP);
+        double leftError = Robot.driveTrain.getLeft().getClosedLoopError();
+        double rightError = Robot.driveTrain.getRight().getClosedLoopError();
         boolean isOnTarget = (Math.abs(rightError) < MOVE_THRESHOLD && Math.abs(leftError) < MOVE_THRESHOLD);
 
         if (isOnTarget) {
@@ -155,8 +155,8 @@ public class DriveDistance extends Command implements Recallable<Double> {
         endPosL += Robot.driveTrain.getLeftEncPositionInTicks();
         endPosR += Robot.driveTrain.getRightEncPositionInTicks();
 
-        Robot.driveTrain.getLeft().set(ControlMode.Position, endPosL);
-        Robot.driveTrain.getRight().set(ControlMode.Position, endPosR);
+        Robot.driveTrain.getLeft().setPosition(endPosL);
+        Robot.driveTrain.getRight().setPosition(endPosR);
     }
 
     /**

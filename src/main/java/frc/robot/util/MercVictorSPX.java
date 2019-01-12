@@ -63,6 +63,11 @@ public class MercVictorSPX implements IMercMotorController {
         return 0;
     }
 
+    @Override
+    public double getClosedLoopError() {
+        return 0;
+    }
+
 //_________________________________________________________________________________
     /**
      * Get the VictorSPX tied to this class
