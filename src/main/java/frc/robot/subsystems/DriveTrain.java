@@ -143,18 +143,6 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         tMasterRight.configNominalOutputReverse(-nominalOutput, TIMEOUT_MS);
         tMasterRight.configPeakOutputForward(peakOutput, TIMEOUT_MS);
         tMasterRight.configPeakOutputReverse(-peakOutput, TIMEOUT_MS);
-<<<<<<< HEAD
-        /*
-        sLeaderLeft.configNominalOutputForward(nominalOutput, TIMEOUT_MS);
-        sLeaderLeft.configNominalOutputReverse(-nominalOutput, TIMEOUT_MS);
-        sLeaderLeft.configPeakOutputForward(peakOutput, TIMEOUT_MS);
-        sLeaderLeft.configPeakOutputReverse(-peakOutput, TIMEOUT_MS);
-        sLeaderRight.configNominalOutputForward(nominalOutput, TIMEOUT_MS);
-        sLeaderRight.configNominalOutputReverse(-nominalOutput, TIMEOUT_MS);
-        sLeaderRight.configPeakOutputForward(peakOutput, TIMEOUT_MS);
-        sLeaderRight.configPeakOutputReverse(-peakOutput, TIMEOUT_MS);*/
-=======
->>>>>>> parent of ea543cb... Is'haq and Aidan:
     }
 
     /**
