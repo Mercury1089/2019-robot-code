@@ -32,13 +32,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public static final double MAX_SPEED = 1.0;
     public static final double MIN_SPEED = .65;
 
-//  private WPI_SparkMax sLeaderLeft, sLeaderRigt, sFollowerLeft, sFollowerRight;  
     private WPI_TalonSRX tMasterLeft, tMasterRight;
     private BaseMotorController vFollowerLeft, vFollowerRight;
 
     private TalonDrive tDrive;
-//  private SparkDrive sDrive;
-//  private NavX navX;
+    // private NavX navX;
     private ADXRS450_Gyro gyroSPI;
 
 	public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096;
@@ -57,28 +55,23 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 	/**
 	 * Creates the drivetrain, assuming that there are four talons.
 	 *
-	 * @param fl Front-left Talon/Spark ID
-	 * @param fr Front-right Talon/Spark ID
-	 * @param bl Back-left Talon/Spark ID
-	 * @param br Back-right Talon/Spark ID
+	 * @param fl Front-left Talon ID
+	 * @param fr Front-right Talon ID
+	 * @param bl Back-left Talon ID
+	 * @param br Back-right Talon ID
 	 */
 	public DriveTrain(int fl, int fr, int bl, int br) {
         // At this point it's based on what the layout is
         switch(LAYOUT) {
-            case TALONS:
+            case LEGACY:
                 tMasterLeft = new WPI_TalonSRX(fl);
 	        	tMasterRight = new WPI_TalonSRX(fr);
                 vFollowerLeft = new WPI_TalonSRX(bl);
                 vFollowerRight = new WPI_TalonSRX(br);
                 break;
-            /*case SPARKS:
-                sLeaderLeft = new WPI_SparkMax(fl);
-	        	sLeaderRight = new WPI_SparkMax(fr);
-                sFollowerLeft = new WPI_SparkMax(bl);
-                sFollowerRight = new WPI_SparkMax(br);
-                break;
-            */    
-			case TALON_VICTOR:
+            //case SPARKS:
+            //    vFollowerLeft = new 
+			case TALONS:
                 tMasterLeft = new WPI_TalonSRX(fl);
 	        	tMasterRight = new WPI_TalonSRX(fr);
 				vFollowerLeft = new WPI_VictorSPX(bl);
@@ -93,36 +86,26 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         //Account for motor orientation.
         tMasterLeft.setInverted(true);
         vFollowerLeft.setInverted(true);
-//      sLeaderLeft.setInverted(true);
-//      sFollowerLeft.setInverted(true);
-
         tMasterRight.setInverted(false);
         vFollowerRight.setInverted(false);
-//      sLeaderRight.setInverted(false);
-//      sFollowerRight.setInverted(false);
 
         setNeutralMode(NeutralMode.Brake);
 
         //Account for encoder orientation.
         tMasterLeft.setSensorPhase(true);
         tMasterRight.setSensorPhase(true);
-//      sLeaderLeft.setSensorPhase(true);
-//      sLeaderRight.setSensorPhase(true);
 
         tDrive = new TalonDrive(tMasterLeft, tMasterRight);
 
         // Set follower control on back talons. Use follow() instead of ControlMode.Follower so that Talons can follow Victors and vice versa.
         vFollowerLeft.follow(tMasterLeft);
         vFollowerRight.follow(tMasterRight);
-//      sFollowerLeft.follow(sLeaderLeft);
-//      sFollowerRight.follow(sLeaderRight);
 
         // Set up feedback sensors
         // Using CTRE_MagEncoder_Relative allows for relative ticks when encoder is zeroed out.
         // This allows us to measure the distance from any given point to any ending point.
         tMasterLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PRIMARY_PID_LOOP, TIMEOUT_MS);
         tMasterRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PRIMARY_PID_LOOP, TIMEOUT_MS);
-
 
         configVoltage(0, DriveTrainSettings.getMaxOutput());
         setMaxOutput(DriveTrainSettings.getMaxOutput());
@@ -131,8 +114,6 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public void resetEncoders() {
         tMasterLeft.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
         tMasterRight.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
-//      sLeaderLeft.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
-//      sLeaderRight.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
     }
 
     /**
@@ -141,8 +122,6 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public void stop() {
         tMasterLeft.set(ControlMode.Velocity, 0);
         tMasterRight.set(ControlMode.Velocity, 0);
-//      sLeaderLeft.set(ControlMode.Velocity, 0);
-//      sLeaderRight.set(ControlMode.Velocity, 0);
     }
 
     public void initDefaultCommand() {
@@ -164,6 +143,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         tMasterRight.configNominalOutputReverse(-nominalOutput, TIMEOUT_MS);
         tMasterRight.configPeakOutputForward(peakOutput, TIMEOUT_MS);
         tMasterRight.configPeakOutputReverse(-peakOutput, TIMEOUT_MS);
+<<<<<<< HEAD
         /*
         sLeaderLeft.configNominalOutputForward(nominalOutput, TIMEOUT_MS);
         sLeaderLeft.configNominalOutputReverse(-nominalOutput, TIMEOUT_MS);
@@ -173,6 +153,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         sLeaderRight.configNominalOutputReverse(-nominalOutput, TIMEOUT_MS);
         sLeaderRight.configPeakOutputForward(peakOutput, TIMEOUT_MS);
         sLeaderRight.configPeakOutputReverse(-peakOutput, TIMEOUT_MS);*/
+=======
+>>>>>>> parent of ea543cb... Is'haq and Aidan:
     }
 
     /**
@@ -193,12 +175,10 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     public int getLeftEncPositionInTicks() {
         return tMasterLeft.getSelectedSensorPosition(PRIMARY_PID_LOOP);
-//      return sLeaderLeft.getSelectedSensorPosition(PRIMARY_PID_LOOP);
     }
 
     public double getRightEncPositionInTicks() {
         return tMasterRight.getSelectedSensorPosition(PRIMARY_PID_LOOP);
-//      return sLeaderRight.getSelectedSensorPosition(PRIMARY_PID_LOOP);        
     }
 
     public double getLeftEncPositionInFeet() {
@@ -211,17 +191,14 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     public TalonSRX getLeft() {
         return tMasterLeft;
-//      return sLeaderLeft;        
     }
 
     public TalonSRX getRight() {
         return tMasterRight;
-//      return sLeaderRight;
     }
 
     public TalonDrive getTalonDrive() {
         return tDrive;
-//      return sDrive;        
     }
 
     public double getFeedForward() {
@@ -230,12 +207,10 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     public void pidWrite(double output) {
         tDrive.tankDrive(output, -output);
-//      sDrive.tankDrive(output, -output);
     }
 
     public void setMaxOutput(double maxOutput) {
         tDrive.setMaxOutput(maxOutput);
-//      sDrive.setMaxOutput(maxOutput);
     }
 
     public void setNeutralMode(NeutralMode neutralMode) {
@@ -243,11 +218,5 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         tMasterRight.setNeutralMode(neutralMode);
         vFollowerLeft.setNeutralMode(neutralMode);
         vFollowerRight.setNeutralMode(neutralMode);
-        /*
-        sLeaderLeft.setNeutralMode(neutralMode);
-        sLeaderLeft.setNeutralMode(neutralMode);
-        sFollowerLeft.setNeutralMode(neutralMode);
-        sFollowerRight.setNeutralMode(neutralMode);
-        */
     }
 }
