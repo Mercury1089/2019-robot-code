@@ -172,7 +172,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         sLeaderRight.configNominalOutputForward(nominalOutput, TIMEOUT_MS);
         sLeaderRight.configNominalOutputReverse(-nominalOutput, TIMEOUT_MS);
         sLeaderRight.configPeakOutputForward(peakOutput, TIMEOUT_MS);
-        sLeaderRight.configPeakOutputReverse(-peakOutput, TIMEOUT_MS);
+        sLeaderRight.configPeakOutputReverse(-peakOutput, TIMEOUT_MS);*/
     }
 
     /**
