@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -14,14 +15,18 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.util.MercMath;
-import frc.robot.util.TalonDrive;
+import frc.robot.util.MercSparkMax;
+import frc.robot.util.MercTalonSRX;
+import frc.robot.util.MercVictorSPX;
+import frc.robot.util.DriveAssist;
 import frc.robot.util.config.DriveTrainSettings;
 
 /**
  * Subsystem that encapsulates the drive train.
- * This contains the {@link TalonDrive} needed to drive manually
- * using the Talons.
+ * This contains the {@link DriveAssist} needed to drive manually
+ * using the motor controllers.
  */
 public class DriveTrain extends Subsystem implements PIDOutput {
     private Logger log = LogManager.getLogger(DriveTrain.class);
@@ -32,10 +37,9 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public static final double MAX_SPEED = 1.0;
     public static final double MIN_SPEED = .65;
 
-    private WPI_TalonSRX tMasterLeft, tMasterRight;
-    private BaseMotorController vFollowerLeft, vFollowerRight;
+    private IMercMotorController masterLeft, masterRight, followerLeft, followerRight;
 
-    private TalonDrive tDrive;
+    private DriveAssist tDrive;
     // private NavX navX;
     private ADXRS450_Gyro gyroSPI;
 
@@ -50,32 +54,40 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         GEAR_RATIO = DriveTrainSettings.getGearRatio();
         MAX_RPM = DriveTrainSettings.getMaxRPM();
         WHEEL_DIAMETER_INCHES = DriveTrainSettings.getWheelDiameter();
-	}
+    }
+    public enum DriveTrainLayout {
+        SPARKS,
+        TALONS,
+        LEGACY
+    }
 
 	/**
-	 * Creates the drivetrain, assuming that there are four talons.
+	 * Creates the drivetrain, assuming that there are four controllers.
 	 *
-	 * @param fl Front-left Talon ID
-	 * @param fr Front-right Talon ID
-	 * @param bl Back-left Talon ID
-	 * @param br Back-right Talon ID
+	 * @param fl Front-left controller ID
+	 * @param fr Front-right controller ID
+	 * @param bl Back-left controller ID
+	 * @param br Back-right controller ID
 	 */
-	public DriveTrain(int fl, int fr, int bl, int br) {
+	public DriveTrain(DriveTrain.DriveTrainLayout layout, int fl, int fr, int bl, int br) {
         // At this point it's based on what the layout is
-        switch(LAYOUT) {
+        switch(layout) {
             case LEGACY:
-                tMasterLeft = new WPI_TalonSRX(fl);
-	        	tMasterRight = new WPI_TalonSRX(fr);
-                vFollowerLeft = new WPI_TalonSRX(bl);
-                vFollowerRight = new WPI_TalonSRX(br);
+                masterLeft = new MercTalonSRX(fl);
+	        	masterRight = new MercTalonSRX(fr);
+                followerLeft = new MercTalonSRX(bl);
+                followerRight = new MercTalonSRX(br);
                 break;
-            //case SPARKS:
-            //    vFollowerLeft = new 
+            case SPARKS:
+                masterLeft = new MercSparkMax(fl);
+                masterRight = new MercSparkMax(fr);
+                followerLeft = new MercSparkMax(bl);
+                followerRight = new MercSparkMax(br);
 			case TALONS:
-                tMasterLeft = new WPI_TalonSRX(fl);
-	        	tMasterRight = new WPI_TalonSRX(fr);
-				vFollowerLeft = new WPI_VictorSPX(bl);
-				vFollowerRight = new WPI_VictorSPX(br);
+                masterLeft = new MercTalonSRX(fl);
+	        	masterRight = new MercTalonSRX(fr);
+				followerLeft = new MercVictorSPX(bl);
+				followerRight = new MercVictorSPX(br);
 				break;
         }
 
@@ -84,18 +96,24 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         gyroSPI = new ADXRS450_Gyro();
 
         //Account for motor orientation.
-        tMasterLeft.setInverted(true);
-        vFollowerLeft.setInverted(true);
-        tMasterRight.setInverted(false);
-        vFollowerRight.setInverted(false);
+        masterLeft.setInverted(true);
+        followerLeft.setInverted(true);
+        masterRight.setInverted(false);
+        followerRight.setInverted(false);
 
         setNeutralMode(NeutralMode.Brake);
 
         //Account for encoder orientation.
-        tMasterLeft.setSensorPhase(true);
-        tMasterRight.setSensorPhase(true);
+        
 
-        tDrive = new TalonDrive(tMasterLeft, tMasterRight);
+        if (!(layout == DriveTrainLayout.SPARKS)) {
+            ((MercTalonSRX)masterLeft).setSensorPhase(true);
+            ((MercTalonSRX)masterRight).setSensorPhase(true);
+        }
+
+        new TalonSRX(1).setSensorPhase(true);
+
+        tDrive = new DriveAssist(masterLeft, masterRight);
 
         // Set follower control on back talons. Use follow() instead of ControlMode.Follower so that Talons can follow Victors and vice versa.
         vFollowerLeft.follow(tMasterLeft);

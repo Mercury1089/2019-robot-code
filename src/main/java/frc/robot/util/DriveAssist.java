@@ -1,8 +1,9 @@
 package frc.robot.util;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.util.interfaces.IMercMotorController;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,30 +11,30 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Helper class for various manual drive controls
- * using Talon SRX's. This is to replace {@link DifferentialDrive},
- * which can interfere with Talon SRX's in closed-loop mode.
+ * using Controllers. This is to replace {@link DifferentialDrive},
+ * which can interfere with Controller's in closed-loop mode.
  * 
  */
-public class TalonDrive {
-	private final Logger LOG = LogManager.getLogger(TalonDrive.class);
+public class DriveAssist {
+	private final Logger LOG = LogManager.getLogger(DriveAssist.class);
 	private final DelayableLogger SLOW_LOG = new DelayableLogger(LOG, 10, TimeUnit.SECONDS);
-	private final WPI_TalonSRX TALON_LEFT, TALON_RIGHT;
+	private final IMercMotorController LEFT_CONTROLLER, RIGHT_CONTROLLER;
 	private double maxOutput = 1.0;
 	
 	/**
-	 * Creates a drive train, assuming there is one Talon for the left side
+	 * Creates a drive train, assuming there is one Controller for the left side
 	 * and another one for the right side.
 	 * 
-	 * @param left  Left-side Talon
-	 * @param right Right-side Talon
+	 * @param left  Left-side Controller
+	 * @param right Right-side Controller
 	 */
-	public TalonDrive(WPI_TalonSRX left, WPI_TalonSRX right) {
-		TALON_LEFT = left;
-		TALON_RIGHT = right;
+	public DriveAssist(IMercMotorController left, IMercMotorController right) {
+		LEFT_CONTROLLER = left;
+		RIGHT_CONTROLLER = right;
 	}
 	
 	/**
-	 * Sets the max output that can be taken in by the Talons.
+	 * Sets the max output that can be taken in by the Controller.
 	 * The value is in change/100ms
 	 * 
 	 * @param max Max output value
@@ -44,7 +45,7 @@ public class TalonDrive {
 
 	/**
 	 * I'm just trying to get the code to compile sorry idk
-	 * @see TalonDrive#setMaxOutput(double)
+	 * @see DriveAssist#setMaxOutput(double)
 	 */
 	public double getMaxOutput() {
 		return maxOutput;
@@ -99,9 +100,9 @@ public class TalonDrive {
 		rightPercent = MercMath.clamp(rightPercent, -1.0, 1.0);
 		
 		// Apply speeds to motors.
-		// This assumes that the Talons have been setClawState properly.
-		TALON_LEFT.set(ControlMode.PercentOutput, leftPercent * maxOutput);
-		TALON_RIGHT.set(ControlMode.PercentOutput, rightPercent * maxOutput);
+		// This assumes that the Controllers have been setClawState properly.
+		LEFT_CONTROLLER.setSpeed(leftPercent * maxOutput);
+		RIGHT_CONTROLLER.setSpeed(rightPercent * maxOutput);
 	}
 	
 	/**
@@ -115,8 +116,8 @@ public class TalonDrive {
 	public void tankDrive(double leftVal, double rightVal) {
 
 		// Apply speeds to motors.
-		// This assumes that the Talons have been setClawState properly.
-		TALON_LEFT.set(ControlMode.PercentOutput, leftVal * maxOutput);
-		TALON_RIGHT.set(ControlMode.PercentOutput, rightVal * maxOutput);
+		// This assumes that the Controllers have been setClawState properly.
+		LEFT_CONTROLLER.setSpeed(leftVal * maxOutput);
+		RIGHT_CONTROLLER.setSpeed(rightVal * maxOutput);
 	}
 }
