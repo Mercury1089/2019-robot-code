@@ -7,9 +7,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 import frc.robot.util.MercMath;
+import frc.robot.util.MercSparkMax;
 import frc.robot.util.Recallable;
-import frc.robot.util.config.DriveTrainSettings;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+
+import frc.robot.util.MercTalonSRX;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,6 +32,9 @@ public class DriveDistance extends Command implements Recallable<Double> {
     private static final DelayableLogger SLOW_LOG = new DelayableLogger(log, 1, TimeUnit.SECONDS);
     protected double distance;
     protected double percentVoltage; // Voltage is NOW from [-1, 1]
+
+    private double[] pid = {.025, 0, .05};      //TEMP eventually make this configurable through constructor
+    private double[] volts = {.25, .5};         //TEMP output range; make configurable
 
     private double initialDistance;
     private double distanceTraveled = Double.NEGATIVE_INFINITY;
@@ -59,9 +67,6 @@ public class DriveDistance extends Command implements Recallable<Double> {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        double[]
-            pid = DriveTrainSettings.getPIDValues("driveDistance"),
-            volts = DriveTrainSettings.getOutputRange("driveDistance");
 
         distanceTraveled = Double.NEGATIVE_INFINITY;
 
@@ -120,7 +125,7 @@ public class DriveDistance extends Command implements Recallable<Double> {
         distanceTraveled *= 12.0;
 
         //The voltage setClawState on the Talons is global, so the talons must be reconfigured back to their original outputs.
-        Robot.driveTrain.configVoltage(0, DriveTrainSettings.getMaxOutput());
+        Robot.driveTrain.configVoltage(DriveTrain.NOMINAL_OUT, DriveTrain.PEAK_OUT);
 
         log.info("Final Distance: " + distanceTraveled);
     }
@@ -163,15 +168,31 @@ public class DriveDistance extends Command implements Recallable<Double> {
      * @param f feed-forward value
      */
     private void setPIDF(double p, double i, double d, double f) {
-        Robot.driveTrain.getLeft().config_kP(DriveTrain.SLOT_0, p, DriveTrain.TIMEOUT_MS);
-        Robot.driveTrain.getRight().config_kP(DriveTrain.SLOT_0, p, DriveTrain.TIMEOUT_MS);
-        Robot.driveTrain.getLeft().config_kI(DriveTrain.SLOT_0, i, DriveTrain.TIMEOUT_MS);
-        Robot.driveTrain.getRight().config_kI(DriveTrain.SLOT_0, i, DriveTrain.TIMEOUT_MS);
-        Robot.driveTrain.getLeft().config_kD(DriveTrain.SLOT_0, d, DriveTrain.TIMEOUT_MS);
-        Robot.driveTrain.getRight().config_kD(DriveTrain.SLOT_0, d, DriveTrain.TIMEOUT_MS);
-        Robot.driveTrain.getLeft().config_kF(DriveTrain.SLOT_0, f, DriveTrain.TIMEOUT_MS);
-        Robot.driveTrain.getRight().config_kF(DriveTrain.SLOT_0, f, DriveTrain.TIMEOUT_MS);
+        if (Robot.driveTrain.getLayout() != DriveTrainLayout.SPARKS) {
+            TalonSRX left = ((MercTalonSRX)Robot.driveTrain.getLeft()).get();
+            TalonSRX right = ((MercTalonSRX)Robot.driveTrain.getLeft()).get();
 
+            left.config_kP(DriveTrain.SLOT_0, p, DriveTrain.TIMEOUT_MS);
+            right.config_kP(DriveTrain.SLOT_0, p, DriveTrain.TIMEOUT_MS);
+            left.config_kI(DriveTrain.SLOT_0, i, DriveTrain.TIMEOUT_MS);
+            right.config_kI(DriveTrain.SLOT_0, i, DriveTrain.TIMEOUT_MS);
+            left.config_kD(DriveTrain.SLOT_0, d, DriveTrain.TIMEOUT_MS);
+            right.config_kD(DriveTrain.SLOT_0, d, DriveTrain.TIMEOUT_MS);
+            left.config_kF(DriveTrain.SLOT_0, f, DriveTrain.TIMEOUT_MS);
+            right.config_kF(DriveTrain.SLOT_0, f, DriveTrain.TIMEOUT_MS);
+        } else {
+            CANSparkMax left = ((MercSparkMax)Robot.driveTrain.getLeft()).get();
+            CANSparkMax right = ((MercSparkMax)Robot.driveTrain.getLeft()).get();
+
+            left.getPIDController().setP(p, DriveTrain.SLOT_0);
+            right.getPIDController().setP(p, DriveTrain.SLOT_0);
+            left.getPIDController().setI(i, DriveTrain.SLOT_0);
+            right.getPIDController().setI(i, DriveTrain.SLOT_0);
+            left.getPIDController().setD(d, DriveTrain.SLOT_0);
+            right.getPIDController().setD(d, DriveTrain.SLOT_0);
+            left.getPIDController().setFF(f, DriveTrain.SLOT_0);
+            right.getPIDController().setFF(f, DriveTrain.SLOT_0);
+        }
     }
 
     @Override

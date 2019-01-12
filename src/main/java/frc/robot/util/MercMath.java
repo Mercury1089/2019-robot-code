@@ -1,6 +1,8 @@
 package frc.robot.util;
 
 import frc.robot.Robot;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 
 import java.nio.ByteBuffer;
 
@@ -93,8 +95,10 @@ public class MercMath {
 	}
 
 	public static double getEncPosition(double ticks) {
-		return ((Math.PI * Robot.driveTrain.WHEEL_DIAMETER_INCHES) /
-				(Robot.driveTrain.MAG_ENCODER_TICKS_PER_REVOLUTION * Robot.driveTrain.GEAR_RATIO) * ticks) / 12;
+		return ((Math.PI * DriveTrain.WHEEL_DIAMETER_INCHES) /
+				((Robot.driveTrain.getLayout() != DriveTrainLayout.SPARKS ? 
+				DriveTrain.MAG_ENCODER_TICKS_PER_REVOLUTION : DriveTrain.NEO_ENCODER_TICKS_PER_REVOLUTION) * 
+				DriveTrain.GEAR_RATIO) * ticks) / 12;
 	}
 
 	/**

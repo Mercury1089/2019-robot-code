@@ -46,7 +46,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     private DriveAssist drive;
     private ADXRS450_Gyro gyroSPI;
 
-	public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096;
+	public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096, NEO_ENCODER_TICKS_PER_REVOLUTION = 42;
 	public static final double GEAR_RATIO = 1.0;                    //TEMP
     public static final double MAX_RPM = 700.63;                    //TEMP
     public static final double WHEEL_DIAMETER_INCHES = 5.125;       //TEMP eventually make this stuff configurable in shuffledash
@@ -102,7 +102,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
         setNeutralMode(NeutralMode.Brake);
 
-        if (!(layout == DriveTrainLayout.SPARKS)) {
+        if (layout != DriveTrainLayout.SPARKS) {
             TalonSRX left = ((MercTalonSRX)masterLeft).get();
             TalonSRX right = ((MercTalonSRX)masterRight).get();
 
@@ -159,7 +159,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
      * @param peakOutput    The desired peak voltage output of the left and right talons, both forward and reverse
      */
     public void configVoltage(double nominalOutput, double peakOutput) {
-        if (masterLeft instanceof MercTalonSRX) {
+        if (layout != DriveTrainLayout.SPARKS) {
             TalonSRX left = ((MercTalonSRX)masterLeft).get();
             TalonSRX right = ((MercTalonSRX)masterRight).get();
 
@@ -171,6 +171,12 @@ public class DriveTrain extends Subsystem implements PIDOutput {
             right.configNominalOutputReverse(-nominalOutput, TIMEOUT_MS);
             right.configPeakOutputForward(peakOutput, TIMEOUT_MS);
             right.configPeakOutputReverse(-peakOutput, TIMEOUT_MS);
+        } else {
+            CANSparkMax left = ((MercSparkMax)masterLeft).get();
+            CANSparkMax right = ((MercSparkMax)masterRight).get();
+
+            left.getPIDController().setOutputRange(-peakOutput, peakOutput);
+            right.getPIDController().setOutputRange(-peakOutput, peakOutput);       //Not sure how this is supposed to work
         }
     }
 
@@ -250,5 +256,9 @@ public class DriveTrain extends Subsystem implements PIDOutput {
             ((MercSparkMax)followerLeft).get().setIdleMode(mode);
             ((MercSparkMax)followerRight).get().setIdleMode(mode);
         }
+    }
+
+    public DriveTrainLayout getLayout() {
+        return layout;
     }
 }
