@@ -12,6 +12,7 @@ import java.util.Properties;
  * Note that this class should NOT be modified; if settings need to be
  * modified, edit the sensors.properties file.
  */
+@Deprecated
 public class SensorsSettings extends Config {
     private static Properties instance;
 
