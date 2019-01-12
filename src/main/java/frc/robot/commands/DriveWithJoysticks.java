@@ -6,9 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import frc.robot.Robot;
 import frc.robot.RobotMap.DS_USB;
-import frc.robot.subsystems.DriveTrain;
 import frc.robot.util.DelayableLogger;
-import frc.robot.util.MercMath;
 import frc.robot.util.DriveAssist;
 
 import java.util.concurrent.TimeUnit;

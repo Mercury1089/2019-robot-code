@@ -1,24 +1,16 @@
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.util.DelayableLogger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 import frc.robot.util.MercMath;
-import frc.robot.util.MercSparkMax;
 import frc.robot.util.Recallable;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.revrobotics.CANSparkMax;
 
-import frc.robot.util.MercTalonSRX;
 
 import java.util.concurrent.TimeUnit;
-
-import static frc.robot.subsystems.DriveTrain.PRIMARY_PID_LOOP;
 
 /**
  * Uses Talons and mag encoders to drive a setClawState distance.

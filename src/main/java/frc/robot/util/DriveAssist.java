@@ -1,6 +1,5 @@
 package frc.robot.util;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.util.interfaces.IMercMotorController;
 
