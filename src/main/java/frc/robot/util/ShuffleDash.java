@@ -21,13 +21,13 @@ public class ShuffleDash {
     private void updateDash() {
         //SmartDashboard.putString("Alliance Color", DriverStation.getInstance().getAlliance().toString());
 
-        SmartDashboard.putNumber("Left Enc in ticks", Robot.driveTrain.getLeft().getSelectedSensorPosition(DriveTrain.PRIMARY_PID_LOOP));
-        SmartDashboard.putNumber("Right Enc in ticks", Robot.driveTrain.getRight().getSelectedSensorPosition(DriveTrain.PRIMARY_PID_LOOP));
+        SmartDashboard.putNumber("Left Enc in ticks", Robot.driveTrain.getLeft().getEncPos());
+        SmartDashboard.putNumber("Right Enc in ticks", Robot.driveTrain.getRight().getEncPos());
         /*SmartDashboard.putNumber("Left Enc in feet", Robot.driveTrain.getLeftEncPositionInFeet());
         SmartDashboard.putNumber("Right Enc in feet", Robot.driveTrain.getRightEncPositionInFeet());*/
         SmartDashboard.putString("DriveTrain", Robot.driveTrain.getCurrentCommandName());
-        SmartDashboard.putNumber("Left Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getLeft().getSelectedSensorVelocity(DriveTrain.PRIMARY_PID_LOOP))); //ticks per tenth of a second
-        SmartDashboard.putNumber("Right Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getRight().getSelectedSensorVelocity(DriveTrain.PRIMARY_PID_LOOP)));
+        SmartDashboard.putNumber("Left Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getLeft().getEncVelo())); //ticks per tenth of a second
+        SmartDashboard.putNumber("Right Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getRight().getEncVelo()));
         //SmartDashboard.putNumber("LIDAR Raw Distance (in.)", MercMath.roundFloat(Robot.claw.getLidar().getRawDistance(), 10));
         //SmartDashboard.putNumber("LIDAR Period", MercMath.roundFloat(Robot.claw.getLidar().getDistance(), 10));
         SmartDashboard.putNumber("Gyro Angle", Robot.driveTrain.getGyro().getAngle());

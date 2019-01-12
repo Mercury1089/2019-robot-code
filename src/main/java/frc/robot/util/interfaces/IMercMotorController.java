@@ -8,4 +8,6 @@ public interface IMercMotorController {
     public void follow(IMercMotorController leader);
     public int getPort();
     public void stop();
+    public double getEncPos();
+    public double getEncVelo();
 }

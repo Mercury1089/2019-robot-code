@@ -53,6 +53,16 @@ public class MercSparkMax implements IMercMotorController {
         sparkmax.stopMotor();
     }
 
+    @Override
+    public double getEncPos() {
+        return sparkmax.getEncoder().getPosition();
+    }
+
+    @Override
+    public double getEncVelo() {
+        return sparkmax.getEncoder().getVelocity();
+    }
+
 //_________________________________________________________________________________
     /**
      * Get the Spark Max tied to this class

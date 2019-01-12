@@ -44,17 +44,16 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     private IMercMotorController masterLeft, masterRight, followerLeft, followerRight;
 
     private DriveAssist drive;
-    // private NavX navX;
     private ADXRS450_Gyro gyroSPI;
 
 	public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096;
 	public static final double GEAR_RATIO = 1.0;                    //TEMP
     public static final double MAX_RPM = 700.63;                    //TEMP
-    public static final double WHEEL_DIAMETER_INCHES = 5.125;       //TEMP
+    public static final double WHEEL_DIAMETER_INCHES = 5.125;       //TEMP eventually make this stuff configurable in shuffledash
     public static final double NOMINAL_OUT = 0.0, PEAK_OUT = 1.0;
 
     private DriveTrainLayout layout;
-    
+
     public enum DriveTrainLayout {
         SPARKS,
         TALONS,
@@ -69,7 +68,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 	 * @param bl Back-left controller ID
 	 * @param br Back-right controller ID
 	 */
-	public DriveTrain(DriveTrain.DriveTrainLayout layout, int fl, int fr, int bl, int br) {
+	public DriveTrain(DriveTrain.DriveTrainLayout layout, int fl, int fr, int bl, int br) { //This should eventually be fully configurable
         // At this point it's based on what the layout is
         this.layout = layout;
         switch(layout) {
@@ -93,7 +92,6 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         }
 
         //Initialize the gyro that is currently on the robot. Comment out the initialization of the one not in use.
-        // navX = new NavX(SerialPort.Port.kUSB1);
         gyroSPI = new ADXRS450_Gyro();
 
         //Account for motor orientation.
@@ -182,9 +180,6 @@ public class DriveTrain extends Subsystem implements PIDOutput {
      * @return The gyro, either the NavX or Analog Gyro, currently in use on the robot
      */
     public Gyro getGyro() {
-       /* if (navX != null) {
-            return navX;
-        } else */
         if (gyroSPI != null) {
             return gyroSPI;
         } else {
@@ -192,12 +187,12 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         }
     }
 
-    public int getLeftEncPositionInTicks() {
-        return tMasterLeft.getSelectedSensorPosition(PRIMARY_PID_LOOP);
+    public double getLeftEncPositionInTicks() {
+        return masterLeft.getEncPos();
     }
 
     public double getRightEncPositionInTicks() {
-        return tMasterRight.getSelectedSensorPosition(PRIMARY_PID_LOOP);
+        return masterRight.getEncPos();
     }
 
     public double getLeftEncPositionInFeet() {
@@ -208,12 +203,12 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         return MercMath.getEncPosition(getRightEncPositionInTicks());
     }
 
-    public TalonSRX getLeft() {
-        return tMasterLeft;
+    public IMercMotorController getLeft() {
+        return masterLeft;
     }
 
-    public TalonSRX getRight() {
-        return tMasterRight;
+    public IMercMotorController getRight() {
+        return masterRight;
     }
 
     public DriveAssist getDriveAssist() {

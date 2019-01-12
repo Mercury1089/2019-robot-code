@@ -51,6 +51,22 @@ public class MercVictorSPX implements IMercMotorController {
         victorspx.stopMotor();
     }
 
+    /**
+     * NOTE: Victors can't connect to another sensor like an encoder, so this will return 0.
+     */
+    @Override
+    public double getEncPos() {
+        return 0;
+    }
+
+    /**
+     * NOTE: Victors can't connect to another sensor like an encoder, so this will return 0.
+     */
+    @Override
+    public double getEncVelo() {
+        return 0;
+    }
+
 //_________________________________________________________________________________
     /**
      * Get the VictorSPX tied to this class
