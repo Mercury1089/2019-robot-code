@@ -168,31 +168,8 @@ public class DriveDistance extends Command implements Recallable<Double> {
      * @param f feed-forward value
      */
     private void setPIDF(double p, double i, double d, double f) {
-        if (Robot.driveTrain.getLayout() != DriveTrainLayout.SPARKS) {
-            TalonSRX left = ((MercTalonSRX)Robot.driveTrain.getLeft()).get();
-            TalonSRX right = ((MercTalonSRX)Robot.driveTrain.getLeft()).get();
-
-            left.config_kP(DriveTrain.SLOT_0, p, DriveTrain.TIMEOUT_MS);
-            right.config_kP(DriveTrain.SLOT_0, p, DriveTrain.TIMEOUT_MS);
-            left.config_kI(DriveTrain.SLOT_0, i, DriveTrain.TIMEOUT_MS);
-            right.config_kI(DriveTrain.SLOT_0, i, DriveTrain.TIMEOUT_MS);
-            left.config_kD(DriveTrain.SLOT_0, d, DriveTrain.TIMEOUT_MS);
-            right.config_kD(DriveTrain.SLOT_0, d, DriveTrain.TIMEOUT_MS);
-            left.config_kF(DriveTrain.SLOT_0, f, DriveTrain.TIMEOUT_MS);
-            right.config_kF(DriveTrain.SLOT_0, f, DriveTrain.TIMEOUT_MS);
-        } else {
-            CANSparkMax left = ((MercSparkMax)Robot.driveTrain.getLeft()).get();
-            CANSparkMax right = ((MercSparkMax)Robot.driveTrain.getLeft()).get();
-
-            left.getPIDController().setP(p, DriveTrain.SLOT_0);
-            right.getPIDController().setP(p, DriveTrain.SLOT_0);
-            left.getPIDController().setI(i, DriveTrain.SLOT_0);
-            right.getPIDController().setI(i, DriveTrain.SLOT_0);
-            left.getPIDController().setD(d, DriveTrain.SLOT_0);
-            right.getPIDController().setD(d, DriveTrain.SLOT_0);
-            left.getPIDController().setFF(f, DriveTrain.SLOT_0);
-            right.getPIDController().setFF(f, DriveTrain.SLOT_0);
-        }
+        Robot.driveTrain.getLeft().configPID(p, i, d, f);
+        Robot.driveTrain.getRight().configPID(p, i, d, f);
     }
 
     @Override

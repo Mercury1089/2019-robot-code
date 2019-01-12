@@ -2,6 +2,8 @@ package frc.robot.util;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import frc.robot.subsystems.DriveTrain;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import frc.robot.util.interfaces.IMercMotorController;
 
@@ -65,7 +67,28 @@ public class MercVictorSPX implements IMercMotorController {
 
     @Override
     public double getClosedLoopError() {
-        return 0;
+        return victorspx.getClosedLoopError(0);
+    }
+
+    @Override
+    public void configPID(double p, double i, double d, double f) {
+        victorspx.config_kP(DriveTrain.SLOT_0, p, DriveTrain.TIMEOUT_MS);
+        victorspx.config_kI(DriveTrain.SLOT_0, i, DriveTrain.TIMEOUT_MS);
+        victorspx.config_kD(DriveTrain.SLOT_0, d, DriveTrain.TIMEOUT_MS);
+        victorspx.config_kF(DriveTrain.SLOT_0, f, DriveTrain.TIMEOUT_MS);
+    }
+
+    @Override
+    public void configVoltage(double nominalOutput, double peakOutput) {
+        victorspx.configNominalOutputForward(nominalOutput, DriveTrain.TIMEOUT_MS);
+        victorspx.configNominalOutputReverse(-nominalOutput, DriveTrain.TIMEOUT_MS);
+        victorspx.configPeakOutputForward(peakOutput, DriveTrain.TIMEOUT_MS);
+        victorspx.configPeakOutputReverse(-peakOutput, DriveTrain.TIMEOUT_MS);
+    }
+
+    @Override
+    public void setNeutralMode(NeutralMode neutralMode) {
+        victorspx.setNeutralMode(neutralMode);
     }
 
 //_________________________________________________________________________________

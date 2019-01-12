@@ -127,21 +127,23 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         followerLeft.follow(masterLeft);
         followerRight.follow(masterRight);
 
-        
-
         configVoltage(NOMINAL_OUT, PEAK_OUT);
         setMaxOutput(PEAK_OUT);
     }
 
-    public void resetEncoders() {
-        if (layout != DriveTrainLayout.SPARKS) {
-            ((MercTalonSRX)masterLeft).get().getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
-            ((MercTalonSRX)masterRight).get().getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
-        }
-    }
+    /**
+     * Resets the encoder.
+     * NOTE: You can't use this with sparks. Anyways, the code is pretty much all relative.
+     */
+    //public void resetEncoders() {
+    //    if (layout != DriveTrainLayout.SPARKS) {
+    //        ((MercTalonSRX)masterLeft).get().getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
+    //        ((MercTalonSRX)masterRight).get().getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
+    //    }
+    //}
 
     /**
-     * Stops the motor.
+     * Stops the drive train.
      */
     public void stop() {
         masterLeft.stop();
@@ -159,25 +161,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
      * @param peakOutput    The desired peak voltage output of the left and right talons, both forward and reverse
      */
     public void configVoltage(double nominalOutput, double peakOutput) {
-        if (layout != DriveTrainLayout.SPARKS) {
-            TalonSRX left = ((MercTalonSRX)masterLeft).get();
-            TalonSRX right = ((MercTalonSRX)masterRight).get();
-
-            left.configNominalOutputForward(nominalOutput, TIMEOUT_MS);
-            left.configNominalOutputReverse(-nominalOutput, TIMEOUT_MS);
-            left.configPeakOutputForward(peakOutput, TIMEOUT_MS);
-            left.configPeakOutputReverse(-peakOutput, TIMEOUT_MS);
-            right.configNominalOutputForward(nominalOutput, TIMEOUT_MS);
-            right.configNominalOutputReverse(-nominalOutput, TIMEOUT_MS);
-            right.configPeakOutputForward(peakOutput, TIMEOUT_MS);
-            right.configPeakOutputReverse(-peakOutput, TIMEOUT_MS);
-        } else {
-            CANSparkMax left = ((MercSparkMax)masterLeft).get();
-            CANSparkMax right = ((MercSparkMax)masterRight).get();
-
-            left.getPIDController().setOutputRange(-peakOutput, peakOutput);
-            right.getPIDController().setOutputRange(-peakOutput, peakOutput);       //Not sure how this is supposed to work
-        }
+        masterLeft.configVoltage(nominalOutput, peakOutput);
+        masterRight.configVoltage(nominalOutput, peakOutput);
     }
 
     /**
@@ -234,28 +219,10 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     }
 
     public void setNeutralMode(NeutralMode neutralMode) {
-        if (!(layout == DriveTrainLayout.SPARKS)) {
-            ((MercTalonSRX)masterLeft).get().setNeutralMode(neutralMode);
-            ((MercTalonSRX)masterRight).get().setNeutralMode(neutralMode);
-            if (layout == DriveTrainLayout.TALONS) {
-                ((MercVictorSPX)followerLeft).get().setNeutralMode(neutralMode);
-                ((MercVictorSPX)followerRight).get().setNeutralMode(neutralMode);
-            } else if (layout == DriveTrainLayout.LEGACY) {
-                ((MercTalonSRX)followerLeft).get().setNeutralMode(neutralMode);
-                ((MercTalonSRX)followerRight).get().setNeutralMode(neutralMode);
-            }
-        } else {
-            CANSparkMax.IdleMode mode;
-            if (neutralMode == NeutralMode.Brake) {
-                mode = IdleMode.kBrake;
-            } else {
-                mode = IdleMode.kCoast;
-            }
-            ((MercSparkMax)masterLeft).get().setIdleMode(mode);
-            ((MercSparkMax)masterRight).get().setIdleMode(mode);
-            ((MercSparkMax)followerLeft).get().setIdleMode(mode);
-            ((MercSparkMax)followerRight).get().setIdleMode(mode);
-        }
+        masterLeft.setNeutralMode(neutralMode);
+        masterRight.setNeutralMode(neutralMode);
+        followerLeft.setNeutralMode(neutralMode);
+        followerRight.setNeutralMode(neutralMode);
     }
 
     public DriveTrainLayout getLayout() {

@@ -2,6 +2,8 @@ package frc.robot.util;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import frc.robot.subsystems.DriveTrain;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import frc.robot.util.interfaces.IMercMotorController;
 
@@ -66,6 +68,27 @@ public class MercTalonSRX implements IMercMotorController {
     @Override
     public double getClosedLoopError() {
         return talonsrx.getClosedLoopError(0);
+    }
+
+    @Override
+    public void configPID(double p, double i, double d, double f) {
+        talonsrx.config_kP(DriveTrain.SLOT_0, p, DriveTrain.TIMEOUT_MS);
+        talonsrx.config_kI(DriveTrain.SLOT_0, i, DriveTrain.TIMEOUT_MS);
+        talonsrx.config_kD(DriveTrain.SLOT_0, d, DriveTrain.TIMEOUT_MS);
+        talonsrx.config_kF(DriveTrain.SLOT_0, f, DriveTrain.TIMEOUT_MS);
+    }
+
+    @Override
+    public void configVoltage(double nominalOutput, double peakOutput) {
+        talonsrx.configNominalOutputForward(nominalOutput, DriveTrain.TIMEOUT_MS);
+        talonsrx.configNominalOutputReverse(-nominalOutput, DriveTrain.TIMEOUT_MS);
+        talonsrx.configPeakOutputForward(peakOutput, DriveTrain.TIMEOUT_MS);
+        talonsrx.configPeakOutputReverse(-peakOutput, DriveTrain.TIMEOUT_MS);
+    }
+
+    @Override
+    public void setNeutralMode(NeutralMode neutralMode) {
+        talonsrx.setNeutralMode(neutralMode);
     }
 
 //_________________________________________________________________________________

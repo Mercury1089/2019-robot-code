@@ -1,5 +1,6 @@
 package frc.robot.util.interfaces;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public interface IMercMotorController {
     /**
@@ -72,4 +73,30 @@ public interface IMercMotorController {
      * @return the error from setpoint in ticks
      */
     public double getClosedLoopError();
+
+    /**
+     * Configure PID for the motor controller
+     * 
+     * @param p Proportional
+     * @param i Integral
+     * @param d Derivative
+     * @param f Feed Forward
+     */
+    public void configPID(double p, double i, double d, double f);
+
+    /**
+     * Configure the min and max voltage.
+     * NOTE: for sparks, this is only for closed loop control. For talons, it is for both.
+     * 
+     * @param nominalOutput min voltage
+     * @param peakOutput max voltage
+     */
+    public void configVoltage(double nominalOutput, double peakOutput);
+
+    /**
+     * Set the neutral mode - brake or coast
+     * 
+     * @param nm the NeutralMode to set it to
+     */
+    public void setNeutralMode(NeutralMode neutralMode);
 }
