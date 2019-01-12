@@ -132,17 +132,6 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     }
 
     /**
-     * Resets the encoder.
-     * NOTE: You can't use this with sparks. Anyways, the code is pretty much all relative.
-     */
-    //public void resetEncoders() {
-    //    if (layout != DriveTrainLayout.SPARKS) {
-    //        ((MercTalonSRX)masterLeft).get().getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
-    //        ((MercTalonSRX)masterRight).get().getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
-    //    }
-    //}
-
-    /**
      * Stops the drive train.
      */
     public void stop() {

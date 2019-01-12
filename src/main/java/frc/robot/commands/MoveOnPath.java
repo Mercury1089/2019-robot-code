@@ -246,7 +246,6 @@ public class MoveOnPath extends Command {
         // Reset flags and motion profile modes
         isRunning = false;
         setMotionProfileMode(SetValueMotionProfile.Disable);
-        //Robot.driveTrain.resetEncoders();
 
         // Clear the trajectory buffer
         left.clearMotionProfileTrajectories();
