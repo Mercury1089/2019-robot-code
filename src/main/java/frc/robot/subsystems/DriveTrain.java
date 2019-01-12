@@ -26,7 +26,6 @@ import frc.robot.util.MercSparkMax;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.MercVictorSPX;
 import frc.robot.util.DriveAssist;
-import frc.robot.util.config.DriveTrainSettings;
 
 /**
  * Subsystem that encapsulates the drive train.
@@ -44,23 +43,18 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     private IMercMotorController masterLeft, masterRight, followerLeft, followerRight;
 
-    private DriveAssist tDrive;
+    private DriveAssist drive;
     // private NavX navX;
     private ADXRS450_Gyro gyroSPI;
 
 	public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096;
-	public static final double GEAR_RATIO;
-    public static final double MAX_RPM;
-    public static final double WHEEL_DIAMETER_INCHES;
+	public static final double GEAR_RATIO = 1.0;                    //TEMP
+    public static final double MAX_RPM = 700.63;                    //TEMP
+    public static final double WHEEL_DIAMETER_INCHES = 5.125;       //TEMP
     public static final double NOMINAL_OUT = 0.0, PEAK_OUT = 1.0;
 
     private DriveTrainLayout layout;
-
-    static {
-        GEAR_RATIO = DriveTrainSettings.getGearRatio();
-        MAX_RPM = DriveTrainSettings.getMaxRPM();
-        WHEEL_DIAMETER_INCHES = DriveTrainSettings.getWheelDiameter();
-    }
+    
     public enum DriveTrainLayout {
         SPARKS,
         TALONS,
@@ -129,7 +123,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
             right.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
         }
 
-        tDrive = new DriveAssist(masterLeft, masterRight);
+        drive = new DriveAssist(masterLeft, masterRight);
 
         // Set follower control on back talons. Use follow() instead of ControlMode.Follower so that Talons can follow Victors and vice versa.
         followerLeft.follow(masterLeft);
@@ -137,8 +131,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
         
 
-        configVoltage(0, DriveTrainSettings.getMaxOutput());
-        setMaxOutput(DriveTrainSettings.getMaxOutput());
+        configVoltage(NOMINAL_OUT, PEAK_OUT);
+        setMaxOutput(PEAK_OUT);
     }
 
     public void resetEncoders() {
@@ -222,8 +216,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         return tMasterRight;
     }
 
-    public TalonDrive getTalonDrive() {
-        return tDrive;
+    public DriveAssist getDriveAssist() {
+        return drive;
     }
 
     public double getFeedForward() {
@@ -231,11 +225,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     }
 
     public void pidWrite(double output) {
-        tDrive.tankDrive(output, -output);
+        drive.tankDrive(output, -output);
     }
 
     public void setMaxOutput(double maxOutput) {
-        tDrive.setMaxOutput(maxOutput);
+        drive.setMaxOutput(maxOutput);
     }
 
     public void setNeutralMode(NeutralMode neutralMode) {

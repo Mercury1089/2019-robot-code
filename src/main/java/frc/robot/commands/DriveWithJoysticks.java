@@ -9,7 +9,7 @@ import frc.robot.RobotMap.DS_USB;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.util.DelayableLogger;
 import frc.robot.util.MercMath;
-import frc.robot.util.TalonDrive;
+import frc.robot.util.DriveAssist;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * This puts the robot in arcade drive.
  */
 public class DriveWithJoysticks extends Command {
-	private TalonDrive tDrive;
+	private DriveAssist tDrive;
 	private static Logger log = LogManager.getLogger(DriveWithJoysticks.class);
 	private DelayableLogger everySecond = new DelayableLogger(log, 10, TimeUnit.SECONDS);
 	private DriveType driveType;
@@ -39,7 +39,7 @@ public class DriveWithJoysticks extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		tDrive = Robot.driveTrain.getTalonDrive();
+		tDrive = Robot.driveTrain.getDriveAssist();
 		log.info("Set max output to: " + tDrive.getMaxOutput());
 		Robot.driveTrain.setNeutralMode(NeutralMode.Brake);
 		log.info(getName() + " command initialized");
