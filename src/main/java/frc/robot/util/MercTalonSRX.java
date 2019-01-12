@@ -46,6 +46,11 @@ public class MercTalonSRX implements IMercMotorController {
             talonsrx.follow(((MercTalonSRX)leader).get());
     }
 
+    @Override
+    public void stop() {
+        talonsrx.stopMotor();
+    }
+
 //_________________________________________________________________________________
     /**
      * Get the TalonSRX tied to this class
@@ -53,9 +58,5 @@ public class MercTalonSRX implements IMercMotorController {
      */
     public WPI_TalonSRX get() {
         return talonsrx;
-    }
-
-    public void setSensorPhase(boolean phase) {
-        talonsrx.setSensorPhase(phase);
     }
 }

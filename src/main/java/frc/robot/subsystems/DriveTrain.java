@@ -103,27 +103,25 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
         setNeutralMode(NeutralMode.Brake);
 
-        //Account for encoder orientation.
-        
-
         if (!(layout == DriveTrainLayout.SPARKS)) {
-            ((MercTalonSRX)masterLeft).setSensorPhase(true);
-            ((MercTalonSRX)masterRight).setSensorPhase(true);
-        }
+            //Account for encoder orientation.
+            ((MercTalonSRX)masterLeft).get().setSensorPhase(true);
+            ((MercTalonSRX)masterRight).get().setSensorPhase(true);
 
-        new TalonSRX(1).setSensorPhase(true);
+            // Set up feedback sensors
+            // Using CTRE_MagEncoder_Relative allows for relative ticks when encoder is zeroed out.
+            // This allows us to measure the distance from any given point to any ending point.
+            ((MercTalonSRX)masterLeft).get().configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PRIMARY_PID_LOOP, TIMEOUT_MS);
+            ((MercTalonSRX)masterRight).get().configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PRIMARY_PID_LOOP, TIMEOUT_MS);
+        }
 
         tDrive = new DriveAssist(masterLeft, masterRight);
 
         // Set follower control on back talons. Use follow() instead of ControlMode.Follower so that Talons can follow Victors and vice versa.
-        vFollowerLeft.follow(tMasterLeft);
-        vFollowerRight.follow(tMasterRight);
+        followerLeft.follow(masterLeft);
+        followerRight.follow(masterRight);
 
-        // Set up feedback sensors
-        // Using CTRE_MagEncoder_Relative allows for relative ticks when encoder is zeroed out.
-        // This allows us to measure the distance from any given point to any ending point.
-        tMasterLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PRIMARY_PID_LOOP, TIMEOUT_MS);
-        tMasterRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PRIMARY_PID_LOOP, TIMEOUT_MS);
+        
 
         configVoltage(0, DriveTrainSettings.getMaxOutput());
         setMaxOutput(DriveTrainSettings.getMaxOutput());

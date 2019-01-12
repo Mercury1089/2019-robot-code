@@ -37,6 +37,20 @@ public class MercVictorSPX implements IMercMotorController {
         return port;
     }
 
+    /**
+     * Follows the TalonSRX that is passed in. Will not do anything if it has to follow anything else.
+     */
+    @Override
+    public void follow(IMercMotorController leader) {
+        if (leader instanceof MercTalonSRX)
+            victorspx.follow(((MercTalonSRX)leader).get());
+    }
+
+    @Override
+    public void stop() {
+        victorspx.stopMotor();
+    }
+
 //_________________________________________________________________________________
     /**
      * Get the VictorSPX tied to this class

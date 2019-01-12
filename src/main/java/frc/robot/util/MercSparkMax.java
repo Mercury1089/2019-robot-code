@@ -42,12 +42,23 @@ public class MercSparkMax implements IMercMotorController {
 
     @Override
     public void follow(IMercMotorController leader) {
-        if (leader instanceof CANSparkMax)
-            sparkmax.follow((CANSparkMax)leader);
+        if (leader instanceof MercSparkMax)
+            sparkmax.follow(((MercSparkMax)leader).get());
         else
-            sparkmax.follow((ExternalFollower)leader, leader.getPort());
+            sparkmax.follow((ExternalFollower)leader, leader.getPort());    //Def the wrong way to do this please check
+    }
+
+    @Override
+    public void stop() {
+        sparkmax.stopMotor();
     }
 
 //_________________________________________________________________________________
-    public void 
+    /**
+     * Get the Spark Max tied to this class
+     * @return the Spark
+     */
+    public CANSparkMax get() {
+        return sparkmax;
+    }
 }
