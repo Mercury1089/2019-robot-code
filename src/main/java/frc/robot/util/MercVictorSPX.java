@@ -23,6 +23,11 @@ public class MercVictorSPX implements IMercMotorController {
     }
 
     @Override
+    public void setPosition(double ticks) {
+        victorspx.set(ControlMode.Position, ticks);
+    }
+
+    @Override
     public double getSpeed() {
         return victorspx.get();
     }
@@ -37,9 +42,6 @@ public class MercVictorSPX implements IMercMotorController {
         return port;
     }
 
-    /**
-     * Follows the TalonSRX that is passed in. Will not do anything if it has to follow anything else.
-     */
     @Override
     public void follow(IMercMotorController leader) {
         if (leader instanceof MercTalonSRX)
@@ -51,17 +53,11 @@ public class MercVictorSPX implements IMercMotorController {
         victorspx.stopMotor();
     }
 
-    /**
-     * NOTE: Victors can't connect to another sensor like an encoder, so this will return 0.
-     */
     @Override
     public double getEncPos() {
         return 0;
     }
 
-    /**
-     * NOTE: Victors can't connect to another sensor like an encoder, so this will return 0.
-     */
     @Override
     public double getEncVelo() {
         return 0;

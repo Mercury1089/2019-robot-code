@@ -2,6 +2,7 @@ package frc.robot.util;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.ExternalFollower;
 
 import frc.robot.util.interfaces.IMercMotorController;
@@ -15,14 +16,14 @@ public class MercSparkMax implements IMercMotorController {
         this.port = port;
     }
 
-    /**
-     * Sets the relative speed of the controller. 
-     * 
-     * @param speed: speed from -1 to 1
-     */
     @Override
     public void setSpeed(double speed) {
         sparkmax.set(speed);
+    }
+
+    @Override
+    public void setPosition(double ticks) {
+        sparkmax.getPIDController().setReference(MercMath.encoderTicksToRevs(ticks), ControlType.kPosition);
     }
 
     @Override

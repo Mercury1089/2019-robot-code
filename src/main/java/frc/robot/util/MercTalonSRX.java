@@ -23,6 +23,11 @@ public class MercTalonSRX implements IMercMotorController {
     }
 
     @Override
+    public void setPosition(double ticks) {
+        talonsrx.set(ControlMode.Position, ticks);
+    }
+
+    @Override
     public double getSpeed() {
         return talonsrx.get();
     }
@@ -37,9 +42,6 @@ public class MercTalonSRX implements IMercMotorController {
         return port;
     }
 
-    /**
-     * Follows the TalonSRX that is passed in. Will not do anything if it has to follow anything else.
-     */
     @Override
     public void follow(IMercMotorController leader) {
         if (leader instanceof MercTalonSRX)
