@@ -1,4 +1,4 @@
-package frc.robot.commands;
+/*package frc.robot.commands;
 
 import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.SetValueMotionProfile;
@@ -24,7 +24,7 @@ import java.io.File;
 /**
  * Use motion profiling to move on a specified path
  */
-public class MoveOnPath extends Command {
+/*public class MoveOnPath extends Command {
     private static Logger log = LogManager.getLogger(MoveOnPath.class);
 	private IMercMotorController left;
 	private IMercMotorController right;
@@ -84,7 +84,7 @@ public class MoveOnPath extends Command {
      *
      * @param name name of the trajectory
      */
-	public static MoveOnPath fromCSV (String name, Direction direction) {
+	/*public static MoveOnPath fromCSV (String name, Direction direction) {
         Trajectory tl = null, tr = null;
 	    MoveOnPath cmd = null;
 
@@ -182,7 +182,7 @@ public class MoveOnPath extends Command {
     /**
      * Fill top-level (API-level) buffer with all points
      */
-    private void fillTopBuffer() {
+/*    private void fillTopBuffer() {
 	    for (int i = 0; i < TRAJECTORY_SIZE; i++) {
             TrajectoryPoint trajPointL = new TrajectoryPoint();
             TrajectoryPoint trajPointR = new TrajectoryPoint();
@@ -246,3 +246,4 @@ public class MoveOnPath extends Command {
         log.log(Level.INFO, "Cleared trajectories; check: " + statusLeft.btmBufferCnt);
     }
 }
+*/

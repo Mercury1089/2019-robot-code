@@ -1,20 +1,11 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import org.apache.logging.log4j.LogManager;
@@ -83,6 +74,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
                 masterRight = new MercSparkMax(fr);
                 followerLeft = new MercSparkMax(bl);
                 followerRight = new MercSparkMax(br);
+                break;
 			case TALONS:
                 masterLeft = new MercTalonSRX(fl);
 	        	masterRight = new MercTalonSRX(fr);
@@ -127,6 +119,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         followerLeft.follow(masterLeft);
         followerRight.follow(masterRight);
 
+        
         configVoltage(NOMINAL_OUT, PEAK_OUT);
         setMaxOutput(PEAK_OUT);
     }
@@ -189,6 +182,14 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     public IMercMotorController getRight() {
         return masterRight;
+    }
+
+    public IMercMotorController getLeftFollower() {
+        return followerLeft;
+    }
+
+    public IMercMotorController getRightFollower() {
+        return followerRight;
     }
 
     public DriveAssist getDriveAssist() {

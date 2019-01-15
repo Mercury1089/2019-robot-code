@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+/*package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -9,7 +9,7 @@ import frc.robot.commands.LogPDPInfo;
 /**
  * Subsystem that encapsulates PDP.
  */
-public class PDP extends Subsystem {
+/*public class PDP extends Subsystem {
 	private static Logger log = LogManager.getLogger(PDP.class);
 	public PowerDistributionPanel pdpPanel;
 	
@@ -33,5 +33,5 @@ public class PDP extends Subsystem {
 		setDefaultCommand(new LogPDPInfo());
 	}
 		
-}
+}*/
 	

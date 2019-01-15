@@ -10,7 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.PDP;
+//import frc.robot.subsystems.PDP;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 import frc.robot.auton.AutonCommand;
 import frc.robot.RobotMap.CAN;
@@ -28,18 +28,18 @@ import frc.robot.RobotMap.CAN;
 public class Robot extends TimedRobot  {
   //public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static DriveTrain driveTrain;
-	public static PDP pdp;
+	//public static PDP pdp;
 
 	private AutonCommand autonCommand;
 
-	public static OI oi;
+  public static OI oi;
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
   @Override
   public void robotInit() {
-    
     driveTrain = new DriveTrain(
       DriveTrainLayout.SPARKS,
 			CAN.DRIVETRAIN_ML,
@@ -48,12 +48,10 @@ public class Robot extends TimedRobot  {
 			CAN.DRIVETRAIN_SR
 		);
 
-		driveTrain.resetEncoders();
-
-		pdp = new PDP();
+		//pdp = new PDP();
 
 		// OI NEEDS to be constructed as the last line for everything to work.
-		oi = new OI();
+    oi = new OI();
   }
 
   /**
