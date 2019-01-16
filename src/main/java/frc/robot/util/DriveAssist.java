@@ -19,6 +19,7 @@ public class DriveAssist {
 	private final DelayableLogger SLOW_LOG = new DelayableLogger(LOG, 10, TimeUnit.SECONDS);
 	private final IMercMotorController LEFT_CONTROLLER, RIGHT_CONTROLLER;
 	private double maxOutput = 1.0;
+	private double deadzone = 0.08;
 	
 	/**
 	 * Creates a drive train, assuming there is one Controller for the left side
@@ -97,6 +98,10 @@ public class DriveAssist {
 		// Clamp motor percents
 		leftPercent = MercMath.clamp(leftPercent, -1.0, 1.0);
 		rightPercent = MercMath.clamp(rightPercent, -1.0, 1.0);
+
+		//deadzone
+		leftPercent = Math.abs(leftPercent) <= deadzone ? 0 : leftPercent;
+		rightPercent = Math.abs(rightPercent) <= deadzone ? 0 : rightPercent;
 		
 		// Apply speeds to motors.
 		// This assumes that the Controllers have been setClawState properly.

@@ -40,7 +40,7 @@ public class DriveDistance extends Command implements Recallable<Double> {
     public DriveDistance(double dist, double pVolt) {
         log.info(getName() + " Beginning constructor");
         requires(Robot.driveTrain);
-        distance = dist;
+        distance = dist * Robot.driveTrain.GEAR_RATIO;
         percentVoltage = pVolt;
         log.info(getName() + " Constructed");
     }

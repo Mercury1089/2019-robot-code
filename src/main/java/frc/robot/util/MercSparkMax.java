@@ -17,6 +17,7 @@ public class MercSparkMax implements IMercMotorController {
 
     public MercSparkMax(int port) {
         sparkmax = new CANSparkMax(port, CANSparkMaxLowLevel.MotorType.kBrushless);
+        sparkmax.setSmartCurrentLimit(20);
         this.port = port;
     }
 
@@ -61,7 +62,7 @@ public class MercSparkMax implements IMercMotorController {
 
     @Override
     public double getEncPos() {
-        return sparkmax.getEncoder().getPosition();
+        return MercMath.revsToEncoderTicks(sparkmax.getEncoder().getPosition());
     }
 
     @Override

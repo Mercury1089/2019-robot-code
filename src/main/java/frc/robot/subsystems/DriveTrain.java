@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -29,8 +30,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public static final int SLOT_0 = 0;
     public static final int PRIMARY_PID_LOOP = 0;
 
-    public static final double MAX_SPEED = 1.0;
-    public static final double MIN_SPEED = .65;
+    public static final double MAX_SPEED = 0.05;
+    public static final double MIN_SPEED = 1;
 
     private IMercMotorController masterLeft, masterRight, followerLeft, followerRight;
 
@@ -38,7 +39,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     private ADXRS450_Gyro gyroSPI;
 
 	public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096, NEO_ENCODER_TICKS_PER_REVOLUTION = 42;
-	public static final double GEAR_RATIO = 1.0;                    //TEMP
+	public static final double GEAR_RATIO = 5.35;                   //TEMP
     public static final double MAX_RPM = 700.63;                    //TEMP
     public static final double WHEEL_DIAMETER_INCHES = 5.125;       //TEMP eventually make this stuff configurable in shuffledash
     public static final double NOMINAL_OUT = 0.0, PEAK_OUT = 1.0;
@@ -119,7 +120,6 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         followerLeft.follow(masterLeft);
         followerRight.follow(masterRight);
 
-        
         configVoltage(NOMINAL_OUT, PEAK_OUT);
         setMaxOutput(PEAK_OUT);
     }
