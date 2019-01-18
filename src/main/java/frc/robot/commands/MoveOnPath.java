@@ -107,7 +107,7 @@ public class MoveOnPath extends Command {
         Trajectory tl = null, tr = null;
         MoveOnPath cmd = null;
             // TODO FIX THIS
-        TrajectoryPair=TrajectoryGenerator.generatePair(
+        /*TrajectoryPair=TrajectoryGenerator.generatePair(
             4.0, 3.0, 60.0, 3.4, new Waypoint[]{
                     new Waypoint(20.65, 3.00, Pathfinder.d2r(-90.00)),
                     new Waypoint(20.65, 6.00, Pathfinder.d2r(-90.00)),
@@ -121,7 +121,7 @@ public class MoveOnPath extends Command {
         // it can't be stopped.
         cmd = new MoveOnPath(tl, tr, tl.length(), direction);
         cmd.setName("MoveOnPath-" + name);
-
+*/
         return cmd;
     }
 	
