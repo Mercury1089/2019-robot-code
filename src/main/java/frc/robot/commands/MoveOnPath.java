@@ -1,4 +1,4 @@
-/*package frc.robot.commands;
+package frc.robot.commands;
 
 import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.SetValueMotionProfile;
@@ -10,24 +10,26 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
+import frc.robot.util.TrajectoryGenerator;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 import frc.robot.util.MercMath;
 import frc.robot.util.config.DriveTrainSettings;
 import frc.robot.util.interfaces.IMercMotorController;
+import jaci.pathfinder.Waypoint;
 
 import java.io.File;
 
 /**
  * Use motion profiling to move on a specified path
  */
-/*public class MoveOnPath extends Command {
+public class MoveOnPath extends Command {
     private static Logger log = LogManager.getLogger(MoveOnPath.class);
-	private IMercMotorController left;
-	private IMercMotorController right;
+	private TalonSRX left, right;
 
 	private int TRAJECTORY_SIZE;
 
@@ -48,8 +50,10 @@ import java.io.File;
         requires(Robot.driveTrain);
         log.info(getName() + " Beginning constructor");
 
-        left = Robot.driveTrain.getLeft();
-        right = Robot.driveTrain.getRight();
+        if (Robot.driveTrain.getLayout() != DriveTrainLayout.SPARKS) {
+            left = (TalonSRX)Robot.driveTrain.getLeft();
+            right = (TalonSRX)Robot.driveTrain.getRight();
+        }
 
         switch(d) {
             case BACKWARD:
@@ -84,7 +88,7 @@ import java.io.File;
      *
      * @param name name of the trajectory
      */
-	/*public static MoveOnPath fromCSV (String name, Direction direction) {
+	public static MoveOnPath fromCSV (String name, Direction direction) {
         Trajectory tl = null, tr = null;
 	    MoveOnPath cmd = null;
 
@@ -102,6 +106,13 @@ import java.io.File;
     public static MoveOnPath fromTraj (String name, Direction direction) {
         Trajectory tl = null, tr = null;
         MoveOnPath cmd = null;
+            // TODO FIX THIS
+        TrajectoryPair=TrajectoryGenerator.generatePair(
+            4.0, 3.0, 60.0, 3.4, new Waypoint[]{
+                    new Waypoint(20.65, 3.00, Pathfinder.d2r(-90.00)),
+                    new Waypoint(20.65, 6.00, Pathfinder.d2r(-90.00)),
+                    new Waypoint(17.42, 8.855, Pathfinder.d2r(-180.00))
+            });
 
         tl = Pathfinder.readFromFile(new File("/home/lvuser/trajectories/" + name + "_left_detailed.traj"));
         tr = Pathfinder.readFromFile(new File("/home/lvuser/trajectories/" + name + "_right_detailed.traj"));
@@ -182,7 +193,7 @@ import java.io.File;
     /**
      * Fill top-level (API-level) buffer with all points
      */
-/*    private void fillTopBuffer() {
+    private void fillTopBuffer() {
 	    for (int i = 0; i < TRAJECTORY_SIZE; i++) {
             TrajectoryPoint trajPointL = new TrajectoryPoint();
             TrajectoryPoint trajPointR = new TrajectoryPoint();
@@ -225,8 +236,8 @@ import java.io.File;
     }
 
     private void configurePID(double p, double i, double d, double f) {
-        left.configPID(p, i, d, f);
-        right.configPID(p, i, d, f);
+        ((IMercMotorController)left).configPID(p, i, d, f);
+        ((IMercMotorController)right).configPID(p, i, d, f);
     }
 
     private void setMotionProfileMode(SetValueMotionProfile value) {
@@ -246,4 +257,3 @@ import java.io.File;
         log.log(Level.INFO, "Cleared trajectories; check: " + statusLeft.btmBufferCnt);
     }
 }
-*/

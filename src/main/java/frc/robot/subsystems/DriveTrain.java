@@ -119,7 +119,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         // Set follower control on back talons. Use follow() instead of ControlMode.Follower so that Talons can follow Victors and vice versa.
         followerLeft.follow(masterLeft);
         followerRight.follow(masterRight);
-
+        
+        stop();
         configVoltage(NOMINAL_OUT, PEAK_OUT);
         setMaxOutput(PEAK_OUT);
     }
@@ -130,6 +131,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public void stop() {
         masterLeft.stop();
         masterRight.stop();
+        followerLeft.stop();
+        followerRight.stop();
     }
 
     public void initDefaultCommand() {
@@ -158,6 +161,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         } else {
             return null;
         }
+    }
+
+    public void setFullSpeed() {
+        masterLeft.setSpeed(1);
+        masterRight.setSpeed(1);
     }
 
     public double getLeftEncPositionInTicks() {

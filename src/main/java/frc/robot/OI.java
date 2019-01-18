@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.RobotMap.*;
 import frc.robot.util.ShuffleDash;
 import frc.robot.commands.DriveDistance;
+import frc.robot.commands.FullForward;
+import frc.robot.commands.MoveOnPath;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -21,7 +23,7 @@ public class OI {
   
   private Joystick rightJoystick, leftJoystick, gamepad;
 
-  private JoystickButton left10;
+  private JoystickButton left10, left7, right10;
 
   public OI() {
     leftJoystick = new Joystick(DS_USB.LEFT_STICK);
@@ -30,10 +32,15 @@ public class OI {
 
     shuffleDash = new ShuffleDash();
 
+    left7 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN7);
     left10 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN10);
+    right10 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN10);
 
 
     left10.whenPressed(new DriveDistance(100, .5));
+    left7.whenPressed(new FullForward());
+
+    right10.whenPressed(new MoveOnPath(""));
   }
 
   //COMPLETE:

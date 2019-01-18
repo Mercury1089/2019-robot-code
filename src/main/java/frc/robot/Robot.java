@@ -15,6 +15,10 @@ import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 import frc.robot.auton.AutonCommand;
 import frc.robot.RobotMap.CAN;
 
+import frc.robot.util.TrajectoryGenerator;
+import jaci.pathfinder.Waypoint;
+import jaci.pathfinder.Pathfinder;
+
 //import frc.robot.commands.ExampleCommand;
 //import frc.robot.subsystems.ExampleSubsystem;
 
@@ -41,7 +45,7 @@ public class Robot extends TimedRobot  {
   @Override
   public void robotInit() {
     driveTrain = new DriveTrain(
-      DriveTrainLayout.SPARKS,
+      DriveTrainLayout.TALONS,
 			CAN.DRIVETRAIN_ML,
 			CAN.DRIVETRAIN_MR,
 			CAN.DRIVETRAIN_SL,
@@ -139,5 +143,19 @@ public class Robot extends TimedRobot  {
    */
   @Override
   public void testPeriodic() {
+    super.testInit();
+    long initTime = System.currentTimeMillis();
+
+		for(int i = 0; i <= 50; i++) {
+			TrajectoryGenerator.generatePair(
+                4.0, 3.0, 60.0, 3.4, new Waypoint[]{
+                        new Waypoint(20.65, 3.00, Pathfinder.d2r(-90.00)),
+                        new Waypoint(20.65, 6.00, Pathfinder.d2r(-90.00)),
+                        new Waypoint(17.42, 8.855, Pathfinder.d2r(-180.00))
+                });
+      System.out.println(System.currentTimeMillis() - initTime);
+		}
+
+		System.out.println((System.currentTimeMillis() - initTime) / 50);
   }
 }

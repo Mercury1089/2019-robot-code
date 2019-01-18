@@ -3,9 +3,12 @@ package frc.robot.util;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import frc.robot.util.interfaces.IMercMotorController;
+import frc.robot.Robot;
 
 /**
  * Add your docs here.
@@ -46,7 +49,7 @@ public class MercTalonSRX implements IMercMotorController {
 
     @Override
     public void follow(IMercMotorController leader) {
-        if (leader instanceof MercTalonSRX)
+        if (Robot.driveTrain.getLayout() != DriveTrainLayout.SPARKS)
             talonsrx.follow(((MercTalonSRX)leader).get());
     }
 
