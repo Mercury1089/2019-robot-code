@@ -14,6 +14,10 @@ import frc.robot.util.ShuffleDash;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.FullForward;
 import frc.robot.commands.MoveOnPath;
+import frc.robot.commands.MoveOnPath.Direction;
+import jaci.pathfinder.Waypoint;
+import jaci.pathfinder.Pathfinder;
+import frc.robot.util.TrajectoryGenerator;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -40,7 +44,7 @@ public class OI {
     left10.whenPressed(new DriveDistance(100, .5));
     left7.whenPressed(new FullForward());
 
-    right10.whenPressed(new MoveOnPath(""));
+    right10.whenPressed(new MoveOnPath(Robot.tpair, "manual", Direction.FORWARD));
   }
 
   //COMPLETE:
