@@ -14,9 +14,11 @@ import frc.robot.util.ShuffleDash;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.MoveOnPath;
 import frc.robot.commands.MoveOnPath.Direction;
+import frc.robot.subsystems.ProtoShooter.ShooterSpeed;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.Pathfinder;
 import frc.robot.util.TrajectoryGenerator;
+import frc.robot.commands.RunShooter;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -26,7 +28,7 @@ public class OI {
   
   private Joystick rightJoystick, leftJoystick, gamepad;
 
-  private JoystickButton left10, left7, right10;
+  private JoystickButton left1, left7, left10, right1, right2, right10;
 
   public OI() {
     leftJoystick = new Joystick(DS_USB.LEFT_STICK);
@@ -35,13 +37,19 @@ public class OI {
 
     shuffleDash = new ShuffleDash();
 
+    left1 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN1);
     left7 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN7);
     left10 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN10);
+    right1 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN1);
+    right2 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN2);
     right10 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN10);
 
-
-    left10.whenPressed(new DriveDistance(100, .5));
+    left1.whenPressed(new RunShooter(ShooterSpeed.FAST_INTAKE));
     left7.whenPressed(new MoveOnPath("TestPathShortCurveRight", Direction.FORWARD));
+    left10.whenPressed(new DriveDistance(100, .5));
+
+    right1.whenPressed(new RunShooter(ShooterSpeed.FAST_EJECT));
+    right2.whenPressed(new RunShooter(ShooterSpeed.STOP));
 
     //right10.whenPressed(new MoveOnPath(Robot.tpair, "manual", Direction.FORWARD));
   }

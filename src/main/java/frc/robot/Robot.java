@@ -48,7 +48,8 @@ public class Robot extends TimedRobot  {
       DriveTrainLayout.TALONS
     );
 
-		//pdp = new PDP();
+    //pdp = new PDP();
+    protoShooter = new ProtoShooter();
 
 		// OI NEEDS to be constructed as the last line for everything to work.
     oi = new OI();

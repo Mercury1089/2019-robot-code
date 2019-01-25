@@ -32,8 +32,9 @@ public class RobotMap {
 			DRIVETRAIN_SL = 3,
 			DRIVETRAIN_SR = 4,
 			INTAKE = 5,
-			SHOOTER_LEFT = 6,
-			SHOOTER_RIGHT = 7;
+			SHOOTER_LEFT = 7,
+			SHOOTER_RIGHT = 8,
+			CANIFIER = 10;
 
 		private CAN() { } // Should never be constructed.
 	}
@@ -60,6 +61,8 @@ public class RobotMap {
 	 * Class containing constants for PWM device channels
 	 */
 	public static class PWM {
+		public static final int
+				LIDAR = 0;
 
 		private PWM() { } // Should never be constructed.
 	}
@@ -68,9 +71,12 @@ public class RobotMap {
 	 * Class containing constants for Digital Input channels
 	 */
 	public static class DIGITAL_INPUT {
+		public static final int
+				ELEVATOR_LIMIT_SWITCH = 0;
 
 		private DIGITAL_INPUT() { } // Should never be constructed.
 	}
+
 
 	/**
 	 * Class containing constants for ports of the devices on the USB interface of the Driver Station.
