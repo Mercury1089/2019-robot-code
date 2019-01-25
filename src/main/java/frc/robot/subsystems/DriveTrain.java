@@ -1,20 +1,12 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import org.apache.logging.log4j.LogManager;
@@ -38,8 +30,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public static final int SLOT_0 = 0;
     public static final int PRIMARY_PID_LOOP = 0;
 
-    public static final double MAX_SPEED = 1.0;
-    public static final double MIN_SPEED = .65;
+    public static final double MAX_SPEED = 0.05;
+    public static final double MIN_SPEED = 1;
 
     private IMercMotorController masterLeft, masterRight, followerLeft, followerRight;
 
@@ -47,7 +39,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     private ADXRS450_Gyro gyroSPI;
 
 	public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096, NEO_ENCODER_TICKS_PER_REVOLUTION = 42;
-	public static final double GEAR_RATIO = 1.0;                    //TEMP
+	public static final double GEAR_RATIO = 5.35;                   //TEMP
     public static final double MAX_RPM = 700.63;                    //TEMP
     public static final double WHEEL_DIAMETER_INCHES = 5.125;       //TEMP eventually make this stuff configurable in shuffledash
     public static final double NOMINAL_OUT = 0.0, PEAK_OUT = 1.0;
@@ -83,6 +75,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
                 masterRight = new MercSparkMax(fr);
                 followerLeft = new MercSparkMax(bl);
                 followerRight = new MercSparkMax(br);
+                break;
 			case TALONS:
                 masterLeft = new MercTalonSRX(fl);
 	        	masterRight = new MercTalonSRX(fr);
@@ -126,7 +119,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         // Set follower control on back talons. Use follow() instead of ControlMode.Follower so that Talons can follow Victors and vice versa.
         followerLeft.follow(masterLeft);
         followerRight.follow(masterRight);
-
+        
+        stop();
         configVoltage(NOMINAL_OUT, PEAK_OUT);
         setMaxOutput(PEAK_OUT);
     }
@@ -137,6 +131,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public void stop() {
         masterLeft.stop();
         masterRight.stop();
+        followerLeft.stop();
+        followerRight.stop();
     }
 
     public void initDefaultCommand() {
@@ -167,6 +163,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         }
     }
 
+    public void setFullSpeed() {
+        masterLeft.setSpeed(1);
+        masterRight.setSpeed(1);
+    }
+
     public double getLeftEncPositionInTicks() {
         return masterLeft.getEncPos();
     }
@@ -189,6 +190,14 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     public IMercMotorController getRight() {
         return masterRight;
+    }
+
+    public IMercMotorController getLeftFollower() {
+        return followerLeft;
+    }
+
+    public IMercMotorController getRightFollower() {
+        return followerRight;
     }
 
     public DriveAssist getDriveAssist() {
