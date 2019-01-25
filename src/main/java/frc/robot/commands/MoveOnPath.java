@@ -1,26 +1,32 @@
+/**
+ * 
+ */
 package frc.robot.commands;
 
 import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.SetValueMotionProfile;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import frc.robot.util.MercTalonSRX;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
-import frc.robot.util.TrajectoryGenerator;
+import jaci.pathfinder.Waypoint;
+import jaci.pathfinder.modifiers.TankModifier;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 import frc.robot.util.MercMath;
 import frc.robot.util.config.DriveTrainSettings;
-import frc.robot.util.interfaces.IMercMotorController;
-import jaci.pathfinder.Waypoint;
+import frc.robot.util.TrajectoryGenerator;
+import frc.robot.util.TrajectoryGenerator.TrajectoryPair;
+import jaci.pathfinder.Pathfinder;
 
 import java.io.File;
 
@@ -29,9 +35,10 @@ import java.io.File;
  */
 public class MoveOnPath extends Command {
     private static Logger log = LogManager.getLogger(MoveOnPath.class);
-	private TalonSRX left, right;
+	private TalonSRX left;
+	private TalonSRX right;
 
-	private int TRAJECTORY_SIZE;
+	private final int TRAJECTORY_SIZE;
 
     private Trajectory trajectoryR, trajectoryL;
 
@@ -46,16 +53,31 @@ public class MoveOnPath extends Command {
         FORWARD
     }
 
-    private MoveOnPath(Trajectory l, Trajectory r, int size, Direction d) {
+    /**
+     * Creates this command using the file prefix to determine
+     * the files to load.
+     *
+     * @param name name of the trajectory
+     */
+	public MoveOnPath(String filename, Direction direction) {
+        this(new TrajectoryPair(
+                Pathfinder.readFromCSV(new File("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".left.pf1.csv")),
+                Pathfinder.readFromCSV(new File("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".right.pf1.csv"))),
+                filename, direction);
+    }
+    
+    public MoveOnPath(TrajectoryPair pair, String filename, Direction direction) {
         requires(Robot.driveTrain);
+        setName("MoveOnPath-" + filename);
         log.info(getName() + " Beginning constructor");
 
-        if (Robot.driveTrain.getLayout() != DriveTrainLayout.SPARKS) {
-            left = (TalonSRX)Robot.driveTrain.getLeft();
-            right = (TalonSRX)Robot.driveTrain.getRight();
-        }
+        trajectoryL = pair.getLeft();
+        trajectoryR = pair.getRight();
 
-        switch(d) {
+        left = ((MercTalonSRX)Robot.driveTrain.getLeft()).get();
+        right = ((MercTalonSRX)Robot.driveTrain.getRight()).get();
+
+        switch(direction) {
             case BACKWARD:
                 dir = -1;
                 break;
@@ -65,13 +87,6 @@ public class MoveOnPath extends Command {
                 break;
         }
 
-        trajectoryL = l;
-        trajectoryR = r;
-        TRAJECTORY_SIZE = size;
-
-        statusLeft = new MotionProfileStatus();
-        statusRight = new MotionProfileStatus();
-
         if (trajectoryProcessor == null) {
             trajectoryProcessor = new Notifier(() -> {
                 left.processMotionProfileBuffer();
@@ -79,50 +94,18 @@ public class MoveOnPath extends Command {
             });
         }
 
-        log.info(getName() + " construced: " + TRAJECTORY_SIZE);
-    }
+        statusLeft = new MotionProfileStatus();
+        statusRight = new MotionProfileStatus();
 
-    /**
-     * Creates this command using the file prefix to determine
-     * the files to load.
-     *
-     * @param name name of the trajectory
-     */
-	public static MoveOnPath fromCSV (String name, Direction direction) {
-        Trajectory tl = null, tr = null;
-	    MoveOnPath cmd = null;
+        if (trajectoryL != null) {
+            TRAJECTORY_SIZE = trajectoryL.length();
 
-        tl = Pathfinder.readFromCSV(new File("/home/lvuser/trajectories/" + name + "_left_detailed.csv"));
-        tr = Pathfinder.readFromCSV(new File("/home/lvuser/trajectories/" + name + "_right_detailed.csv"));
-
-        // No need for a null check; if it doesn't load, the entire program will break due to an exception in the native;
-        // it can't be stopped.
-        cmd = new MoveOnPath(tl, tr, tl.length(), direction);
-        cmd.setName("MoveOnPath-" + name);
-
-        return cmd;
-	}
-
-    public static MoveOnPath fromTraj (String name, Direction direction) {
-        Trajectory tl = null, tr = null;
-        MoveOnPath cmd = null;
-            // TODO FIX THIS
-        /*TrajectoryPair=TrajectoryGenerator.generatePair(
-            4.0, 3.0, 60.0, 3.4, new Waypoint[]{
-                    new Waypoint(20.65, 3.00, Pathfinder.d2r(-90.00)),
-                    new Waypoint(20.65, 6.00, Pathfinder.d2r(-90.00)),
-                    new Waypoint(17.42, 8.855, Pathfinder.d2r(-180.00))
-            });
-
-        tl = Pathfinder.readFromFile(new File("/home/lvuser/trajectories/" + name + "_left_detailed.traj"));
-        tr = Pathfinder.readFromFile(new File("/home/lvuser/trajectories/" + name + "_right_detailed.traj"));
-
-        // No need for a null check; if it doesn't load, the entire program will break due to an exception in the native;
-        // it can't be stopped.
-        cmd = new MoveOnPath(tl, tr, tl.length(), direction);
-        cmd.setName("MoveOnPath-" + name);
-*/
-        return cmd;
+            log.info(getName() + " construced: " + TRAJECTORY_SIZE);
+        } else {
+            TRAJECTORY_SIZE = 0;
+            log.info(getName() + " could not be constructed!");
+            end();
+        }
     }
 	
 	//Called just before this Command runs for the first time. 
@@ -133,7 +116,7 @@ public class MoveOnPath extends Command {
         reset();
 
         // Configure PID values
-        double[] pid = DriveTrainSettings.getPIDValues("moveOnPath");
+        double[] pid = {0.6,0.0,0.0};
         configurePID(pid[0], pid[1], pid[2], Robot.driveTrain.getFeedForward());
 
         // Change motion control frame period
@@ -218,8 +201,8 @@ public class MoveOnPath extends Command {
             trajPointR.profileSlotSelect0 = DriveTrain.SLOT_0;
 
             // Sets the duration of each trajectory point to 20ms
-            trajPointL.timeDur = 20;
-            trajPointR.timeDur = 20;
+            trajPointL.timeDur = 15;
+            trajPointR.timeDur = 15;
 
             // Set these to true on the first point
             trajPointL.zeroPos = isZero;
@@ -236,8 +219,17 @@ public class MoveOnPath extends Command {
     }
 
     private void configurePID(double p, double i, double d, double f) {
-        ((IMercMotorController)left).configPID(p, i, d, f);
-        ((IMercMotorController)right).configPID(p, i, d, f);
+        left.config_kP(DriveTrain.SLOT_0, p, DriveTrain.TIMEOUT_MS);
+        right.config_kP(DriveTrain.SLOT_0, p, DriveTrain.TIMEOUT_MS);
+
+        left.config_kI(DriveTrain.SLOT_0, i, DriveTrain.TIMEOUT_MS);
+        right.config_kI(DriveTrain.SLOT_0, i, DriveTrain.TIMEOUT_MS);
+
+        left.config_kD(DriveTrain.SLOT_0, d, DriveTrain.TIMEOUT_MS);
+        right.config_kD(DriveTrain.SLOT_0, d, DriveTrain.TIMEOUT_MS);
+
+        left.config_kF(DriveTrain.SLOT_0, f, DriveTrain.TIMEOUT_MS);
+        right.config_kF(DriveTrain.SLOT_0, f, DriveTrain.TIMEOUT_MS);
     }
 
     private void setMotionProfileMode(SetValueMotionProfile value) {
@@ -249,6 +241,8 @@ public class MoveOnPath extends Command {
         // Reset flags and motion profile modes
         isRunning = false;
         setMotionProfileMode(SetValueMotionProfile.Disable);
+        left.getSensorCollection().setQuadraturePosition(0, DriveTrain.TIMEOUT_MS);
+        right.getSensorCollection().setQuadraturePosition(0, DriveTrain.TIMEOUT_MS);
 
         // Clear the trajectory buffer
         left.clearMotionProfileTrajectories();

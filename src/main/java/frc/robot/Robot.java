@@ -15,10 +15,6 @@ import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 import frc.robot.auton.AutonCommand;
 import frc.robot.RobotMap.CAN;
 
-import frc.robot.util.TrajectoryGenerator;
-import jaci.pathfinder.Waypoint;
-import jaci.pathfinder.Pathfinder;
-
 //import frc.robot.commands.ExampleCommand;
 //import frc.robot.subsystems.ExampleSubsystem;
 
@@ -50,7 +46,7 @@ public class Robot extends TimedRobot  {
 			CAN.DRIVETRAIN_MR,
 			CAN.DRIVETRAIN_SL,
 			CAN.DRIVETRAIN_SR
-		);
+    );
 
 		//pdp = new PDP();
 
@@ -143,7 +139,7 @@ public class Robot extends TimedRobot  {
    */
   @Override
   public void testPeriodic() {
-    super.testInit();
+    /*super.testInit();
     long initTime = System.currentTimeMillis();
 
 		for(int i = 0; i <= 50; i++) {
@@ -156,6 +152,6 @@ public class Robot extends TimedRobot  {
       System.out.println(System.currentTimeMillis() - initTime);
 		}
 
-		System.out.println((System.currentTimeMillis() - initTime) / 50);
+		System.out.println((System.currentTimeMillis() - initTime) / 50);*/
   }
 }

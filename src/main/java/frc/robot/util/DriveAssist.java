@@ -20,6 +20,7 @@ public class DriveAssist {
 	private final IMercMotorController LEFT_CONTROLLER, RIGHT_CONTROLLER;
 	private double maxOutput = 1.0;
 	private double deadzone = 0.08;
+	private boolean invertDirection = false;
 	
 	/**
 	 * Creates a drive train, assuming there is one Controller for the left side
@@ -51,6 +52,10 @@ public class DriveAssist {
 		return maxOutput;
 	}
 
+	public void setInverted(boolean inv) {
+		this.invertDirection = inv;
+	}
+
 	/**
 	 * Single stick driving. This is done by using one axis for forwards/backwards,
 	 * and another for turning right/left. This method allows direct input from any joystick
@@ -67,6 +72,11 @@ public class DriveAssist {
 		// Assume a deadzone is already being applied to these values.
 		moveVal = MercMath.clamp(moveVal, -1.0, 1.0);
 		rotateVal = MercMath.clamp(rotateVal, -1.0, 1.0);
+
+		if(invertDirection) {
+			moveVal = -moveVal;
+			rotateVal = -rotateVal;
+		}
 		
 		// Square inputs, but maintain their signs.
 		// This allows for more precise control at lower speeds,
@@ -121,7 +131,7 @@ public class DriveAssist {
 
 		// Apply speeds to motors.
 		// This assumes that the Controllers have been setClawState properly.
-		LEFT_CONTROLLER.setSpeed(leftVal * maxOutput);
-		RIGHT_CONTROLLER.setSpeed(rightVal * maxOutput);
+		LEFT_CONTROLLER.setSpeed((invertDirection ? -leftVal : leftVal) * maxOutput);
+		RIGHT_CONTROLLER.setSpeed((invertDirection ? -rightVal : rightVal) * maxOutput);
 	}
 }

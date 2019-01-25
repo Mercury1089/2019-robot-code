@@ -20,7 +20,7 @@ public class FullForward extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.driveTrain.setFullSpeed();
+    //Robot.driveTrain.s;
   }
 
   // Called repeatedly when this Command is scheduled to run
