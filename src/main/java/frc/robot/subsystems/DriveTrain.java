@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import frc.robot.RobotMap.CAN;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.util.MercMath;
@@ -60,27 +62,27 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 	 * @param bl Back-left controller ID
 	 * @param br Back-right controller ID
 	 */
-	public DriveTrain(DriveTrain.DriveTrainLayout layout, int fl, int fr, int bl, int br) { //This should eventually be fully configurable
+	public DriveTrain(DriveTrain.DriveTrainLayout layout) { //This should eventually be fully configurable
         // At this point it's based on what the layout is
         this.layout = layout;
         switch(layout) {
             case LEGACY:
-                masterLeft = new MercTalonSRX(fl);
-	        	masterRight = new MercTalonSRX(fr);
-                followerLeft = new MercTalonSRX(bl);
-                followerRight = new MercTalonSRX(br);
+                masterLeft = new MercTalonSRX(CAN.DRIVETRAIN_ML);
+	        	masterRight = new MercTalonSRX(CAN.DRIVETRAIN_MR);
+                followerLeft = new MercTalonSRX(CAN.DRIVETRAIN_SL);
+                followerRight = new MercTalonSRX(CAN.DRIVETRAIN_SR);
                 break;
             case SPARKS:
-                masterLeft = new MercSparkMax(fl);
-                masterRight = new MercSparkMax(fr);
-                followerLeft = new MercSparkMax(bl);
-                followerRight = new MercSparkMax(br);
+                masterLeft = new MercSparkMax(CAN.DRIVETRAIN_ML);
+                masterRight = new MercSparkMax(CAN.DRIVETRAIN_MR);
+                followerLeft = new MercSparkMax(CAN.DRIVETRAIN_SL);
+                followerRight = new MercSparkMax(CAN.DRIVETRAIN_SR);
                 break;
 			case TALONS:
-                masterLeft = new MercTalonSRX(fl);
-	        	masterRight = new MercTalonSRX(fr);
-				followerLeft = new MercVictorSPX(bl);
-				followerRight = new MercVictorSPX(br);
+                masterLeft = new MercTalonSRX(CAN.DRIVETRAIN_ML);
+	        	masterRight = new MercTalonSRX(CAN.DRIVETRAIN_MR);
+                followerLeft = new MercVictorSPX(CAN.DRIVETRAIN_SL);
+				followerRight = new MercVictorSPX(CAN.DRIVETRAIN_SR);
 				break;
         }
 

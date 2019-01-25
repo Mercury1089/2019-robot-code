@@ -30,7 +30,10 @@ public class RobotMap {
             DRIVETRAIN_ML = 1,
 			DRIVETRAIN_MR = 2,
 			DRIVETRAIN_SL = 3,
-			DRIVETRAIN_SR = 4;
+			DRIVETRAIN_SR = 4,
+			INTAKE = 5,
+			SHOOTER_LEFT = 6,
+			SHOOTER_RIGHT = 7;
 
 		private CAN() { } // Should never be constructed.
 	}

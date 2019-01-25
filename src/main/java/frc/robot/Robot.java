@@ -10,6 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.ProtoIntake;
+import frc.robot.subsystems.ProtoShooter;
 //import frc.robot.subsystems.PDP;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 import frc.robot.auton.AutonCommand;
@@ -28,7 +30,9 @@ import frc.robot.RobotMap.CAN;
 public class Robot extends TimedRobot  {
   //public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static DriveTrain driveTrain;
-	//public static PDP pdp;
+  //public static PDP pdp;
+  public static ProtoIntake protoIntake;
+  public static ProtoShooter protoShooter;
 
 	private AutonCommand autonCommand;
 
@@ -41,11 +45,7 @@ public class Robot extends TimedRobot  {
   @Override
   public void robotInit() {
     driveTrain = new DriveTrain(
-      DriveTrainLayout.TALONS,
-			CAN.DRIVETRAIN_ML,
-			CAN.DRIVETRAIN_MR,
-			CAN.DRIVETRAIN_SL,
-			CAN.DRIVETRAIN_SR
+      DriveTrainLayout.TALONS
     );
 
 		//pdp = new PDP();
