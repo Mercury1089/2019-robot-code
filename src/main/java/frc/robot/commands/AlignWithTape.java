@@ -8,6 +8,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AlignWithTape extends Command {
   
@@ -26,7 +29,7 @@ public class AlignWithTape extends Command {
   {
     requires(Robot.driveTrain);
     setName("AlignWithTape Command");
-	  log.debug(getName() + " command created");
+	  //log.debug(getName() + " command created");
   }
 
   // Called just before this Command runs the first time
@@ -66,14 +69,14 @@ public class AlignWithTape extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    log.info(getName() + " ended");
+    //log.info(getName() + " ended");
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    log.info(getName() + " interrupted");
+    //log.info(getName() + " interrupted");
     this.end();
   }
 }

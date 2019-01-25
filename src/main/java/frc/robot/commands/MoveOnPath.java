@@ -61,8 +61,8 @@ public class MoveOnPath extends Command {
      */
 	public MoveOnPath(String filename, Direction direction) {
         this(new TrajectoryPair(
-                Pathfinder.readFromFile(new File("/home/lvuser/trajectories/" + filename + "_left_detailed.traj")),
-                Pathfinder.readFromFile(new File("/home/lvuser/trajectories/" + filename + "_right_detailed.traj"))),
+                Pathfinder.readFromCSV(new File("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".left.pf1.csv")),
+                Pathfinder.readFromCSV(new File("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".right.pf1.csv"))),
                 filename, direction);
     }
     
@@ -201,8 +201,8 @@ public class MoveOnPath extends Command {
             trajPointR.profileSlotSelect0 = DriveTrain.SLOT_0;
 
             // Sets the duration of each trajectory point to 20ms
-            trajPointL.timeDur = 20;
-            trajPointR.timeDur = 20;
+            trajPointL.timeDur = 15;
+            trajPointR.timeDur = 15;
 
             // Set these to true on the first point
             trajPointL.zeroPos = isZero;

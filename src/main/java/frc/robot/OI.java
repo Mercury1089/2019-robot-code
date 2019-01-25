@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.RobotMap.*;
 import frc.robot.util.ShuffleDash;
 import frc.robot.commands.DriveDistance;
-import frc.robot.commands.FullForward;
 import frc.robot.commands.MoveOnPath;
 import frc.robot.commands.MoveOnPath.Direction;
 import jaci.pathfinder.Waypoint;
@@ -42,9 +41,9 @@ public class OI {
 
 
     left10.whenPressed(new DriveDistance(100, .5));
-    left7.whenPressed(new FullForward());
+    left7.whenPressed(new MoveOnPath("TestPathShortCurveRight", Direction.FORWARD));
 
-    right10.whenPressed(new MoveOnPath(Robot.tpair, "manual", Direction.FORWARD));
+    //right10.whenPressed(new MoveOnPath(Robot.tpair, "manual", Direction.FORWARD));
   }
 
   //COMPLETE:

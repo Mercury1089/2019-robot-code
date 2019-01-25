@@ -13,12 +13,7 @@ import frc.robot.subsystems.DriveTrain;
 //import frc.robot.subsystems.PDP;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 import frc.robot.auton.AutonCommand;
-import frc.robot.util.TrajectoryGenerator.TrajectoryPair;
 import frc.robot.RobotMap.CAN;
-
-import frc.robot.util.TrajectoryGenerator;
-import jaci.pathfinder.Waypoint;
-import jaci.pathfinder.Pathfinder;
 
 //import frc.robot.commands.ExampleCommand;
 //import frc.robot.subsystems.ExampleSubsystem;
@@ -39,8 +34,6 @@ public class Robot extends TimedRobot  {
 
   public static OI oi;
 
-  public static TrajectoryPair tpair;
-
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -54,12 +47,6 @@ public class Robot extends TimedRobot  {
 			CAN.DRIVETRAIN_SL,
 			CAN.DRIVETRAIN_SR
     );
-    
-    tpair = TrajectoryGenerator.generatePair(4.0, 3.0, 60.0, 3.5, new Waypoint[]{
-      new Waypoint(3.00, 3.79, Pathfinder.d2r(0.00)),
-      new Waypoint(12.68, 3.79, Pathfinder.d2r(0.00)),
-      new Waypoint(16.00, 6.80, Pathfinder.d2r(90.00))
-    });
 
 		//pdp = new PDP();
 
@@ -152,7 +139,7 @@ public class Robot extends TimedRobot  {
    */
   @Override
   public void testPeriodic() {
-    super.testInit();
+    /*super.testInit();
     long initTime = System.currentTimeMillis();
 
 		for(int i = 0; i <= 50; i++) {
@@ -165,6 +152,6 @@ public class Robot extends TimedRobot  {
       System.out.println(System.currentTimeMillis() - initTime);
 		}
 
-		System.out.println((System.currentTimeMillis() - initTime) / 50);
+		System.out.println((System.currentTimeMillis() - initTime) / 50);*/
   }
 }
