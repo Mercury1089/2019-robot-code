@@ -2,8 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.revrobotics.CANSparkMax;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -39,7 +39,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     private ADXRS450_Gyro gyroSPI;
 
 	public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096, NEO_ENCODER_TICKS_PER_REVOLUTION = 42;
-	public static final double GEAR_RATIO = 5.35;                   //TEMP
+	public static final double GEAR_RATIO = 1;                   //TEMP
     public static final double MAX_RPM = 700.63;                    //TEMP
     public static final double WHEEL_DIAMETER_INCHES = 5.125;       //TEMP eventually make this stuff configurable in shuffledash
     public static final double NOMINAL_OUT = 0.0, PEAK_OUT = 1.0;
@@ -96,8 +96,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         setNeutralMode(NeutralMode.Brake);
 
         if (layout != DriveTrainLayout.SPARKS) {
-            TalonSRX left = ((MercTalonSRX)masterLeft).get();
-            TalonSRX right = ((MercTalonSRX)masterRight).get();
+            WPI_TalonSRX left = ((MercTalonSRX)masterLeft).get();
+            WPI_TalonSRX right = ((MercTalonSRX)masterRight).get();
 
             //Account for encoder orientation.
             left.setSensorPhase(true);
@@ -115,11 +115,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         }
 
         drive = new DriveAssist(masterLeft, masterRight);
-
+        
         // Set follower control on back talons. Use follow() instead of ControlMode.Follower so that Talons can follow Victors and vice versa.
         followerLeft.follow(masterLeft);
         followerRight.follow(masterRight);
-        
+
         stop();
         configVoltage(NOMINAL_OUT, PEAK_OUT);
         setMaxOutput(PEAK_OUT);
@@ -131,8 +131,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public void stop() {
         masterLeft.stop();
         masterRight.stop();
-        followerLeft.stop();
-        followerRight.stop();
+        if (layout == DriveTrainLayout.SPARKS) {
+            // NOTE: CALLING STOP ON VICTOR FOLLOWERS BREAKS THEM OUT OF FOLLOW MODE !!
+            followerLeft.stop();
+            followerRight.stop();
+        }
     }
 
     public void initDefaultCommand() {
