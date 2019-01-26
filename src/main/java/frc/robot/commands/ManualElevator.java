@@ -33,7 +33,7 @@ public class ManualElevator extends Command {
 
     @Override
     protected void execute() {
-      Robot.protoElevator.getElevatorLeader().setSpeed(Robot.oi.getY(RobotMap.DS_USB.GAMEPAD));
+      Robot.protoElevator.getElevatorLeader().setSpeed(Math.abs(Robot.oi.getY(RobotMap.DS_USB.GAMEPAD)) > 0.08 ? Robot.oi.getY(RobotMap.DS_USB.GAMEPAD) : 0.0);
     }
 
     @Override
