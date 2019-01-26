@@ -3,10 +3,13 @@ package frc.robot.util;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.ControlType;
+import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkMax.ExternalFollower;
 import frc.robot.subsystems.DriveTrain;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.ctre.phoenix.ParamEnum;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import frc.robot.util.interfaces.IMercMotorController;
 
@@ -61,7 +64,7 @@ public class MercSparkMax implements IMercMotorController {
     }
 
     @Override
-    public double getEncPos() {
+    public double getEncTicks() {
         return MercMath.revsToEncoderTicks(sparkmax.getEncoder().getPosition());
     }
 
@@ -96,6 +99,31 @@ public class MercSparkMax implements IMercMotorController {
         else
             mode = IdleMode.kCoast;
         sparkmax.setIdleMode(mode);
+    }
+
+    @Override
+    public void setSensorPhase(boolean sensorPhase) {
+        return;
+    }
+
+    @Override
+    public void configAllowableClosedLoopError(int slotIdx, int allowableCloseLoopError, int timeoutMs) {
+        return;
+    }
+
+    @Override
+    public void configSelectedFeedbackSensor(FeedbackDevice FeedbackDevice, int pidIdx, int timeoutMs) {
+        return;
+    }
+
+    @Override
+    public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs) {
+        return;
+    }
+
+    @Override
+    public boolean isLimitSwitchClosed() {
+        return sparkmax.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen).get(); //TODO Check if this limit switch is forward or backwards
     }
 
 //_________________________________________________________________________________

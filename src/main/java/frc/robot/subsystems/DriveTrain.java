@@ -174,11 +174,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     }
 
     public double getLeftEncPositionInTicks() {
-        return masterLeft.getEncPos();
+        return masterLeft.getEncTicks();
     }
 
     public double getRightEncPositionInTicks() {
-        return masterRight.getEncPos();
+        return masterRight.getEncTicks();
     }
 
     public double getLeftEncPositionInFeet() {

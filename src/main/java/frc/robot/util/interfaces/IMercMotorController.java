@@ -1,6 +1,8 @@
 package frc.robot.util.interfaces;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.ParamEnum;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 public interface IMercMotorController {
     /**
@@ -56,7 +58,7 @@ public interface IMercMotorController {
      * 
      * @return the encoder position of the controller
      */
-    public double getEncPos();
+    public double getEncTicks();
 
     /**
      * Want the encoder velocity of the controller?
@@ -99,4 +101,20 @@ public interface IMercMotorController {
      * @param nm the NeutralMode to set it to
      */
     public void setNeutralMode(NeutralMode neutralMode);
+
+    /**
+     * 
+     */
+    public void setSensorPhase(boolean bool);
+
+    /**
+     * 
+     */
+    public void configAllowableClosedLoopError(int slotIdx, int allowableCloseLoopError, int timeoutMs);
+
+    public void configSelectedFeedbackSensor(FeedbackDevice FeedbackDevice, int pidIdx, int timeoutMs);
+
+    public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs);
+
+    public boolean isLimitSwitchClosed();
 }

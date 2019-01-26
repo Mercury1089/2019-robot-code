@@ -75,6 +75,8 @@ public class OI {
         return leftJoystick.getY();
       case DS_USB.RIGHT_STICK:
         return rightJoystick.getY();
+      case DS_USB.GAMEPAD:
+				return -gamepad.getRawAxis(5);
       default:
         return 0;
     }

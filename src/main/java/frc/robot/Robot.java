@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.ProtoElevator;
 import frc.robot.subsystems.ProtoIntake;
 import frc.robot.subsystems.ProtoShooter;
 //import frc.robot.subsystems.PDP;
@@ -33,6 +34,7 @@ public class Robot extends TimedRobot  {
   //public static PDP pdp;
   public static ProtoIntake protoIntake;
   public static ProtoShooter protoShooter;
+  public static ProtoElevator protoElevator;
 
 	private AutonCommand autonCommand;
 
@@ -50,6 +52,7 @@ public class Robot extends TimedRobot  {
 
     //pdp = new PDP();
     protoShooter = new ProtoShooter();
+    protoElevator = new ProtoElevator(RobotMap.CAN.ELEVATOR_TALON, RobotMap.CAN.ELEVATOR_VICTOR);
 
 		// OI NEEDS to be constructed as the last line for everything to work.
     oi = new OI();

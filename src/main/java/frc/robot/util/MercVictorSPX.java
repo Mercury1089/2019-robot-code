@@ -1,9 +1,11 @@
 package frc.robot.util;
 
+import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import frc.robot.subsystems.DriveTrain;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import frc.robot.util.interfaces.IMercMotorController;
 
@@ -57,7 +59,7 @@ public class MercVictorSPX implements IMercMotorController {
     }
 
     @Override
-    public double getEncPos() {
+    public double getEncTicks() {
         return 0;
     }
 
@@ -90,6 +92,31 @@ public class MercVictorSPX implements IMercMotorController {
     @Override
     public void setNeutralMode(NeutralMode neutralMode) {
         victorspx.setNeutralMode(neutralMode);
+    }
+
+    @Override
+    public void setSensorPhase(boolean sensorPhase) {
+        victorspx.setSensorPhase(sensorPhase);
+    }
+
+    @Override
+    public void configAllowableClosedLoopError(int slotIdx, int allowableCloseLoopError, int timeoutMs) {
+        victorspx.configAllowableClosedloopError(slotIdx, allowableCloseLoopError, timeoutMs);
+    }
+
+    @Override
+    public void configSelectedFeedbackSensor(FeedbackDevice FeedbackDevice, int pidIdx, int timeoutMs) {
+        victorspx.configSelectedFeedbackSensor(FeedbackDevice, pidIdx, timeoutMs);
+    }
+
+    @Override
+    public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs) {
+        victorspx.configSetParameter(param, value, subValue, ordinal, timeoutMs);
+    }
+
+    @Override
+    public boolean isLimitSwitchClosed() {
+        return false;
     }
 
 //_________________________________________________________________________________

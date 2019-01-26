@@ -1,11 +1,13 @@
 package frc.robot.util;
 
+import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.Robot;
@@ -59,7 +61,7 @@ public class MercTalonSRX implements IMercMotorController {
     }
 
     @Override
-    public double getEncPos() {
+    public double getEncTicks() {
         return talonsrx.getSelectedSensorPosition(0);
     }
 
@@ -92,6 +94,31 @@ public class MercTalonSRX implements IMercMotorController {
     @Override
     public void setNeutralMode(NeutralMode neutralMode) {
         talonsrx.setNeutralMode(neutralMode);
+    }
+
+    @Override
+    public void setSensorPhase(boolean sensorPhase) {
+        talonsrx.setSensorPhase(sensorPhase);
+    }
+
+    @Override
+    public void configAllowableClosedLoopError(int slotIdx, int allowableCloseLoopError, int timeoutMs) {
+        talonsrx.configAllowableClosedloopError(slotIdx, allowableCloseLoopError, timeoutMs);
+    }
+
+    @Override
+    public void configSelectedFeedbackSensor(FeedbackDevice FeedbackDevice, int pidIdx, int timeoutMs) {
+        talonsrx.configSelectedFeedbackSensor(FeedbackDevice, pidIdx, timeoutMs);
+    }
+
+    @Override
+    public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs) {
+        talonsrx.configSetParameter(param, value, subValue, ordinal, timeoutMs);
+    }
+
+    @Override
+    public boolean isLimitSwitchClosed() {
+        return talonsrx.getSensorCollection().isRevLimitSwitchClosed();
     }
 
 //_________________________________________________________________________________
