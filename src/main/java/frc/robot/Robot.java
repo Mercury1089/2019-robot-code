@@ -143,19 +143,6 @@ public class Robot extends TimedRobot  {
    */
   @Override
   public void testPeriodic() {
-    /*super.testInit();
-    long initTime = System.currentTimeMillis();
-
-		for(int i = 0; i <= 50; i++) {
-			TrajectoryGenerator.generatePair(
-                4.0, 3.0, 60.0, 3.4, new Waypoint[]{
-                        new Waypoint(20.65, 3.00, Pathfinder.d2r(-90.00)),
-                        new Waypoint(20.65, 6.00, Pathfinder.d2r(-90.00)),
-                        new Waypoint(17.42, 8.855, Pathfinder.d2r(-180.00))
-                });
-      System.out.println(System.currentTimeMillis() - initTime);
-		}
-
-		System.out.println((System.currentTimeMillis() - initTime) / 50);*/
+    super.testInit();
   }
 }

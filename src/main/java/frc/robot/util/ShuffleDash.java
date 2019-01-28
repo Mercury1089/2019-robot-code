@@ -14,7 +14,7 @@ public class ShuffleDash {
     private NetworkTableInstance ntInstance;
 
     public ShuffleDash() {
-        new Notifier(this::updateDash).startPeriodic(0.050);
+        new Notifier(this::updateDash).startPeriodic(0.020);
 
         ntInstance = NetworkTableInstance.getDefault();
     }

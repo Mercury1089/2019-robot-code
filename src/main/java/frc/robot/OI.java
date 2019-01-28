@@ -50,8 +50,6 @@ public class OI {
 
     right1.whenPressed(new RunShooter(ShooterSpeed.FAST_EJECT));
     right2.whenPressed(new RunShooter(ShooterSpeed.STOP));
-
-    //right10.whenPressed(new MoveOnPath(Robot.tpair, "manual", Direction.FORWARD));
   }
 
   //COMPLETE:
