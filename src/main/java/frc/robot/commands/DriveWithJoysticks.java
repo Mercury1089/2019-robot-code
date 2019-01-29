@@ -8,6 +8,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap.DS_USB;
 import frc.robot.util.DelayableLogger;
 import frc.robot.util.DriveAssist;
+import frc.robot.subsystems.DriveTrain;
 
 import java.util.concurrent.TimeUnit;
 
@@ -30,6 +31,7 @@ public class DriveWithJoysticks extends Command {
 	public DriveWithJoysticks(DriveType type) {
 		requires(Robot.driveTrain);
 		setName("DriveWithJoysticks Command");
+		Robot.driveTrain.configVoltage(DriveTrain.NOMINAL_OUT, DriveTrain.PEAK_OUT);
 		driveType = type;
 		log.debug(getName() + " command created");
 	}

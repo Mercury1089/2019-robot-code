@@ -7,7 +7,6 @@ import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.SetValueMotionProfile;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.util.MercTalonSRX;
@@ -15,18 +14,13 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.Waypoint;
-import jaci.pathfinder.modifiers.TankModifier;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.util.MercMath;
-import frc.robot.util.config.DriveTrainSettings;
-import frc.robot.util.TrajectoryGenerator;
 import frc.robot.util.TrajectoryGenerator.TrajectoryPair;
-import jaci.pathfinder.Pathfinder;
 
 import java.io.File;
 
@@ -59,20 +53,15 @@ public class MoveOnPath extends Command {
      *
      * @param name name of the trajectory
      */
-	public MoveOnPath(String filename, Direction direction) {
-        this(new TrajectoryPair(
-                Pathfinder.readFromCSV(new File("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".left.pf1.csv")),
-                Pathfinder.readFromCSV(new File("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".right.pf1.csv"))),
-                filename, direction);
-    }
-    
-    public MoveOnPath(TrajectoryPair pair, String filename, Direction direction) {
+    public MoveOnPath(String filename, Direction direction) {
         requires(Robot.driveTrain);
         setName("MoveOnPath-" + filename);
         log.info(getName() + " Beginning constructor");
+        
+        trajectoryL = Pathfinder.readFromCSV(new File("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".left.pf1.csv"));
+        trajectoryR = Pathfinder.readFromCSV(new File("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".right.pf1.csv"));
 
-        trajectoryL = pair.getLeft();
-        trajectoryR = pair.getRight();
+        System.out.println(trajectoryL);
 
         left = ((MercTalonSRX)Robot.driveTrain.getLeft()).get();
         right = ((MercTalonSRX)Robot.driveTrain.getRight()).get();
@@ -99,7 +88,7 @@ public class MoveOnPath extends Command {
 
         if (trajectoryL != null) {
             TRAJECTORY_SIZE = trajectoryL.length();
-
+            System.out.println("traj size test - " + TRAJECTORY_SIZE);
             log.info(getName() + " construced: " + TRAJECTORY_SIZE);
         } else {
             TRAJECTORY_SIZE = 0;
@@ -129,11 +118,13 @@ public class MoveOnPath extends Command {
         // Start processing
         // i.e.: moving API points to RAM
         trajectoryProcessor.startPeriodic(0.005);
+        System.out.println("mop initialized");
         log.info(getName() + " Initialized");
 	}
 
 	//Called repeatedly when this Command is scheduled to run.
 	protected void execute() {
+        System.out.println("mop executing");
         left.getMotionProfileStatus(statusLeft);
         right.getMotionProfileStatus(statusRight);
 

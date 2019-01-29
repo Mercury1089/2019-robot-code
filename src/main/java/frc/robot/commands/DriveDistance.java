@@ -59,7 +59,6 @@ public class DriveDistance extends Command implements Recallable<Double> {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-
         distanceTraveled = Double.NEGATIVE_INFINITY;
 
         if (originator != null) {
@@ -69,7 +68,10 @@ public class DriveDistance extends Command implements Recallable<Double> {
                 distance *= -1;
         }
 
+        System.out.println("SETTING PIDF STARTING - DD " + System.currentTimeMillis());
         setPIDF(pid[0], pid[1], pid[2], 0);
+        System.out.println("SETTING PIDF ENDING - DD " + System.currentTimeMillis());
+
         Robot.driveTrain.configVoltage(volts[0], volts[1]);
 
         initialDistance = Robot.driveTrain.getLeftEncPositionInFeet();
@@ -77,10 +79,12 @@ public class DriveDistance extends Command implements Recallable<Double> {
         updateDistance();
 
         log.info(getName() + " initialized");
+        
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+        long initialTime = System.currentTimeMillis();
         boolean isFinished = false;
 
         double leftError = Robot.driveTrain.getLeft().getClosedLoopError();
@@ -103,11 +107,14 @@ public class DriveDistance extends Command implements Recallable<Double> {
             log.info("DriveDistance ended");
         }
 
+        //System.out.println(System.currentTimeMillis() - initialTime);
+
         return isFinished;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+        System.out.println("END STARTING " + System.currentTimeMillis());
         Robot.driveTrain.stop();
 
         // Get distance delta
@@ -120,6 +127,7 @@ public class DriveDistance extends Command implements Recallable<Double> {
         Robot.driveTrain.configVoltage(DriveTrain.NOMINAL_OUT, DriveTrain.PEAK_OUT);
 
         log.info("Final Distance: " + distanceTraveled);
+        System.out.println("END ENDING " + System.currentTimeMillis());
     }
 
     // Called when another command which requires one or more of the same

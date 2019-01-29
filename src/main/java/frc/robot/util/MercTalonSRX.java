@@ -77,10 +77,15 @@ public class MercTalonSRX implements IMercMotorController {
 
     @Override
     public void configPID(double p, double i, double d, double f) {
+        System.out.println("SETTING PIDF STARTING - kP " + System.currentTimeMillis());
         talonsrx.config_kP(DriveTrain.SLOT_0, p, DriveTrain.TIMEOUT_MS);
+        //System.out.println("SETTING PIDF ENDING - kP; SETTING I " + System.currentTimeMillis());
         talonsrx.config_kI(DriveTrain.SLOT_0, i, DriveTrain.TIMEOUT_MS);
+        //System.out.println("SETTING PIDF ENDING - kI; SETTING D " + System.currentTimeMillis());
         talonsrx.config_kD(DriveTrain.SLOT_0, d, DriveTrain.TIMEOUT_MS);
+        //System.out.println("SETTING PIDF ENDING - kD; SETTING F " + System.currentTimeMillis());
         talonsrx.config_kF(DriveTrain.SLOT_0, f, DriveTrain.TIMEOUT_MS);
+        System.out.println("SETTING PIDF ENDING - kF (Done) " + System.currentTimeMillis());
     }
 
     @Override

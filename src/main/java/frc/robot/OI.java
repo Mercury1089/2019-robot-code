@@ -46,7 +46,7 @@ public class OI {
 
     left1.whenPressed(new RunShooter(ShooterSpeed.FAST_INTAKE));
     left7.whenPressed(new MoveOnPath("TestPathShortCurveRight", Direction.FORWARD));
-    left10.whenPressed(new DriveDistance(100, .5));
+    left10.whenPressed(new DriveDistance(100, .7));
 
     right1.whenPressed(new RunShooter(ShooterSpeed.FAST_EJECT));
     right2.whenPressed(new RunShooter(ShooterSpeed.STOP));
@@ -78,5 +78,9 @@ public class OI {
       default:
         return 0;
     }
+  }
+
+  public void updateDash() {
+    shuffleDash.updateDash();
   }
 }
