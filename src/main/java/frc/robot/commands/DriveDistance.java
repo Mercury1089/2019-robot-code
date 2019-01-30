@@ -25,7 +25,6 @@ public class DriveDistance extends Command implements Recallable<Double> {
     protected double distance;
     protected double percentVoltage; // Voltage is NOW from [-1, 1]
 
-    private double[] pid = {.025, 0, .05};      //TEMP eventually make this configurable through constructor
     private double[] volts = {.25, .5};         //TEMP output range; make configurable
 
     private double initialDistance;
@@ -67,10 +66,6 @@ public class DriveDistance extends Command implements Recallable<Double> {
             if (treatment == RecallMethod.REVERSE)
                 distance *= -1;
         }
-
-        System.out.println("SETTING PIDF STARTING - DD " + System.currentTimeMillis());
-        setPIDF(pid[0], pid[1], pid[2], 0);
-        System.out.println("SETTING PIDF ENDING - DD " + System.currentTimeMillis());
 
         Robot.driveTrain.configVoltage(volts[0], volts[1]);
 
@@ -157,19 +152,6 @@ public class DriveDistance extends Command implements Recallable<Double> {
 
         Robot.driveTrain.getLeft().setPosition(endPosL);
         Robot.driveTrain.getRight().setPosition(endPosR);
-    }
-
-    /**
-     * Sets PID values on both leader talons
-     *
-     * @param p proportional value
-     * @param i integral value
-     * @param d derivative value
-     * @param f feed-forward value
-     */
-    private void setPIDF(double p, double i, double d, double f) {
-        Robot.driveTrain.getLeft().configPID(p, i, d, f);
-        Robot.driveTrain.getRight().configPID(p, i, d, f);
     }
 
     @Override

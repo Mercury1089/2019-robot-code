@@ -104,10 +104,6 @@ public class MoveOnPath extends Command {
 	    // Reset command state
         reset();
 
-        // Configure PID values
-        double[] pid = {0.6,0.0,0.0};
-        configurePID(pid[0], pid[1], pid[2], Robot.driveTrain.getFeedForward());
-
         // Change motion control frame period
         left.changeMotionControlFramePeriod(10);
         right.changeMotionControlFramePeriod(10);
@@ -188,8 +184,8 @@ public class MoveOnPath extends Command {
             trajPointR.position = MercMath.feetToEncoderTicks(currentPosR);
             trajPointL.velocity = MercMath.revsPerMinuteToTicksPerTenth(velocityL); //Convert RPM to Units/100ms
             trajPointR.velocity = MercMath.revsPerMinuteToTicksPerTenth(velocityR);
-            trajPointL.profileSlotSelect0 = DriveTrain.SLOT_0;
-            trajPointR.profileSlotSelect0 = DriveTrain.SLOT_0;
+            trajPointL.profileSlotSelect0 = DriveTrain.DRIVE_SMOOTH_MOTION_SLOT;
+            trajPointR.profileSlotSelect0 = DriveTrain.DRIVE_SMOOTH_MOTION_SLOT;
 
             // Sets the duration of each trajectory point to 20ms
             trajPointL.timeDur = 15;
@@ -207,20 +203,6 @@ public class MoveOnPath extends Command {
             left.pushMotionProfileTrajectory(trajPointL);
             right.pushMotionProfileTrajectory(trajPointR);
         }
-    }
-
-    private void configurePID(double p, double i, double d, double f) {
-        left.config_kP(DriveTrain.SLOT_0, p, DriveTrain.TIMEOUT_MS);
-        right.config_kP(DriveTrain.SLOT_0, p, DriveTrain.TIMEOUT_MS);
-
-        left.config_kI(DriveTrain.SLOT_0, i, DriveTrain.TIMEOUT_MS);
-        right.config_kI(DriveTrain.SLOT_0, i, DriveTrain.TIMEOUT_MS);
-
-        left.config_kD(DriveTrain.SLOT_0, d, DriveTrain.TIMEOUT_MS);
-        right.config_kD(DriveTrain.SLOT_0, d, DriveTrain.TIMEOUT_MS);
-
-        left.config_kF(DriveTrain.SLOT_0, f, DriveTrain.TIMEOUT_MS);
-        right.config_kF(DriveTrain.SLOT_0, f, DriveTrain.TIMEOUT_MS);
     }
 
     private void setMotionProfileMode(SetValueMotionProfile value) {

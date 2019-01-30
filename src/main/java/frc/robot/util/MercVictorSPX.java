@@ -74,11 +74,11 @@ public class MercVictorSPX implements IMercMotorController {
     }
 
     @Override
-    public void configPID(double p, double i, double d, double f) {
-        victorspx.config_kP(DriveTrain.SLOT_0, p, DriveTrain.TIMEOUT_MS);
-        victorspx.config_kI(DriveTrain.SLOT_0, i, DriveTrain.TIMEOUT_MS);
-        victorspx.config_kD(DriveTrain.SLOT_0, d, DriveTrain.TIMEOUT_MS);
-        victorspx.config_kF(DriveTrain.SLOT_0, f, DriveTrain.TIMEOUT_MS);
+    public void configPID(int slot, PIDGain gains) {
+        victorspx.config_kP(slot, gains.kP, 10);
+        victorspx.config_kI(slot, gains.kI, 10);
+        victorspx.config_kD(slot, gains.kD, 10);
+        victorspx.config_kF(slot, gains.kF, 10);
     }
 
     @Override

@@ -10,9 +10,12 @@ package frc.robot.commands;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.Robot;
+import frc.robot.subsystems.DriveTrain;
 
 public class MagicAlign extends Command {
+  IMercMotorController leftI, rightI;
   WPI_TalonSRX left, right;
 
   public MagicAlign() {
@@ -20,8 +23,11 @@ public class MagicAlign extends Command {
     // eg. requires(chassis);
     requires(Robot.driveTrain);
 
-    left = (WPI_TalonSRX)Robot.driveTrain.getLeft();
-    right = (WPI_TalonSRX)Robot.driveTrain.getRight();
+    leftI = Robot.driveTrain.getLeft();
+    rightI = Robot.driveTrain.getRight();
+
+    left = (WPI_TalonSRX)(leftI);
+    right = (WPI_TalonSRX)(rightI);
   }
 
   // Called just before this Command runs the first time
@@ -30,7 +36,14 @@ public class MagicAlign extends Command {
     left.configMotionAcceleration(2000, 40);
     left.configMotionCruiseVelocity(2000, 40);
     right.configMotionAcceleration(2000, 40);
-		right.configMotionCruiseVelocity(2000, 40);
+    right.configMotionCruiseVelocity(2000, 40);
+    
+    left.configPeakOutputForward(+1.0, 10);
+		left.configPeakOutputReverse(-1.0, 10);
+		right.configPeakOutputForward(+1.0, 10);
+		right.configPeakOutputReverse(-1.0, 10);
+    
+    
   }
 
   // Called repeatedly when this Command is scheduled to run

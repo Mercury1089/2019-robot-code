@@ -79,11 +79,11 @@ public class MercSparkMax implements IMercMotorController {
     }
 
     @Override
-    public void configPID(double p, double i, double d, double f) {
-        sparkmax.getPIDController().setP(p, DriveTrain.SLOT_0);
-        sparkmax.getPIDController().setI(i, DriveTrain.SLOT_0);
-        sparkmax.getPIDController().setD(d, DriveTrain.SLOT_0);
-        sparkmax.getPIDController().setFF(f, DriveTrain.SLOT_0);
+    public void configPID(int slot, PIDGain gains) {
+        sparkmax.getPIDController().setP(gains.kP, slot);
+        sparkmax.getPIDController().setI(gains.kI, slot);
+        sparkmax.getPIDController().setD(gains.kD, slot);
+        sparkmax.getPIDController().setFF(gains.kF, slot);
     }
 
     @Override

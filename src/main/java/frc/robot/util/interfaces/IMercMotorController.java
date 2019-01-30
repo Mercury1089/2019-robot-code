@@ -1,6 +1,9 @@
 package frc.robot.util.interfaces;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import frc.robot.util.PIDGain;
+
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
@@ -79,12 +82,10 @@ public interface IMercMotorController {
     /**
      * Configure PID for the motor controller
      * 
-     * @param p Proportional
-     * @param i Integral
-     * @param d Derivative
-     * @param f Feed Forward
+     * @param slot slot to put it in
+     * @param gains i got mad gains
      */
-    public void configPID(double p, double i, double d, double f);
+    public void configPID(int slot, PIDGain gains);
 
     /**
      * Configure the min and max voltage.

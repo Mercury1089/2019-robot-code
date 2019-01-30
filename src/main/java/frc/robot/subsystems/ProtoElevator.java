@@ -20,6 +20,7 @@ import frc.robot.commands.ManualElevator;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.MercVictorSPX;
 import frc.robot.util.interfaces.IMercMotorController;
+import frc.robot.util.PIDGain;
 
 /**
  * Add your docs here.
@@ -127,7 +128,7 @@ public class ProtoElevator extends Subsystem {
      * @param pid the pid values
      */
     public void setPosition(ElevatorPosition ep) {
-      elevatorLeader.configPID(ep.pVal, ep.iVal, ep.dVal, 0);
+      elevatorLeader.configPID(0, new PIDGain(ep.pVal, ep.iVal, ep.dVal, 0));
 
       position = ep;
     }

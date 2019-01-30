@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import frc.robot.util.PIDGain;
 import frc.robot.RobotMap.CAN;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.util.interfaces.IMercMotorController;
@@ -30,8 +31,8 @@ import frc.robot.util.DriveAssist;
 public class DriveTrain extends Subsystem implements PIDOutput {
     private Logger log = LogManager.getLogger(DriveTrain.class);
     public static final int TIMEOUT_MS = 10;
-    public static final int SLOT_0 = 0;
-    public static final int PRIMARY_PID_LOOP = 0;
+    public static final int DRIVE_PID_SLOT = 0;
+    public static final int DRIVE_SMOOTH_MOTION_SLOT = 1;
 
     public static final double MAX_SPEED = 1;
     public static final double MIN_SPEED = -1;
@@ -49,6 +50,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public static final double NOMINAL_OUT = 0.0, PEAK_OUT = 1.0;
 
     private DriveTrainLayout layout;
+    private final PIDGain DRIVE_GAINS, SMOOTH_GAINS;
 
     public enum DriveTrainLayout {
         SPARKS,
@@ -95,10 +97,10 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         podgeboi = new PigeonIMU(CAN.PIGEON);
 
         //Account for motor orientation.
-        masterLeft.setInverted(false);
-        followerLeft.setInverted(false);
-        masterRight.setInverted(true);
-        followerRight.setInverted(true);
+        masterLeft.setInverted(true);
+        followerLeft.setInverted(true);
+        masterRight.setInverted(false);
+        followerRight.setInverted(false);
 
         setNeutralMode(NeutralMode.Brake);
 
@@ -113,8 +115,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
             // Set up feedback sensors
             // Using CTRE_MagEncoder_Relative allows for relative ticks when encoder is zeroed out.
             // This allows us to measure the distance from any given point to any ending point.
-            left.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PRIMARY_PID_LOOP, TIMEOUT_MS);
-            right.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PRIMARY_PID_LOOP, TIMEOUT_MS);
+            left.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DRIVE_PID_SLOT, TIMEOUT_MS);
+            right.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DRIVE_PID_SLOT, TIMEOUT_MS);
 
             //Reset encoders (can't do this with Sparks)
             left.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
@@ -127,6 +129,14 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         followerLeft.follow(masterLeft);
         followerRight.follow(masterRight);
 
+        // Config PID
+        DRIVE_GAINS = new PIDGain(0.025, 0.0, 0.05, 0.0);
+        SMOOTH_GAINS = new PIDGain(0.6, 0.0, 0.0, getFeedForward());
+        masterRight.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
+        masterLeft.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
+        masterRight.configPID(DRIVE_SMOOTH_MOTION_SLOT, SMOOTH_GAINS);
+        masterLeft.configPID(DRIVE_SMOOTH_MOTION_SLOT, SMOOTH_GAINS);
+        
         stop();
         configVoltage(NOMINAL_OUT, PEAK_OUT);
         setMaxOutput(PEAK_OUT);
