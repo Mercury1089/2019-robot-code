@@ -11,7 +11,7 @@ public class CalibrateGyro extends Command {
 
     public void initialize() {
         System.out.println("Calibrating gyro...");
-        Robot.driveTrain.getGyro().calibrate();
+        Robot.driveTrain.getSPIGyro().calibrate();
     }
 
     @Override

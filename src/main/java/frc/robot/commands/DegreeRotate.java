@@ -47,7 +47,7 @@ public class DegreeRotate extends PIDCommand implements Recallable<Double> {
     	this.targetHeading = targetHeading;
     	this.rotationType = rotationType;
 
-    	this.gyro = Robot.driveTrain.getGyro();
+    	this.gyro = Robot.driveTrain.getSPIGyro();
 
     	MIN_PERCENT_VBUS = DriveTrainSettings.getRotMinPVBus();
 

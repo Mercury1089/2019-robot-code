@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -32,13 +33,14 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public static final int SLOT_0 = 0;
     public static final int PRIMARY_PID_LOOP = 0;
 
-    public static final double MAX_SPEED = 0.05;
-    public static final double MIN_SPEED = 1;
+    public static final double MAX_SPEED = 1;
+    public static final double MIN_SPEED = -1;
 
     private IMercMotorController masterLeft, masterRight, followerLeft, followerRight;
 
     private DriveAssist drive;
     private ADXRS450_Gyro gyroSPI;
+    private PigeonIMU podgeboi;
 
 	public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096, NEO_ENCODER_TICKS_PER_REVOLUTION = 42;
 	public static final double GEAR_RATIO = 1;                   //TEMP
@@ -89,11 +91,14 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         //Initialize the gyro that is currently on the robot. Comment out the initialization of the one not in use.
         gyroSPI = new ADXRS450_Gyro();
 
+        //Initialize podgeboi
+        podgeboi = new PigeonIMU(CAN.PIGEON);
+
         //Account for motor orientation.
-        masterLeft.setInverted(true);
-        followerLeft.setInverted(true);
-        masterRight.setInverted(false);
-        followerRight.setInverted(false);
+        masterLeft.setInverted(false);
+        followerLeft.setInverted(false);
+        masterRight.setInverted(true);
+        followerRight.setInverted(true);
 
         setNeutralMode(NeutralMode.Brake);
 
@@ -160,9 +165,17 @@ public class DriveTrain extends Subsystem implements PIDOutput {
      *
      * @return The gyro, either the NavX or Analog Gyro, currently in use on the robot
      */
-    public Gyro getGyro() {
+    public Gyro getSPIGyro() {
         if (gyroSPI != null) {
             return gyroSPI;
+        } else {
+            return null;
+        }
+    }
+
+    public PigeonIMU getPigeon() {
+        if (podgeboi != null) {
+            return podgeboi;
         } else {
             return null;
         }
