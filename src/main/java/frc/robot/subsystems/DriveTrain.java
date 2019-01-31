@@ -34,10 +34,12 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public static final int TIMEOUT_MS = 10;
     public static final int DRIVE_PID_SLOT = 0;
     public static final int DRIVE_SMOOTH_MOTION_SLOT = 1;
+    public static final int REMOTE_DEVICE_1 = 0;
+    public static final int PRIMARY_LOOP = 0;
+    public static final int AUXILIARY_LOOP = 1;
 
     public static final double MAX_SPEED = 1;
     public static final double MIN_SPEED = -1;
-    public static final int REMOTE_DEVICE_1 = 0;
 
     private IMercMotorController masterLeft, masterRight, followerLeft, followerRight;
 

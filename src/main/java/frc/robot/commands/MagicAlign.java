@@ -67,13 +67,18 @@ public class MagicAlign extends Command {
     right.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, DriveTrain.TIMEOUT_MS);
     right.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, DriveTrain.TIMEOUT_MS);
     right.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20, DriveTrain.TIMEOUT_MS);
-    right.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, DriveTrain.TIMEOUT_MS);
+    
+    left.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, DriveTrain.TIMEOUT_MS);
+    left.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, DriveTrain.TIMEOUT_MS);
+    left.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, DriveTrain.TIMEOUT_MS);
+    left.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20, DriveTrain.TIMEOUT_MS);
+
     Robot.driveTrain.getPigeon().setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_9_SixDeg_YPR , 5, DriveTrain.TIMEOUT_MS);
     
-    left.selectProfileSlot(Constants.kSlot_Distanc, Constants.PID_PRIMARY);
-    left.selectProfileSlot(Constants.kSlot_Turning, Constants.PID_TURN);
-    right.selectProfileSlot(Constants.kSlot_Distanc, Constants.PID_PRIMARY);
-    right.selectProfileSlot(Constants.kSlot_Turning, Constants.PID_TURN);
+    left.selectProfileSlot(DriveTrain.DRIVE_PID_SLOT, DriveTrain.PRIMARY_LOOP);
+    left.selectProfileSlot(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT, DriveTrain.AUXILIARY_LOOP);
+    right.selectProfileSlot(DriveTrain.DRIVE_PID_SLOT, DriveTrain.PRIMARY_LOOP);
+    right.selectProfileSlot(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT, DriveTrain.AUXILIARY_LOOP);
     
 			
 		/* Calculate targets from gamepad inputs */
