@@ -155,10 +155,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     }
     
     public void resetEncoders() {
-        //Reset encoders (can't do this with Sparks)
-        if (layout != DriveTrainLayout.SPARKS)
-        ((MercTalonSRX)(masterLeft)).get().getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
-        ((MercTalonSRX)(masterRight)).get().getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
+        masterLeft.resetEncoders();
+        masterRight.resetEncoders();
     }
 
     /**
