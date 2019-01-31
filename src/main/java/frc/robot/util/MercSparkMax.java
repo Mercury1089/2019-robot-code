@@ -73,6 +73,10 @@ public class MercSparkMax implements IMercMotorController {
         return sparkmax.getEncoder().getVelocity();
     }
 
+    public void resetEncoders() {
+        return;
+    }
+
     @Override
     public double getClosedLoopError() {
         return setPos - sparkmax.getEncoder().getPosition();

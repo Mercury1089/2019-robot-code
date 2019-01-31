@@ -128,9 +128,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
             left.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DRIVE_SMOOTH_MOTION_SLOT, TIMEOUT_MS);
             right.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DRIVE_SMOOTH_MOTION_SLOT, TIMEOUT_MS);
 
-            //Reset encoders (can't do this with Sparks)
-            left.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
-            right.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
+            resetEncoders();
         }
 
         drive = new DriveAssist(masterLeft, masterRight);
@@ -152,6 +150,17 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         setMaxOutput(PEAK_OUT);
     }
 
+    public void initDefaultCommand() {
+        setDefaultCommand(new DriveWithJoysticks(DriveWithJoysticks.DriveType.ARCADE));
+    }
+    
+    public void resetEncoders() {
+        //Reset encoders (can't do this with Sparks)
+        if (layout != DriveTrainLayout.SPARKS)
+        ((MercTalonSRX)(masterLeft)).get().getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
+        ((MercTalonSRX)(masterRight)).get().getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);
+    }
+
     /**
      * Stops the drive train.
      */
@@ -163,10 +172,6 @@ public class DriveTrain extends Subsystem implements PIDOutput {
             followerLeft.stop();
             followerRight.stop();
         }
-    }
-
-    public void initDefaultCommand() {
-        setDefaultCommand(new DriveWithJoysticks(DriveWithJoysticks.DriveType.ARCADE));
     }
 
     /**

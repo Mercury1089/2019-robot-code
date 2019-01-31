@@ -69,6 +69,11 @@ public class MercVictorSPX implements IMercMotorController {
     }
 
     @Override
+    public void resetEncoders() {
+        return;
+    }
+
+    @Override
     public double getClosedLoopError() {
         return victorspx.getClosedLoopError(0);
     }

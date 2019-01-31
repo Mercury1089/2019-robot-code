@@ -71,6 +71,8 @@ public interface IMercMotorController {
      */
     public double getEncVelo();
 
+    public void resetEncoders();
+
     /**
      * Want the error from setpoint?
      * NOTE: Not to be used with Victors (no connected encoder)

@@ -71,6 +71,11 @@ public class MercTalonSRX implements IMercMotorController {
     }
 
     @Override
+    public void resetEncoders() {
+        talonsrx.getSensorCollection().setQuadraturePosition(0, DriveTrain.TIMEOUT_MS);
+    }
+
+    @Override
     public double getClosedLoopError() {
         return talonsrx.getClosedLoopError(0);
     }
