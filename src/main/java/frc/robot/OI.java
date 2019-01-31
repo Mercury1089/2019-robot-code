@@ -15,9 +15,6 @@ import frc.robot.commands.DriveDistance;
 import frc.robot.commands.MoveOnPath;
 import frc.robot.commands.MoveOnPath.Direction;
 import frc.robot.subsystems.ProtoShooter.ShooterSpeed;
-import jaci.pathfinder.Waypoint;
-import jaci.pathfinder.Pathfinder;
-import frc.robot.util.TrajectoryGenerator;
 import frc.robot.commands.RunShooter;
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -52,9 +49,7 @@ public class OI {
     right2.whenPressed(new RunShooter(ShooterSpeed.STOP));
   }
 
-  //COMPLETE:
   public double getX(int port) {
-    //return 0;
     switch(port) {
       case DS_USB.LEFT_STICK:
         return leftJoystick.getX();
@@ -65,9 +60,7 @@ public class OI {
     }
   }
 
-  //COMPLETE:
   public double getY(int port) {
-    //return 0;
     switch(port) {
       case DS_USB.LEFT_STICK:
         return leftJoystick.getY();

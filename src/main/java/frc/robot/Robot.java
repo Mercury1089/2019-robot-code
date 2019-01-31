@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.DriveTrain;
@@ -29,7 +30,8 @@ import frc.robot.RobotMap.CAN;
  * project.
  */
 public class Robot extends TimedRobot  {
-  //public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
+  public static NetworkTableInstance nti;
+
   public static DriveTrain driveTrain;
   //public static PDP pdp;
   public static ProtoIntake protoIntake;
@@ -46,6 +48,8 @@ public class Robot extends TimedRobot  {
    */
   @Override
   public void robotInit() {
+    nti = NetworkTableInstance.getDefault();
+
     driveTrain = new DriveTrain(
       DriveTrainLayout.TALONS
     );
@@ -54,7 +58,6 @@ public class Robot extends TimedRobot  {
     protoShooter = new ProtoShooter();
     protoElevator = new ProtoElevator(RobotMap.CAN.ELEVATOR_TALON, RobotMap.CAN.ELEVATOR_VICTOR);
 
-		// OI NEEDS to be constructed as the last line for everything to work.
     oi = new OI();
   }
 
@@ -68,7 +71,7 @@ public class Robot extends TimedRobot  {
    */
   @Override
   public void robotPeriodic() {
-    //oi.updateDash();
+    oi.updateDash();
   }
 
   /**

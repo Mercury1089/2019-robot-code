@@ -18,6 +18,8 @@ public class MagicAlign extends Command {
   IMercMotorController leftI, rightI;
   WPI_TalonSRX left, right;
 
+  double distance, heading;
+
   public MagicAlign() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -46,8 +48,11 @@ public class MagicAlign extends Command {
     left.getSensorCollection().setQuadraturePosition(0, 10);
     right.getSensorCollection().setQuadraturePosition(0, 10);
     
+    left.selectProfileSlot(Constants.kSlot_Distanc, Constants.PID_PRIMARY);
+    left.selectProfileSlot(Constants.kSlot_Turning, Constants.PID_TURN);
     right.selectProfileSlot(Constants.kSlot_Distanc, Constants.PID_PRIMARY);
-		right.selectProfileSlot(Constants.kSlot_Turning, Constants.PID_TURN);
+    right.selectProfileSlot(Constants.kSlot_Turning, Constants.PID_TURN);
+    
 			
 		/* Calculate targets from gamepad inputs */
 		double target_sensorUnits = forward * Constants.kSensorUnitsPerRotation * Constants.kRotationsToTravel;
