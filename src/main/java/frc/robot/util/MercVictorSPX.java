@@ -69,7 +69,7 @@ public class MercVictorSPX implements IMercMotorController {
     }
 
     @Override
-    public void resetEncoders() {
+    public void resetEncoder() {
         return;
     }
 

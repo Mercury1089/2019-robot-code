@@ -71,7 +71,10 @@ public interface IMercMotorController {
      */
     public double getEncVelo();
 
-    public void resetEncoders();
+    /**
+     * Want to reset the encoder?
+     */
+    public void resetEncoder();
 
     /**
      * Want the error from setpoint?

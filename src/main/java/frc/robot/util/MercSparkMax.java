@@ -73,7 +73,7 @@ public class MercSparkMax implements IMercMotorController {
         return sparkmax.getEncoder().getVelocity();
     }
 
-    public void resetEncoders() {
+    public void resetEncoder() {
         return;
     }
 

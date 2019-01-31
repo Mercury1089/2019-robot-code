@@ -155,8 +155,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     }
     
     public void resetEncoders() {
-        masterLeft.resetEncoders();
-        masterRight.resetEncoders();
+        masterLeft.resetEncoder();
+        masterRight.resetEncoder();
     }
 
     /**

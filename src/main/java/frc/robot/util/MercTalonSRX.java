@@ -71,7 +71,7 @@ public class MercTalonSRX implements IMercMotorController {
     }
 
     @Override
-    public void resetEncoders() {
+    public void resetEncoder() {
         talonsrx.getSensorCollection().setQuadraturePosition(0, DriveTrain.TIMEOUT_MS);
     }
 
