@@ -7,23 +7,34 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.util.MercMath;
 import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 
-public class MagicAlign extends Command {
+public class MoveHeading extends Command {
   IMercMotorController leftI, rightI;
   WPI_TalonSRX left, right;
 
-  double distance, heading;
+  private double distance, heading;
 
-  public MagicAlign() {
+  public final int closedLoopTimeMs = 1;
+
+  /**
+   * Move with heading assist from pigeon
+   * 
+   * @param distance distance to move in inches
+   * @param heading heading to turn to for the pigeon
+   */
+  public MoveHeading(double distance, double heading) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.driveTrain);
@@ -33,6 +44,9 @@ public class MagicAlign extends Command {
 
     left = (WPI_TalonSRX)(leftI);
     right = (WPI_TalonSRX)(rightI);
+
+    this.distance = MercMath.inchesToEncoderTicks(distance);
+    this.heading = heading;
   }
 
   // Called just before this Command runs the first time
@@ -67,7 +81,7 @@ public class MagicAlign extends Command {
     right.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, DriveTrain.TIMEOUT_MS);
     right.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, DriveTrain.TIMEOUT_MS);
     right.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20, DriveTrain.TIMEOUT_MS);
-    
+
     left.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, DriveTrain.TIMEOUT_MS);
     left.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, DriveTrain.TIMEOUT_MS);
     left.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, DriveTrain.TIMEOUT_MS);
@@ -80,25 +94,24 @@ public class MagicAlign extends Command {
     right.selectProfileSlot(DriveTrain.DRIVE_PID_SLOT, DriveTrain.PRIMARY_LOOP);
     right.selectProfileSlot(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT, DriveTrain.AUXILIARY_LOOP);
     
-			
-		/* Calculate targets from gamepad inputs */
-		double target_sensorUnits = forward * Constants.kSensorUnitsPerRotation * Constants.kRotationsToTravel;
-		double target_turn = _targetAngle;
-		
-		/* Configured for MotionMagic on Quad Encoders' Sum and Auxiliary PID on Pigeon */
-		_rightMaster.set(ControlMode.MotionMagic, target_sensorUnits, DemandType.AuxPID, target_turn);
-		_leftMaster.follow(_rightMaster, FollowerType.AuxOutput1);
+    right.configClosedLoopPeriod(0, closedLoopTimeMs, DriveTrain.TIMEOUT_MS);
+		left.configClosedLoopPeriod(1, closedLoopTimeMs, DriveTrain.TIMEOUT_MS);
+
+    Robot.driveTrain.resetEncoders();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+		/* Configured for MotionMagic on Quad Encoders' Sum and Auxiliary PID on Pigeon */
+		right.set(ControlMode.MotionMagic, distance, DemandType.AuxPID, heading);
+    left.set(ControlMode.MotionMagic, distance, DemandType.AuxPID, heading);
   }
 
   // Make this return true when this Command no longer needs to run execute()
-  @Override
+  @Override 
   protected boolean isFinished() {
-    return false;
+    return Robot.driveTrain.getLeftEncPositionInTicks() >= distance && Robot.driveTrain.getRightEncPositionInTicks() >= distance;
   }
 
   // Called once after isFinished returns true
