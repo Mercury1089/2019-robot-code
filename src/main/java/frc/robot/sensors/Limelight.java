@@ -20,6 +20,11 @@ public class LimeLight implements PIDSource {
         return nti.getEntry("<ta>").getDouble(0);
     }
 
+    public double getTargetDistance() {
+        //implement this
+        return 0;
+    }
+
     public void setPIDSourceType(PIDSourceType pst) {
         
     }

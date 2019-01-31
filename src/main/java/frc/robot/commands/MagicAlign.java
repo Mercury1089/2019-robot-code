@@ -7,12 +7,15 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
+import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 
 public class MagicAlign extends Command {
   IMercMotorController leftI, rightI;
@@ -47,6 +50,25 @@ public class MagicAlign extends Command {
     
     left.getSensorCollection().setQuadraturePosition(0, 10);
     right.getSensorCollection().setQuadraturePosition(0, 10);
+
+    /* Configure the Podge as a remote sensor for the left Talon */
+		left.configRemoteFeedbackFilter(Robot.driveTrain.getPigeon().getDeviceID(),					// Device ID of Source
+        RemoteSensorSource.Pigeon_Yaw,	        // Remote Feedback Source
+        DriveTrain.REMOTE_DEVICE_1,							// Source number [0, 1]
+        DriveTrain.TIMEOUT_MS);						      // Configuration Timeout
+
+    /* Configure the Podge as a remote sensor for the right Talon */
+		right.configRemoteFeedbackFilter(Robot.driveTrain.getPigeon().getDeviceID(),					// Device ID of Source
+        RemoteSensorSource.Pigeon_Yaw,	        // Remote Feedback Source
+        DriveTrain.REMOTE_DEVICE_1,							// Source number (you can have up to 2 for 1 talon/victor)
+        DriveTrain.TIMEOUT_MS);						      // Configuration Timeout
+
+    right.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, DriveTrain.TIMEOUT_MS);
+    right.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, DriveTrain.TIMEOUT_MS);
+    right.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, DriveTrain.TIMEOUT_MS);
+    right.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20, DriveTrain.TIMEOUT_MS);
+    right.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, DriveTrain.TIMEOUT_MS);
+    Robot.driveTrain.getPigeon().setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_9_SixDeg_YPR , 5, DriveTrain.TIMEOUT_MS);
     
     left.selectProfileSlot(Constants.kSlot_Distanc, Constants.PID_PRIMARY);
     left.selectProfileSlot(Constants.kSlot_Turning, Constants.PID_TURN);

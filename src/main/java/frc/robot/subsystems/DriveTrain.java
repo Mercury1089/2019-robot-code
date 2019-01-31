@@ -37,6 +37,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     public static final double MAX_SPEED = 1;
     public static final double MIN_SPEED = -1;
+    public static final int REMOTE_DEVICE_1 = 0;
 
     private IMercMotorController masterLeft, masterRight, followerLeft, followerRight;
 
@@ -122,6 +123,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
             // This allows us to measure the distance from any given point to any ending point.
             left.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DRIVE_PID_SLOT, TIMEOUT_MS);
             right.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DRIVE_PID_SLOT, TIMEOUT_MS);
+            left.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DRIVE_SMOOTH_MOTION_SLOT, TIMEOUT_MS);
+            right.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DRIVE_SMOOTH_MOTION_SLOT, TIMEOUT_MS);
 
             //Reset encoders (can't do this with Sparks)
             left.getSensorCollection().setQuadraturePosition(0, TIMEOUT_MS);

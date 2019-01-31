@@ -99,7 +99,6 @@ public class MoveOnPath extends Command {
 	
 	//Called just before this Command runs for the first time. 
 	protected void initialize() {
-	    System.out.println("MoveOnPath: Initializing...");
 
 	    // Reset command state
         reset();
@@ -114,7 +113,6 @@ public class MoveOnPath extends Command {
         // Start processing
         // i.e.: moving API points to RAM
         trajectoryProcessor.startPeriodic(0.005);
-        System.out.println("mop initialized");
         log.info(getName() + " Initialized");
 	}
 
