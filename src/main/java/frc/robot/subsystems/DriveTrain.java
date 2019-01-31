@@ -22,6 +22,7 @@ import frc.robot.util.MercSparkMax;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.MercVictorSPX;
 import frc.robot.util.DriveAssist;
+import frc.robot.sensors.LimeLight;
 
 /**
  * Subsystem that encapsulates the drive train.
@@ -42,6 +43,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     private DriveAssist drive;
     private ADXRS450_Gyro gyroSPI;
     private PigeonIMU podgeboi;
+    private LimeLight limelight;
 
 	public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096, NEO_ENCODER_TICKS_PER_REVOLUTION = 42;
 	public static final double GEAR_RATIO = 1;                   //TEMP
@@ -95,6 +97,9 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
         //Initialize podgeboi
         podgeboi = new PigeonIMU(CAN.PIGEON);
+
+        //Initialize LimeLight
+        limelight = new LimeLight();
 
         //Account for motor orientation.
         masterLeft.setInverted(true);
@@ -189,6 +194,10 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         } else {
             return null;
         }
+    }
+    
+    public LimeLight getLimeLight() {
+        return limelight;
     }
 
     public void setFullSpeed() {

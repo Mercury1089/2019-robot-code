@@ -24,15 +24,24 @@ public class ShuffleDash {
 
         SmartDashboard.putNumber("Left Enc in ticks", Robot.driveTrain.getLeft().getEncTicks());
         SmartDashboard.putNumber("Right Enc in ticks", Robot.driveTrain.getRight().getEncTicks());
-        /*SmartDashboard.putNumber("Left Enc in feet", Robot.driveTrain.getLeftEncPositionInFeet());
-        SmartDashboard.putNumber("Right Enc in feet", Robot.driveTrain.getRightEncPositionInFeet());*/
+
+        SmartDashboard.putNumber("Left Enc in feet", Robot.driveTrain.getLeftEncPositionInFeet());
+        SmartDashboard.putNumber("Right Enc in feet", Robot.driveTrain.getRightEncPositionInFeet());
+
         SmartDashboard.putString("DriveTrain", Robot.driveTrain.getCurrentCommandName());
-        SmartDashboard.putNumber("Left Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getLeft().getEncVelo())); //ticks per tenth of a second
+
+        SmartDashboard.putNumber("Left Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getLeft().getEncVelo()));
         SmartDashboard.putNumber("Right Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getRight().getEncVelo()));
+
         //SmartDashboard.putNumber("LIDAR Raw Distance (in.)", MercMath.roundFloat(Robot.claw.getLidar().getRawDistance(), 10));
         //SmartDashboard.putNumber("LIDAR Period", MercMath.roundFloat(Robot.claw.getLidar().getDistance(), 10));
-        //SmartDashboard.putNumber("Gyro Angle", Robot.driveTrain.getGyro().getAngle());
+
+        SmartDashboard.putNumber("Lime Target Offset", Robot.driveTrain.getLimeLight().getTargetOffset());
+        SmartDashboard.putNumber("Lime Target Area", Robot.driveTrain.getLimeLight().getTargetArea());
+        SmartDashboard.putNumber("Gyro Angle", Robot.driveTrain.getSPIGyro().getAngle());
+
         SmartDashboard.putBoolean("Auton Initialized", ntInstance.getTable("AutonConfiguration").containsKey("startingPosition"));
+
         //SmartDashboard.putString("LED Output",Robot.claw.getCurrentLEDOutput()[0]+","+Robot.claw.getCurrentLEDOutput()[1]+","+Robot.claw.getCurrentLEDOutput()[2]);
     }
 }
