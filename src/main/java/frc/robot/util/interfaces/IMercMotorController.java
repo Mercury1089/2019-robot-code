@@ -8,6 +8,12 @@ import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 public interface IMercMotorController {
+
+    public enum LimitSwitchDirection {
+        FORWARD,
+        REVERSE;
+    }
+
     /**
      * Sets the relative speed of the controller. 
      * 
@@ -123,4 +129,6 @@ public interface IMercMotorController {
     public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs);
 
     public boolean isLimitSwitchClosed();
+
+    public boolean isLimitSwitchClosed(LimitSwitchDirection limitSwitchDirection);
 }
