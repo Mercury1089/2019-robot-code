@@ -53,7 +53,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 	public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096, NEO_ENCODER_TICKS_PER_REVOLUTION = 42;
 	public static final double GEAR_RATIO = 1;                   //TEMP
     public static final double MAX_RPM = 545;                    //TEMP
-    public static final double WHEEL_DIAMETER_INCHES = 6.125;       //TEMP eventually make this stuff configurable in shuffledash
+    public static final double WHEEL_DIAMETER_INCHES = 5.8;       //TEMP eventually make this stuff configurable in shuffledash
     public static final double NOMINAL_OUT = 0.0, PEAK_OUT = 1.0;
 
     private DriveTrainLayout layout;
@@ -211,6 +211,12 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         } else {
             return null;
         }
+    }
+
+    public double getPigeonYaw() {
+        double[] currYawPitchRoll = new double[3];
+        podgeboi.getYawPitchRoll(currYawPitchRoll);
+        return currYawPitchRoll[0];
     }
     
     public LimeLight getLimeLight() {

@@ -25,7 +25,7 @@ public class OI {
   
   private Joystick rightJoystick, leftJoystick, gamepad;
 
-  private JoystickButton left1, left7, left10, right1, right2, right10;
+  private JoystickButton left1, left7, left8, left10, right1, right2, right10;
 
   public OI() {
     leftJoystick = new Joystick(DS_USB.LEFT_STICK);
@@ -36,6 +36,7 @@ public class OI {
 
     left1 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN1);
     left7 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN7);
+    left8 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN8);
     left10 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN10);
     right1 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN1);
     right2 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN2);
@@ -43,6 +44,7 @@ public class OI {
 
     left1.whenPressed(new RunShooter(ShooterSpeed.FAST_INTAKE));
     left7.whenPressed(new MoveOnPath("CurveLeft", Direction.FORWARD));
+    left8.whenPressed(new MoveOnPath("StraightProfile", Direction.FORWARD));
     left10.whenPressed(new DriveDistance(100, .7));
 
     right1.whenPressed(new RunShooter(ShooterSpeed.FAST_EJECT));

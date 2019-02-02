@@ -20,11 +20,11 @@ public class GetCargo extends CommandGroup {
    * Add your docs here.
    */
   public GetCargo() {
-    angleOriginator = new RotateToTarget();
-    distanceOriginator = new DriveWithLIDAR(8, 0.7);
-    log.info(getName() + " Beginning constructor");
-    addSequential(angleOriginator);
-    addParallel(new UseClaw(Claw.ClawState.GRAB));
-    addSequential(distanceOriginator);
+    //angleOriginator = new RotateToTarget();
+    //distanceOriginator = new DriveWithLIDAR(8, 0.7);
+    //log.info(getName() + " Beginning constructor");
+    //addSequential(angleOriginator);
+    //addParallel(new UseClaw(Claw.ClawState.GRAB));
+    //addSequential(distanceOriginator);
   }
 }

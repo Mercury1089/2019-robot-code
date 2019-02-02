@@ -98,6 +98,8 @@ public class MoveOnPath extends Command {
 	
 	//Called just before this Command runs for the first time. 
 	protected void initialize() {
+        
+        System.out.println("running MP");
 
 	    // Reset command state
         reset();

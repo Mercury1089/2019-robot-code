@@ -12,9 +12,10 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.sensors.RightSight;
 
 public class LineUpRobot extends Command {
-  public static Logger logger = LogManager.getLogger(LineUpRobot.class);
+  public static Logger log = LogManager.getLogger(LineUpRobot.class);
 
   public LineUpRobot() {
     
@@ -28,15 +29,11 @@ public class LineUpRobot extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    logger.info("Rotating to line");
-    if(Robot.driveTrain.getRightSight().getAlignment() == RightSight.Alignment.LEFT){
+    log.info("Rotating to line");
+    if (Robot.driveTrain.getRightSight().getAlignment()) {
       
-    }
-    else if(Robot.driveTrain.getRightSight().getAlignment() == RightSight.Alignment.RIGHT){
+    } else {
 
-    }
-    else{
-      end();
     }
   }
 
