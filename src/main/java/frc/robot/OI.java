@@ -14,6 +14,7 @@ import frc.robot.util.ShuffleDash;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.MoveOnPath;
 import frc.robot.commands.MoveOnPath.Direction;
+import frc.robot.commands.MoveHeading;
 import frc.robot.subsystems.ProtoShooter.ShooterSpeed;
 import frc.robot.commands.RunShooter;
 /**
@@ -49,6 +50,7 @@ public class OI {
 
     right1.whenPressed(new RunShooter(ShooterSpeed.FAST_EJECT));
     right2.whenPressed(new RunShooter(ShooterSpeed.STOP));
+    //right10.whenPressed(new MoveHeading(10, Robot.driveTrain.getPigeonYaw()));
   }
 
   public double getX(int port) {
