@@ -22,7 +22,7 @@ import frc.robot.util.MercSparkMax;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.MercVictorSPX;
 import frc.robot.util.DriveAssist;
-import frc.robot.sensors.LimeLight;
+import frc.robot.sensors.Limelight;
 import frc.robot.sensors.RightSight;
 
 /**
@@ -47,7 +47,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     private DriveAssist drive;
     private ADXRS450_Gyro gyroSPI;
     private PigeonIMU podgeboi;
-    private LimeLight limelight;
+    private Limelight limelight;
     private RightSight rightSight;
 
 	public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096, NEO_ENCODER_TICKS_PER_REVOLUTION = 42;
@@ -104,7 +104,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         podgeboi = new PigeonIMU(CAN.PIGEON);
 
         //Initialize LimeLight
-        limelight = new LimeLight();
+        limelight = new Limelight();
 
         //Initialize RightSight
         rightSight = new RightSight(0);
@@ -213,7 +213,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         }
     }
     
-    public LimeLight getLimeLight() {
+    public Limelight getLimeLight() {
         return limelight;
     }
 
