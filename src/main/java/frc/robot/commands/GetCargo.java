@@ -8,13 +8,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import frc.robot.commands.DriveDistance;
 
 public class GetCargo extends CommandGroup {
   
   private Logger log = LogManager.getLogger(GetCargo.class);
 
-  private RotateToTarget
-  private DriveDistance distanceOriginator = new DriveWithLIDAR(.6, .6)
   /**
    * Add your docs here.
    */

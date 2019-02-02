@@ -8,6 +8,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import frc.robot.Robot;
+import frc.robot.subsystems.DriveTrain;
 
 public class LineUpRobot extends Command {
   public static Logger logger = LogManager.getLogger(LineUpRobot.class);
@@ -25,10 +29,10 @@ public class LineUpRobot extends Command {
   @Override
   protected void execute() {
     logger.info("Rotating to line");
-    if(Robot.driveTrain.getAlignment() == DriveTrain.Alignment.LEFT){
-      super.
+    if(Robot.driveTrain.getRightSight().getAlignment() == RightSight.Alignment.LEFT){
+      
     }
-    else if(Robot.driveTrain.getAlignment() == DriveTrain.Alignment.RIGHT){
+    else if(Robot.driveTrain.getRightSight().getAlignment() == RightSight.Alignment.RIGHT){
 
     }
     else{
