@@ -88,7 +88,6 @@ public class MoveOnPath extends Command {
 
         if (trajectoryL != null) {
             TRAJECTORY_SIZE = trajectoryL.length();
-            System.out.println("traj size test - " + TRAJECTORY_SIZE);
             log.info(getName() + " construced: " + TRAJECTORY_SIZE);
         } else {
             TRAJECTORY_SIZE = 0;
@@ -118,7 +117,6 @@ public class MoveOnPath extends Command {
 
 	//Called repeatedly when this Command is scheduled to run.
 	protected void execute() {
-        System.out.println("mop executing");
         left.getMotionProfileStatus(statusLeft);
         right.getMotionProfileStatus(statusRight);
 

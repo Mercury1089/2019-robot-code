@@ -52,8 +52,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
 	public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096, NEO_ENCODER_TICKS_PER_REVOLUTION = 42;
 	public static final double GEAR_RATIO = 1;                   //TEMP
-    public static final double MAX_RPM = 700.63;                    //TEMP
-    public static final double WHEEL_DIAMETER_INCHES = 5.125;       //TEMP eventually make this stuff configurable in shuffledash
+    public static final double MAX_RPM = 545;                    //TEMP
+    public static final double WHEEL_DIAMETER_INCHES = 6.125;       //TEMP eventually make this stuff configurable in shuffledash
     public static final double NOMINAL_OUT = 0.0, PEAK_OUT = 1.0;
 
     private DriveTrainLayout layout;
@@ -143,8 +143,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         followerRight.follow(masterRight);
 
         // Config PID
-        DRIVE_GAINS = new PIDGain(0.025, 0.0, 0.05, 0.0);
-        SMOOTH_GAINS = new PIDGain(0.6, 0.0, 0.0, getFeedForward());
+        DRIVE_GAINS = new PIDGain(0.2, 0.0, 0.05, 0.0);
+        SMOOTH_GAINS = new PIDGain(0.6, 0.0, 0.2, getFeedForward());
         masterRight.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
         masterLeft.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
         masterRight.configPID(DRIVE_SMOOTH_MOTION_SLOT, SMOOTH_GAINS);

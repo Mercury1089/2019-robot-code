@@ -162,6 +162,7 @@ public class MercMath {
 	}
 
 	public static double calculateFeedForward(double rpm) {
+		System.out.println("calculating ff");
 		final double MAX_MOTOR_OUTPUT = 1023;
 		final double NATIVE_UNITS_PER_100 = rpm / 600 * DriveTrain.MAG_ENCODER_TICKS_PER_REVOLUTION;
 		return MAX_MOTOR_OUTPUT/NATIVE_UNITS_PER_100;

@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap.CAN;
+import frc.robot.util.MercTalonSRX;
 import frc.robot.util.MercVictorSPX;
 
 /**
@@ -16,6 +17,8 @@ import frc.robot.util.MercVictorSPX;
  */
 public class ProtoIntake extends Subsystem {
   MercVictorSPX intake;
+  MercTalonSRX articulator;
+  ArticulationPosition currentState;
 
   public enum IntakeSpeed {
     FAST_REVERSE(-1.0),
@@ -29,6 +32,11 @@ public class ProtoIntake extends Subsystem {
     }
   }
 
+  public enum ArticulationPosition {
+    IN,
+    OUT;
+  }
+
   public ProtoIntake() {
     intake = new MercVictorSPX(CAN.INTAKE);
   }
@@ -39,7 +47,23 @@ public class ProtoIntake extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
 
-  public void setSpeed(double x) {
+  public void setIntakeSpeed(double x) {
     intake.setSpeed(x);
+  }
+
+  public void setArticulatorSpeed(double speed) {
+    articulator.setSpeed(speed);
+  }
+
+  public MercTalonSRX getArticulator() {
+    return articulator;
+  }
+
+  public ArticulationPosition getArticulatorPosition() {
+    return this.currentState;
+  }
+
+  public void setArticulatorState(ArticulationPosition state) {
+    this.currentState = state;
   }
 }
