@@ -20,7 +20,6 @@ import org.apache.logging.log4j.Logger;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.util.MercMath;
-import frc.robot.util.TrajectoryGenerator.TrajectoryPair;
 
 import java.io.File;
 
@@ -58,10 +57,10 @@ public class MoveOnPath extends Command {
         setName("MoveOnPath-" + filename);
         log.info(getName() + " Beginning constructor");
         
-        trajectoryL = Pathfinder.readFromCSV(new File("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".left.pf1.csv"));
-        trajectoryR = Pathfinder.readFromCSV(new File("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".right.pf1.csv"));
+        trajectoryR = Pathfinder.readFromCSV(new File("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".left.pf1.csv"));
+        trajectoryL = Pathfinder.readFromCSV(new File("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".right.pf1.csv"));
 
-        System.out.println(trajectoryL);
+        //System.out.println(trajectoryL);
 
         left = ((MercTalonSRX)Robot.driveTrain.getLeft()).get();
         right = ((MercTalonSRX)Robot.driveTrain.getRight()).get();

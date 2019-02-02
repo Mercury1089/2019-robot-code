@@ -16,7 +16,6 @@ import frc.robot.subsystems.ProtoShooter;
 //import frc.robot.subsystems.PDP;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 import frc.robot.auton.AutonCommand;
-import frc.robot.RobotMap.CAN;
 
 //import frc.robot.commands.ExampleCommand;
 //import frc.robot.subsystems.ExampleSubsystem;

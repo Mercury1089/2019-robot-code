@@ -143,7 +143,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         followerRight.follow(masterRight);
 
         // Config PID
-        DRIVE_GAINS = new PIDGain(0.2, 0.0, 0.05, 0.0);
+        DRIVE_GAINS = new PIDGain(0.6, 0.0, 0.2, getFeedForward());
+//        0.2, 0.0, 0.05, 0.0);
         SMOOTH_GAINS = new PIDGain(0.6, 0.0, 0.2, getFeedForward());
         masterRight.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
         masterLeft.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
@@ -195,7 +196,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     /**
      * Gets the gyro being used by the drive train.
      *
-     * @return The gyro, either the NavX or Analog Gyro, currently in use on the robot
+     * @return The Analog Gyro currently in use on the robot
      */
     public Gyro getSPIGyro() {
         if (gyroSPI != null) {

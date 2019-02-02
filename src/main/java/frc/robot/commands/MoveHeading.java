@@ -19,6 +19,7 @@ import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
+import frc.robot.util.MercTalonSRX;
 
 public class MoveHeading extends Command {
   IMercMotorController leftI, rightI;
@@ -42,8 +43,8 @@ public class MoveHeading extends Command {
     leftI = Robot.driveTrain.getLeft();
     rightI = Robot.driveTrain.getRight();
 
-    left = (WPI_TalonSRX)(leftI);
-    right = (WPI_TalonSRX)(rightI);
+    left = ((MercTalonSRX)(leftI)).get();
+    right = ((MercTalonSRX)(rightI)).get();
 
     this.distance = MercMath.inchesToEncoderTicks(distance);
     this.heading = heading;
