@@ -32,6 +32,7 @@ public class MoveToLine extends Command {
   protected void initialize() {
     Robot.driveTrain.configVoltage(volts[0], volts[1]);
     log.info(getName() + " Initialized");
+    Robot.driveTrain.set
   }
 
   // Called repeatedly when this Command is scheduled to run

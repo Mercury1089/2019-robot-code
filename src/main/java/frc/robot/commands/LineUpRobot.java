@@ -9,7 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class LineUpRobot extends DegreeRotate {
+public class LineUpRobot extends Command {
   public static Logger logger = LogManager.getLogger(LineUpRobot.class);
 
   public LineUpRobot() {

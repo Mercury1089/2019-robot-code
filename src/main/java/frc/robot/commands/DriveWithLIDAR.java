@@ -10,7 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.usfirst.frc.team1089.robot.Robot;
+import frc.robot.Robot;
 
 public class DriveWithLIDAR extends DriveDistance {
   private final Logger LOG = LogManager.getLogger(DriveWithLIDAR.class);
@@ -38,20 +38,21 @@ public class DriveWithLIDAR extends DriveDistance {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    distance = Robot.ProtoIntake.getLidar().getDistance() - minimumDistance;
+    distance = Robot.protoShooter.getLidar().getDistance() - minimumDistance;
     updateDistance();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.ProtoIntake.getLidar().getDistance() - minimumDistance <= 0;
+    return Robot.protoShooter.getLidar().getDistance() - minimumDistance <= 0;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
     super.end();
+    LOG.info(getName() + " ended");
   }
 
   // Called when another command which requires one or more of the same

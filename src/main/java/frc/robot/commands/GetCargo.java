@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class GetCargo extends CommandGroup {
   
   private Logger log = LogManager.getLogger(GetCargo.class);
+
+  private RotateToTarget
+  private DriveDistance distanceOriginator = new DriveWithLIDAR(.6, .6)
   /**
    * Add your docs here.
    */
