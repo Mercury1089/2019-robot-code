@@ -42,7 +42,7 @@ public class OI {
     right10 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN10);
 
     left1.whenPressed(new RunShooter(ShooterSpeed.FAST_INTAKE));
-    left7.whenPressed(new MoveOnPath("TestPathShortCurveRight", Direction.FORWARD));
+    left7.whenPressed(new MoveOnPath("CurveLeft", Direction.FORWARD));
     left10.whenPressed(new DriveDistance(100, .7));
 
     right1.whenPressed(new RunShooter(ShooterSpeed.FAST_EJECT));

@@ -82,12 +82,12 @@ public class MagicAlign extends Command {
     
 			
 		/* Calculate targets from gamepad inputs */
-		double target_sensorUnits = forward * Constants.kSensorUnitsPerRotation * Constants.kRotationsToTravel;
-		double target_turn = _targetAngle;
+		//double target_sensorUnits = forward * Constants.kSensorUnitsPerRotation * Constants.kRotationsToTravel;
+		//double target_turn = _targetAngle;
 		
 		/* Configured for MotionMagic on Quad Encoders' Sum and Auxiliary PID on Pigeon */
-		_rightMaster.set(ControlMode.MotionMagic, target_sensorUnits, DemandType.AuxPID, target_turn);
-		_leftMaster.follow(_rightMaster, FollowerType.AuxOutput1);
+		//_rightMaster.set(ControlMode.MotionMagic, target_sensorUnits, DemandType.AuxPID, target_turn);
+		//_leftMaster.follow(_rightMaster, FollowerType.AuxOutput1);
   }
 
   // Called repeatedly when this Command is scheduled to run
