@@ -25,8 +25,8 @@ import frc.robot.util.PIDGain;
 /**
  * Add your docs here.
  */
-public class ProtoElevator extends Subsystem {
-  private static Logger log = LogManager.getLogger(ProtoElevator.class);
+public class Elevator extends Subsystem {
+  private static Logger log = LogManager.getLogger(Elevator.class);
 
     private IMercMotorController elevatorLeader;
     private IMercMotorController elevatorFollower;
@@ -84,7 +84,7 @@ public class ProtoElevator extends Subsystem {
      * @param talonID  Leader (Talon SRX) CAN ID
      * @param victorID Follower (Victor SPX) CAN ID
      */
-    public ProtoElevator(int talonID, int victorID) {
+    public Elevator(int talonID, int victorID) {
         elevatorLeader = new MercTalonSRX(talonID);
         elevatorLeader.setNeutralMode(NeutralMode.Brake);
         elevatorFollower = new MercVictorSPX(victorID);

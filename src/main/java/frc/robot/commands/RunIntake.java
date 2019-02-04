@@ -14,14 +14,14 @@ public class RunIntake extends Command {
   private double speed;
 
   public RunIntake(double speed) {
-    requires(Robot.protoIntake);
+    requires(Robot.cargoIntake);
     this.speed = speed;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.protoIntake.setIntakeSpeed(speed);
+    Robot.cargoIntake.setIntakeSpeed(speed);
   }
 
   // Called repeatedly when this Command is scheduled to run

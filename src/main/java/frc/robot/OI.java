@@ -15,7 +15,7 @@ import frc.robot.commands.DriveDistance;
 import frc.robot.commands.MoveOnPath;
 import frc.robot.commands.MoveOnPath.Direction;
 import frc.robot.commands.MoveHeading;
-import frc.robot.subsystems.ProtoShooter.ShooterSpeed;
+import frc.robot.subsystems.CargoShooter.ShooterSpeed;
 import frc.robot.commands.RunShooter;
 /**
  * This class is the glue that binds the controls on the physical operator

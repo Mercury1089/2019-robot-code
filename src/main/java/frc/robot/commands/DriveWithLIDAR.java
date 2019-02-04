@@ -38,14 +38,14 @@ public class DriveWithLIDAR extends DriveDistance {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    distance = Robot.protoShooter.getLidar().getDistance() - minimumDistance;
+    distance = Robot.cargoShooter.getLidar().getDistance() - minimumDistance;
     updateDistance();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.protoShooter.getLidar().getDistance() - minimumDistance <= 0;
+    return Robot.cargoShooter.getLidar().getDistance() - minimumDistance <= 0;
   }
 
   // Called once after isFinished returns true

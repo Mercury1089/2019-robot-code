@@ -21,7 +21,7 @@ public class ManualElevator extends Command {
     private final Logger LOG = LogManager.getLogger(ManualElevator.class);
 
     public ManualElevator() {
-        requires(Robot.protoElevator);
+        requires(Robot.elevator);
 
         LOG.info(getName() + " Constructed");
     }
@@ -33,7 +33,7 @@ public class ManualElevator extends Command {
 
     @Override
     protected void execute() {
-      Robot.protoElevator.getElevatorLeader().setSpeed(Math.abs(Robot.oi.getY(RobotMap.DS_USB.GAMEPAD)) > 0.08 ? Robot.oi.getY(RobotMap.DS_USB.GAMEPAD) : 0.0);
+      Robot.elevator.getElevatorLeader().setSpeed(Math.abs(Robot.oi.getY(RobotMap.DS_USB.GAMEPAD)) > 0.08 ? Robot.oi.getY(RobotMap.DS_USB.GAMEPAD) : 0.0);
     }
 
     @Override

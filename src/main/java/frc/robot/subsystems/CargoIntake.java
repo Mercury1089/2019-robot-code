@@ -15,7 +15,7 @@ import frc.robot.util.MercVictorSPX;
 /**
  * Add your docs here.
  */
-public class ProtoIntake extends Subsystem {
+public class CargoIntake extends Subsystem {
   MercVictorSPX intake;
   MercTalonSRX articulator;
   ArticulationPosition currentState;
@@ -37,7 +37,7 @@ public class ProtoIntake extends Subsystem {
     OUT;
   }
 
-  public ProtoIntake() {
+  public CargoIntake() {
     intake = new MercVictorSPX(CAN.INTAKE);
   }
 

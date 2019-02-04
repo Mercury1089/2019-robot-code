@@ -9,8 +9,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.ProtoShooter;
-import frc.robot.subsystems.ProtoShooter.ShooterSpeed;
+import frc.robot.subsystems.CargoShooter;
+import frc.robot.subsystems.CargoShooter.ShooterSpeed;
 
 public class RunShooter extends Command {
   private ShooterSpeed targetState;
@@ -18,8 +18,8 @@ public class RunShooter extends Command {
   private int timeThreshold = 550;
   private long startTimeMillis;
 
-  public RunShooter(ProtoShooter.ShooterSpeed targetState) {
-    requires(Robot.protoShooter);
+  public RunShooter(CargoShooter.ShooterSpeed targetState) {
+    requires(Robot.cargoShooter);
     this.targetState = targetState;
   }
 
@@ -32,14 +32,14 @@ public class RunShooter extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.protoShooter.setClawState(targetState);
+    Robot.cargoShooter.setClawState(targetState);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (targetState == ProtoShooter.ShooterSpeed.FAST_INTAKE || targetState == ProtoShooter.ShooterSpeed.SLOW_INTAKE)
-      return Robot.protoShooter.getLidar().getDistance() - minimumDistance <= 0;
+    if (targetState == CargoShooter.ShooterSpeed.FAST_INTAKE || targetState == CargoShooter.ShooterSpeed.SLOW_INTAKE)
+      return Robot.cargoShooter.getLidar().getDistance() - minimumDistance <= 0;
 
     return System.currentTimeMillis() - startTimeMillis > timeThreshold;
   }
@@ -47,7 +47,7 @@ public class RunShooter extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.protoShooter.setClawState(ShooterSpeed.STOP);
+    Robot.cargoShooter.setClawState(ShooterSpeed.STOP);
   }
 
   // Called when another command which requires one or more of the same

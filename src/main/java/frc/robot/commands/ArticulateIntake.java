@@ -9,17 +9,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.ProtoIntake;
-import frc.robot.subsystems.ProtoIntake.ArticulationPosition;
+import frc.robot.subsystems.CargoIntake;
+import frc.robot.subsystems.CargoIntake.ArticulationPosition;
 import frc.robot.util.interfaces.IMercMotorController.LimitSwitchDirection;
 
 public class ArticulateIntake extends Command {
   ArticulationPosition targetState;
-  ProtoIntake intake;
 
   public ArticulateIntake() {
-    requires(Robot.protoIntake);
-    intake = Robot.protoIntake;
+    requires(Robot.cargoIntake);
   }
 
   @Override
@@ -33,7 +31,7 @@ public class ArticulateIntake extends Command {
    */
   @Override
   protected void execute() {
-    Robot.protoIntake.setArticulatorSpeed(targetState == ArticulationPosition.IN ? -1.0 : 1.0);
+    Robot.cargoIntake.setArticulatorSpeed(targetState == ArticulationPosition.IN ? -1.0 : 1.0);
   }
 
   /**
@@ -43,11 +41,11 @@ public class ArticulateIntake extends Command {
   @Override
   protected boolean isFinished() {
     if(targetState == ArticulationPosition.IN &&
-      intake.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.REVERSE)) {
+      Robot.cargoIntake.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.REVERSE)) {
         return true;
     }
     else if(targetState == ArticulationPosition.OUT &&
-      intake.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.FORWARD)) {
+      Robot.cargoIntake.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.FORWARD)) {
         return true;
     }
     return false;
@@ -56,7 +54,7 @@ public class ArticulateIntake extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    intake.setArticulatorState(targetState);
+    Robot.cargoIntake.setArticulatorState(targetState);
   }
 
   // Called when another command which requires one or more of the same
