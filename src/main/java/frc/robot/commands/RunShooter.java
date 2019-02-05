@@ -9,8 +9,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.CargoShooter;
-import frc.robot.subsystems.CargoShooter.ShooterSpeed;
+import frc.robot.subsystems.CargoEndEffector;
+import frc.robot.subsystems.CargoEndEffector.ShooterSpeed;
 
 public class RunShooter extends Command {
   private ShooterSpeed targetState;
@@ -18,7 +18,7 @@ public class RunShooter extends Command {
   private int timeThreshold = 550;
   private long startTimeMillis;
 
-  public RunShooter(CargoShooter.ShooterSpeed targetState) {
+  public RunShooter(CargoEndEffector.ShooterSpeed targetState) {
     requires(Robot.cargoShooter);
     this.targetState = targetState;
   }
@@ -38,7 +38,7 @@ public class RunShooter extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (targetState == CargoShooter.ShooterSpeed.FAST_INTAKE || targetState == CargoShooter.ShooterSpeed.SLOW_INTAKE)
+    if (targetState == CargoEndEffector.ShooterSpeed.FAST_INTAKE || targetState == CargoEndEffector.ShooterSpeed.SLOW_INTAKE)
       return Robot.cargoShooter.getLidar().getDistance() - minimumDistance <= 0;
 
     return System.currentTimeMillis() - startTimeMillis > timeThreshold;

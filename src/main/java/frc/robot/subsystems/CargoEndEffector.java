@@ -17,7 +17,7 @@ import frc.robot.util.MercVictorSPX;
 /**
  * Add your docs here.
  */
-public class CargoShooter extends Subsystem {
+public class CargoEndEffector extends Subsystem {
   MercVictorSPX shooterLeft;
   MercVictorSPX shooterRight;
   CANifier canifier;
@@ -36,7 +36,7 @@ public class CargoShooter extends Subsystem {
     }
   }
 
-  public CargoShooter() {
+  public CargoEndEffector() {
     shooterLeft = new MercVictorSPX(CAN.SHOOTER_LEFT);
     shooterRight = new MercVictorSPX(CAN.SHOOTER_RIGHT);
     shooterLeft.setInverted(true);
@@ -67,7 +67,7 @@ public class CargoShooter extends Subsystem {
     return lidar;
   }
 
-  public void setClawState(CargoShooter.ShooterSpeed state) {
+  public void setClawState(CargoEndEffector.ShooterSpeed state) {
     shooterLeft.setSpeed(state.SPEED);
     shooterRight.setSpeed(state.SPEED);
   }
