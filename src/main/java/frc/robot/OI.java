@@ -24,9 +24,10 @@ import frc.robot.commands.RunShooter;
 public class OI {
   private ShuffleDash shuffleDash;
   
+
   private Joystick rightJoystick, leftJoystick, gamepad;
 
-  private JoystickButton left1, left7, left8, left10, right1, right2, right10;
+  private JoystickButton left1, left7, left8, left10, right1, right2, right9, right10, right11;
 
   public OI() {
     leftJoystick = new Joystick(DS_USB.LEFT_STICK);
@@ -41,7 +42,9 @@ public class OI {
     left10 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN10);
     right1 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN1);
     right2 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN2);
+    right9 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN9);
     right10 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN10);
+    right11 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN11);
 
     left1.whenPressed(new RunShooter(ShooterSpeed.FAST_INTAKE));
     left7.whenPressed(new MoveOnPath("CurveLeft", Direction.FORWARD));
@@ -50,7 +53,9 @@ public class OI {
 
     right1.whenPressed(new RunShooter(ShooterSpeed.FAST_EJECT));
     right2.whenPressed(new RunShooter(ShooterSpeed.STOP));
-    right10.whenPressed(new MoveHeading(10, Robot.driveTrain.getPigeonYaw()));
+    right9.whenPressed(new MoveHeading(10, 0));
+    right10.whenPressed(new MoveHeading(10, -60));
+    right11.whenPressed(new MoveHeading(10, 60));
   }
   
   public double getX(int port) {

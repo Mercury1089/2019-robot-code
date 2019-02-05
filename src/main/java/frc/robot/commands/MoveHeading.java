@@ -25,14 +25,14 @@ public class MoveHeading extends Command {
   IMercMotorController leftI, rightI;
   WPI_TalonSRX left, right;
 
-  private double distance, heading;
+  private double distance, heading, targetHeading;
 
   public final int closedLoopTimeMs = 1;
 
   /**
    * Move with heading assist from pigeon
    * 
-   * @param distance distance to move in inches
+   * @param distance distance to move in feet
    * @param heading heading to turn to for the pigeon
    */
   public MoveHeading(double distance, double heading) {
@@ -46,17 +46,21 @@ public class MoveHeading extends Command {
     left = ((MercTalonSRX)(leftI)).get();
     right = ((MercTalonSRX)(rightI)).get();
 
-    this.distance = MercMath.inchesToEncoderTicks(distance);
-    this.heading = heading;
+    this.distance = MercMath.feetToEncoderTicks(distance);
+    this.heading = this.targetHeading = heading;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    left.configMotionAcceleration(2000, 40);
-    left.configMotionCruiseVelocity(2000, 40);
-    right.configMotionAcceleration(2000, 40);
-    right.configMotionCruiseVelocity(2000, 40);
+
+    targetHeading = heading + Robot.driveTrain.getPigeonYaw();
+    System.out.println(targetHeading);
+
+    left.configMotionAcceleration(1000, 40);
+    left.configMotionCruiseVelocity((int)MercMath.revsPerMinuteToTicksPerTenth(DriveTrain.MAX_RPM), 40);
+    right.configMotionAcceleration(1000, 40);
+    right.configMotionCruiseVelocity((int)MercMath.revsPerMinuteToTicksPerTenth(DriveTrain.MAX_RPM), 40);
     
     left.configPeakOutputForward(+1.0, 10);
 		left.configPeakOutputReverse(-1.0, 10);
@@ -88,7 +92,7 @@ public class MoveHeading extends Command {
     left.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, DriveTrain.TIMEOUT_MS);
     left.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20, DriveTrain.TIMEOUT_MS);
 
-    Robot.driveTrain.getPigeon().setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_9_SixDeg_YPR , 5, DriveTrain.TIMEOUT_MS);
+    Robot.driveTrain.getPigeon().setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_9_SixDeg_YPR, 5, DriveTrain.TIMEOUT_MS);
     
     left.selectProfileSlot(DriveTrain.DRIVE_PID_SLOT, DriveTrain.PRIMARY_LOOP);
     left.selectProfileSlot(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT, DriveTrain.AUXILIARY_LOOP);
@@ -96,6 +100,8 @@ public class MoveHeading extends Command {
     right.selectProfileSlot(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT, DriveTrain.AUXILIARY_LOOP);
 
     right.configClosedLoopPeriod(0, closedLoopTimeMs, DriveTrain.TIMEOUT_MS);
+		left.configClosedLoopPeriod(0, closedLoopTimeMs, DriveTrain.TIMEOUT_MS);
+    right.configClosedLoopPeriod(1, closedLoopTimeMs, DriveTrain.TIMEOUT_MS);
 		left.configClosedLoopPeriod(1, closedLoopTimeMs, DriveTrain.TIMEOUT_MS);
 
     Robot.driveTrain.resetEncoders();
@@ -104,9 +110,9 @@ public class MoveHeading extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-		/* Configured for MotionMagic on Quad Encoders' Sum and Auxiliary PID on Pigeon */
-		right.set(ControlMode.MotionMagic, distance, DemandType.AuxPID, heading);
-    left.set(ControlMode.MotionMagic, distance, DemandType.AuxPID, heading);
+    /* Configured for MotionMagic on Quad Encoders' Sum and Auxiliary PID on Pigeon */
+		right.set(ControlMode.MotionMagic, distance, DemandType.AuxPID, targetHeading);
+    left.set(ControlMode.MotionMagic, distance, DemandType.AuxPID, targetHeading);
   }
 
   // Make this return true when this Command no longer needs to run execute()
