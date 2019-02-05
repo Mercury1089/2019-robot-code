@@ -1,12 +1,9 @@
 package frc.robot.sensors;
 
-
-import java.util.Calendar;
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import frc.robot.Robot;
 
 /**
  * Add your docs here.
@@ -18,11 +15,11 @@ public class Limelight implements PIDSource, TableEntryListener {
     /**Constucts the sensor and adds a listener to the table 
      */
     public Limelight(){
-        nt.addEntryListener(this, EntryListenerFlags.kUpdate);
         numTargets = nt.getEntry("tv").getDouble(0.0);
         targetCenterXAngle = nt.getEntry("tx").getDouble(0.0);
         targetCenterYAngle = nt.getEntry("ty").getDouble(0.0);
         targetArea = nt.getEntry("ta").getDouble(0.0);
+        nt.addEntryListener(this, EntryListenerFlags.kUpdate);
     }
 
     /**
@@ -58,31 +55,31 @@ public class Limelight implements PIDSource, TableEntryListener {
         }
     }
 
-    public double getTargetCenterXAngle(){
+    public synchronized double getTargetCenterXAngle(){
         return this.targetCenterXAngle;
     }
 
-    public double getTargetCenterYAngle(){
+    public synchronized double getTargetCenterYAngle(){
         return this.targetCenterYAngle;
     }
 
-    public double getTargetArea(){
+    public synchronized double getTargetArea(){
         return this.targetArea;
     }
 
-    public double getNumTargets(){
+    public synchronized double getNumTargets(){
         return this.numTargets;
     }
 
-    public void setPIDSourceType(PIDSourceType pidST){
+    public synchronized void setPIDSourceType(PIDSourceType pidST){
         
     }
 
-    public PIDSourceType getPIDSourceType() {
+    public synchronized PIDSourceType getPIDSourceType() {
         return PIDSourceType.kDisplacement;
     }
 
-    public double pidGet() {
+    public synchronized double pidGet() {
         return this.targetCenterXAngle;
     }
 }
