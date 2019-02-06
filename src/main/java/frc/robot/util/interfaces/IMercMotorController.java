@@ -1,6 +1,9 @@
 package frc.robot.util.interfaces;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.SensorTerm;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 
 import frc.robot.util.PIDGain;
 
@@ -115,20 +118,35 @@ public interface IMercMotorController {
     public void setNeutralMode(NeutralMode neutralMode);
 
     /**
+     * NOTE: This is a CTRE Method.
+     * Sets the direction of positive count of the selected sensor.
      * 
+     * @param bool whether the sensor follows forward motion (true) or not (false)
      */
     public void setSensorPhase(boolean bool);
 
     /**
+     * NOTE: This is a CTRE Method.
+     * Configures the closed loop threshold of error.
      * 
+     * @param slotIdx the PID slot this applies to
+     * @param allowableClosedLoopError the amount of error to allow.
      */
-    public void configAllowableClosedLoopError(int slotIdx, int allowableCloseLoopError, int timeoutMs);
+    public void configAllowableClosedLoopError(int slotIdx, int allowableClosedLoopError);
 
-    public void configSelectedFeedbackSensor(FeedbackDevice FeedbackDevice, int pidIdx, int timeoutMs);
+    public void configSelectedFeedbackSensor(FeedbackDevice FeedbackDevice, int pidIdx);
 
-    public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs);
+    public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal);
 
     public boolean isLimitSwitchClosed();
 
     public boolean isLimitSwitchClosed(LimitSwitchDirection limitSwitchDirection);
+
+    public void configSensorTerm(SensorTerm st, FeedbackDevice fd);
+
+    public void configRemoteFeedbackFilter(int deviceID, RemoteSensorSource rss, int remoteSlotIdx);
+
+    public void configSelectedFeedbackCoefficient(double fdbkScale, int pidIdx);
+
+    public void setStatusFramePeriod(StatusFrame sf, int statusms);
 }

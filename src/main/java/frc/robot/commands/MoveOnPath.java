@@ -181,8 +181,8 @@ public class MoveOnPath extends Command {
             trajPointR.position = MercMath.feetToEncoderTicks(currentPosR);
             trajPointL.velocity = MercMath.revsPerMinuteToTicksPerTenth(velocityL); //Convert RPM to Units/100ms
             trajPointR.velocity = MercMath.revsPerMinuteToTicksPerTenth(velocityR);
-            trajPointL.profileSlotSelect0 = DriveTrain.DRIVE_SMOOTH_MOTION_SLOT;
-            trajPointR.profileSlotSelect0 = DriveTrain.DRIVE_SMOOTH_MOTION_SLOT;
+            trajPointL.profileSlotSelect0 = DriveTrain.DRIVE_MOTION_PROFILE_SLOT;
+            trajPointR.profileSlotSelect0 = DriveTrain.DRIVE_MOTION_PROFILE_SLOT;
 
             // Sets the duration of each trajectory point to 20ms
             trajPointL.timeDur = 15;

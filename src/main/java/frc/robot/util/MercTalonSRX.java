@@ -7,6 +7,9 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.SensorTerm;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import frc.robot.util.interfaces.IMercMotorController;
@@ -18,6 +21,7 @@ import frc.robot.Robot;
 public class MercTalonSRX implements IMercMotorController {
     private WPI_TalonSRX talonsrx;
     private int port;
+    private int timeoutms = 20;
 
     public MercTalonSRX(int port) {
         talonsrx = new WPI_TalonSRX(port);
@@ -108,18 +112,18 @@ public class MercTalonSRX implements IMercMotorController {
     }
 
     @Override
-    public void configAllowableClosedLoopError(int slotIdx, int allowableCloseLoopError, int timeoutMs) {
-        talonsrx.configAllowableClosedloopError(slotIdx, allowableCloseLoopError, timeoutMs);
+    public void configAllowableClosedLoopError(int slotIdx, int allowableCloseLoopError) {
+        talonsrx.configAllowableClosedloopError(slotIdx, allowableCloseLoopError, DriveTrain.TIMEOUT_MS);
     }
 
     @Override
-    public void configSelectedFeedbackSensor(FeedbackDevice FeedbackDevice, int pidIdx, int timeoutMs) {
-        talonsrx.configSelectedFeedbackSensor(FeedbackDevice, pidIdx, timeoutMs);
+    public void configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx) {
+        talonsrx.configSelectedFeedbackSensor(feedbackDevice, pidIdx, DriveTrain.TIMEOUT_MS);
     }
 
     @Override
-    public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs) {
-        talonsrx.configSetParameter(param, value, subValue, ordinal, timeoutMs);
+    public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal) {
+        talonsrx.configSetParameter(param, value, subValue, ordinal, DriveTrain.TIMEOUT_MS);
     }
 
     @Override
@@ -133,6 +137,26 @@ public class MercTalonSRX implements IMercMotorController {
             return talonsrx.getSensorCollection().isFwdLimitSwitchClosed();
         }
         return talonsrx.getSensorCollection().isRevLimitSwitchClosed();
+    }
+
+    @Override
+    public void configSensorTerm(SensorTerm st, FeedbackDevice fd) {
+        talonsrx.configSensorTerm(st, fd, DriveTrain.TIMEOUT_MS);
+    }
+
+    @Override
+    public void configRemoteFeedbackFilter(int deviceID, RemoteSensorSource rss, int remoteSlotIdx) {
+        talonsrx.configRemoteFeedbackFilter(deviceID, rss, remoteSlotIdx);
+    }
+
+    @Override
+    public void configSelectedFeedbackCoefficient(double fdbkScale, int pidIdx) {
+        talonsrx.configSelectedFeedbackCoefficient(fdbkScale, pidIdx, DriveTrain.TIMEOUT_MS);
+    }
+
+    @Override
+    public void setStatusFramePeriod(StatusFrame sf, int statusms) {
+        talonsrx.setStatusFramePeriod(sf, statusms, DriveTrain.TIMEOUT_MS);
     }
 
 //_________________________________________________________________________________

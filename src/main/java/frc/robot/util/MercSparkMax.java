@@ -7,6 +7,9 @@ import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkMax.ExternalFollower;
 import frc.robot.subsystems.DriveTrain;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.SensorTerm;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -111,17 +114,17 @@ public class MercSparkMax implements IMercMotorController {
     }
 
     @Override
-    public void configAllowableClosedLoopError(int slotIdx, int allowableCloseLoopError, int timeoutMs) {
+    public void configAllowableClosedLoopError(int slotIdx, int allowableCloseLoopError) {
         return;
     }
 
     @Override
-    public void configSelectedFeedbackSensor(FeedbackDevice FeedbackDevice, int pidIdx, int timeoutMs) {
+    public void configSelectedFeedbackSensor(FeedbackDevice FeedbackDevice, int pidIdx) {
         return;
     }
 
     @Override
-    public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs) {
+    public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal) {
         return;
     }
 
@@ -138,6 +141,25 @@ public class MercSparkMax implements IMercMotorController {
         return sparkmax.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen).get();
     }
 
+    @Override
+    public void configSensorTerm(SensorTerm st, FeedbackDevice fd) {
+        return;
+    }
+
+    @Override
+    public void configRemoteFeedbackFilter(int deviceID, RemoteSensorSource rss, int remoteSlotIdx) {
+        return;
+    }
+
+    @Override
+    public void configSelectedFeedbackCoefficient(double fdbkScale, int pidIdx) {
+        return;
+    }
+
+    @Override
+    public void setStatusFramePeriod(StatusFrame sf, int statusms) {
+        return;
+    }
 //_________________________________________________________________________________
     /**
      * Get the Spark Max tied to this class

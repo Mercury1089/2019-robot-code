@@ -52,7 +52,6 @@ public class OI {
     left10.whenPressed(new DriveDistance(100, .7));
 
     right1.whenPressed(new RunShooter(ShooterSpeed.FAST_EJECT));
-  
     right2.whenPressed(new RunShooter(ShooterSpeed.STOP));
     right9.whenPressed(new MoveHeading(10, 0));
     right10.whenPressed(new MoveHeading(10, -60));

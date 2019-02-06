@@ -5,6 +5,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import frc.robot.subsystems.DriveTrain;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.SensorTerm;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import frc.robot.util.interfaces.IMercMotorController;
@@ -15,6 +18,7 @@ import frc.robot.util.interfaces.IMercMotorController;
 public class MercVictorSPX implements IMercMotorController {
     private WPI_VictorSPX victorspx;
     private int port;
+    private int timeoutms = 20;
 
     public MercVictorSPX(int port) {
         victorspx = new WPI_VictorSPX(port);
@@ -106,18 +110,18 @@ public class MercVictorSPX implements IMercMotorController {
     }
 
     @Override
-    public void configAllowableClosedLoopError(int slotIdx, int allowableCloseLoopError, int timeoutMs) {
-        victorspx.configAllowableClosedloopError(slotIdx, allowableCloseLoopError, timeoutMs);
+    public void configAllowableClosedLoopError(int slotIdx, int allowableCloseLoopError) {
+        victorspx.configAllowableClosedloopError(slotIdx, allowableCloseLoopError, DriveTrain.TIMEOUT_MS);
     }
 
     @Override
-    public void configSelectedFeedbackSensor(FeedbackDevice FeedbackDevice, int pidIdx, int timeoutMs) {
-        victorspx.configSelectedFeedbackSensor(FeedbackDevice, pidIdx, timeoutMs);
+    public void configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx) {
+        victorspx.configSelectedFeedbackSensor(feedbackDevice, pidIdx, DriveTrain.TIMEOUT_MS);
     }
 
     @Override
-    public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs) {
-        victorspx.configSetParameter(param, value, subValue, ordinal, timeoutMs);
+    public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal) {
+        victorspx.configSetParameter(param, value, subValue, ordinal, DriveTrain.TIMEOUT_MS);
     }
 
     @Override
@@ -128,6 +132,26 @@ public class MercVictorSPX implements IMercMotorController {
     @Override
     public boolean isLimitSwitchClosed(LimitSwitchDirection limitSwitchDirection) {
         return false;
+    }
+
+    @Override
+    public void configSensorTerm(SensorTerm st, FeedbackDevice fd) {
+        victorspx.configSensorTerm(st, fd, DriveTrain.TIMEOUT_MS);
+    }
+
+    @Override
+    public void configRemoteFeedbackFilter(int deviceID, RemoteSensorSource rss, int remoteSlotIdx) {
+        victorspx.configRemoteFeedbackFilter(deviceID, rss, remoteSlotIdx);
+    }
+
+    @Override
+    public void configSelectedFeedbackCoefficient(double fdbkScale, int pidIdx) {
+        victorspx.configSelectedFeedbackCoefficient(fdbkScale, pidIdx, DriveTrain.TIMEOUT_MS);
+    }
+
+    @Override
+    public void setStatusFramePeriod(StatusFrame sf, int statusms) {
+        victorspx.setStatusFramePeriod(sf, statusms, DriveTrain.TIMEOUT_MS);
     }
 
 //_________________________________________________________________________________
