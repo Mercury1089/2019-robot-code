@@ -38,8 +38,6 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     private Logger log = LogManager.getLogger(DriveTrain.class);
 
-    public static final int TIMEOUT_MS = 10;
-
     public static final int DRIVE_PID_SLOT = 0, 
                             DRIVE_SMOOTH_MOTION_SLOT = 1, 
                             DRIVE_MOTION_PROFILE_SLOT = 2;

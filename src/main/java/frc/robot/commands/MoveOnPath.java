@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.util.MercMath;
 
@@ -149,8 +150,8 @@ public class MoveOnPath extends Command {
 	    // Stop processing trajectories
         trajectoryProcessor.stop();
 
-		left.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 10, DriveTrain.TIMEOUT_MS);
-        right.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 10, DriveTrain.TIMEOUT_MS);
+		left.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 10, RobotMap.CTRE_TIMEOUT);
+        right.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 10, RobotMap.CTRE_TIMEOUT);
 
         Robot.driveTrain.stop();
 
@@ -211,8 +212,8 @@ public class MoveOnPath extends Command {
         // Reset flags and motion profile modes
         isRunning = false;
         setMotionProfileMode(SetValueMotionProfile.Disable);
-        left.getSensorCollection().setQuadraturePosition(0, DriveTrain.TIMEOUT_MS);
-        right.getSensorCollection().setQuadraturePosition(0, DriveTrain.TIMEOUT_MS);
+        left.getSensorCollection().setQuadraturePosition(0, RobotMap.CTRE_TIMEOUT);
+        right.getSensorCollection().setQuadraturePosition(0, RobotMap.CTRE_TIMEOUT);
 
         // Clear the trajectory buffer
         left.clearMotionProfileTrajectories();

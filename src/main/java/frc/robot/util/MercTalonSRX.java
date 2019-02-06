@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
@@ -77,7 +78,7 @@ public class MercTalonSRX implements IMercMotorController {
 
     @Override
     public void resetEncoder() {
-        talonsrx.getSensorCollection().setQuadraturePosition(0, DriveTrain.TIMEOUT_MS);
+        talonsrx.getSensorCollection().setQuadraturePosition(0, RobotMap.CTRE_TIMEOUT);
     }
 
     @Override
@@ -95,10 +96,10 @@ public class MercTalonSRX implements IMercMotorController {
 
     @Override
     public void configVoltage(double nominalOutput, double peakOutput) {
-        talonsrx.configNominalOutputForward(nominalOutput, DriveTrain.TIMEOUT_MS);
-        talonsrx.configNominalOutputReverse(-nominalOutput, DriveTrain.TIMEOUT_MS);
-        talonsrx.configPeakOutputForward(peakOutput, DriveTrain.TIMEOUT_MS);
-        talonsrx.configPeakOutputReverse(-peakOutput, DriveTrain.TIMEOUT_MS);
+        talonsrx.configNominalOutputForward(nominalOutput, RobotMap.CTRE_TIMEOUT);
+        talonsrx.configNominalOutputReverse(-nominalOutput, RobotMap.CTRE_TIMEOUT);
+        talonsrx.configPeakOutputForward(peakOutput, RobotMap.CTRE_TIMEOUT);
+        talonsrx.configPeakOutputReverse(-peakOutput, RobotMap.CTRE_TIMEOUT);
     }
 
     @Override
@@ -113,17 +114,17 @@ public class MercTalonSRX implements IMercMotorController {
 
     @Override
     public void configAllowableClosedLoopError(int slotIdx, int allowableCloseLoopError) {
-        talonsrx.configAllowableClosedloopError(slotIdx, allowableCloseLoopError, DriveTrain.TIMEOUT_MS);
+        talonsrx.configAllowableClosedloopError(slotIdx, allowableCloseLoopError, RobotMap.CTRE_TIMEOUT);
     }
 
     @Override
     public void configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx) {
-        talonsrx.configSelectedFeedbackSensor(feedbackDevice, pidIdx, DriveTrain.TIMEOUT_MS);
+        talonsrx.configSelectedFeedbackSensor(feedbackDevice, pidIdx, RobotMap.CTRE_TIMEOUT);
     }
 
     @Override
     public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal) {
-        talonsrx.configSetParameter(param, value, subValue, ordinal, DriveTrain.TIMEOUT_MS);
+        talonsrx.configSetParameter(param, value, subValue, ordinal, RobotMap.CTRE_TIMEOUT);
     }
 
     @Override
@@ -141,7 +142,7 @@ public class MercTalonSRX implements IMercMotorController {
 
     @Override
     public void configSensorTerm(SensorTerm st, FeedbackDevice fd) {
-        talonsrx.configSensorTerm(st, fd, DriveTrain.TIMEOUT_MS);
+        talonsrx.configSensorTerm(st, fd, RobotMap.CTRE_TIMEOUT);
     }
 
     @Override
@@ -151,12 +152,12 @@ public class MercTalonSRX implements IMercMotorController {
 
     @Override
     public void configSelectedFeedbackCoefficient(double fdbkScale, int pidIdx) {
-        talonsrx.configSelectedFeedbackCoefficient(fdbkScale, pidIdx, DriveTrain.TIMEOUT_MS);
+        talonsrx.configSelectedFeedbackCoefficient(fdbkScale, pidIdx, RobotMap.CTRE_TIMEOUT);
     }
 
     @Override
     public void setStatusFramePeriod(StatusFrame sf, int statusms) {
-        talonsrx.setStatusFramePeriod(sf, statusms, DriveTrain.TIMEOUT_MS);
+        talonsrx.setStatusFramePeriod(sf, statusms, RobotMap.CTRE_TIMEOUT);
     }
 
 //_________________________________________________________________________________

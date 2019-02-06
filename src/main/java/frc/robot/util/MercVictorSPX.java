@@ -3,6 +3,8 @@ package frc.robot.util;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
+import frc.robot.RobotMap;
 import frc.robot.subsystems.DriveTrain;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
@@ -93,10 +95,10 @@ public class MercVictorSPX implements IMercMotorController {
 
     @Override
     public void configVoltage(double nominalOutput, double peakOutput) {
-        victorspx.configNominalOutputForward(nominalOutput, DriveTrain.TIMEOUT_MS);
-        victorspx.configNominalOutputReverse(-nominalOutput, DriveTrain.TIMEOUT_MS);
-        victorspx.configPeakOutputForward(peakOutput, DriveTrain.TIMEOUT_MS);
-        victorspx.configPeakOutputReverse(-peakOutput, DriveTrain.TIMEOUT_MS);
+        victorspx.configNominalOutputForward(nominalOutput, RobotMap.CTRE_TIMEOUT);
+        victorspx.configNominalOutputReverse(-nominalOutput, RobotMap.CTRE_TIMEOUT);
+        victorspx.configPeakOutputForward(peakOutput, RobotMap.CTRE_TIMEOUT);
+        victorspx.configPeakOutputReverse(-peakOutput, RobotMap.CTRE_TIMEOUT);
     }
 
     @Override
@@ -111,17 +113,17 @@ public class MercVictorSPX implements IMercMotorController {
 
     @Override
     public void configAllowableClosedLoopError(int slotIdx, int allowableCloseLoopError) {
-        victorspx.configAllowableClosedloopError(slotIdx, allowableCloseLoopError, DriveTrain.TIMEOUT_MS);
+        victorspx.configAllowableClosedloopError(slotIdx, allowableCloseLoopError, RobotMap.CTRE_TIMEOUT);
     }
 
     @Override
     public void configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx) {
-        victorspx.configSelectedFeedbackSensor(feedbackDevice, pidIdx, DriveTrain.TIMEOUT_MS);
+        victorspx.configSelectedFeedbackSensor(feedbackDevice, pidIdx, RobotMap.CTRE_TIMEOUT);
     }
 
     @Override
     public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal) {
-        victorspx.configSetParameter(param, value, subValue, ordinal, DriveTrain.TIMEOUT_MS);
+        victorspx.configSetParameter(param, value, subValue, ordinal, RobotMap.CTRE_TIMEOUT);
     }
 
     @Override
@@ -136,7 +138,7 @@ public class MercVictorSPX implements IMercMotorController {
 
     @Override
     public void configSensorTerm(SensorTerm st, FeedbackDevice fd) {
-        victorspx.configSensorTerm(st, fd, DriveTrain.TIMEOUT_MS);
+        victorspx.configSensorTerm(st, fd, RobotMap.CTRE_TIMEOUT);
     }
 
     @Override
@@ -146,12 +148,12 @@ public class MercVictorSPX implements IMercMotorController {
 
     @Override
     public void configSelectedFeedbackCoefficient(double fdbkScale, int pidIdx) {
-        victorspx.configSelectedFeedbackCoefficient(fdbkScale, pidIdx, DriveTrain.TIMEOUT_MS);
+        victorspx.configSelectedFeedbackCoefficient(fdbkScale, pidIdx, RobotMap.CTRE_TIMEOUT);
     }
 
     @Override
     public void setStatusFramePeriod(StatusFrame sf, int statusms) {
-        victorspx.setStatusFramePeriod(sf, statusms, DriveTrain.TIMEOUT_MS);
+        victorspx.setStatusFramePeriod(sf, statusms, RobotMap.CTRE_TIMEOUT);
     }
 
 //_________________________________________________________________________________

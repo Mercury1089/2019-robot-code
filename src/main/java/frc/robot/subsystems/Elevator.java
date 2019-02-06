@@ -94,9 +94,9 @@ public class Elevator extends Subsystem {
 
         elevatorLeader.setSensorPhase(false);
         elevatorLeader.configVoltage(0.125, 1.0);
-        elevatorLeader.configAllowableClosedLoopError(0, 5, 10);
-        elevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RobotMap.PID.PRIMARY_PID_LOOP, DriveTrain.TIMEOUT_MS);
-        elevatorLeader.configSetParameter(ParamEnum.eClearPositionOnLimitR, 1, 0, 0, 10);
+        elevatorLeader.configAllowableClosedLoopError(0, 5);
+        elevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RobotMap.PID.PRIMARY_PID_LOOP);
+        elevatorLeader.configSetParameter(ParamEnum.eClearPositionOnLimitR, 1, 0, 0);
     }
 
     @Override

@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.util.MercMath;
 import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.subsystems.DriveTrain;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
@@ -61,14 +62,14 @@ public class MoveHeading extends Command {
     Robot.driveTrain.initializeMotionMagicFeedback();
 
     /* Motion Magic Configurations */
-    right.configMotionAcceleration(1000, DriveTrain.TIMEOUT_MS);
-    right.configMotionCruiseVelocity((int)MercMath.revsPerMinuteToTicksPerTenth(DriveTrain.MAX_RPM), DriveTrain.TIMEOUT_MS);
+    right.configMotionAcceleration(1000, RobotMap.CTRE_TIMEOUT);
+    right.configMotionCruiseVelocity((int)MercMath.revsPerMinuteToTicksPerTenth(DriveTrain.MAX_RPM), RobotMap.CTRE_TIMEOUT);
 
     int closedLoopTimeMs = 1;
-    right.configClosedLoopPeriod(0, closedLoopTimeMs, DriveTrain.TIMEOUT_MS);
-    right.configClosedLoopPeriod(1, closedLoopTimeMs, DriveTrain.TIMEOUT_MS);
+    right.configClosedLoopPeriod(0, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
+    right.configClosedLoopPeriod(1, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
 
-    right.configAuxPIDPolarity(false, DriveTrain.TIMEOUT_MS);
+    right.configAuxPIDPolarity(false, RobotMap.CTRE_TIMEOUT);
 
     right.selectProfileSlot(DriveTrain.DRIVE_PID_SLOT, DriveTrain.PRIMARY_LOOP);
     right.selectProfileSlot(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT, DriveTrain.AUXILIARY_LOOP);

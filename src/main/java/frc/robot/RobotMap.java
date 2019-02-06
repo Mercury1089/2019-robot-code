@@ -23,10 +23,12 @@ package frc.robot;
  * </pre>
  */
 public class RobotMap {
+
+	public static final int CTRE_TIMEOUT = 10;
+
 	/**
 	 * Class containing constants for the ports of all CAN devices.
 	 */
-
 	public static class CAN {
 		public static final int 
 			DRIVETRAIN_ML = 1, 
