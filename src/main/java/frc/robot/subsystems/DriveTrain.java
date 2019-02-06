@@ -35,7 +35,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public static final int TIMEOUT_MS = 10;
     public static final int DRIVE_PID_SLOT = 0;
     public static final int DRIVE_SMOOTH_MOTION_SLOT = 1;
-    public static final int REMOTE_DEVICE_1 = 0;
+    public static final int REMOTE_DEVICE_0 = 0, REMOTE_DEVICE_1 = 1;
     public static final int PRIMARY_LOOP = 0;
     public static final int AUXILIARY_LOOP = 1;
 
@@ -50,7 +50,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     private Limelight limelight;
     private RightSight rightSight;
 
-	public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096, NEO_ENCODER_TICKS_PER_REVOLUTION = 42;
+    public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096, NEO_ENCODER_TICKS_PER_REVOLUTION = 42,
+                            PIGEON_NATIVE_UNITS_PER_ROTATION = 8192;
 	public static final double GEAR_RATIO = 1;                   //TEMP
     public static final double MAX_RPM = 545;                    //TEMP
     public static final double WHEEL_DIAMETER_INCHES = 5.8;       //TEMP eventually make this stuff configurable in shuffledash
@@ -75,6 +76,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 	 */
 	public DriveTrain(DriveTrain.DriveTrainLayout layout) { //This should eventually be fully configurable
         // At this point it's based on what the layout is
+
         this.layout = layout;
         switch(layout) {
             case LEGACY:
@@ -103,6 +105,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         //Initialize podgeboi
         podgeboi = new PigeonIMU(CAN.PIGEON);
 
+        podgeboi.configFactoryDefault();
+
         //Initialize LimeLight
         limelight = new Limelight();
 
@@ -110,20 +114,20 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         rightSight = new RightSight(0);
 
         //Account for motor orientation.
-        masterLeft.setInverted(true);
-        followerLeft.setInverted(true);
-        masterRight.setInverted(false);
-        followerRight.setInverted(false);
+        masterLeft.setInverted(false);
+        followerLeft.setInverted(false);
+        masterRight.setInverted(true);
+        followerRight.setInverted(true);
+
+        //Account for encoder orientation.
+        masterLeft.setSensorPhase(true);
+        masterRight.setSensorPhase(true);
 
         setNeutralMode(NeutralMode.Brake);
 
         if (layout != DriveTrainLayout.SPARKS) {
             WPI_TalonSRX left = ((MercTalonSRX)masterLeft).get();
             WPI_TalonSRX right = ((MercTalonSRX)masterRight).get();
-
-            //Account for encoder orientation.
-            left.setSensorPhase(true);
-            right.setSensorPhase(true);
 
             // Set up feedback sensors
             // Using CTRE_MagEncoder_Relative allows for relative ticks when encoder is zeroed out.
@@ -143,8 +147,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         followerRight.follow(masterRight);
 
         // Config PID
-        DRIVE_GAINS = new PIDGain(0.3, 0.0, 0.05, 0.0);
-        SMOOTH_GAINS = new PIDGain(0.05, 0.0, 0.0, getFeedForward());
+        DRIVE_GAINS = new PIDGain(0.1, 0.0, 0.0, 0.0);
+        SMOOTH_GAINS = new PIDGain(2.0, 0.0, 4.0, getFeedForward());
         masterRight.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
         masterLeft.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
         masterRight.configPID(DRIVE_SMOOTH_MOTION_SLOT, SMOOTH_GAINS);

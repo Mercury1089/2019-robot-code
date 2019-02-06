@@ -9,7 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.subsystems.CargoShooter;
+import frc.robot.subsystems.CargoEndEffector;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.CargoIntake;
 import frc.robot.subsystems.Elevator;
@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
   public static DriveTrain driveTrain;
   // public static PDP pdp;
   public static CargoIntake cargoIntake;
-  public static CargoShooter cargoShooter;
+  public static CargoEndEffector cargoShooter;
   public static Elevator elevator;
 
   private AutonCommand autonCommand;
@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
 
     // pdp = new PDP();
     cargoIntake = new CargoIntake();
-    cargoShooter = new CargoShooter();
+    cargoShooter = new CargoEndEffector();
     elevator = new Elevator(RobotMap.CAN.ELEVATOR_TALON, RobotMap.CAN.ELEVATOR_VICTOR);
 
     oi = new OI();

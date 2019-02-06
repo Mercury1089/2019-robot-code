@@ -22,6 +22,7 @@ public class MercTalonSRX implements IMercMotorController {
     public MercTalonSRX(int port) {
         talonsrx = new WPI_TalonSRX(port);
         this.port = port;
+        talonsrx.configFactoryDefault();
     }
 
     @Override

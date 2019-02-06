@@ -28,9 +28,18 @@ public class RobotMap {
 	 */
 
 	public static class CAN {
-		public static final int DRIVETRAIN_ML = 1, DRIVETRAIN_MR = 2, DRIVETRAIN_SL = 3, DRIVETRAIN_SR = 4,
-				ELEVATOR_TALON = 5, ELEVATOR_VICTOR = 6, SHOOTER_LEFT = 7, SHOOTER_RIGHT = 8, INTAKE = 9, CANIFIER = 10,
-				PIGEON = 11;
+		public static final int 
+			DRIVETRAIN_ML = 1, 
+			DRIVETRAIN_MR = 2, 
+			DRIVETRAIN_SL = 3, 
+			DRIVETRAIN_SR = 4,
+			ELEVATOR_TALON = 5, 
+			ELEVATOR_VICTOR = 6, 
+			SHOOTER_LEFT = 7, 
+			SHOOTER_RIGHT = 8, 
+			INTAKE = 9, 
+			CANIFIER = 10,
+			PIGEON = 11;
 
 		private CAN() {
 		} // Should never be constructed.
