@@ -12,6 +12,13 @@ public class Limelight implements PIDSource, TableEntryListener {
     private NetworkTable nt = NetworkTableInstance.getDefault().getTable("limelight-merc"); //finds the limelight network table
     private double numTargets, targetCenterXAngle, targetCenterYAngle, targetArea, horizontalLength, verticalLength;
 
+    private final double vertCoeff = 164.0;
+    private final double vertExp = -1.09;
+    private final double horizCoeff = 308.0;
+    private final double horizExp = -0.99;
+    private final double areaCoeff = 6.6;
+    private final double areaExp = -0.504;
+    
     /** 
      * Constucts the sensor and adds a listener to the table 
      */
@@ -100,5 +107,29 @@ public class Limelight implements PIDSource, TableEntryListener {
 
     public synchronized double pidGet() {
         return this.targetCenterXAngle;
+    }
+
+    public synchronized double getAreaDistance() {
+        return calcDistFromArea();
+    }
+
+    public synchronized double getVertDistance() {
+        return calcDistFromVert();
+    }
+
+    public synchronized double getHorizDistance() {
+        return calcDistFromHoriz();
+    }
+
+    private double calcDistFromArea() {
+        return areaCoeff * Math.pow(targetArea, areaExp);
+    }
+
+    private double calcDistFromVert() {
+        return vertCoeff * Math.pow(verticalLength, vertExp);
+    }
+
+    private double calcDistFromHoriz() {
+        return horizCoeff * Math.pow(horizontalLength, horizExp);
     }
 }

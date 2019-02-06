@@ -38,6 +38,9 @@ public class ShuffleDash {
 
         SmartDashboard.putNumber("Lime Target Offset", Robot.driveTrain.getLimeLight().getTargetCenterXAngle());
         SmartDashboard.putNumber("Lime Target Area", Robot.driveTrain.getLimeLight().getTargetArea());
+        SmartDashboard.putNumber("Lime Dist From Area", Robot.driveTrain.getLimeLight().getAreaDistance());
+        SmartDashboard.putNumber("Lime Dist From Vert", Robot.driveTrain.getLimeLight().getVertDistance());
+        SmartDashboard.putNumber("Lime Dist From Horiz", Robot.driveTrain.getLimeLight().getHorizDistance());
         SmartDashboard.putNumber("Gyro Angle", Robot.driveTrain.getPigeonYaw());
 
         SmartDashboard.putBoolean("Auton Initialized", ntInstance.getTable("AutonConfiguration").containsKey("startingPosition"));
