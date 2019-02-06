@@ -10,15 +10,18 @@ import edu.wpi.first.wpilibj.PIDSourceType;
  */
 public class Limelight implements PIDSource, TableEntryListener {
     private NetworkTable nt = NetworkTableInstance.getDefault().getTable("limelight"); //finds the limelight network table
-    private double numTargets, targetCenterXAngle, targetCenterYAngle, targetArea;
+    private double numTargets, targetCenterXAngle, targetCenterYAngle, targetArea, horizontalLength, verticalLength;
 
-    /**Constucts the sensor and adds a listener to the table 
+    /** 
+     * Constucts the sensor and adds a listener to the table 
      */
     public Limelight(){
         numTargets = nt.getEntry("tv").getDouble(0.0);
         targetCenterXAngle = nt.getEntry("tx").getDouble(0.0);
         targetCenterYAngle = nt.getEntry("ty").getDouble(0.0);
         targetArea = nt.getEntry("ta").getDouble(0.0);
+        horizontalLength = nt.getEntry("thor").getDouble(0.0);
+        verticalLength = nt.getEntry("tvert").getDouble(0.0);
         nt.addEntryListener(this, EntryListenerFlags.kUpdate);
     }
 
@@ -48,6 +51,14 @@ public class Limelight implements PIDSource, TableEntryListener {
                     numTargets = nv.getDouble();
                     break;
                 }
+                case "thor": {
+                    horizontalLength = nv.getDouble();
+                    break;
+                }
+                case "tvert": {
+                    verticalLength = nv.getDouble();
+                    break;
+                }
                 default: {
                     break;
                 }
@@ -71,6 +82,13 @@ public class Limelight implements PIDSource, TableEntryListener {
         return this.numTargets;
     }
 
+    public synchronized double getVerticalLength() {
+        return this.verticalLength;
+    }
+
+    public synchronized double getHorizontalLength() {
+        return this.horizontalLength;
+    }
     public synchronized void setPIDSourceType(PIDSourceType pidST){
         
     }

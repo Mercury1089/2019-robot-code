@@ -36,7 +36,8 @@ public class DegreeRotate extends PIDCommand implements Recallable<Double> {
 	 */
 	public DegreeRotate(double targetHeading, RotationType rotationType) {
 		super( // Sloppy, but configurable
-				DriveTrainSettings.getPIDValues("degreeRotate")[0], DriveTrainSettings.getPIDValues("degreeRotate")[1],
+				DriveTrainSettings.getPIDValues("degreeRotate")[0], 
+				DriveTrainSettings.getPIDValues("degreeRotate")[1],
 				DriveTrainSettings.getPIDValues("degreeRotate")[2]);
 
 		log.info(getName() + " Beginning constructor");
