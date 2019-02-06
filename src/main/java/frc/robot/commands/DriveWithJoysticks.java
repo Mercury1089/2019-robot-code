@@ -54,7 +54,7 @@ public class DriveWithJoysticks extends Command {
 					tDrive.tankDrive(Robot.oi.getY(DS_USB.LEFT_STICK), Robot.oi.getY(DS_USB.RIGHT_STICK));
 					break;
 				case ARCADE:
-					tDrive.arcadeDrive(Robot.oi.getY(DS_USB.LEFT_STICK), -Robot.oi.getX(DS_USB.RIGHT_STICK), true);
+					tDrive.arcadeDrive(-Robot.oi.getY(DS_USB.LEFT_STICK), Robot.oi.getX(DS_USB.RIGHT_STICK), true);
 					break;
 			}
 		} else {

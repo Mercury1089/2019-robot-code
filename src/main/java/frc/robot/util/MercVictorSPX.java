@@ -19,6 +19,7 @@ public class MercVictorSPX implements IMercMotorController {
     public MercVictorSPX(int port) {
         victorspx = new WPI_VictorSPX(port);
         this.port = port;
+        victorspx.configFactoryDefault();
     }
 
     @Override

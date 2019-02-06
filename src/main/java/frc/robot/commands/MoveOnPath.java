@@ -166,8 +166,8 @@ public class MoveOnPath extends Command {
             TrajectoryPoint trajPointR = new TrajectoryPoint();
 
 	        // NOTE: Encoder ticks are backwards, we need to work with that.
-            double currentPosL = -trajectoryL.segments[i].position * dir;
-            double currentPosR = -trajectoryR.segments[i].position * dir;
+            double currentPosL = trajectoryL.segments[i].position * dir;
+            double currentPosR = trajectoryR.segments[i].position * dir;
 
             double velocityL = trajectoryL.segments[i].velocity;
             double velocityR = trajectoryR.segments[i].velocity;

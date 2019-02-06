@@ -124,6 +124,10 @@ public class MercMath {
 				(Math.PI * DriveTrain.WHEEL_DIAMETER_INCHES);
 	}
 
+	public static double degreesToPigeonUnits(double degrees) {
+		return DriveTrain.PIGEON_NATIVE_UNITS_PER_ROTATION * degrees / 360;
+	}
+
 	public static double encoderTicksToRevs(double ticks) {
 		return ticks / (Robot.driveTrain.getLayout() != DriveTrainLayout.SPARKS ? 
 				DriveTrain.MAG_ENCODER_TICKS_PER_REVOLUTION : DriveTrain.NEO_ENCODER_TICKS_PER_REVOLUTION);
@@ -162,7 +166,6 @@ public class MercMath {
 	}
 
 	public static double calculateFeedForward(double rpm) {
-		System.out.println("calculating ff");
 		final double MAX_MOTOR_OUTPUT = 1023;
 		final double NATIVE_UNITS_PER_100 = rpm / 600 * DriveTrain.MAG_ENCODER_TICKS_PER_REVOLUTION;
 		return MAX_MOTOR_OUTPUT/NATIVE_UNITS_PER_100;

@@ -144,14 +144,12 @@ public class DriveDistance extends Command implements Recallable<Double> {
         // On Crossfire, the Talon LEDs are *red* when the robot is moving forward. For this reason, we need
         // to negate both endPosR and endPosL.
         // THIS MIGHT CHANGE on the 2018 robot!!
-        endPosL = -endPosL;
-        endPosR = endPosL;
 
         endPosL += Robot.driveTrain.getLeftEncPositionInTicks();
-        endPosR += Robot.driveTrain.getRightEncPositionInTicks();
+        endPosL += Robot.driveTrain.getRightEncPositionInTicks();
 
         Robot.driveTrain.getLeft().setPosition(endPosL);
-        Robot.driveTrain.getRight().setPosition(endPosR);
+        Robot.driveTrain.getRight().setPosition(endPosL);
     }
 
     @Override
