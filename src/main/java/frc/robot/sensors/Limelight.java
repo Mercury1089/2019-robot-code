@@ -9,13 +9,13 @@ import edu.wpi.first.wpilibj.PIDSourceType;
  * Add your docs here.
  */
 public class Limelight implements PIDSource, TableEntryListener {
-    private NetworkTable nt = NetworkTableInstance.getDefault().getTable("limelight"); //finds the limelight network table
+    private NetworkTable nt = NetworkTableInstance.getDefault().getTable("limelight-merc"); //finds the limelight network table
     private double numTargets, targetCenterXAngle, targetCenterYAngle, targetArea, horizontalLength, verticalLength;
 
     /** 
      * Constucts the sensor and adds a listener to the table 
      */
-    public Limelight(){
+    public Limelight() {
         numTargets = nt.getEntry("tv").getDouble(0.0);
         targetCenterXAngle = nt.getEntry("tx").getDouble(0.0);
         targetCenterYAngle = nt.getEntry("ty").getDouble(0.0);
@@ -32,6 +32,7 @@ public class Limelight implements PIDSource, TableEntryListener {
      * @param nv is the value of the entry that changed
      * @param flags is the flag that occured which is always kUpdate in this case
      */
+    @Override
     public void valueChanged(NetworkTable nt, String key, NetworkTableEntry ne, NetworkTableValue nv, int flags){
         synchronized(this){
             switch (key) {
