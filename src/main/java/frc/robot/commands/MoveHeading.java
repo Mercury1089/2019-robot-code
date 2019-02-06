@@ -26,6 +26,11 @@ import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 import frc.robot.util.MercTalonSRX;
 
 public class MoveHeading extends Command {
+
+  protected int MOVE_THRESHOLD;   // ticks
+  protected double ANGLE_THRESHOLD; // degrees 
+  protected int ON_TARGET_MINIMUM_COUNT; // 100 millis
+
   IMercMotorController leftI, rightI;
   WPI_TalonSRX left, right;
 
@@ -49,6 +54,10 @@ public class MoveHeading extends Command {
 
     left = ((MercTalonSRX)(leftI)).get();
     right = ((MercTalonSRX)(rightI)).get();
+
+    MOVE_THRESHOLD = 250;
+    ANGLE_THRESHOLD = 5;
+    ON_TARGET_MINIMUM_COUNT = 10;
 
     this.distance = MercMath.feetToEncoderTicks(distance);
     this.targetHeading = MercMath.degreesToPigeonUnits(heading);
@@ -88,8 +97,27 @@ public class MoveHeading extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override 
   protected boolean isFinished() {
-    //return Robot.driveTrain.getLeftEncPositionInTicks() >= distance && Robot.driveTrain.getRightEncPositionInTicks() >= distance;
-    return false;
+    double distError = right.getClosedLoopError(), angleError = right.getClosedLoopError(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
+    int onTargetCount = 0;
+
+    long initialTime = System.currentTimeMillis();
+    boolean isFinished = false;
+
+    boolean isOnTarget = (Math.abs(distError) < MOVE_THRESHOLD && Math.abs(angleError) < ANGLE_THRESHOLD);
+
+    if (isOnTarget) {
+      onTargetCount++;
+    } else {
+      if (onTargetCount > 0)
+        onTargetCount = 0;
+    }
+
+    if (onTargetCount > ON_TARGET_MINIMUM_COUNT) {
+      isFinished = true;
+      onTargetCount = 0;
+    }
+
+    return isFinished;
   }
 
   // Called once after isFinished returns true

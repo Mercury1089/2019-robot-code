@@ -12,7 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import frc.robot.Robot;
 
-public class DriveWithLIDAR extends DriveDistance {
+public class DriveWithLIDAR extends EncDriveDistance {
   private final Logger LOG = LogManager.getLogger(DriveWithLIDAR.class);
 
   public double minimumDistance;
