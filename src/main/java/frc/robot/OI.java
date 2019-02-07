@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.RobotMap.*;
 import frc.robot.util.ShuffleDash;
 import frc.robot.commands.DriveDistance;
+import frc.robot.commands.EncDriveDistance;
 import frc.robot.commands.MoveOnPath;
 import frc.robot.commands.MoveOnPath.Direction;
 import frc.robot.commands.MoveHeading;
@@ -49,7 +50,7 @@ public class OI {
     left1.whenPressed(new RunShooter(ShooterSpeed.FAST_INTAKE));
     left7.whenPressed(new MoveOnPath("CurveLeft", Direction.FORWARD));
     left8.whenPressed(new MoveOnPath("StraightProfile", Direction.FORWARD));
-    left10.whenPressed(new DriveDistance(100, .7));
+    left10.whenPressed(new EncDriveDistance(100.0, .7));
 
     right1.whenPressed(new RunShooter(ShooterSpeed.FAST_EJECT));
     right2.whenPressed(new RunShooter(ShooterSpeed.STOP));
