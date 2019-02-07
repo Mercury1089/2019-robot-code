@@ -71,6 +71,8 @@ public class SPIRotate extends PIDCommand implements Recallable<Double> {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		Robot.driveTrain.initializeNormalMotionFeedback();
+
 		double[] outputRange = DriveTrainSettings.getOutputRange("degreeRotate");
 
 		if (originator != null) {

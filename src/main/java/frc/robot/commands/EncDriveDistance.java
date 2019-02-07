@@ -61,6 +61,8 @@ public class EncDriveDistance extends Command implements Recallable<Double> {
     protected void initialize() {
         distanceTraveled = Double.NEGATIVE_INFINITY;
 
+        Robot.driveTrain.initializeNormalMotionFeedback();
+
         if (originator != null) {
             distance = originator.recall();
 
@@ -112,6 +114,8 @@ public class EncDriveDistance extends Command implements Recallable<Double> {
     protected void end() {
         System.out.println("END STARTING " + System.currentTimeMillis());
         Robot.driveTrain.stop();
+
+        Robot.driveTrain.initializeMotionMagicFeedback();
 
         // Get distance delta
         distanceTraveled = initialDistance - Robot.driveTrain.getLeftEncPositionInFeet();

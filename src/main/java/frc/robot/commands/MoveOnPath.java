@@ -101,6 +101,8 @@ public class MoveOnPath extends Command {
         
         System.out.println("running MP");
 
+        Robot.driveTrain.initializeNormalMotionFeedback();
+
 	    // Reset command state
         reset();
 
@@ -147,7 +149,9 @@ public class MoveOnPath extends Command {
 
     @Override
 	protected void end() {
-	    // Stop processing trajectories
+        // Stop processing trajectories
+        Robot.driveTrain.initializeMotionMagicFeedback();
+
         trajectoryProcessor.stop();
 
 		left.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 10, RobotMap.CTRE_TIMEOUT);
