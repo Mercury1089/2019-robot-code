@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
  * Add your docs here.
  */
 public class Limelight implements PIDSource, TableEntryListener {
-    private NetworkTable nt = NetworkTableInstance.getDefault().getTable("limelight-merc"); //finds the limelight network table
+    private NetworkTable nt; //finds the limelight network table
     private double numTargets, targetCenterXAngle, targetCenterYAngle, targetArea, horizontalLength, verticalLength;
 
     private final double vertCoeff = 164.0;
@@ -23,6 +23,7 @@ public class Limelight implements PIDSource, TableEntryListener {
      * Constucts the sensor and adds a listener to the table 
      */
     public Limelight() {
+        nt = NetworkTableInstance.getDefault().getTable("limelight-merc");
         numTargets = nt.getEntry("tv").getDouble(0.0);
         targetCenterXAngle = nt.getEntry("tx").getDouble(0.0);
         targetCenterYAngle = nt.getEntry("ty").getDouble(0.0);
