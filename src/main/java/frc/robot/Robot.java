@@ -13,9 +13,13 @@ import frc.robot.subsystems.CargoEndEffector;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.CargoIntake;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.HatchManipulator;
+import frc.robot.subsystems.LimelightRotate;
 //import frc.robot.subsystems.PDP;
+//import frc.robot.subsystems.LimelightRotate;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 import frc.robot.auton.AutonCommand;
+import frc.robot.sensors.Limelight;
 
 //import frc.robot.commands.ExampleCommand;
 //import frc.robot.subsystems.ExampleSubsystem;
@@ -31,8 +35,10 @@ public class Robot extends TimedRobot {
 
   public static DriveTrain driveTrain;
   // public static PDP pdp;
+  // public static LimelightRotate limelightRotate;
   public static CargoIntake cargoIntake;
   public static CargoEndEffector cargoShooter;
+  public static HatchManipulator hatchManipulator;
   public static Elevator elevator;
 
   private AutonCommand autonCommand;
@@ -52,6 +58,8 @@ public class Robot extends TimedRobot {
     cargoIntake = new CargoIntake();
     cargoShooter = new CargoEndEffector();
     elevator = new Elevator(RobotMap.CAN.ELEVATOR_TALON, RobotMap.CAN.ELEVATOR_VICTOR);
+    hatchManipulator = new HatchManipulator();
+    // limelightRotate = new LimelightRotate();
 
     oi = new OI();
   }

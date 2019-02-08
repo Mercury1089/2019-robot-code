@@ -47,10 +47,21 @@ public class HatchManipulator extends Subsystem {
   }
 
   public enum ArticulatorPosition{
-    ACQUIRE,
-    READY_TO_PICK,
-    LOAD_STATION,
-    IN_BOT
+    //Temporary encoder tick values
+    ACQUIRE(4095),
+    READY_TO_PICK(3071),
+    LOAD_STATION(2047),
+    IN_BOT(-4096);
+
+    public int encTicks;
+
+    ArticulatorPosition(int encTicks){
+      this.encTicks = encTicks;
+    }
+    
+    public int getEncoderTicks(){
+      return encTicks;
+    }
   }
 
   public HatchManipulator() {

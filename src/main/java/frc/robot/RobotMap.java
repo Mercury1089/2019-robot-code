@@ -71,8 +71,9 @@ public class RobotMap {
 	 * Class containing constants for PWM device channels
 	 */
 	public static class PWM {
-		public static final int LIDAR = 0;
-
+		public static final int 
+			LIDAR = 0,
+			LIMELIGHT_SERVO = 1;
 		private PWM() {
 		} // Should never be constructed.
 	}
