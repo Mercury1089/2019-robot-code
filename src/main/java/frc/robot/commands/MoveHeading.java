@@ -30,15 +30,14 @@ public class MoveHeading extends Command {
   protected double ANGLE_THRESHOLD; // degrees 
   protected int ON_TARGET_MINIMUM_COUNT; // 100 millis
   protected int CHECK_THRESHOLD = 50;
+  protected final int closedLoopTimeMs = 1;
 
   IMercMotorController leftI, rightI;
   WPI_TalonSRX left, right;
 
   private double distance, targetHeading;
 
-  public final int closedLoopTimeMs = 1;
-
-  protected int onTargetCount = 0, initialCheckCount = 0;
+  protected int onTargetCount, initialCheckCount;
 
   /**
    * Move with heading assist from pigeon
@@ -72,6 +71,9 @@ public class MoveHeading extends Command {
 
     if (!Robot.driveTrain.isInMotionMagicMode())
       Robot.driveTrain.initializeMotionMagicFeedback();
+    
+    onTargetCount = 0;
+    initialCheckCount = 0;
 
     /* Motion Magic Configurations */
     right.configMotionAcceleration(1000, RobotMap.CTRE_TIMEOUT);
