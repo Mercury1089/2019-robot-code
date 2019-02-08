@@ -41,8 +41,9 @@ public class RobotMap {
 			SHOOTER_RIGHT = 8, 
 			INTAKE = 9, 
 			CANIFIER = 10,
-			PIGEON = 11;
-
+			PIGEON = 11,
+			HATCH_INTAKE = 12,
+			HATCH_EJECTOR = 13;
 		private CAN() {
 		} // Should never be constructed.
 	}
@@ -70,8 +71,9 @@ public class RobotMap {
 	 * Class containing constants for PWM device channels
 	 */
 	public static class PWM {
-		public static final int LIDAR = 0;
-
+		public static final int 
+			LIDAR = 0,
+			LIMELIGHT_SERVO = 1;
 		private PWM() {
 		} // Should never be constructed.
 	}

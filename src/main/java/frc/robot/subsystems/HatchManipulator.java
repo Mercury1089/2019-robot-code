@@ -8,18 +8,65 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap.CAN;
 import frc.robot.util.MercVictorSPX;
+import frc.robot.util.MercTalonSRX;
 import frc.robot.util.interfaces.IMercMotorController;
 
 /**
- * Add your docs here.
+ * Subsystem to intake and eject hatch panels
+ * articulator is the intake mechanism
  */
 public class HatchManipulator extends Subsystem {
   IMercMotorController ejector;
   IMercMotorController articulator;
+  ArticulatorPosition position;
+
+  public enum HatchIntakeSpeed {
+    FAST_REVERSE(-1.0),
+    SLOW_REVERSE(-0.5),
+    SLOW_FORWARD(0.5),
+    FAST_FORWARD(1.0);
+    public final double HATCH_ARTICULATOR_SPEED;
+
+    HatchIntakeSpeed(double speed) {
+      HATCH_ARTICULATOR_SPEED = speed;
+    }
+  }
+
+  public enum HatchEjectorSpeed {
+    FAST_REVERSE(-1.0),
+    SLOW_REVERSE(-0.5),
+    SLOW_FORWARD(0.5),
+    FAST_FORWARD(1.0);
+    public final double HATCH_EJECTOR_SPEED;
+
+    HatchEjectorSpeed(double speed) {
+      HATCH_EJECTOR_SPEED = speed;
+    }
+  }
+
+  public enum ArticulatorPosition{
+    //Temporary encoder tick values
+    ACQUIRE(4095),
+    READY_TO_PICK(3071),
+    LOAD_STATION(2047),
+    IN_BOT(-4096);
+
+    public int encTicks;
+
+    ArticulatorPosition(int encTicks){
+      this.encTicks = encTicks;
+    }
+    
+    public int getEncoderTicks(){
+      return encTicks;
+    }
+  }
 
   public HatchManipulator() {
-    //ejector = new MercVictorSPX(CAN.)
+    ejector = new MercVictorSPX(CAN.HATCH_EJECTOR);
+    articulator = new MercTalonSRX(CAN.HATCH_INTAKE);
   }
 
   @Override
@@ -28,4 +75,27 @@ public class HatchManipulator extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
 
+  public void setArticulatorSpeed(double speed) {
+    articulator.setSpeed(speed);
+  }
+
+  public IMercMotorController getArticulator(){
+    return articulator;
+  }
+
+  public ArticulatorPosition getArticulatorPosition(){
+    return position;
+  }
+
+  public void setArticulatorPosition(ArticulatorPosition newState){
+    this.position = newState;
+  }
+
+  public void setEjectorSpeed(double speed){
+    ejector.setSpeed(speed);
+  }
+
+  public IMercMotorController getEjector(){
+    return ejector;
+  }
 }
