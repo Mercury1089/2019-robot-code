@@ -149,4 +149,6 @@ public interface IMercMotorController {
     public void configSelectedFeedbackCoefficient(double fdbkScale, int pidIdx);
 
     public void setStatusFramePeriod(StatusFrame sf, int statusms);
+
+    public void selectProfileSlot(int slotIdx, int pidIdx);
 }

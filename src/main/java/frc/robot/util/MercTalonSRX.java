@@ -160,6 +160,11 @@ public class MercTalonSRX implements IMercMotorController {
         talonsrx.setStatusFramePeriod(sf, statusms, RobotMap.CTRE_TIMEOUT);
     }
 
+    @Override
+    public void selectProfileSlot(int slotIdx, int pidIdx) {
+        talonsrx.selectProfileSlot(slotIdx, pidIdx);
+    }
+
 //_________________________________________________________________________________
     /**
      * Get the TalonSRX tied to this class

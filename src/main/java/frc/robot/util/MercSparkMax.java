@@ -160,6 +160,11 @@ public class MercSparkMax implements IMercMotorController {
     public void setStatusFramePeriod(StatusFrame sf, int statusms) {
         return;
     }
+
+    @Override
+    public void selectProfileSlot(int slotIdx, int pidIdx) {
+        return;
+    }
 //_________________________________________________________________________________
     /**
      * Get the Spark Max tied to this class

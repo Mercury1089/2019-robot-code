@@ -64,10 +64,10 @@ public class OI {
     right2.whenPressed(new RunShooter(ShooterSpeed.STOP));
     right6.whenPressed(new DegreeRotate(90));
     right7.whenPressed(new DegreeRotate(-90));
-    right8.whenPressed(new DriveDistance(12));
-    right9.whenPressed(new MoveHeading(10, 0));
-    right10.whenPressed(new MoveHeading(10, -60));
-    right11.whenPressed(new MoveHeading(10, 60));
+    right8.whenPressed(new DriveDistance(36));
+    right9.whenPressed(new MoveHeading(36, 0));
+    right10.whenPressed(new MoveHeading(60, -60));
+    right11.whenPressed(new MoveHeading(60, 60));
   }
   
   public double getX(int port) {

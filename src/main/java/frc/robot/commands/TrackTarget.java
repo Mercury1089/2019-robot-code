@@ -7,60 +7,50 @@
 
 package frc.robot.commands;
 
-import frc.robot.Robot;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.DriveTrain.DriveTrainSide;
+import edu.wpi.first.wpilibj.command.Command;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.FollowerType;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.SensorTerm;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.util.MercMath;
+import frc.robot.util.interfaces.IMercMotorController;
+import frc.robot.Robot;
+import frc.robot.RobotMap;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.util.MercTalonSRX;
 
-public class DegreeRotate extends MoveHeading {
-  public DegreeRotate(double angleToTurn) {
-    super(0, angleToTurn);
+public class TrackTarget extends MoveHeading {
 
-    requires(Robot.driveTrain);
-
-    MOVE_THRESHOLD = 100;
-    ANGLE_THRESHOLD = 2;
-    ON_TARGET_MINIMUM_COUNT = 3;
+  public TrackTarget(double initDistance, double initHeading) {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    super(initDistance, initHeading);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     super.initialize();
-    
-    Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_TURN_SLOT);
+    right.set(ControlMode.MotionMagic, distance, DemandType.AuxPID, targetHeading);
+    left.follow(right, FollowerType.AuxOutput1);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    super.execute();
+    right.set(ControlMode.MotionMagic, Robot.driveTrain.getLimeLight().getVertDistance(), DemandType.AuxPID, Robot.driveTrain.getLimeLight().getTargetCenterXAngle());
+    left.follow(right, FollowerType.AuxOutput1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    double angleError = right.getClosedLoopError(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
-
-    angleError = MercMath.pigeonUnitsToDegrees(angleError);
-
-    boolean isFinished = false;
-
-    boolean isOnTarget = (Math.abs(angleError) < ANGLE_THRESHOLD);
-
-    if (isOnTarget) {
-      onTargetCount++;
-    } else {
-      if (onTargetCount > 0)
-        onTargetCount = 0;
-    }
-
-    if (onTargetCount > ON_TARGET_MINIMUM_COUNT) {
-      isFinished = true;
-      onTargetCount = 0;
-    }
-
-    return isFinished;
+    return false;
   }
 
   // Called once after isFinished returns true

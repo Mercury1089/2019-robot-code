@@ -22,6 +22,7 @@ import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrain.DriveTrainSide;
 import frc.robot.util.MercTalonSRX;
 
 public class MoveHeading extends Command {
@@ -32,17 +33,17 @@ public class MoveHeading extends Command {
   protected int CHECK_THRESHOLD = 50;
   protected final int closedLoopTimeMs = 1;
 
-  IMercMotorController leftI, rightI;
-  WPI_TalonSRX left, right;
+  protected IMercMotorController leftI, rightI;
+  protected WPI_TalonSRX left, right;
 
-  private double distance, targetHeading;
+  protected double distance, targetHeading;
 
   protected int onTargetCount, initialCheckCount;
 
   /**
    * Move with heading assist from pigeon
    * 
-   * @param distance distance to move in feet
+   * @param distance distance to move in inches
    * @param heading heading to turn to for the pigeon
    */
   public MoveHeading(double distance, double heading) {
@@ -60,7 +61,7 @@ public class MoveHeading extends Command {
     ANGLE_THRESHOLD = 5;
     ON_TARGET_MINIMUM_COUNT = 10;
 
-    this.distance = MercMath.feetToEncoderTicks(distance);
+    this.distance = MercMath.inchesToEncoderTicks(distance);
     this.targetHeading = MercMath.degreesToPigeonUnits(heading);
   }
 
@@ -85,8 +86,7 @@ public class MoveHeading extends Command {
 
     right.configAuxPIDPolarity(false, RobotMap.CTRE_TIMEOUT);
 
-    right.selectProfileSlot(DriveTrain.DRIVE_PID_SLOT, DriveTrain.PRIMARY_LOOP);
-    right.selectProfileSlot(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT, DriveTrain.AUXILIARY_LOOP);
+    Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
     
     Robot.driveTrain.resetPigeonYaw();
   }

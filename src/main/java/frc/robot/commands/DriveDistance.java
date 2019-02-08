@@ -14,7 +14,7 @@ public class DriveDistance extends MoveHeading {
    * @param distance in inches
    */
   public DriveDistance(double distance) {
-    super(distance / 12, 0);
+    super(distance, 0);
 
     MOVE_THRESHOLD = 500;
     ANGLE_THRESHOLD = 2;
@@ -36,6 +36,11 @@ public class DriveDistance extends MoveHeading {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    if (initialCheckCount < CHECK_THRESHOLD) {
+      initialCheckCount++;
+      return false;
+    }
+
     double distError = right.getClosedLoopError();
 
     boolean isFinished = false;

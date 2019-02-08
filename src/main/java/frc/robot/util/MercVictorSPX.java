@@ -156,6 +156,11 @@ public class MercVictorSPX implements IMercMotorController {
         victorspx.setStatusFramePeriod(sf, statusms, RobotMap.CTRE_TIMEOUT);
     }
 
+    @Override
+    public void selectProfileSlot(int slotIdx, int pidIdx) {
+        victorspx.selectProfileSlot(slotIdx, pidIdx);
+    }
+
 //_________________________________________________________________________________
     /**
      * Get the VictorSPX tied to this class

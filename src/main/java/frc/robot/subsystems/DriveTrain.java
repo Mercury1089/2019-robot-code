@@ -40,7 +40,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     public static final int DRIVE_PID_SLOT = 0, 
                             DRIVE_SMOOTH_MOTION_SLOT = 1, 
-                            DRIVE_MOTION_PROFILE_SLOT = 2;
+                            DRIVE_MOTION_PROFILE_SLOT = 2,
+                            DRIVE_SMOOTH_TURN_SLOT = 3;
 
     public static final int REMOTE_DEVICE_0 = 0, 
                             REMOTE_DEVICE_1 = 1;
@@ -72,7 +73,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     private DriveTrainLayout layout;
 
-    private final PIDGain DRIVE_GAINS, SMOOTH_GAINS, MOTION_PROFILE_GAINS;
+    private final PIDGain DRIVE_GAINS, SMOOTH_GAINS, MOTION_PROFILE_GAINS, TURN_GAINS;
 
     private boolean isInMotionMagicMode;
 
@@ -80,6 +81,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         SPARKS,
         TALONS,
         LEGACY
+    }
+
+    public enum DriveTrainSide {
+        RIGHT,
+        LEFT
     }
 
 	/**
@@ -149,12 +155,15 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         DRIVE_GAINS = new PIDGain(0.1, 0.0, 0.0, 0.0);
         SMOOTH_GAINS = new PIDGain(2.0, 0.0, 4.0, getFeedForward());
         MOTION_PROFILE_GAINS = new PIDGain(0.6, 0.0, 0.0, getFeedForward());
+        TURN_GAINS = new PIDGain(0.05, 0.0, 0.025, 0.0);
         masterRight.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
         masterLeft.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
         masterRight.configPID(DRIVE_SMOOTH_MOTION_SLOT, SMOOTH_GAINS);
         masterLeft.configPID(DRIVE_SMOOTH_MOTION_SLOT, SMOOTH_GAINS);
         masterRight.configPID(DRIVE_MOTION_PROFILE_SLOT, MOTION_PROFILE_GAINS);
         masterLeft.configPID(DRIVE_MOTION_PROFILE_SLOT, MOTION_PROFILE_GAINS);
+        masterRight.configPID(DRIVE_SMOOTH_TURN_SLOT, TURN_GAINS);
+        masterLeft.configPID(DRIVE_SMOOTH_TURN_SLOT, TURN_GAINS);
 
         //Reset encoders
         resetEncoders();
@@ -219,6 +228,21 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         isInMotionMagicMode = true;
     }
 
+    public void configPIDSlots(DriveTrainSide dts, int primaryPIDSlot, int auxiliaryPIDSlot) {
+        if (primaryPIDSlot >= 0) {
+            if (dts == DriveTrainSide.RIGHT)
+                masterRight.selectProfileSlot(primaryPIDSlot, DriveTrain.PRIMARY_LOOP);
+            else
+                masterLeft.selectProfileSlot(primaryPIDSlot, DriveTrain.PRIMARY_LOOP);
+        }
+        if (auxiliaryPIDSlot >= 0) {
+            if (dts == DriveTrainSide.RIGHT)
+                masterRight.selectProfileSlot(auxiliaryPIDSlot, DriveTrain.AUXILIARY_LOOP);
+            else
+                masterLeft.selectProfileSlot(auxiliaryPIDSlot, DriveTrain.AUXILIARY_LOOP);
+        }
+        
+    }
     public void initDefaultCommand() {
         setDefaultCommand(new DriveWithJoysticks(DriveWithJoysticks.DriveType.ARCADE));
     }
