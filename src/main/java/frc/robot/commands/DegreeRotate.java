@@ -8,6 +8,8 @@
 package frc.robot.commands;
 
 import frc.robot.Robot;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.util.MercMath;
 
 public class DegreeRotate extends MoveHeading {
   public DegreeRotate(double angleToTurn) {
@@ -35,7 +37,27 @@ public class DegreeRotate extends MoveHeading {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return super.isFinished();
+    double angleError = right.getClosedLoopError(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
+
+    angleError = MercMath.pigeonUnitsToDegrees(angleError);
+
+    boolean isFinished = false;
+
+    boolean isOnTarget = (Math.abs(angleError) < ANGLE_THRESHOLD);
+
+    if (isOnTarget) {
+      onTargetCount++;
+    } else {
+      if (onTargetCount > 0)
+        onTargetCount = 0;
+    }
+
+    if (onTargetCount > ON_TARGET_MINIMUM_COUNT) {
+      isFinished = true;
+      onTargetCount = 0;
+    }
+
+    return isFinished;
   }
 
   // Called once after isFinished returns true

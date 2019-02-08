@@ -147,7 +147,7 @@ public class MoveOnPath extends Command {
 
     @Override
 	protected void end() {
-	    // Stop processing trajectories
+        // Stop processing trajectories
         trajectoryProcessor.stop();
 
 		left.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 10, RobotMap.CTRE_TIMEOUT);

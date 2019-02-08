@@ -16,13 +16,12 @@ import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.util.MercMath;
 import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.DriveTrain;
-import com.ctre.phoenix.motorcontrol.StatusFrame;
-import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 import frc.robot.util.MercTalonSRX;
 
 public class MoveHeading extends Command {
@@ -30,13 +29,15 @@ public class MoveHeading extends Command {
   protected int MOVE_THRESHOLD;   // ticks
   protected double ANGLE_THRESHOLD; // degrees 
   protected int ON_TARGET_MINIMUM_COUNT; // 100 millis
+  protected int CHECK_THRESHOLD = 50;
+  protected final int closedLoopTimeMs = 1;
 
   IMercMotorController leftI, rightI;
   WPI_TalonSRX left, right;
 
   private double distance, targetHeading;
 
-  public final int closedLoopTimeMs = 1;
+  protected int onTargetCount, initialCheckCount;
 
   /**
    * Move with heading assist from pigeon
@@ -55,7 +56,7 @@ public class MoveHeading extends Command {
     left = ((MercTalonSRX)(leftI)).get();
     right = ((MercTalonSRX)(rightI)).get();
 
-    MOVE_THRESHOLD = 250;
+    MOVE_THRESHOLD = 500;
     ANGLE_THRESHOLD = 5;
     ON_TARGET_MINIMUM_COUNT = 10;
 
@@ -68,7 +69,11 @@ public class MoveHeading extends Command {
   protected void initialize() {
     Robot.driveTrain.resetEncoders();
 
-    Robot.driveTrain.initializeMotionMagicFeedback();
+    if (!Robot.driveTrain.isInMotionMagicMode())
+      Robot.driveTrain.initializeMotionMagicFeedback();
+    
+    onTargetCount = 0;
+    initialCheckCount = 0;
 
     /* Motion Magic Configurations */
     right.configMotionAcceleration(1000, RobotMap.CTRE_TIMEOUT);
@@ -97,13 +102,22 @@ public class MoveHeading extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override 
   protected boolean isFinished() {
-    double distError = right.getClosedLoopError(), angleError = right.getClosedLoopError(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
-    int onTargetCount = 0;
+    if (initialCheckCount < CHECK_THRESHOLD) {
+      initialCheckCount++;
+      return false;
+    }
 
-    long initialTime = System.currentTimeMillis();
+    double distError = right.getClosedLoopError(), angleError = right.getClosedLoopError(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
+
+    angleError = MercMath.pigeonUnitsToDegrees(angleError);
+
     boolean isFinished = false;
 
-    boolean isOnTarget = (Math.abs(distError) < MOVE_THRESHOLD && Math.abs(angleError) < ANGLE_THRESHOLD);
+    SmartDashboard.putNumber("dist error", distError);
+    SmartDashboard.putNumber("ang error", angleError);
+
+    boolean isOnTarget = (Math.abs(distError) < MOVE_THRESHOLD && 
+                          Math.abs(angleError) < ANGLE_THRESHOLD);
 
     if (isOnTarget) {
       onTargetCount++;
@@ -123,7 +137,8 @@ public class MoveHeading extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.driveTrain.initializeNormalFeedback();
+    Robot.driveTrain.stop();
+    Robot.driveTrain.configVoltage(DriveTrain.NOMINAL_OUT, DriveTrain.PEAK_OUT);
   }
 
   // Called when another command which requires one or more of the same
