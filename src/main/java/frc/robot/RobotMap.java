@@ -41,8 +41,8 @@ public class RobotMap {
 			SHOOTER_RIGHT = 8, 
 			INTAKE = 9, 
 			CANIFIER = 10,
-			PIGEON = 11;
-
+			PIGEON = 11,
+			HATCH_INTAKE = 12;
 		private CAN() {
 		} // Should never be constructed.
 	}
