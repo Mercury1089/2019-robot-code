@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.RobotMap.*;
 import frc.robot.util.ShuffleDash;
+import frc.robot.commands.DegreeRotate;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.EncDriveDistance;
@@ -61,7 +62,9 @@ public class OI {
 
     right1.whenPressed(new RunShooter(ShooterSpeed.FAST_EJECT));
     right2.whenPressed(new RunShooter(ShooterSpeed.STOP));
-    right7.whenPressed(new DegreeRotate(90));
+    right6.whenPressed(new DegreeRotate(90));
+    right7.whenPressed(new DegreeRotate(-90));
+    right8.whenPressed(new DriveDistance(12));
     right9.whenPressed(new MoveHeading(10, 0));
     right10.whenPressed(new MoveHeading(10, -60));
     right11.whenPressed(new MoveHeading(10, 60));

@@ -16,7 +16,7 @@ public class DriveDistance extends MoveHeading {
   public DriveDistance(double distance) {
     super(distance / 12, 0);
 
-    MOVE_THRESHOLD = 200;
+    MOVE_THRESHOLD = 500;
     ANGLE_THRESHOLD = 2;
     ON_TARGET_MINIMUM_COUNT = 10;
   }
@@ -36,7 +36,25 @@ public class DriveDistance extends MoveHeading {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return super.isFinished();
+    double distError = right.getClosedLoopError();
+
+    boolean isFinished = false;
+
+    boolean isOnTarget = (Math.abs(distError) < MOVE_THRESHOLD);
+
+    if (isOnTarget) {
+      onTargetCount++;
+    } else {
+      if (onTargetCount > 0)
+        onTargetCount = 0;
+    }
+
+    if (onTargetCount > ON_TARGET_MINIMUM_COUNT) {
+      isFinished = true;
+      onTargetCount = 0;
+    }
+
+    return isFinished;
   }
 
   // Called once after isFinished returns true

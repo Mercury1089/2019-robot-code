@@ -74,6 +74,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     private final PIDGain DRIVE_GAINS, SMOOTH_GAINS, MOTION_PROFILE_GAINS;
 
+    private boolean isInMotionMagicMode;
+
     public enum DriveTrainLayout {
         SPARKS,
         TALONS,
@@ -176,6 +178,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         masterRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DRIVE_SMOOTH_MOTION_SLOT);
         masterLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DRIVE_MOTION_PROFILE_SLOT);
         masterRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DRIVE_MOTION_PROFILE_SLOT);
+
+        isInMotionMagicMode = false;
     }
 
     public void initializeMotionMagicFeedback() {
@@ -211,6 +215,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         masterRight.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20);
         masterLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5);
         getPigeon().setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_9_SixDeg_YPR , 5);
+
+        isInMotionMagicMode = true;
     }
 
     public void initDefaultCommand() {
@@ -283,6 +289,10 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     public DriveTrainLayout getLayout() {
         return layout;
+    }
+
+    public boolean isInMotionMagicMode() {
+        return isInMotionMagicMode;
     }
 
     public void resetPigeonYaw() {

@@ -16,6 +16,7 @@ import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.util.MercMath;
 import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.Robot;
@@ -28,6 +29,7 @@ public class MoveHeading extends Command {
   protected int MOVE_THRESHOLD;   // ticks
   protected double ANGLE_THRESHOLD; // degrees 
   protected int ON_TARGET_MINIMUM_COUNT; // 100 millis
+  protected int CHECK_THRESHOLD = 50;
 
   IMercMotorController leftI, rightI;
   WPI_TalonSRX left, right;
@@ -35,6 +37,8 @@ public class MoveHeading extends Command {
   private double distance, targetHeading;
 
   public final int closedLoopTimeMs = 1;
+
+  protected int onTargetCount = 0, initialCheckCount = 0;
 
   /**
    * Move with heading assist from pigeon
@@ -53,7 +57,7 @@ public class MoveHeading extends Command {
     left = ((MercTalonSRX)(leftI)).get();
     right = ((MercTalonSRX)(rightI)).get();
 
-    MOVE_THRESHOLD = 250;
+    MOVE_THRESHOLD = 500;
     ANGLE_THRESHOLD = 5;
     ON_TARGET_MINIMUM_COUNT = 10;
 
@@ -66,6 +70,9 @@ public class MoveHeading extends Command {
   protected void initialize() {
     Robot.driveTrain.resetEncoders();
 
+    if (!Robot.driveTrain.isInMotionMagicMode())
+      Robot.driveTrain.initializeMotionMagicFeedback();
+
     /* Motion Magic Configurations */
     right.configMotionAcceleration(1000, RobotMap.CTRE_TIMEOUT);
     right.configMotionCruiseVelocity((int)MercMath.revsPerMinuteToTicksPerTenth(DriveTrain.MAX_RPM), RobotMap.CTRE_TIMEOUT);
@@ -74,8 +81,7 @@ public class MoveHeading extends Command {
     right.configClosedLoopPeriod(0, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
     right.configClosedLoopPeriod(1, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
 
-    right.configAuxPIDPolarity(true, RobotMap.CTRE_TIMEOUT);
-    left.configAuxPIDPolarity(false, RobotMap.CTRE_TIMEOUT);
+    right.configAuxPIDPolarity(false, RobotMap.CTRE_TIMEOUT);
 
     right.selectProfileSlot(DriveTrain.DRIVE_PID_SLOT, DriveTrain.PRIMARY_LOOP);
     right.selectProfileSlot(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT, DriveTrain.AUXILIARY_LOOP);
@@ -94,13 +100,22 @@ public class MoveHeading extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override 
   protected boolean isFinished() {
-    double distError = right.getClosedLoopError(), angleError = right.getClosedLoopError(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
-    int onTargetCount = 0;
+    if (initialCheckCount < CHECK_THRESHOLD) {
+      initialCheckCount++;
+      return false;
+    }
 
-    long initialTime = System.currentTimeMillis();
+    double distError = right.getClosedLoopError(), angleError = right.getClosedLoopError(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
+
+    angleError = MercMath.pigeonUnitsToDegrees(angleError);
+
     boolean isFinished = false;
 
-    boolean isOnTarget = (Math.abs(distError) < MOVE_THRESHOLD && Math.abs(angleError) < ANGLE_THRESHOLD);
+    SmartDashboard.putNumber("dist error", distError);
+    SmartDashboard.putNumber("ang error", angleError);
+
+    boolean isOnTarget = (Math.abs(distError) < MOVE_THRESHOLD && 
+                          Math.abs(angleError) < ANGLE_THRESHOLD);
 
     if (isOnTarget) {
       onTargetCount++;
@@ -120,6 +135,8 @@ public class MoveHeading extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.driveTrain.stop();
+    Robot.driveTrain.configVoltage(DriveTrain.NOMINAL_OUT, DriveTrain.PEAK_OUT);
   }
 
   // Called when another command which requires one or more of the same

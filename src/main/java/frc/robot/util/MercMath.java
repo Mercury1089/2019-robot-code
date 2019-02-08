@@ -128,6 +128,10 @@ public class MercMath {
 		return DriveTrain.PIGEON_NATIVE_UNITS_PER_ROTATION * degrees / 360;
 	}
 
+	public static double pigeonUnitsToDegrees(double pigeonUnits) {
+		return pigeonUnits * 360 / DriveTrain.PIGEON_NATIVE_UNITS_PER_ROTATION;
+	}
+
 	public static double encoderTicksToRevs(double ticks) {
 		return ticks / (Robot.driveTrain.getLayout() != DriveTrainLayout.SPARKS ? 
 				DriveTrain.MAG_ENCODER_TICKS_PER_REVOLUTION : DriveTrain.NEO_ENCODER_TICKS_PER_REVOLUTION);
