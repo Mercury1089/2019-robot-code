@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems;
 
-
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap.CAN;
 import frc.robot.util.MercVictorSPX;
@@ -15,7 +14,8 @@ import frc.robot.util.MercTalonSRX;
 import frc.robot.util.interfaces.IMercMotorController;
 
 /**
- * Add your docs here.
+ * Subsystem to intake and eject hatch panels
+ * articulator is the intake mechanism
  */
 public class HatchManipulator extends Subsystem {
   IMercMotorController ejector;
@@ -63,6 +63,7 @@ public class HatchManipulator extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
+
   public void setArticulatorSpeed(double speed) {
     articulator.setSpeed(speed);
   }
@@ -86,5 +87,4 @@ public class HatchManipulator extends Subsystem {
   public IMercMotorController getEjector(){
     return ejector;
   }
-
 }
