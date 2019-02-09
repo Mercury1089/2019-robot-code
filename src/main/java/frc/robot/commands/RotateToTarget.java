@@ -7,6 +7,10 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FollowerType;
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.sensors.Limelight;
@@ -25,7 +29,8 @@ public class RotateToTarget extends DegreeRotate {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    super.execute();
+    right.set(ControlMode.MotionMagic, 0, DemandType.AuxPID, Robot.driveTrain.getLimeLight().getTargetCenterXAngle());
+    left.follow(right, FollowerType.AuxOutput1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
