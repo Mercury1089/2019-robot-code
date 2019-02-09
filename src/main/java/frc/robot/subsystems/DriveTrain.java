@@ -1,12 +1,11 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.CANifier;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 
@@ -18,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import frc.robot.util.PIDGain;
+import frc.robot.RobotMap;
 import frc.robot.RobotMap.CAN;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.util.interfaces.IMercMotorController;
@@ -26,7 +26,9 @@ import frc.robot.util.MercSparkMax;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.MercVictorSPX;
 import frc.robot.util.DriveAssist;
+import frc.robot.sensors.LIDAR;
 import frc.robot.sensors.RightSight;
+import frc.robot.sensors.LIDAR.PWMOffset;
 
 /**
  * Subsystem that encapsulates the drive train.
@@ -68,6 +70,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     private ADXRS450_Gyro gyroSPI;
     private PigeonIMU podgeboi;
     private RightSight rightSight;
+    private CANifier canifier;
+    private LIDAR lidar;
 
     private DriveTrainLayout layout;
 
@@ -129,6 +133,10 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
         //Initialize RightSight
         rightSight = new RightSight(0);
+
+        //Initialize the CANifier and LIDAR
+        canifier = new CANifier(RobotMap.CAN.CANIFIER);
+        lidar = new LIDAR(canifier, CANifier.PWMChannel.PWMChannel0, PWMOffset.DEFAULT);
 
         //Account for motor orientation.
         masterLeft.setInverted(false);
@@ -251,6 +259,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         masterRight.resetEncoder();
     }
 
+    @Override
+    public void periodic() {
+        lidar.updatePWMInput();
+    }
+
     /**
      * Stops the drive train.
      */
@@ -258,7 +271,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         masterLeft.stop();
         masterRight.stop();
         if (layout == DriveTrainLayout.SPARKS) {
-            // NOTE: CALLING STOP ON VICTOR FOLLOWERS BREAKS THEM OUT OF FOLLOW MODE !!
+            //NOTE: CALLING STOP ON VICTOR FOLLOWERS BREAKS THEM OUT OF FOLLOW MODE!!
             followerLeft.stop();
             followerRight.stop();
         }
@@ -298,6 +311,10 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     public RightSight getRightSight() {
         return rightSight;
+    }
+
+    public LIDAR getLidar() {
+        return lidar;
     }
 
     public double getPigeonYaw() {
