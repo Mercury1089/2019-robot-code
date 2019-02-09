@@ -58,6 +58,30 @@ public class MercMath {
 		return percent * b - percent * a + a;
 	}
 
+	/**
+	 * Does the law of cosines to find the third line length of a triangle
+	 * based off of the other two sides and the angle between those two
+	 * 
+	 * @return the length of the third side, already square rooted
+	 */
+	public static double lawOfCosines(double x, double y, double theta) {
+		return Math.sqrt((x * x) + (y * y) - (2 * x * y * Math.cos(theta)));
+	}
+
+	/**
+	 * Does the law of sines to find an angle based off its opposite
+	 * side, and another angle and its opposite side
+	 * 
+	 * @param x a known sidelength
+	 * @param theta x's opposite angle
+	 * @param y the side opposite to the angle you want to know
+	 * 
+	 * @return the unknown angle
+	 */
+	public static double lawOfSinesAngle(double x, double y, double theta) {
+		return Math.asin((y * Math.sin(theta)) / x);
+	}
+
 	public static double centimetersToInches(double val) {
 		return val / 2.54;
 	}

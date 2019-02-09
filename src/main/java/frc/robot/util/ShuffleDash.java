@@ -1,12 +1,8 @@
 package frc.robot.util;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.LimelightRotate;;
 
 /**
  * Helper class to interface with the Shuffleboard Dashboard.
@@ -34,7 +30,7 @@ public class ShuffleDash {
         SmartDashboard.putNumber("Left Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getLeft().getEncVelo()));
         SmartDashboard.putNumber("Right Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getRight().getEncVelo()));
 
-        //SmartDashboard.putNumber("LIDAR Raw Distance (in.)", MercMath.roundFloat(Robot.claw.getLidar().getRawDistance(), 10));
+        SmartDashboard.putNumber("LIDAR Raw Distance (in.)", MercMath.roundFloat(Robot.driveTrain.getLidar().getRawDistance(), 10));
         //SmartDashboard.putNumber("LIDAR Period", MercMath.roundFloat(Robot.claw.getLidar().getDistance(), 10));
 
         SmartDashboard.putNumber("Lime Target Offset", Robot.limelightRotate.getLimeLight().getTargetCenterXAngle());
