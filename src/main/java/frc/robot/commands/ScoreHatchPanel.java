@@ -9,47 +9,43 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.HatchManipulator.ArticulatorPosition;
-// import frc.robot.util.interfaces.IMercMotorController.LimitSwitchDirection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class AcquireHatchPanel extends Command {
+public class ScoreHatchPanel extends Command {
+  private final double SPEED = 0.7; //Speed is currently arbitrary
   private final Logger LOG = LogManager.getLogger(AcquireHatchPanel.class);
-  ArticulatorPosition state;
 
-  public AcquireHatchPanel(ArticulatorPosition state) {
+  public ScoreHatchPanel() {
     requires(Robot.hatchManipulator);
-    setName("AquireHatchPanel Command");
+    setName("ScoreHatchPanel Command");
     LOG.info(getName() + " Constructed");
-    this.state = state;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-   // LOG.info(getName() + " Initialized");
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     LOG.info(getName() + " Executed");
-    Robot.hatchManipulator.setArticulatorPosition(state);
+    Robot.hatchManipulator.setEjectorSpeed(SPEED);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.hatchManipulator.getArticulatorPosition() == state;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    //set hatch articulator back in robot
-    Robot.hatchManipulator.setArticulatorPosition(ArticulatorPosition.IN_BOT);
-    LOG.info(getName() + " Ended");
+    Robot.hatchManipulator.setEjectorSpeed(0.0);
+    LOG.info(getName() + " End");
   }
 
   // Called when another command which requires one or more of the same

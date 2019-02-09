@@ -12,18 +12,24 @@ import edu.wpi.first.wpilibj.Servo;
 import frc.robot.sensors.Limelight;
 import frc.robot.RobotMap;
 
-
 /**
  * Add your docs here.
  */
 public class LimelightRotate extends Subsystem {
   private Servo servo;
   private Limelight limelight;
+  private LimelightPosition limeLightPosition;
 
-  private final double 
-    FACING_HATCH_PANEL = 0.0, 
-    FACING_CARGO = 1.0;
+  public enum LimelightPosition{
+    FACING_HATCH_PANEL(0.0),
+    FACING_CARGO(1.0);
 
+    public double servoPosition; 
+
+    LimelightPosition(double servoPosition){
+      this.servoPosition = servoPosition;
+    }
+  }
   public LimelightRotate() {
     //Initialize Servo
     servo = new Servo(RobotMap.PWM.LIMELIGHT_SERVO);
@@ -36,19 +42,20 @@ public class LimelightRotate extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
-  // Not in use
+
   public void setServoPosition(double position){
     servo.set(position);
   }
-  // Not in use
+
   public double getServoPosition(){
     return servo.get();
   }
+
+  public boolean isOnTarget(LimelightPosition targetPosition){
+    return this.limeLightPosition == targetPosition;
+  }
+
   public Limelight getLimeLight() {
     return limelight;
-  }
-  // Not in use
-  public Servo getServo(){
-    return servo;
   }
 }
