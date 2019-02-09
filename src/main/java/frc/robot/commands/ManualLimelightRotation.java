@@ -7,10 +7,12 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.sensors.Limelight;
 import frc.robot.util.MercMath;
 
 public class ManualLimelightRotation extends Command {
@@ -27,7 +29,10 @@ public class ManualLimelightRotation extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.limelightRotate.getServo().setPosition(MercMath.clamp(Robot.limelightRotate.getServo().get() + (Robot.oi.getX(RobotMap.DS_USB.GAMEPAD) / 50), 0.0, 1.0));
+    Servo servo = Robot.limelightRotate.getServo();
+    double xpos = Robot.oi.getX(RobotMap.DS_USB.GAMEPAD);
+    servo.setPosition(MercMath.clamp(servo.get() + (Math.abs(xpos) < 0.1 ? 0.0 : (xpos / 100)), 0.0, 1.0));
+    System.out.println(servo.get());
   }
 
   // Make this return true when this Command no longer needs to run execute()

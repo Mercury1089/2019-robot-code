@@ -150,7 +150,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         DRIVE_GAINS = new PIDGain(0.1, 0.0, 0.0, 0.0);
         SMOOTH_GAINS = new PIDGain(2.0, 0.0, 4.0, getFeedForward());
         MOTION_PROFILE_GAINS = new PIDGain(0.6, 0.0, 0.0, getFeedForward());
-        TURN_GAINS = new PIDGain(0.05, 0.0, 0.025, 0.0);
+        TURN_GAINS = new PIDGain(0.25, 0.0, 0.27, 0.0);
         masterRight.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
         masterLeft.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
         masterRight.configPID(DRIVE_SMOOTH_MOTION_SLOT, SMOOTH_GAINS);
@@ -182,6 +182,10 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         masterRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DRIVE_SMOOTH_MOTION_SLOT);
         masterLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DRIVE_MOTION_PROFILE_SLOT);
         masterRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DRIVE_MOTION_PROFILE_SLOT);
+        masterLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DRIVE_SMOOTH_TURN_SLOT);
+        masterRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DRIVE_SMOOTH_TURN_SLOT);
+
+        masterRight.configSelectedFeedbackCoefficient(1.0, DriveTrain.PRIMARY_LOOP);
 
         isInMotionMagicMode = false;
     }
@@ -217,7 +221,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         masterRight.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20);
         masterRight.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20);
         masterRight.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20);
-        masterLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5);
+        masterLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
         getPigeon().setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_9_SixDeg_YPR , 5);
 
         isInMotionMagicMode = true;

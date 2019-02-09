@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Servo;
 import frc.robot.sensors.Limelight;
 import frc.robot.RobotMap;
+import frc.robot.commands.ManualLimelightRotation;
 
 /**
  * Add your docs here.
@@ -21,8 +22,8 @@ public class LimelightRotate extends Subsystem {
   private LimelightPosition limeLightPosition;
 
   public enum LimelightPosition{
-    FACING_HATCH_PANEL(0.0),
-    FACING_CARGO(1.0);
+    FACING_HATCH_PANEL(0.023),
+    FACING_CARGO(0.94);
 
     public double servoPosition; 
 
@@ -39,8 +40,7 @@ public class LimelightRotate extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new ManualLimelightRotation());
   }
 
   public void setServoPosition(double position){

@@ -16,10 +16,12 @@ import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.EncDriveDistance;
 import frc.robot.commands.MoveOnPath;
+import frc.robot.commands.RotateToTarget;
 import frc.robot.commands.MoveOnPath.Direction;
 import frc.robot.commands.MoveHeading;
 import frc.robot.subsystems.CargoEndEffector.ShooterSpeed;
 import frc.robot.commands.RunShooter;
+import frc.robot.commands.TrackTarget;
 import frc.robot.commands.DriveWithJoysticks.DriveType;
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -53,21 +55,24 @@ public class OI {
     right9 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN9);
     right10 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN10);
     right11 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN11);
+    //gamepadB = new JoystickButton(gamepad, GAMEPAD_BUTTONS.B);
 
     left1.whenPressed(new RunShooter(ShooterSpeed.FAST_INTAKE));
     left3.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
     left7.whenPressed(new MoveOnPath("CurveLeft", Direction.FORWARD));
     left8.whenPressed(new MoveOnPath("StraightProfile", Direction.FORWARD));
-    left10.whenPressed(new EncDriveDistance(100, .7));
+    left10.whenPressed(new RotateToTarget());
 
     right1.whenPressed(new RunShooter(ShooterSpeed.FAST_EJECT));
     right2.whenPressed(new RunShooter(ShooterSpeed.STOP));
     right6.whenPressed(new DegreeRotate(90));
     right7.whenPressed(new DegreeRotate(-90));
     right8.whenPressed(new DriveDistance(36));
-    right9.whenPressed(new MoveHeading(36, 0));
+    right9.whenPressed(new TrackTarget());
     right10.whenPressed(new MoveHeading(60, -60));
     right11.whenPressed(new MoveHeading(60, 60));
+
+    //gamepadB.whenPressed();
   }
   
   public double getX(int port) {
@@ -76,6 +81,8 @@ public class OI {
         return leftJoystick.getX();
       case DS_USB.RIGHT_STICK:
         return rightJoystick.getX();
+      case DS_USB.GAMEPAD:
+        return gamepad.getX();
       default:
         return 0;
     }
