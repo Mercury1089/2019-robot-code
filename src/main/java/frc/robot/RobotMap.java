@@ -43,7 +43,11 @@ public class RobotMap {
 			CANIFIER = 10,
 			PIGEON = 11,
 			HATCH_INTAKE = 12,
-			HATCH_EJECTOR = 13;
+			HATCH_EJECTOR = 13,
+			CLIMB_DRIVE = 14,
+			CLIMB_BACK = 15,
+			CLIMB_FR = 16,
+			CLIMB_FL = 17;
 		private CAN() {
 		} // Should never be constructed.
 	}
