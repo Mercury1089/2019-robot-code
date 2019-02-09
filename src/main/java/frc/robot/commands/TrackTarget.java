@@ -32,7 +32,7 @@ public class TrackTarget extends MoveHeading {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    right.set(ControlMode.MotionMagic, Robot.driveTrain.getLimeLight().getVertDistance(), DemandType.AuxPID, Robot.driveTrain.getLimeLight().getTargetCenterXAngle());
+    right.set(ControlMode.MotionMagic, Robot.limelightRotate.getLimeLight().getVertDistance(), DemandType.AuxPID, Robot.limelightRotate.getLimeLight().getTargetCenterXAngle());
     left.follow(right, FollowerType.AuxOutput1);
   }
 

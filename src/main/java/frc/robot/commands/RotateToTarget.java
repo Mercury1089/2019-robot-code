@@ -17,7 +17,7 @@ import frc.robot.sensors.Limelight;
 
 public class RotateToTarget extends DegreeRotate {
   public RotateToTarget() {
-    super(Robot.driveTrain.getLimeLight().getTargetCenterXAngle());
+    super(Robot.limelightRotate.getLimeLight().getTargetCenterXAngle());
   }
 
   // Called just before this Command runs the first time
@@ -29,7 +29,7 @@ public class RotateToTarget extends DegreeRotate {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    right.set(ControlMode.MotionMagic, 0, DemandType.AuxPID, Robot.driveTrain.getLimeLight().getTargetCenterXAngle());
+    right.set(ControlMode.MotionMagic, 0, DemandType.AuxPID, Robot.limelightRotate.getLimeLight().getTargetCenterXAngle());
     left.follow(right, FollowerType.AuxOutput1);
   }
 

@@ -26,7 +26,6 @@ import frc.robot.util.MercSparkMax;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.MercVictorSPX;
 import frc.robot.util.DriveAssist;
-import frc.robot.sensors.Limelight;
 import frc.robot.sensors.RightSight;
 
 /**
@@ -68,7 +67,6 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     private DriveAssist drive;
     private ADXRS450_Gyro gyroSPI;
     private PigeonIMU podgeboi;
-    private Limelight limelight;
     private RightSight rightSight;
 
     private DriveTrainLayout layout;
@@ -128,9 +126,6 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         podgeboi = new PigeonIMU(CAN.PIGEON);
 
         podgeboi.configFactoryDefault();
-
-        //Initialize LimeLight
-        limelight = new Limelight();
 
         //Initialize RightSight
         rightSight = new RightSight(0);
@@ -305,10 +300,6 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         double[] currYawPitchRoll = new double[3];
         podgeboi.getYawPitchRoll(currYawPitchRoll);
         return currYawPitchRoll[0];
-    }
-
-    public Limelight getLimeLight() {
-        return limelight;
     }
 
     public DriveTrainLayout getLayout() {
