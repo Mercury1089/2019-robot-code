@@ -58,4 +58,8 @@ public class LimelightRotate extends Subsystem {
   public Limelight getLimeLight() {
     return limelight;
   }
+
+  public Servo getServo() {
+    return servo;
+  }
 }
