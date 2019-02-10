@@ -42,7 +42,7 @@ public class MoveOnPath extends Command {
     private boolean isRunning;
     private int dir;
 
-    public enum Direction {
+    public enum MPDirection {
         BACKWARD,
         FORWARD
     }
@@ -53,7 +53,7 @@ public class MoveOnPath extends Command {
      *
      * @param name name of the trajectory
      */
-    public MoveOnPath(String filename, Direction direction) {
+    public MoveOnPath(String filename, MPDirection direction) {
         requires(Robot.driveTrain);
         setName("MoveOnPath-" + filename);
         log.info(getName() + " Beginning constructor");
