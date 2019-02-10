@@ -47,7 +47,7 @@ public class AcquireHatchPanel extends Command {
       return true;
     }
     if (state == ArticulatorPosition.IN_BOT) {
-      if (Robot.hatchManipulator.isLimitSwitchClosed()) {
+      if (Robot.hatchManipulator.isArticulatorLimitSwitchClosedReverse() || Robot.hatchManipulator.isArticulatorLimitSwitchClosedForward()) {
         Robot.hatchManipulator.getArticulator().setPosition(state.encPos);
         LOG.info("Reached!");
         return true;

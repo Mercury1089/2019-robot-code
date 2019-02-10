@@ -20,6 +20,7 @@ import frc.robot.commands.ManualElevator;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.MercVictorSPX;
 import frc.robot.util.interfaces.IMercMotorController;
+import frc.robot.util.interfaces.IMercMotorController.LimitSwitchDirection;
 import frc.robot.util.PIDGain;
 
 public class Elevator extends Subsystem {
@@ -104,7 +105,7 @@ public class Elevator extends Subsystem {
     }
 
     public boolean isLimitSwitchClosed() {
-        return elevatorLeader.isRevLimitSwitchClosed();
+        return elevatorLeader.isLimitSwitchClosed(LimitSwitchDirection.REVERSE);
     }
 
     /**

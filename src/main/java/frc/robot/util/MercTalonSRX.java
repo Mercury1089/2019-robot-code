@@ -128,16 +128,6 @@ public class MercTalonSRX implements IMercMotorController {
     }
 
     @Override
-    public boolean isRevLimitSwitchClosed() {
-        return talonsrx.getSensorCollection().isRevLimitSwitchClosed();
-    }
-
-    @Override
-    public boolean isFwdLimitSwitchClosed() {
-        return talonsrx.getSensorCollection().isFwdLimitSwitchClosed();
-    }
-
-    @Override
     public boolean isLimitSwitchClosed(LimitSwitchDirection limitSwitchDirection) {
         if(limitSwitchDirection == LimitSwitchDirection.FORWARD) {
             return talonsrx.getSensorCollection().isFwdLimitSwitchClosed();

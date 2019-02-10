@@ -138,10 +138,6 @@ public interface IMercMotorController {
 
     public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal);
 
-    public boolean isRevLimitSwitchClosed();
-
-    public boolean isFwdLimitSwitchClosed();
-
     public boolean isLimitSwitchClosed(LimitSwitchDirection limitSwitchDirection);
 
     public void configSensorTerm(SensorTerm st, FeedbackDevice fd);

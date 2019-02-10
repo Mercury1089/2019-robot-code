@@ -12,6 +12,7 @@ import frc.robot.RobotMap.CAN;
 import frc.robot.util.MercVictorSPX;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.interfaces.IMercMotorController;
+import frc.robot.util.interfaces.IMercMotorController.LimitSwitchDirection;
 
 /**
  * Subsystem to intake and eject hatch panels
@@ -92,7 +93,15 @@ public class HatchManipulator extends Subsystem {
     return ejector;
   }
 
-  public boolean isLimitSwitchClosed() {
-    return articulator.isRevLimitSwitchClosed();
+  public boolean isArticulatorLimitSwitchClosedReverse() {
+    return articulator.isLimitSwitchClosed(LimitSwitchDirection.REVERSE);
+  }
+
+  public boolean isArticulatorLimitSwitchClosedForward() {
+    return articulator.isLimitSwitchClosed(LimitSwitchDirection.FORWARD);
+  }
+
+  public boolean isEjectorLimitSwitchClosed() {
+    return ejector.isLimitSwitchClosed(LimitSwitchDirection.REVERSE);
   }
 }
