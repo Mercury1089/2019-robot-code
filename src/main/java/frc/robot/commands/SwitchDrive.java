@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.util.DriveAssist.DriveDirection;
 
-public class SwitchDriveSide extends Command {
+public class SwitchDrive extends Command {
 
   private DriveDirection dd;
 
-  public SwitchDriveSide(DriveDirection driveDir) {
+  public SwitchDrive(DriveDirection driveDir) {
     dd = driveDir;    
   }
 

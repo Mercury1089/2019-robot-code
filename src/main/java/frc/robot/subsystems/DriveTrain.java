@@ -173,7 +173,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         resetEncoders();
 
         //Initialize drive with joysticks
-        drive = new DriveAssist(masterLeft, masterRight, DriveDirection.FORWARD);
+        drive = new DriveAssist(leaderLeft, leaderRight, DriveDirection.FORWARD);
         
         // Set follower control on back talons. Use follow() instead of ControlMode.Follower so that Talons can follow Victors and vice versa.
         followerLeft.follow(leaderLeft);
