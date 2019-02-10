@@ -104,7 +104,7 @@ public class Elevator extends Subsystem {
     }
 
     public boolean isLimitSwitchClosed() {
-        return elevatorLeader.isLimitSwitchClosed();
+        return elevatorLeader.isRevLimitSwitchClosed();
     }
 
     /**

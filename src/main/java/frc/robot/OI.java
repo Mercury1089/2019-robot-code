@@ -83,8 +83,6 @@ public class OI {
         return leftJoystick.getX();
       case DS_USB.RIGHT_STICK:
         return rightJoystick.getX();
-      case DS_USB.GAMEPAD:
-        return gamepad.getX();
       default:
         return 0;
     }
@@ -96,11 +94,24 @@ public class OI {
         return leftJoystick.getY();
       case DS_USB.RIGHT_STICK:
         return rightJoystick.getY();
-      case DS_USB.GAMEPAD:
-				return -gamepad.getRawAxis(5);
       default:
         return 0;
     }
+  }
+
+  public double getZ(int port) {
+    switch(port) {
+      case DS_USB.LEFT_STICK:
+        return leftJoystick.getZ();
+      case DS_USB.RIGHT_STICK:
+        return rightJoystick.getZ();
+      default:
+        return 0;
+    }
+  }
+
+  public double getGamepadAxis(int axis) {
+    return (axis % 2 != 0 && axis != 3 ? -1.0 : 1.0) * gamepad.getRawAxis(axis);
   }
 
   public void updateDash() {

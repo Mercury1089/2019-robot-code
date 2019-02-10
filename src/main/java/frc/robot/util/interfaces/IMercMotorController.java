@@ -138,7 +138,9 @@ public interface IMercMotorController {
 
     public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal);
 
-    public boolean isLimitSwitchClosed();
+    public boolean isRevLimitSwitchClosed();
+
+    public boolean isFwdLimitSwitchClosed();
 
     public boolean isLimitSwitchClosed(LimitSwitchDirection limitSwitchDirection);
 

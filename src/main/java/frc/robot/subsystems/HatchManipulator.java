@@ -21,7 +21,7 @@ public class HatchManipulator extends Subsystem {
   IMercMotorController ejector;
   IMercMotorController articulator;
   ArticulatorPosition position;
-
+/*
   public enum HatchIntakeSpeed {
     FAST_REVERSE(-1.0),
     SLOW_REVERSE(-0.5),
@@ -33,34 +33,22 @@ public class HatchManipulator extends Subsystem {
       HATCH_ARTICULATOR_SPEED = speed;
     }
   }
-
-  public enum HatchEjectorSpeed {
-    FAST_REVERSE(-1.0),
-    SLOW_REVERSE(-0.5),
-    SLOW_FORWARD(0.5),
-    FAST_FORWARD(1.0);
-    public final double HATCH_EJECTOR_SPEED;
-
-    HatchEjectorSpeed(double speed) {
-      HATCH_EJECTOR_SPEED = speed;
-    }
-  }
-
+*/
   public enum ArticulatorPosition{
     //Temporary encoder tick values
-    ACQUIRE(4095),
-    READY_TO_PICK(3071),
-    LOAD_STATION(2047),
-    IN_BOT(-4096);
+    ACQUIRE(2500),
+    READY_TO_PICK(1100),
+    LOAD_STATION(500),
+    IN_BOT(-2000);
 
-    public int encTicks;
+    public int encPos;
 
-    ArticulatorPosition(int encTicks){
-      this.encTicks = encTicks;
+    ArticulatorPosition(int encPos){
+      this.encPos = encPos;
     }
     
     public int getEncoderTicks(){
-      return encTicks;
+      return encPos;
     }
   }
 
@@ -88,14 +76,23 @@ public class HatchManipulator extends Subsystem {
   }
 
   public void setArticulatorPosition(ArticulatorPosition newState){
-    this.position = newState;
+    position = newState;
+    articulator.setPosition(newState.encPos);
   }
 
   public void setEjectorSpeed(double speed){
     ejector.setSpeed(speed);
   }
 
+  public double getArticulatorPositionTicks() {
+    return articulator.getEncTicks();
+  }
+
   public IMercMotorController getEjector(){
     return ejector;
+  }
+
+  public boolean isLimitSwitchClosed() {
+    return articulator.isRevLimitSwitchClosed();
   }
 }

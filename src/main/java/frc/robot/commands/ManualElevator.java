@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.RobotMap.GAMEPAD_AXIS;
 import frc.robot.util.MercMath;
 
 import org.apache.logging.log4j.LogManager;
@@ -34,7 +35,7 @@ public class ManualElevator extends Command {
 
     @Override
     protected void execute() {
-      Robot.elevator.getElevatorLeader().setSpeed(MercMath.applyDeadzone(Robot.oi.getY(RobotMap.DS_USB.GAMEPAD), 0.1));
+      Robot.elevator.getElevatorLeader().setSpeed(MercMath.applyDeadzone(Robot.oi.getGamepadAxis(GAMEPAD_AXIS.rightY), 0.1));
     }
 
     @Override
