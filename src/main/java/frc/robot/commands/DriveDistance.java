@@ -16,9 +16,9 @@ public class DriveDistance extends MoveHeading {
   public DriveDistance(double distance) {
     super(distance, 0);
 
-    MOVE_THRESHOLD = 500;
-    ANGLE_THRESHOLD = 2;
-    ON_TARGET_MINIMUM_COUNT = 10;
+    moveThresholdTicks = 500;
+    angleThresholdDeg = 2;
+    onTargetMinCount = 10;
   }
 
   // Called just before this Command runs the first time
@@ -36,7 +36,7 @@ public class DriveDistance extends MoveHeading {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (initialCheckCount < CHECK_THRESHOLD) {
+    if (initialCheckCount < checkThreshold) {
       initialCheckCount++;
       return false;
     }
@@ -45,7 +45,7 @@ public class DriveDistance extends MoveHeading {
 
     boolean isFinished = false;
 
-    boolean isOnTarget = (Math.abs(distError) < MOVE_THRESHOLD);
+    boolean isOnTarget = (Math.abs(distError) < moveThresholdTicks);
 
     if (isOnTarget) {
       onTargetCount++;
@@ -54,7 +54,7 @@ public class DriveDistance extends MoveHeading {
         onTargetCount = 0;
     }
 
-    if (onTargetCount > ON_TARGET_MINIMUM_COUNT) {
+    if (onTargetCount > onTargetMinCount) {
       isFinished = true;
       onTargetCount = 0;
     }

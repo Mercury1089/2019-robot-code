@@ -18,17 +18,19 @@ import frc.robot.commands.MoveOnPath;
 import frc.robot.commands.RotateToTarget;
 import frc.robot.commands.MoveOnPath.MPDirection;
 import frc.robot.commands.MoveHeading;
-import frc.robot.subsystems.CargoEndEffector.ShooterSpeed;
-import frc.robot.commands.RunShooter;
+import frc.robot.subsystems.CargoManipulator.ShooterSpeed;
+import frc.robot.commands.RunCargoManipulator;
 import frc.robot.commands.TrackTarget;
 import frc.robot.commands.DriveWithJoysticks.DriveType;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+  public static final double DEADZONE = 0.08;
+
   private ShuffleDash shuffleDash;
-  
 
   private Joystick rightJoystick, leftJoystick, gamepad;
 
@@ -57,14 +59,14 @@ public class OI {
     right11 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN11);
     //gamepadB = new JoystickButton(gamepad, GAMEPAD_BUTTONS.B);
 
-    left1.whenPressed(new RunShooter(ShooterSpeed.FAST_INTAKE));
+    left1.whenPressed(new RunCargoManipulator(ShooterSpeed.FAST_INTAKE));
     left3.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
     left7.whenPressed(new MoveOnPath("CurveLeft", MPDirection.FORWARD));
     left8.whenPressed(new MoveOnPath("StraightProfile", MPDirection.FORWARD));
     left10.whenPressed(new RotateToTarget());
 
-    right1.whenPressed(new RunShooter(ShooterSpeed.FAST_EJECT));
-    right2.whenPressed(new RunShooter(ShooterSpeed.STOP));
+    right1.whenPressed(new RunCargoManipulator(ShooterSpeed.FAST_EJECT));
+    right2.whenPressed(new RunCargoManipulator(ShooterSpeed.STOP));
     right6.whenPressed(new DegreeRotate(90));
     right7.whenPressed(new DegreeRotate(-90));
     right8.whenPressed(new DriveDistance(36));

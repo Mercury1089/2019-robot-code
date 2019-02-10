@@ -85,8 +85,8 @@ public class EncDriveDistance extends Command implements Recallable<Double> {
         long initialTime = System.currentTimeMillis();
         boolean isFinished = false;
 
-        double leftError = Robot.driveTrain.getLeft().getClosedLoopError();
-        double rightError = Robot.driveTrain.getRight().getClosedLoopError();
+        double leftError = Robot.driveTrain.getLeftLeader().getClosedLoopError();
+        double rightError = Robot.driveTrain.getRightLeader().getClosedLoopError();
         boolean isOnTarget = (Math.abs(rightError) < MOVE_THRESHOLD && Math.abs(leftError) < MOVE_THRESHOLD);
 
         if (isOnTarget) {
@@ -153,8 +153,8 @@ public class EncDriveDistance extends Command implements Recallable<Double> {
         endPosL += Robot.driveTrain.getLeftEncPositionInTicks();
         endPosL += Robot.driveTrain.getRightEncPositionInTicks();
 
-        Robot.driveTrain.getLeft().setPosition(endPosL);
-        Robot.driveTrain.getRight().setPosition(endPosL);
+        Robot.driveTrain.getLeftLeader().setPosition(endPosL);
+        Robot.driveTrain.getRightLeader().setPosition(endPosL);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class RotateToTarget extends DegreeRotate {
     super(0);
     requires(Robot.driveTrain);
 
-    ANGLE_THRESHOLD = 1;
+    angleThresholdDeg = 1;
   }
 
   // Called just before this Command runs the first time
@@ -52,7 +52,7 @@ public class RotateToTarget extends DegreeRotate {
 
     boolean isFinished = false;
 
-    boolean isOnTarget = (Math.abs(angleError) < ANGLE_THRESHOLD);
+    boolean isOnTarget = (Math.abs(angleError) < angleThresholdDeg);
 
     if (isOnTarget) {
       onTargetCount++;
@@ -61,7 +61,7 @@ public class RotateToTarget extends DegreeRotate {
         onTargetCount = 0;
     }
 
-    if (onTargetCount > ON_TARGET_MINIMUM_COUNT) {
+    if (onTargetCount > onTargetMinCount) {
       isFinished = true;
       onTargetCount = 0;
     }

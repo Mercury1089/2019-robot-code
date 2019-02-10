@@ -127,8 +127,8 @@ public class DriveAssist {
 		rightPercent = MercMath.clamp(rightPercent, -1.0, 1.0);
 
 		//deadzone
-		leftPercent = Math.abs(leftPercent) <= deadzone ? 0 : leftPercent;
-		rightPercent = Math.abs(rightPercent) <= deadzone ? 0 : rightPercent;
+		leftPercent = MercMath.applyDeadzone(leftPercent);
+		rightPercent = MercMath.applyDeadzone(rightPercent);
 		
 		// Apply speeds to motors.
 		// This assumes that the Controllers have been setClawState properly.

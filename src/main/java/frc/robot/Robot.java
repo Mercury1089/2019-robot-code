@@ -9,14 +9,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.subsystems.CargoEndEffector;
+import frc.robot.subsystems.CargoManipulator;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.CargoIntake;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.HatchManipulator;
-import frc.robot.subsystems.LimelightRotate;
+import frc.robot.subsystems.LimelightAssembly;
 //import frc.robot.subsystems.PDP;
-import frc.robot.subsystems.LimelightRotate;
+import frc.robot.subsystems.LimelightAssembly;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 import frc.robot.auton.AutonCommand;
 import frc.robot.sensors.Limelight;
@@ -35,9 +35,9 @@ public class Robot extends TimedRobot {
 
   public static DriveTrain driveTrain;
   // public static PDP pdp;
-  public static LimelightRotate limelightRotate;
+  public static LimelightAssembly limelightRotate;
   public static CargoIntake cargoIntake;
-  public static CargoEndEffector cargoShooter;
+  public static CargoManipulator cargoShooter;
   public static HatchManipulator hatchManipulator;
   public static Elevator elevator;
 
@@ -56,10 +56,10 @@ public class Robot extends TimedRobot {
 
     // pdp = new PDP();
     cargoIntake = new CargoIntake();
-    cargoShooter = new CargoEndEffector();
+    cargoShooter = new CargoManipulator();
     elevator = new Elevator(RobotMap.CAN.ELEVATOR_TALON, RobotMap.CAN.ELEVATOR_VICTOR);
     hatchManipulator = new HatchManipulator();
-    limelightRotate = new LimelightRotate();
+    limelightRotate = new LimelightAssembly();
 
     oi = new OI();
   }
