@@ -20,6 +20,7 @@ import frc.robot.subsystems.LimelightAssembly;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 import frc.robot.auton.AutonCommand;
 import frc.robot.sensors.Limelight;
+import frc.robot.sensors.Limelight.LimelightLEDState;
 
 //import frc.robot.commands.ExampleCommand;
 //import frc.robot.subsystems.ExampleSubsystem;
@@ -35,7 +36,7 @@ public class Robot extends TimedRobot {
 
   public static DriveTrain driveTrain;
   // public static PDP pdp;
-  public static LimelightAssembly limelightRotate;
+  public static LimelightAssembly limelightAssembly;
   public static CargoIntake cargoIntake;
   public static CargoManipulator cargoShooter;
   public static HatchManipulator hatchManipulator;
@@ -59,7 +60,7 @@ public class Robot extends TimedRobot {
     cargoShooter = new CargoManipulator();
     elevator = new Elevator(RobotMap.CAN.ELEVATOR_TALON, RobotMap.CAN.ELEVATOR_VICTOR);
     hatchManipulator = new HatchManipulator();
-    limelightRotate = new LimelightAssembly();
+    limelightAssembly = new LimelightAssembly();
 
     oi = new OI();
   }
@@ -85,6 +86,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.OFF);
   }
 
   @Override

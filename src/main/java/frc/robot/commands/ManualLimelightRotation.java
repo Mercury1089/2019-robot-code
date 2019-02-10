@@ -18,7 +18,7 @@ import frc.robot.util.MercMath;
 public class ManualLimelightRotation extends Command {
 
   public ManualLimelightRotation() {
-    requires(Robot.limelightRotate);
+    requires(Robot.limelightAssembly);
   }
 
   // Called just before this Command runs the first time
@@ -29,7 +29,7 @@ public class ManualLimelightRotation extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Servo servo = Robot.limelightRotate.getServo();
+    Servo servo = Robot.limelightAssembly.getServo();
     servo.setPosition(MercMath.clamp(servo.get() + MercMath.applyDeadzone(Robot.oi.getX(RobotMap.DS_USB.GAMEPAD), 0.1), 0.0, 1.0));
   }
 

@@ -37,8 +37,8 @@ public class TrackTarget extends MoveHeading {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double adjustedDistance = MercMath.feetToEncoderTicks(Robot.limelightRotate.getLimeLight().getVertDistance());
-    double adjustedHeading = -MercMath.degreesToPigeonUnits(Robot.limelightRotate.getLimeLight().getTargetCenterXAngle());
+    double adjustedDistance = MercMath.feetToEncoderTicks(Robot.limelightAssembly.getLimeLight().getVertDistance());
+    double adjustedHeading = -MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
     right.set(ControlMode.MotionMagic, adjustedDistance, DemandType.AuxPID, adjustedHeading);
     left.follow(right, FollowerType.AuxOutput1);
   }

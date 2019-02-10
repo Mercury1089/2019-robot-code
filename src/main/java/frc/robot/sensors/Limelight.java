@@ -34,6 +34,23 @@ public class Limelight implements PIDSource, TableEntryListener {
     private final double LIMELIGHT_TO_ROBOT_CARGO_PLANE_IN = 8; //Distance from the LL to the plane of the cargo side
     private final double HALF_ROBOT_FRAME_WIDTH_INCHES = 15;
 
+    public enum LimelightLEDState {
+        ON(3.0),
+        OFF(1.0),
+        BLINKING(2.0),
+        PIPELINE_DEFAULT(0.0);
+
+        private double value;
+
+        LimelightLEDState(double value) {
+            this.value = value;
+        }
+
+        public double getValue() {
+            return value;
+        }
+    }
+
     /** 
      * Constucts the sensor and adds a listener to the table 
      */
@@ -165,6 +182,10 @@ public class Limelight implements PIDSource, TableEntryListener {
 
     public double getRobotHeading() {
         return calcRobotHeading();
+    }
+
+    public void setLEDState(LimelightLEDState limelightLEDState) {
+        nt.getEntry("ledMode").setDouble(limelightLEDState.value);
     }
 
     /**

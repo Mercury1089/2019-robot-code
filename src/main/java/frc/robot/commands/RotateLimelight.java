@@ -17,7 +17,7 @@ public class RotateLimelight extends Command {
   private double position;
 
   public RotateLimelight(double position) {
-    requires(Robot.limelightRotate);
+    requires(Robot.limelightAssembly);
     setName("Rotate Limelight Command");
     LOG.info(getName() + " Constructed");
     this.position = position;
@@ -27,7 +27,7 @@ public class RotateLimelight extends Command {
   @Override
   protected void initialize() {
     LOG.info(getName() + " Initialized");
-    Robot.limelightRotate.setServoPosition(position);
+    Robot.limelightAssembly.setServoPosition(position);
   }
 
   // Called repeatedly when this Command is scheduled to run
