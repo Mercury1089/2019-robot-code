@@ -18,9 +18,9 @@ public class DegreeRotate extends MoveHeading {
 
     requires(Robot.driveTrain);
 
-    MOVE_THRESHOLD = 100;
-    ANGLE_THRESHOLD = 2;
-    ON_TARGET_MINIMUM_COUNT = 3;
+    moveThresholdTicks = 100;
+    angleThresholdDeg = 2;
+    onTargetMinCount = 3;
   }
 
   // Called just before this Command runs the first time
@@ -46,7 +46,7 @@ public class DegreeRotate extends MoveHeading {
 
     boolean isFinished = false;
 
-    boolean isOnTarget = (Math.abs(angleError) < ANGLE_THRESHOLD);
+    boolean isOnTarget = (Math.abs(angleError) < angleThresholdDeg);
 
     if (isOnTarget) {
       onTargetCount++;
@@ -55,7 +55,7 @@ public class DegreeRotate extends MoveHeading {
         onTargetCount = 0;
     }
 
-    if (onTargetCount > ON_TARGET_MINIMUM_COUNT) {
+    if (onTargetCount > onTargetMinCount) {
       isFinished = true;
       onTargetCount = 0;
     }

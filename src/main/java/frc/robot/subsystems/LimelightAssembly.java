@@ -16,7 +16,7 @@ import frc.robot.commands.ManualLimelightRotation;
 /**
  * Add your docs here.
  */
-public class LimelightRotate extends Subsystem {
+public class LimelightAssembly extends Subsystem {
   private Servo servo;
   private Limelight limelight;
   private LimelightPosition limeLightPosition;
@@ -31,7 +31,7 @@ public class LimelightRotate extends Subsystem {
       this.servoPosition = servoPosition;
     }
   }
-  public LimelightRotate() {
+  public LimelightAssembly() {
     //Initialize Servo
     servo = new Servo(RobotMap.PWM.LIMELIGHT_SERVO);
     //Initialize LimeLight

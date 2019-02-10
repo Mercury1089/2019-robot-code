@@ -9,50 +9,49 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.CargoEndEffector;
-import frc.robot.subsystems.CargoEndEffector.ShooterSpeed;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class RunShooter extends Command {
-  private ShooterSpeed targetState;
-  private double minimumDistance = 8.0;
-  private int timeThreshold = 550;
-  private long startTimeMillis;
+public class EjectHatchPanel extends Command {
+  private final double SPEED = 0.7; //Speed is currently arbitrary
+  private final Logger LOG = LogManager.getLogger(AcquireHatchPanel.class);
 
-  public RunShooter(CargoEndEffector.ShooterSpeed targetState) {
-    requires(Robot.cargoShooter);
-    this.targetState = targetState;
+  public EjectHatchPanel() {
+    requires(Robot.hatchManipulator);
+    setName("ScoreHatchPanel Command");
+    LOG.info(getName() + " Constructed");
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    startTimeMillis = System.currentTimeMillis();
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.cargoShooter.setClawState(targetState);
+    LOG.info(getName() + " Executed");
+    Robot.hatchManipulator.setEjectorSpeed(SPEED);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (targetState == CargoEndEffector.ShooterSpeed.FAST_INTAKE || targetState == CargoEndEffector.ShooterSpeed.SLOW_INTAKE)
-      return Robot.cargoShooter.getLidar().getDistance() - minimumDistance <= 0;
-
-    return System.currentTimeMillis() - startTimeMillis > timeThreshold;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.cargoShooter.setClawState(ShooterSpeed.STOP);
+    Robot.hatchManipulator.setEjectorSpeed(0.0);
+    LOG.info(getName() + " End");
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    LOG.info(getName() + " Interrupted");
   }
 }

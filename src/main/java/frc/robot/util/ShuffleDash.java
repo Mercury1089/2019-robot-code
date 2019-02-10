@@ -19,16 +19,16 @@ public class ShuffleDash {
     public void updateDash() {
         //SmartDashboard.putString("Alliance Color", DriverStation.getInstance().getAlliance().toString());
 
-        SmartDashboard.putNumber("Left Enc in ticks", Robot.driveTrain.getLeft().getEncTicks());
-        SmartDashboard.putNumber("Right Enc in ticks", Robot.driveTrain.getRight().getEncTicks());
+        SmartDashboard.putNumber("Left Enc in ticks", Robot.driveTrain.getLeftLeader().getEncTicks());
+        SmartDashboard.putNumber("Right Enc in ticks", Robot.driveTrain.getRightLeader().getEncTicks());
 
         SmartDashboard.putNumber("Left Enc in feet", Robot.driveTrain.getLeftEncPositionInFeet());
         SmartDashboard.putNumber("Right Enc in feet", Robot.driveTrain.getRightEncPositionInFeet());
 
         SmartDashboard.putString("DriveTrain", Robot.driveTrain.getCurrentCommandName());
 
-        SmartDashboard.putNumber("Left Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getLeft().getEncVelo()));
-        SmartDashboard.putNumber("Right Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getRight().getEncVelo()));
+        SmartDashboard.putNumber("Left Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getLeftLeader().getEncVelo()));
+        SmartDashboard.putNumber("Right Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getRightLeader().getEncVelo()));
 
         SmartDashboard.putNumber("LIDAR Raw Distance (in.)", MercMath.roundFloat(Robot.driveTrain.getLidar().getRawDistance(), 10));
         //SmartDashboard.putNumber("LIDAR Period", MercMath.roundFloat(Robot.claw.getLidar().getDistance(), 10));

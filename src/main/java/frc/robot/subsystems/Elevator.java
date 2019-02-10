@@ -22,9 +22,6 @@ import frc.robot.util.MercVictorSPX;
 import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.util.PIDGain;
 
-/**
- * Add your docs here.
- */
 public class Elevator extends Subsystem {
   private static Logger log = LogManager.getLogger(Elevator.class);
 
@@ -41,15 +38,13 @@ public class Elevator extends Subsystem {
      */
     public enum ElevatorPosition {
         // TODO: Temporary Values
-        SCALE_HIGH(80000.0, NORMAL_P_VAL, 0, 0),        // Scale at its highest point
-        SCALE_LOW(65000.0, NORMAL_P_VAL, 0, 0),         // Scale at its lowest point
-        INNER_STAGE(38000.0, NORMAL_P_VAL, 0, 0),       // Height of the inner stage
-        SWITCH(25000.0, NORMAL_P_VAL, 0, 0),            // Above switch fence
-        CUBE_LEVEL_3(25000, NORMAL_P_VAL, 0, 0),        // Top cube of three stacked
-        CUBE_LEVEL_2(14000.0, NORMAL_P_VAL, 0, 0),      // Top cube of two stacked
-        DRIVE_CUBE(7000.0, NORMAL_P_VAL, 0, 0),         // Height for driving around cube
-        CLIMB(5000.0, CLIMBING_P_VAL, 0, 0),            // Position to raise to when climbing
-        FLOOR(-2000.0, NORMAL_P_VAL, 0, 0);             // Elevator bottomed out
+        ROCKET_3_C(80000.0, NORMAL_P_VAL, 0, 0),    // 3st level Rocket: Cargo
+        ROCKET_2_C(65000.0, NORMAL_P_VAL, 0, 0),    // 2rd level Rocket: Cargo
+        ROCKET_1_C(38000.0, NORMAL_P_VAL, 0, 0),    // 1nd level Rocket: Cargo
+        ROCKET_3_HP(25000.0, NORMAL_P_VAL, 0, 0),   // 3th level Rocket: Hatch Panel
+        ROCKET_2_HP(25000, NORMAL_P_VAL, 0, 0),     // 2st level Rocket: Hatch Panel
+        CARGOSHIP_C(7000.0, NORMAL_P_VAL, 0, 0),    // Cargo ship: Cargo
+        BOTTOM(-2000.0, NORMAL_P_VAL, 0, 0);        // Elavator bottom, can do hatchpanel at loading station, rocket level 1, and cargo ship
 
         public final double encPos;
         public final double pVal;
@@ -74,7 +69,7 @@ public class Elevator extends Subsystem {
 
     private ElevatorPosition position;
 
-    public static final double MAX_HEIGHT = ElevatorPosition.SCALE_HIGH.encPos;
+    public static final double MAX_HEIGHT = ElevatorPosition.ROCKET_3_C.encPos;
 
     /**
      * Creates a new elevator, using the specified CAN IDs for the

@@ -61,8 +61,8 @@ public class MoveOnPath2 extends Command {
         
         trajectory = Pathfinder.readFromCSV(new File("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".pf1.csv"));
 
-        right = ((MercTalonSRX)Robot.driveTrain.getRight()).get();
-        left = ((MercTalonSRX)Robot.driveTrain.getLeft()).get();
+        right = ((MercTalonSRX)Robot.driveTrain.getRightLeader()).get();
+        left = ((MercTalonSRX)Robot.driveTrain.getLeftLeader()).get();
 
         switch(direction) {
             case BACKWARD:

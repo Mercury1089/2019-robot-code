@@ -1,5 +1,6 @@
 package frc.robot.util;
 
+import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
@@ -80,6 +81,14 @@ public class MercMath {
 	 */
 	public static double lawOfSinesAngle(double x, double y, double theta) {
 		return Math.asin((y * Math.sin(theta)) / x);
+	}
+
+	public static double applyDeadzone(double value, double deadzone) {
+		return Math.abs(value) > deadzone ? value : 0.0;
+	}
+
+	public static double applyDeadzone(double value) {
+		return applyDeadzone(value, OI.DEADZONE);
 	}
 
 	public static double centimetersToInches(double val) {

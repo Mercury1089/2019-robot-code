@@ -63,8 +63,8 @@ public class MoveOnPath extends Command {
 
         //System.out.println(trajectoryL);
 
-        left = ((MercTalonSRX)Robot.driveTrain.getLeft()).get();
-        right = ((MercTalonSRX)Robot.driveTrain.getRight()).get();
+        left = ((MercTalonSRX)Robot.driveTrain.getLeftLeader()).get();
+        right = ((MercTalonSRX)Robot.driveTrain.getRightLeader()).get();
 
         switch(direction) {
             case BACKWARD:
@@ -91,7 +91,7 @@ public class MoveOnPath extends Command {
             log.info(getName() + " construced: " + TRAJECTORY_SIZE);
         } else {
             TRAJECTORY_SIZE = 0;
-            log.info(getName() + " could not be constructed!");
+            log.info(getName() + " could not be construced!");
             end();
         }
     }

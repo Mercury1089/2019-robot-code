@@ -10,10 +10,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class RunIntake extends Command {
+public class RunCargoIntake extends Command {
   private double speed;
 
-  public RunIntake(double speed) {
+  public RunCargoIntake(double speed) {
     requires(Robot.cargoIntake);
     this.speed = speed;
   }
