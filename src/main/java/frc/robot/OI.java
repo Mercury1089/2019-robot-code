@@ -14,10 +14,9 @@ import frc.robot.util.ShuffleDash;
 import frc.robot.commands.DegreeRotate;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoysticks;
-import frc.robot.commands.EncDriveDistance;
 import frc.robot.commands.MoveOnPath;
 import frc.robot.commands.RotateToTarget;
-import frc.robot.commands.MoveOnPath.Direction;
+import frc.robot.commands.MoveOnPath.MPDirection;
 import frc.robot.commands.MoveHeading;
 import frc.robot.subsystems.CargoEndEffector.ShooterSpeed;
 import frc.robot.commands.RunShooter;
@@ -33,7 +32,7 @@ public class OI {
 
   private Joystick rightJoystick, leftJoystick, gamepad;
 
-  private JoystickButton left1, left3, left7, left8, left10, right1, right2, right6, right7, right8, right9, right10, right11;
+  private JoystickButton left1, left2, left3, left7, left8, left10, right1, right2, right6, right7, right8, right9, right10, right11;
 
   public OI() {
     leftJoystick = new Joystick(DS_USB.LEFT_STICK);
@@ -43,6 +42,7 @@ public class OI {
     shuffleDash = new ShuffleDash();
 
     left1 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN1);
+    left2 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN2);
     left3 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN3);
     left7 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN7);
     left8 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN8);
@@ -59,8 +59,8 @@ public class OI {
 
     left1.whenPressed(new RunShooter(ShooterSpeed.FAST_INTAKE));
     left3.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
-    left7.whenPressed(new MoveOnPath("CurveLeft", Direction.FORWARD));
-    left8.whenPressed(new MoveOnPath("StraightProfile", Direction.FORWARD));
+    left7.whenPressed(new MoveOnPath("CurveLeft", MPDirection.FORWARD));
+    left8.whenPressed(new MoveOnPath("StraightProfile", MPDirection.FORWARD));
     left10.whenPressed(new RotateToTarget());
 
     right1.whenPressed(new RunShooter(ShooterSpeed.FAST_EJECT));

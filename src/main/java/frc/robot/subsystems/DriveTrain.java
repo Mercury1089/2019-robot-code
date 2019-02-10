@@ -17,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import frc.robot.util.PIDGain;
+import frc.robot.util.DriveAssist.DriveDirection;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.CAN;
 import frc.robot.commands.DriveWithJoysticks;
@@ -172,7 +173,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         resetEncoders();
 
         //Initialize drive with joysticks
-        drive = new DriveAssist(masterLeft, masterRight);
+        drive = new DriveAssist(masterLeft, masterRight, DriveDirection.FORWARD);
         
         // Set follower control on back talons. Use follow() instead of ControlMode.Follower so that Talons can follow Victors and vice versa.
         followerLeft.follow(masterLeft);
@@ -286,6 +287,14 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public void configVoltage(double nominalOutput, double peakOutput) {
         masterLeft.configVoltage(nominalOutput, peakOutput);
         masterRight.configVoltage(nominalOutput, peakOutput);
+    }
+
+    public void setDirection(DriveDirection dd) {
+        drive.setDirection(dd);
+    }
+
+    public DriveDirection getDirection() {
+        return drive.getDirection();
     }
 
     /**
