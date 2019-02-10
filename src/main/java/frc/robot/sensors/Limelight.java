@@ -12,6 +12,7 @@ import frc.robot.util.MercMath;
 public class Limelight implements PIDSource, TableEntryListener {
     private NetworkTable nt; //finds the limelight network table
     private double numTargets, targetCenterXAngle, targetCenterYAngle, targetArea, horizontalLength, verticalLength;
+    private boolean targetAcquired;
 
     /*
     * Coefficients and exponents to help find the distance of a target
@@ -44,6 +45,7 @@ public class Limelight implements PIDSource, TableEntryListener {
         targetArea = nt.getEntry("ta").getDouble(0.0);
         horizontalLength = nt.getEntry("thor").getDouble(0.0);
         verticalLength = nt.getEntry("tvert").getDouble(0.0);
+        targetAcquired = nt.getEntry("tv").getDouble(0.0) == 0.0 ? false : true;
         nt.addEntryListener(this, EntryListenerFlags.kUpdate);
     }
 
@@ -69,6 +71,9 @@ public class Limelight implements PIDSource, TableEntryListener {
                 case "ta": {
                     targetArea = nv.getDouble();
                     break;
+                }
+                case "tv": {
+                    targetAcquired = nv.getDouble() == 0.0 ? false : true;
                 }
                 case "tl": {
                     numTargets = nv.getDouble();
