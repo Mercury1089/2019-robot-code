@@ -9,35 +9,45 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.CargoManipulator;
+import frc.robot.subsystems.CargoManipulator.ShooterSpeed;
 
-public class RunIntake extends Command {
-  private double speed;
+public class RunCargoManipulator extends Command {
+  private ShooterSpeed targetState;
+  private double minimumDistance = 8.0;
+  private int timeThreshold = 550;
+  private long startTimeMillis;
 
-  public RunIntake(double speed) {
-    requires(Robot.cargoIntake);
-    this.speed = speed;
+  public RunCargoManipulator(CargoManipulator.ShooterSpeed targetState) {
+    requires(Robot.cargoShooter);
+    this.targetState = targetState;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.cargoIntake.setIntakeSpeed(speed);
+    startTimeMillis = System.currentTimeMillis();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.cargoShooter.setClawState(targetState);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    if (targetState == CargoManipulator.ShooterSpeed.FAST_INTAKE || targetState == CargoManipulator.ShooterSpeed.SLOW_INTAKE)
+      return Robot.cargoShooter.getLidar().getDistance() - minimumDistance <= 0;
+
+    return System.currentTimeMillis() - startTimeMillis > timeThreshold;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.cargoShooter.setClawState(ShooterSpeed.STOP);
   }
 
   // Called when another command which requires one or more of the same

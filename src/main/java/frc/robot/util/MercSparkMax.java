@@ -129,11 +129,6 @@ public class MercSparkMax implements IMercMotorController {
     }
 
     @Override
-    public boolean isLimitSwitchClosed() {
-        return sparkmax.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen).get(); //TODO Check if this limit switch is forward or backwards
-    }
-
-    @Override
     public boolean isLimitSwitchClosed(LimitSwitchDirection limitSwitchDirection) {
         if(limitSwitchDirection == LimitSwitchDirection.FORWARD) {
             return sparkmax.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen).get();

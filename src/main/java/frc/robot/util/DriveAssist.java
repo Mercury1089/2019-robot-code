@@ -20,7 +20,19 @@ public class DriveAssist {
 	private final IMercMotorController LEFT_CONTROLLER, RIGHT_CONTROLLER;
 	private double maxOutput = 1.0;
 	private double deadzone = 0.08;
-	private boolean invertDirection = false;
+	//private boolean invertDirection = false;
+	private DriveDirection direction;
+
+	public enum DriveDirection {
+		FORWARD(1.0),
+		REVERSE(-1.0);
+
+		private double dir;
+
+		private DriveDirection(double direction) {
+			dir = direction;
+		}
+	}
 	
 	/**
 	 * Creates a drive train, assuming there is one Controller for the left side
@@ -29,9 +41,10 @@ public class DriveAssist {
 	 * @param left  Left-side Controller
 	 * @param right Right-side Controller
 	 */
-	public DriveAssist(IMercMotorController left, IMercMotorController right) {
+	public DriveAssist(IMercMotorController left, IMercMotorController right, DriveDirection dr) {
 		LEFT_CONTROLLER = left;
 		RIGHT_CONTROLLER = right;
+		direction = dr;
 	}
 	
 	/**
@@ -52,8 +65,12 @@ public class DriveAssist {
 		return maxOutput;
 	}
 
-	public void setInverted(boolean inv) {
-		this.invertDirection = inv;
+	public void setDirection(DriveDirection direction) {
+		this.direction = direction;
+	}
+
+	public DriveDirection getDirection() {
+		return direction;
 	}
 
 	/**
@@ -73,7 +90,7 @@ public class DriveAssist {
 		moveVal = MercMath.clamp(moveVal, -1.0, 1.0);
 		rotateVal = MercMath.clamp(rotateVal, -1.0, 1.0);
 
-		if(invertDirection) {
+		if(direction == DriveDirection.REVERSE) {
 			moveVal = -moveVal;
 			rotateVal = -rotateVal;
 		}
@@ -110,8 +127,8 @@ public class DriveAssist {
 		rightPercent = MercMath.clamp(rightPercent, -1.0, 1.0);
 
 		//deadzone
-		leftPercent = Math.abs(leftPercent) <= deadzone ? 0 : leftPercent;
-		rightPercent = Math.abs(rightPercent) <= deadzone ? 0 : rightPercent;
+		leftPercent = MercMath.applyDeadzone(leftPercent);
+		rightPercent = MercMath.applyDeadzone(rightPercent);
 		
 		// Apply speeds to motors.
 		// This assumes that the Controllers have been setClawState properly.
@@ -131,7 +148,7 @@ public class DriveAssist {
 
 		// Apply speeds to motors.
 		// This assumes that the Controllers have been setClawState properly.
-		LEFT_CONTROLLER.setSpeed((invertDirection ? -leftVal : leftVal) * maxOutput);
-		RIGHT_CONTROLLER.setSpeed((invertDirection ? -rightVal : rightVal) * maxOutput);
+		LEFT_CONTROLLER.setSpeed((direction == DriveDirection.REVERSE ? -leftVal : leftVal) * maxOutput);
+		RIGHT_CONTROLLER.setSpeed((direction == DriveDirection.REVERSE ? -rightVal : rightVal) * maxOutput);
 	}
 }

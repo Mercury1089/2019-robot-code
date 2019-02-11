@@ -127,11 +127,6 @@ public class MercVictorSPX implements IMercMotorController {
     }
 
     @Override
-    public boolean isLimitSwitchClosed() {
-        return false;
-    }
-
-    @Override
     public boolean isLimitSwitchClosed(LimitSwitchDirection limitSwitchDirection) {
         return false;
     }

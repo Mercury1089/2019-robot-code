@@ -7,71 +7,46 @@
 
 package frc.robot.commands;
 
-public class DriveDistance extends MoveHeading {
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
+import frc.robot.Robot;
+import frc.robot.RobotMap;
+import frc.robot.sensors.Limelight;
+import frc.robot.util.MercMath;
 
-  /**
-   * Construct Drive Distance w / Motion Magic
-   * @param distance in inches
-   */
-  public DriveDistance(double distance) {
-    super(distance, 0);
+public class ManualLimelightRotation extends Command {
 
-    moveThresholdTicks = 500;
-    angleThresholdDeg = 2;
-    onTargetMinCount = 10;
+  public ManualLimelightRotation() {
+    requires(Robot.limelightAssembly);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    super.initialize();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    super.execute();
+    Servo servo = Robot.limelightAssembly.getServo();
+    servo.setPosition(MercMath.clamp(servo.get() + MercMath.applyDeadzone(Robot.oi.getX(RobotMap.DS_USB.GAMEPAD), 0.1), 0.0, 1.0));
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (initialCheckCount < checkThreshold) {
-      initialCheckCount++;
-      return false;
-    }
-
-    double distError = right.getClosedLoopError();
-
-    boolean isFinished = false;
-
-    boolean isOnTarget = (Math.abs(distError) < moveThresholdTicks);
-
-    if (isOnTarget) {
-      onTargetCount++;
-    } else {
-      if (onTargetCount > 0)
-        onTargetCount = 0;
-    }
-
-    if (onTargetCount > onTargetMinCount) {
-      isFinished = true;
-      onTargetCount = 0;
-    }
-
-    return isFinished;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    super.end();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    this.end();
   }
 }

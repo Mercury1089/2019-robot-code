@@ -9,17 +9,22 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.subsystems.CargoEndEffector;
+import frc.robot.subsystems.CargoManipulator;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.CargoIntake;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.HatchManipulator;
-import frc.robot.subsystems.LimelightRotate;
+import frc.robot.subsystems.LimelightAssembly;
 //import frc.robot.subsystems.PDP;
+<<<<<<< HEAD
 import frc.robot.subsystems.Climber;
+=======
+import frc.robot.subsystems.LimelightAssembly;
+>>>>>>> 7f45c926b8c17fd21c8ab5a53f429bddd439fbab
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 import frc.robot.auton.AutonCommand;
 import frc.robot.sensors.Limelight;
+import frc.robot.sensors.Limelight.LimelightLEDState;
 
 //import frc.robot.commands.ExampleCommand;
 //import frc.robot.subsystems.ExampleSubsystem;
@@ -35,9 +40,9 @@ public class Robot extends TimedRobot {
 
   public static DriveTrain driveTrain;
   // public static PDP pdp;
-  public static LimelightRotate limelightRotate;
+  public static LimelightAssembly limelightAssembly;
   public static CargoIntake cargoIntake;
-  public static CargoEndEffector cargoShooter;
+  public static CargoManipulator cargoShooter;
   public static HatchManipulator hatchManipulator;
   public static Elevator elevator;
   public static Climber climber;
@@ -57,11 +62,15 @@ public class Robot extends TimedRobot {
 
     // pdp = new PDP();
     cargoIntake = new CargoIntake();
-    cargoShooter = new CargoEndEffector();
+    cargoShooter = new CargoManipulator();
     elevator = new Elevator(RobotMap.CAN.ELEVATOR_TALON, RobotMap.CAN.ELEVATOR_VICTOR);
     hatchManipulator = new HatchManipulator();
+<<<<<<< HEAD
     limelightRotate = new LimelightRotate();
     climber = new Climber();
+=======
+    limelightAssembly = new LimelightAssembly();
+>>>>>>> 7f45c926b8c17fd21c8ab5a53f429bddd439fbab
 
     oi = new OI();
   }
@@ -87,6 +96,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.OFF);
   }
 
   @Override

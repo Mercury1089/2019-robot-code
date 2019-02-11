@@ -9,50 +9,55 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.CargoEndEffector;
-import frc.robot.subsystems.CargoEndEffector.ShooterSpeed;
+import frc.robot.subsystems.LimelightAssembly.LimelightPosition;
 
-public class RunShooter extends Command {
-  private ShooterSpeed targetState;
-  private double minimumDistance = 8.0;
-  private int timeThreshold = 550;
-  private long startTimeMillis;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-  public RunShooter(CargoEndEffector.ShooterSpeed targetState) {
-    requires(Robot.cargoShooter);
-    this.targetState = targetState;
+public class RotateLimelight extends Command {
+  private final Logger LOG = LogManager.getLogger(AcquireHatchPanel.class);
+  private double position;
+
+  public RotateLimelight(double position) {
+    requires(Robot.limelightAssembly);
+    setName("Rotate Limelight Command");
+    LOG.info(getName() + " Constructed");
+    this.position = position;
+  }
+
+  public RotateLimelight(LimelightPosition pos) {
+    this(pos.servoPosition);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    startTimeMillis = System.currentTimeMillis();
+    LOG.info(getName() + " Initialized");
+    Robot.limelightAssembly.setServoPosition(position);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.cargoShooter.setClawState(targetState);
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (targetState == CargoEndEffector.ShooterSpeed.FAST_INTAKE || targetState == CargoEndEffector.ShooterSpeed.SLOW_INTAKE)
-      return Robot.cargoShooter.getLidar().getDistance() - minimumDistance <= 0;
-
-    return System.currentTimeMillis() - startTimeMillis > timeThreshold;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.cargoShooter.setClawState(ShooterSpeed.STOP);
+    LOG.info(getName() + " Ended");
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    LOG.info(getName() + " Interrupted");
   }
 }

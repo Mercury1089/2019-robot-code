@@ -10,13 +10,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.HatchManipulator.ArticulatorPosition;
-import frc.robot.util.interfaces.IMercMotorController.LimitSwitchDirection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AcquireHatchPanel extends Command {
   private final Logger LOG = LogManager.getLogger(AcquireHatchPanel.class);
-  ArticulatorPosition state;
+  private ArticulatorPosition state;
+  private final int POSITION_THRESHOLD = 500;
+  private boolean endable = false;
 
   public AcquireHatchPanel(ArticulatorPosition state) {
     requires(Robot.hatchManipulator);
@@ -28,30 +29,36 @@ public class AcquireHatchPanel extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-   // LOG.info(getName() + " Initialized");
+    LOG.info(getName() + " Initialized");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    LOG.info(getName() + " Execute");
+    LOG.info(getName() + " Executed");
     Robot.hatchManipulator.setArticulatorPosition(state);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(Robot.hatchManipulator.getArticulatorPosition() == state)
+    if (endable && POSITION_THRESHOLD >= Math.abs(state.encPos - Robot.hatchManipulator.getArticulatorPositionTicks())) {
+      LOG.info("Reached " + state.toString());
       return true;
-    
+    }
+    if (state == ArticulatorPosition.IN_BOT) {
+      if (Robot.hatchManipulator.isArticulatorLimitSwitchClosedReverse() || Robot.hatchManipulator.isArticulatorLimitSwitchClosedForward()) {
+        Robot.hatchManipulator.getArticulator().setPosition(state.encPos);
+        LOG.info("Reached!");
+        return true;
+      }
+    }
     return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    //set hatch articulator back in robot
-    Robot.hatchManipulator.setArticulatorPosition(ArticulatorPosition.IN_BOT);
     LOG.info(getName() + " Ended");
   }
 

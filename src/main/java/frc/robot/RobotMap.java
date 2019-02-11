@@ -103,6 +103,13 @@ public class RobotMap {
 		} // Should never be constructed.
 	}
 
+	public static class GAMEPAD_AXIS {
+		public static final int leftX = 0, leftY = 1, leftTrigger = 2, rightTrigger = 3, rightX = 4, rightY = 5;
+
+		private GAMEPAD_AXIS() {
+		}
+	}
+
 	public static class GAMEPAD_BUTTONS {
 		public static final int A = 1;
 		public static final int B = 2;

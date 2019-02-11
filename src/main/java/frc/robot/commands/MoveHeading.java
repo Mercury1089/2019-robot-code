@@ -27,11 +27,11 @@ import frc.robot.util.MercTalonSRX;
 
 public class MoveHeading extends Command {
 
-  protected int MOVE_THRESHOLD;   // ticks
-  protected double ANGLE_THRESHOLD; // degrees 
-  protected int ON_TARGET_MINIMUM_COUNT; // 100 millis
-  protected int CHECK_THRESHOLD = 50;
-  protected final int closedLoopTimeMs = 1;
+  protected int moveThresholdTicks;   // ticks
+  protected double angleThresholdDeg; // degrees 
+  protected int onTargetMinCount; // 100 millis
+  protected int checkThreshold = 50;
+  protected final int CLOSED_LOOP_TIME_MS = 1;
 
   protected IMercMotorController leftI, rightI;
   protected WPI_TalonSRX left, right;
@@ -51,15 +51,15 @@ public class MoveHeading extends Command {
     // eg. requires(chassis);
     requires(Robot.driveTrain);
 
-    leftI = Robot.driveTrain.getLeft();
-    rightI = Robot.driveTrain.getRight();
+    leftI = Robot.driveTrain.getLeftLeader();
+    rightI = Robot.driveTrain.getRightLeader();
 
     left = ((MercTalonSRX)(leftI)).get();
     right = ((MercTalonSRX)(rightI)).get();
 
-    MOVE_THRESHOLD = 500;
-    ANGLE_THRESHOLD = 5;
-    ON_TARGET_MINIMUM_COUNT = 10;
+    moveThresholdTicks = 500;
+    angleThresholdDeg = 5;
+    onTargetMinCount = 10;
 
     this.distance = MercMath.inchesToEncoderTicks(distance);
     this.targetHeading = MercMath.degreesToPigeonUnits(heading);
@@ -102,7 +102,7 @@ public class MoveHeading extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override 
   protected boolean isFinished() {
-    if (initialCheckCount < CHECK_THRESHOLD) {
+    if (initialCheckCount < checkThreshold) {
       initialCheckCount++;
       return false;
     }
@@ -116,8 +116,8 @@ public class MoveHeading extends Command {
     SmartDashboard.putNumber("dist error", distError);
     SmartDashboard.putNumber("ang error", angleError);
 
-    boolean isOnTarget = (Math.abs(distError) < MOVE_THRESHOLD && 
-                          Math.abs(angleError) < ANGLE_THRESHOLD);
+    boolean isOnTarget = (Math.abs(distError) < moveThresholdTicks && 
+                          Math.abs(angleError) < angleThresholdDeg);
 
     if (isOnTarget) {
       onTargetCount++;
@@ -126,7 +126,7 @@ public class MoveHeading extends Command {
         onTargetCount = 0;
     }
 
-    if (onTargetCount > ON_TARGET_MINIMUM_COUNT) {
+    if (onTargetCount > onTargetMinCount) {
       isFinished = true;
       onTargetCount = 0;
     }
