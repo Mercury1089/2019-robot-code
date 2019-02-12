@@ -19,7 +19,7 @@ import frc.robot.util.interfaces.IMercMotorController;
 
 /**
  * Add your docs here.
-
+ * 
  */
 public class Climber extends Subsystem implements PIDOutput {
   // Put methods for controlling this subsystem
@@ -33,7 +33,7 @@ public class Climber extends Subsystem implements PIDOutput {
   public static enum ClimberPosition{
     GROUNDED,
     RAISED,
-    RAISED_BACK,
+    RAISED_BACK
   }
   private ClimberPosition currentPosition; 
 
@@ -48,6 +48,17 @@ public class Climber extends Subsystem implements PIDOutput {
   @Override
   public void initDefaultCommand() {
     //.- .-.  -.  .-  ...-      ..  ...       --.  .-  -.--
+    //-.-- . ...   ..   .- --. .-. . .
+  }
+
+  /**
+     * Sets both of the front talons to have a forward output of nominalOutput and peakOutput with the reverse output setClawState to the negated outputs.
+     *
+     * @param nominalOutput The desired nominal voltage output of the left and right talons, both forward and reverse.
+     * @param peakOutput    The desired peak voltage output of the left and right talons, both forward and reverse
+     */
+  public void configVoltage(double nominalOutput, double peakOutput) {
+    drive.configVoltage(nominalOutput, peakOutput);
   }
 
   @Override
@@ -55,20 +66,16 @@ public class Climber extends Subsystem implements PIDOutput {
     
   }
 
-  public IMercMotorController getClimberLiftDrive(){
-    return this.drive;
+  public double getFrontLeftHeightInTicks(){
+    return liftFrontLeft.getEncTicks();
   }
 
-  public IMercMotorController getClimberFrontLeftLift(){
-    return this.liftFrontLeft;
+  public double getFrontRightHeightInTicks(){
+    return liftFrontRight.getEncTicks();
   }
 
-  public IMercMotorController getClimberFrontRightLift(){
-    return this.liftFrontRight;
-  }
-
-  public IMercMotorController getClimberBackLift(){
-    return this.liftBack;
+  public double getBackHeightInTicks(){
+    return liftBack.getEncTicks();
   }
 
   public ClimberPosition getClimberPosition(){
@@ -81,7 +88,6 @@ public class Climber extends Subsystem implements PIDOutput {
   }
 
   public boolean isDriveEnabled(){
-    return (currentPosition == ClimberPosition.RAISED || 
-           currentPosition == ClimberPosition.RAISED_BACK) ? true: false;     
+    return currentPosition != ClimberPosition.GROUNDED;     
   }
 }
