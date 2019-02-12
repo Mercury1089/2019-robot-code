@@ -27,7 +27,7 @@ import frc.robot.util.interfaces.IMercMotorController;
  * Add your docs here.
  * 
  */
-public class Climber extends Subsystem implements PIDOutput {
+public class Climber extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -69,10 +69,10 @@ public class Climber extends Subsystem implements PIDOutput {
     liftBackRight = new MercTalonSRX(CAN.LIFT_BR);
     liftFront = new MercTalonSRX(CAN.LIFT_FRONT);
 
-    LIFT_BR_RUN_GAINS = new PIDGain(0.1, 0.0, 0.0, 0.0);
-    LIFT_BR_ADJUST_GAINS = new PIDGain(1.0, 0.0, 2.0, 0.0);
-    LIFT_FRONT_RUN_GAINS = new PIDGain(0.1, 0.0, 0.0, 0.0);
-    LIFT_FRONT_ADJUST_GAINS = new PIDGain(1.0, 0.0, 2.0, 0.0);
+    LIFT_BR_RUN_GAINS = new PIDGain(0.1, 0.0, 0.0, 0.0, 0.75);
+    LIFT_BR_ADJUST_GAINS = new PIDGain(1.0, 0.0, 2.0, 0.0, 1.0); //CALCULATE FF
+    LIFT_FRONT_RUN_GAINS = new PIDGain(0.1, 0.0, 0.0, 0.0, 0.75);
+    LIFT_FRONT_ADJUST_GAINS = new PIDGain(1.0, 0.0, 2.0, 0.0, 1.0); //CALCULATE FF
 
     initializeLiftFeedback();
   }
@@ -166,10 +166,11 @@ public class Climber extends Subsystem implements PIDOutput {
   public void configVoltage(double nominalOutput, double peakOutput) {
     drive.configVoltage(nominalOutput, peakOutput);
   }
-
-  @Override
-  public void pidWrite(double output) {
-    
+  
+  public void resetEncoders() {
+    liftFront.resetEncoder();
+    liftBackLeft.resetEncoder();
+    liftBackRight.resetEncoder();
   }
 
   public IMercMotorController getBackLeft(){
