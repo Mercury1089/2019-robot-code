@@ -32,7 +32,7 @@ public class Limelight implements PIDSource, TableEntryListener {
     private final double LIMELIGHT_TO_ROBOT_CENTER_CARGO_IN = 10; //Distance from the LL to the center of the cargo side
     private final double LIMELIGHT_TO_ROBOT_CENTER_CARGO_DEG = 30; //Angle from the LL to the center of the cargo side
     private final double LIMELIGHT_TO_ROBOT_CARGO_PLANE_IN = 8; //Distance from the LL to the plane of the cargo side
-    private final double HALF_ROBOT_FRAME_WIDTH_INCHES = 15;
+    private final double HALF_ROBOT_FRAME_WIDTH_INCHES = 9.5;
 
     public enum LimelightLEDState {
         ON(3.0),
@@ -90,7 +90,7 @@ public class Limelight implements PIDSource, TableEntryListener {
                     break;
                 }
                 case "tv": {
-                    targetAcquired = nv.getDouble() == 0.0 ? false : true;
+                    targetAcquired = nv.getDouble() != 0.0;
                 }
                 case "tl": {
                     numTargets = nv.getDouble();
@@ -180,11 +180,12 @@ public class Limelight implements PIDSource, TableEntryListener {
                                          LIMELIGHT_TO_ROBOT_CENTER_CARGO_DEG + targetCenterXAngle);
     }
 
-    public double getRobotHeading() {
+    public synchronized double getRobotHeading() {
         return calcRobotHeading();
     }
 
-    public void setLEDState(LimelightLEDState limelightLEDState) {
+    public void 
+    setLEDState(LimelightLEDState limelightLEDState) {
         nt.getEntry("ledMode").setDouble(limelightLEDState.value);
     }
 
@@ -200,6 +201,10 @@ public class Limelight implements PIDSource, TableEntryListener {
         double temp3 = temp1 * Math.sin(alpha);
         double temp4 = temp3 + HALF_ROBOT_FRAME_WIDTH_INCHES;
         double temp5 = MercMath.lawOfCosines(temp2, temp4, alpha);
-        return MercMath.lawOfSinesAngle(temp5, temp2, alpha);
+        return MercMath.lawOfSinesAngle(temp5, temp2, alpha); 
+    }
+
+    public double calcRobotHeading2(){
+        return Math.atan(calcDistFromVert()*Math.cos(targetCenterXAngle)/(calcDistFromVert()*Math.sin(targetCenterXAngle) - HALF_ROBOT_FRAME_WIDTH_INCHES));
     }
 }

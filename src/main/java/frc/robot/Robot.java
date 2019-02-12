@@ -16,6 +16,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.HatchManipulator;
 import frc.robot.subsystems.LimelightAssembly;
 //import frc.robot.subsystems.PDP;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.LimelightAssembly;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 import frc.robot.auton.AutonCommand;
@@ -41,6 +42,7 @@ public class Robot extends TimedRobot {
   public static CargoManipulator cargoShooter;
   public static HatchManipulator hatchManipulator;
   public static Elevator elevator;
+  public static Climber climber;
 
   private AutonCommand autonCommand;
 
@@ -60,6 +62,7 @@ public class Robot extends TimedRobot {
     cargoShooter = new CargoManipulator();
     elevator = new Elevator(RobotMap.CAN.ELEVATOR_TALON, RobotMap.CAN.ELEVATOR_VICTOR);
     hatchManipulator = new HatchManipulator();
+    climber = new Climber();
     limelightAssembly = new LimelightAssembly();
 
     oi = new OI();
@@ -108,7 +111,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-
+    limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.ON);
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
      * switch(autoSelected) { case "My Auto": autonomousCommand = new
@@ -132,6 +135,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.ON);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -155,5 +159,6 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     super.testInit();
+    limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.ON);
   }
 }

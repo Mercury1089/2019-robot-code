@@ -9,36 +9,42 @@ package frc.robot.commands;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.FollowerType;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.DriveTrain.DriveTrainSide;
-import frc.robot.util.MercMath;
+import frc.robot.util.MercTalonSRX;
+import frc.robot.util.interfaces.IMercMotorController;
 
-public class TrackTarget extends MoveHeading {
+public class RaiseScrewClimb extends Command {
 
-  public TrackTarget() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    super(0, 0);    
+  private WPI_TalonSRX frontRight, frontLeft, back;
+
+  public RaiseScrewClimb() {
+    requires(Robot.climber);
+
+    frontRight = (WPI_TalonSRX)Robot.climber.getFrontRight();
+    frontLeft = (WPI_TalonSRX)Robot.climber.getFrontLeft();
+    back = (WPI_TalonSRX)Robot.climber.getBack();
+
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    super.initialize();
-    Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double adjustedDistance = MercMath.feetToEncoderTicks(Robot.limelightAssembly.getLimeLight().getVertDistance());
-    System.out.println(adjustedDistance);
-    double adjustedHeading = -MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
-    right.set(ControlMode.Position, adjustedDistance, DemandType.AuxPID, adjustedHeading);
-    left.follow(right, FollowerType.AuxOutput1);
+    frontLeft.set(ControlMode.MotionMagic, 4096, 
+                  DemandType.AuxPID, Robot.climber.getFrontLeftHeightInTicks() - Robot.climber.getFrontRightHeightInTicks());
+    frontRight.set(ControlMode.MotionMagic, 4096, DemandType.AuxPID, 
+                   Robot.climber.getFrontLeftHeightInTicks()- Robot.climber.getFrontRightHeightInTicks());
+    back.set(ControlMode.MotionMagic, 4096, 
+             DemandType.AuxPID, 
+             (Robot.climber.getFrontLeftHeightInTicks() + Robot.climber.getFrontRightHeightInTicks())/2 - Robot.climber.getBackHeightInTicks());
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -50,7 +56,7 @@ public class TrackTarget extends MoveHeading {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    super.end();
+
   }
 
   // Called when another command which requires one or more of the same

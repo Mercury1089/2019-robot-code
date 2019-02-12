@@ -156,8 +156,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         initializeMotionMagicFeedback();
 
         // Config PID
-        DRIVE_GAINS = new PIDGain(0.1, 0.0, 0.0, 0.0);
-        SMOOTH_GAINS = new PIDGain(2.0, 0.0, 4.0, getFeedForward());
+        DRIVE_GAINS = new PIDGain(0.025, 0.0, 0.05, 0.0);
+        SMOOTH_GAINS = new PIDGain(1.0, 0.0, 2.0, getFeedForward());
         MOTION_PROFILE_GAINS = new PIDGain(0.6, 0.0, 0.0, getFeedForward());
         TURN_GAINS = new PIDGain(0.25, 0.0, 0.27, 0.0);
         leaderRight.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
