@@ -5,20 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.hatch;
 
 import edu.wpi.first.wpilibj.command.Command;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 import frc.robot.Robot;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.sensors.RightSight;
+import frc.robot.RobotMap.GAMEPAD_AXIS;
 
-public class LineUpRobot extends Command {
-  public static Logger log = LogManager.getLogger(LineUpRobot.class);
-
-  public LineUpRobot() {
-    
+public class ManualHatchArticulator extends Command {
+  public ManualHatchArticulator() {
+    requires(Robot.hatchManipulator);
   }
 
   // Called just before this Command runs the first time
@@ -29,12 +24,7 @@ public class LineUpRobot extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    log.info("Rotating to line");
-    if (Robot.driveTrain.getRightSight().getAlignment()) {
-      
-    } else {
-
-    }
+    Robot.hatchManipulator.setArticulatorSpeed(Robot.oi.getGamepadAxis(GAMEPAD_AXIS.rightY));
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -52,7 +42,6 @@ public class LineUpRobot extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    log.info(getName() + "interrupted");
-		end();
+    this.end();
   }
 }

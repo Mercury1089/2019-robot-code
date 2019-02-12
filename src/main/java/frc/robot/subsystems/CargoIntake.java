@@ -38,7 +38,7 @@ public class CargoIntake extends Subsystem {
   }
 
   public CargoIntake() {
-    intake = new MercVictorSPX(CAN.INTAKE);
+    intake = new MercVictorSPX(CAN.CARGO_INTAKE);
   }
 
   @Override

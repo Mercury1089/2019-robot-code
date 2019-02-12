@@ -5,46 +5,40 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 
-import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.util.MercTalonSRX;
-import frc.robot.util.interfaces.IMercMotorController;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrain.DriveTrainSide;
+import frc.robot.util.MercMath;
 
-public class RaiseScrewClimb extends Command {
+public class TrackTarget extends MoveHeading {
 
-  private WPI_TalonSRX frontRight, frontLeft, back;
-
-  public RaiseScrewClimb() {
-    requires(Robot.climber);
-
-    frontRight = (WPI_TalonSRX)Robot.climber.getFrontRight();
-    frontLeft = (WPI_TalonSRX)Robot.climber.getFrontLeft();
-    back = (WPI_TalonSRX)Robot.climber.getBack();
-
+  public TrackTarget() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    super(0, 0);    
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    
+    super.initialize();
+    Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    frontLeft.set(ControlMode.MotionMagic, 4096, 
-                  DemandType.AuxPID, Robot.climber.getFrontLeftHeightInTicks() - Robot.climber.getFrontRightHeightInTicks());
-    frontRight.set(ControlMode.MotionMagic, 4096, DemandType.AuxPID, 
-                   Robot.climber.getFrontLeftHeightInTicks()- Robot.climber.getFrontRightHeightInTicks());
-    back.set(ControlMode.MotionMagic, 4096, 
-             DemandType.AuxPID, 
-             (Robot.climber.getFrontLeftHeightInTicks() + Robot.climber.getFrontRightHeightInTicks())/2 - Robot.climber.getBackHeightInTicks());
+    double adjustedDistance = MercMath.feetToEncoderTicks(Robot.limelightAssembly.getLimeLight().getVertDistance());
+    System.out.println(adjustedDistance);
+    double adjustedHeading = -MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
+    right.set(ControlMode.Position, adjustedDistance, DemandType.AuxPID, adjustedHeading);
+    left.follow(right, FollowerType.AuxOutput1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -56,7 +50,7 @@ public class RaiseScrewClimb extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-
+    super.end();
   }
 
   // Called when another command which requires one or more of the same

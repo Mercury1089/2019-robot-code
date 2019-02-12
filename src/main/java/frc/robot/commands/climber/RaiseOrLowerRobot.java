@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import frc.robot.Robot;
@@ -18,7 +18,7 @@ public class RaiseOrLowerRobot extends PIDCommand {
   
   public Climber.ClimberPosition startingPosition, endingPosition;
   public static final double p = 0, i = 0, d = 0; //null values must be tuned
-  private final Logger LOG = LogManager.getLogger(AcquireHatchPanel.class);
+  private final Logger LOG = LogManager.getLogger(RaiseOrLowerRobot.class);
   
   
   public RaiseOrLowerRobot(Climber.ClimberPosition endPos) {

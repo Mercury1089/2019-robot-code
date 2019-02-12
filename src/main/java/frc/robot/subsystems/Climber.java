@@ -42,10 +42,10 @@ public class Climber extends Subsystem implements PIDOutput {
 
   public Climber(){
     currentPosition = ClimberPosition.GROUNDED;
-    drive = new MercTalonSRX(CAN.CLIMB_DRIVE);
-    liftFrontLeft = new MercTalonSRX(CAN.CLIMB_FL);
-    liftFrontRight = new MercTalonSRX(CAN.CLIMB_FR);
-    liftBack = new MercTalonSRX(CAN.CLIMB_BACK);
+    drive = new MercTalonSRX(CAN.SCREW_DRIVE);
+    liftFrontLeft = new MercTalonSRX(CAN.LIFT_BL);
+    liftFrontRight = new MercTalonSRX(CAN.LIFT_BR);
+    liftBack = new MercTalonSRX(CAN.LIFT_FRONT);
   }
 
   @Override

@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
     // pdp = new PDP();
     cargoIntake = new CargoIntake();
     cargoShooter = new CargoManipulator();
-    elevator = new Elevator(RobotMap.CAN.ELEVATOR_TALON, RobotMap.CAN.ELEVATOR_VICTOR);
+    elevator = new Elevator();
     hatchManipulator = new HatchManipulator();
     climber = new Climber();
     limelightAssembly = new LimelightAssembly();

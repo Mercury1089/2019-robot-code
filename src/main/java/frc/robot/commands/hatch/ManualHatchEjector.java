@@ -5,20 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.hatch;
 
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
-import frc.robot.sensors.Limelight;
-import frc.robot.util.MercMath;
+import frc.robot.RobotMap.DS_USB;
+import frc.robot.RobotMap.GAMEPAD_AXIS;
 
-public class ManualLimelightRotation extends Command {
-
-  public ManualLimelightRotation() {
-    requires(Robot.limelightAssembly);
+public class ManualHatchEjector extends Command {
+  public ManualHatchEjector() {
+    requires(Robot.hatchManipulator);
   }
 
   // Called just before this Command runs the first time
@@ -29,14 +25,13 @@ public class ManualLimelightRotation extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Servo servo = Robot.limelightAssembly.getServo();
-    servo.setPosition(MercMath.clamp(servo.get() + MercMath.applyDeadzone(Robot.oi.getX(RobotMap.DS_USB.GAMEPAD), 0.1), 0.0, 1.0));
+    Robot.hatchManipulator.setEjectorSpeed(Robot.oi.getZ(DS_USB.LEFT_STICK));
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Robot.hatchManipulator.isEjectorLimitSwitchClosed();
   }
 
   // Called once after isFinished returns true
@@ -48,5 +43,6 @@ public class ManualLimelightRotation extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    this.end();
   }
 }

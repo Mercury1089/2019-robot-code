@@ -5,49 +5,39 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.cargo;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.CargoManipulator;
-import frc.robot.subsystems.CargoManipulator.ShooterSpeed;
 
-public class RunCargoManipulator extends Command {
-  private ShooterSpeed targetState;
-  private double minimumDistance = 8.0;
-  private int timeThreshold = 550;
-  private long startTimeMillis;
+public class RunCargoIntake extends Command {
+  private double speed;
 
-  public RunCargoManipulator(CargoManipulator.ShooterSpeed targetState) {
-    requires(Robot.cargoShooter);
-    this.targetState = targetState;
+  public RunCargoIntake(double speed) {
+    requires(Robot.cargoIntake);
+    this.speed = speed;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    startTimeMillis = System.currentTimeMillis();
+    Robot.cargoIntake.setIntakeSpeed(speed);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.cargoShooter.setClawState(targetState);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (targetState == CargoManipulator.ShooterSpeed.FAST_INTAKE || targetState == CargoManipulator.ShooterSpeed.SLOW_INTAKE)
-      return Robot.cargoShooter.getLidar().getDistance() - minimumDistance <= 0;
-
-    return System.currentTimeMillis() - startTimeMillis > timeThreshold;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.cargoShooter.setClawState(ShooterSpeed.STOP);
   }
 
   // Called when another command which requires one or more of the same

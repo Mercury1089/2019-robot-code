@@ -1,7 +1,7 @@
 /**
  * 
  */
-package frc.robot.commands;
+package frc.robot.commands.drivetrain;
 
 import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.SetValueMotionProfile;

@@ -5,46 +5,62 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.FollowerType;
+package frc.robot.commands.drivetrain;
 
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveTrainSide;
 import frc.robot.util.MercMath;
 
-public class TrackTarget extends MoveHeading {
+public class DegreeRotate extends MoveHeading {
+  public DegreeRotate(double angleToTurn) {
+    super(0, angleToTurn);
 
-  public TrackTarget() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    super(0, 0);    
+    requires(Robot.driveTrain);
+
+    moveThresholdTicks = 100;
+    angleThresholdDeg = 1;
+    onTargetMinCount = 3;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     super.initialize();
-    Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
+    
+    Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_TURN_SLOT);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double adjustedDistance = MercMath.feetToEncoderTicks(Robot.limelightAssembly.getLimeLight().getVertDistance());
-    System.out.println(adjustedDistance);
-    double adjustedHeading = -MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
-    right.set(ControlMode.Position, adjustedDistance, DemandType.AuxPID, adjustedHeading);
-    left.follow(right, FollowerType.AuxOutput1);
+    super.execute();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    double angleError = right.getClosedLoopError(DriveTrain.DRIVE_SMOOTH_TURN_SLOT);
+
+    angleError = MercMath.pigeonUnitsToDegrees(angleError);
+
+    boolean isFinished = false;
+
+    boolean isOnTarget = (Math.abs(angleError) < angleThresholdDeg);
+
+    if (isOnTarget) {
+      onTargetCount++;
+    } else {
+      if (onTargetCount > 0)
+        onTargetCount = 0;
+    }
+
+    if (onTargetCount > onTargetMinCount) {
+      isFinished = true;
+      onTargetCount = 0;
+    }
+
+    return isFinished;
   }
 
   // Called once after isFinished returns true

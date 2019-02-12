@@ -16,6 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import frc.robot.RobotMap;
+import frc.robot.RobotMap.CAN;
 import frc.robot.commands.ManualElevator;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.MercVictorSPX;
@@ -27,7 +28,6 @@ public class Elevator extends Subsystem {
   private static Logger log = LogManager.getLogger(Elevator.class);
 
     private IMercMotorController elevatorLeader;
-    private IMercMotorController elevatorFollower;
 
     public static final double NORMAL_P_VAL = 0.1;
     public static final double CLIMBING_P_VAL = 0.15;
@@ -80,13 +80,9 @@ public class Elevator extends Subsystem {
      * @param talonID  Leader (Talon SRX) CAN ID
      * @param victorID Follower (Victor SPX) CAN ID
      */
-    public Elevator(int talonID, int victorID) {
-        elevatorLeader = new MercTalonSRX(talonID);
+    public Elevator() {
+        elevatorLeader = new MercTalonSRX(CAN.ELEVATOR_TALON);
         elevatorLeader.setNeutralMode(NeutralMode.Brake);
-        elevatorFollower = new MercVictorSPX(victorID);
-        elevatorFollower.setNeutralMode(NeutralMode.Brake);
-
-        elevatorFollower.follow(elevatorLeader);
 
         elevatorLeader.setSensorPhase(false);
         elevatorLeader.configVoltage(0.125, 1.0);

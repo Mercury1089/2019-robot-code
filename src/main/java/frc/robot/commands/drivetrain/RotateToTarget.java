@@ -5,26 +5,36 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.drivetrain;
 
-public class DriveDistance extends MoveHeading {
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 
-  /**
-   * Construct Drive Distance w / Motion Magic
-   * @param distance in inches
-   */
-  public DriveDistance(double distance) {
-    super(distance, 0);
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
+import frc.robot.sensors.Limelight;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrain.DriveTrainSide;
+import frc.robot.util.MercMath;
 
-    moveThresholdTicks = 500;
-    angleThresholdDeg = 2;
-    onTargetMinCount = 10;
+public class RotateToTarget extends DegreeRotate {
+  public RotateToTarget() {
+    super(0);
+    requires(Robot.driveTrain);
+
+    angleThresholdDeg = 1;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     super.initialize();
+
+    Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
+
+    targetHeading = -MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
+    System.out.println("RotateToTarget initialized with angle " + Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -36,16 +46,13 @@ public class DriveDistance extends MoveHeading {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (initialCheckCount < checkThreshold) {
-      initialCheckCount++;
-      return false;
-    }
+    double angleError = right.getClosedLoopError(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
 
-    double distError = right.getClosedLoopError();
+    angleError = MercMath.pigeonUnitsToDegrees(angleError);
 
     boolean isFinished = false;
 
-    boolean isOnTarget = (Math.abs(distError) < moveThresholdTicks);
+    boolean isOnTarget = (Math.abs(angleError) < angleThresholdDeg);
 
     if (isOnTarget) {
       onTargetCount++;
