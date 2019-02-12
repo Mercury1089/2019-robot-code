@@ -28,7 +28,6 @@ public class TrackTarget extends MoveHeading {
   @Override
   protected void initialize() {
     super.initialize();
-    Robot.driveTrain.configVoltage(0.25, 0.75);
     Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_TURN_SLOT);
   }
 
@@ -50,7 +49,7 @@ public class TrackTarget extends MoveHeading {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.driveTrain.configVoltage(DriveTrain.NOMINAL_OUT, DriveTrain.PEAK_OUT);
+    super.end();
   }
 
   // Called when another command which requires one or more of the same
