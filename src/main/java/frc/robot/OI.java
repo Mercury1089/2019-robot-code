@@ -11,19 +11,19 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.RobotMap.*;
 import frc.robot.util.ShuffleDash;
-import frc.robot.commands.DegreeRotate;
-import frc.robot.commands.DriveDistance;
-import frc.robot.commands.DriveWithJoysticks;
-import frc.robot.commands.MoveOnPath;
-import frc.robot.commands.RotateLimelight;
-import frc.robot.commands.RotateToTarget;
-import frc.robot.commands.MoveOnPath.MPDirection;
-import frc.robot.commands.MoveHeading;
+import frc.robot.commands.drivetrain.DegreeRotate;
+import frc.robot.commands.drivetrain.DriveDistance;
+import frc.robot.commands.drivetrain.DriveWithJoysticks;
+import frc.robot.commands.drivetrain.MoveOnPath;
+import frc.robot.commands.limelight.RotateLimelight;
+import frc.robot.commands.drivetrain.RotateToTarget;
+import frc.robot.commands.drivetrain.MoveOnPath.MPDirection;
+import frc.robot.commands.drivetrain.MoveHeading;
 import frc.robot.subsystems.CargoManipulator.ShooterSpeed;
 import frc.robot.subsystems.LimelightAssembly.LimelightPosition;
-import frc.robot.commands.RunCargoManipulator;
-import frc.robot.commands.TrackTarget;
-import frc.robot.commands.DriveWithJoysticks.DriveType;
+import frc.robot.commands.cargo.RunCargoManipulator;
+import frc.robot.commands.drivetrain.TrackTarget;
+import frc.robot.commands.drivetrain.DriveWithJoysticks.DriveType;
 
 /**
  * This class is the glue that binds the controls on the physical operator

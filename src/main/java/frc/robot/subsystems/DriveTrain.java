@@ -20,7 +20,7 @@ import frc.robot.util.PIDGain;
 import frc.robot.util.DriveAssist.DriveDirection;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.CAN;
-import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.util.MercMath;
 import frc.robot.util.MercSparkMax;

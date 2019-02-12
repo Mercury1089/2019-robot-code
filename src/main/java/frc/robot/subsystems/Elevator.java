@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.CAN;
-import frc.robot.commands.ManualElevator;
+import frc.robot.commands.elevator.ManualElevator;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.MercVictorSPX;
 import frc.robot.util.interfaces.IMercMotorController;

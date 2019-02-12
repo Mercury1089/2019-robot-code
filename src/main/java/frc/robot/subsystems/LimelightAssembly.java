@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Servo;
 import frc.robot.sensors.Limelight;
 import frc.robot.RobotMap;
-import frc.robot.commands.ManualLimelightRotation;
+import frc.robot.commands.limelight.ManualLimelightRotation;
 
 /**
  * Add your docs here.
