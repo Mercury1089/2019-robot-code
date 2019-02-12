@@ -159,6 +159,12 @@ public class MercSparkMax implements IMercMotorController {
     public void selectProfileSlot(int slotIdx, int pidIdx) {
         return;
     }
+    
+    @Override
+    public void configClosedLoopPeakOutput(int slotIdx, double peakOutput) {
+        return;
+    }
+
 //_________________________________________________________________________________
     /**
      * Get the Spark Max tied to this class

@@ -13,18 +13,23 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.util.MercMath;
 
 public class RaiseScrewClimb extends Command {
 
-  private WPI_TalonSRX frontRight, frontLeft, back;
+  private WPI_TalonSRX backRight, backLeft, front;
+
+  private final double CLIMB_DIST_INCHES = 22;
+  private double setPos;
 
   public RaiseScrewClimb() {
     requires(Robot.climber);
 
-    frontRight = (WPI_TalonSRX)Robot.climber.getFrontRight();
-    frontLeft = (WPI_TalonSRX)Robot.climber.getFrontLeft();
-    back = (WPI_TalonSRX)Robot.climber.getBack();
+    backRight = (WPI_TalonSRX)Robot.climber.getBackRight();
+    backLeft = (WPI_TalonSRX)Robot.climber.getBackLeft();
+    front = (WPI_TalonSRX)Robot.climber.getFront();
 
+    setPos = MercMath.inchesToEncoderTicks(-CLIMB_DIST_INCHES);
   }
 
   // Called just before this Command runs the first time
@@ -36,13 +41,11 @@ public class RaiseScrewClimb extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    frontLeft.set(ControlMode.MotionMagic, 4096, 
-                  DemandType.AuxPID, Robot.climber.getFrontLeftHeightInTicks() - Robot.climber.getFrontRightHeightInTicks());
-    frontRight.set(ControlMode.MotionMagic, 4096, DemandType.AuxPID, 
-                   Robot.climber.getFrontLeftHeightInTicks()- Robot.climber.getFrontRightHeightInTicks());
-    back.set(ControlMode.MotionMagic, 4096, 
-             DemandType.AuxPID, 
-             (Robot.climber.getFrontLeftHeightInTicks() + Robot.climber.getFrontRightHeightInTicks())/2 - Robot.climber.getBackHeightInTicks());
+    backRight.set(ControlMode.MotionMagic, setPos, DemandType.AuxPID, 
+                  Robot.climber.getBackLeftHeightInTicks() - Robot.climber.getBackRightHeightInTicks());
+    front.set(ControlMode.MotionMagic, 4096, 
+              DemandType.AuxPID, 
+              (Robot.climber.getBackLeftHeightInTicks() + Robot.climber.getBackRightHeightInTicks())/2 - Robot.climber.getFrontHeightInTicks());
   }
 
   // Make this return true when this Command no longer needs to run execute()

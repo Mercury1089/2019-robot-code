@@ -89,6 +89,7 @@ public class MercVictorSPX implements IMercMotorController {
         victorspx.config_kI(slot, gains.kI, 10);
         victorspx.config_kD(slot, gains.kD, 10);
         victorspx.config_kF(slot, gains.kF, 10);
+        victorspx.configClosedLoopPeakOutput(slot, gains.clMaxOut, 10);
     }
 
     @Override
@@ -152,6 +153,11 @@ public class MercVictorSPX implements IMercMotorController {
     @Override
     public void selectProfileSlot(int slotIdx, int pidIdx) {
         victorspx.selectProfileSlot(slotIdx, pidIdx);
+    }
+    
+    @Override
+    public void configClosedLoopPeakOutput(int slotIdx, double peakOutput) {
+        victorspx.configClosedLoopPeakOutput(slotIdx, peakOutput);
     }
 
 //_________________________________________________________________________________

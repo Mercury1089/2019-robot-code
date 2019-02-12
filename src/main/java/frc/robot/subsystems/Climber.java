@@ -8,13 +8,19 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.SensorTerm;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
 import frc.robot.RobotMap.CAN;
 import frc.robot.util.DriveAssist;
 import frc.robot.util.MercTalonSRX;
+import frc.robot.util.PIDGain;
 import frc.robot.util.interfaces.IMercMotorController;
 
 /**
@@ -25,33 +31,130 @@ public class Climber extends Subsystem implements PIDOutput {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private IMercMotorController drive, 
-                               liftFrontLeft, 
-                               liftFrontRight, 
-                               liftBack;
+  private IMercMotorController drive, liftBackLeft, liftBackRight, liftFront;
 
+  public static final int LIFT_BR_RUN = 0, 
+                          LIFT_BR_ADJUST = 1, 
+                          LIFT_FRONT_RUN = 0,
+                          LIFT_FRONT_ADJUST = 1;
 
-  private boolean isInMotionMagicMode;
+  public static final int REMOTE_DEVICE_0 = 0, 
+                          REMOTE_DEVICE_1 = 1;
 
-  public static enum ClimberPosition{
-    GROUNDED,
-    RAISED,
-    RAISED_BACK
-  }
+  public static final int PRIMARY_LOOP = 0,
+                          AUXILIARY_LOOP = 1;
+
+  private final PIDGain LIFT_BR_RUN_GAINS, LIFT_BR_ADJUST_GAINS, LIFT_FRONT_RUN_GAINS, LIFT_FRONT_ADJUST_GAINS;
+
+  private boolean isInLiftMode;
+
   private ClimberPosition currentPosition; 
+
+  public enum ClimberPosition {
+    GROUNDED,
+    RAISED_BACK,
+    RAISED
+  }
+
+  public enum ScrewMotor {
+    BACK_RIGHT,
+    BACK_LEFT,
+    FRONT
+  } 
 
   public Climber(){
     currentPosition = ClimberPosition.GROUNDED;
     drive = new MercTalonSRX(CAN.SCREW_DRIVE);
-    liftFrontLeft = new MercTalonSRX(CAN.LIFT_BL);
-    liftFrontRight = new MercTalonSRX(CAN.LIFT_BR);
-    liftBack = new MercTalonSRX(CAN.LIFT_FRONT);
+    liftBackLeft = new MercTalonSRX(CAN.LIFT_BL);
+    liftBackRight = new MercTalonSRX(CAN.LIFT_BR);
+    liftFront = new MercTalonSRX(CAN.LIFT_FRONT);
+
+    LIFT_BR_RUN_GAINS = new PIDGain(0.1, 0.0, 0.0, 0.0);
+    LIFT_BR_ADJUST_GAINS = new PIDGain(1.0, 0.0, 2.0, 0.0);
+    LIFT_FRONT_RUN_GAINS = new PIDGain(0.1, 0.0, 0.0, 0.0);
+    LIFT_FRONT_ADJUST_GAINS = new PIDGain(1.0, 0.0, 2.0, 0.0);
+
+    initializeLiftFeedback();
+  }
+
+  public void initializeLiftFeedback() {
+    /* Configure primary feedback as the average of the two encoders */
+    liftBackLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Climber.PRIMARY_LOOP);
+
+    liftBackRight.configRemoteFeedbackFilter(liftBackLeft.getPort(), RemoteSensorSource.TalonSRX_SelectedSensor, Climber.REMOTE_DEVICE_0);
+
+    liftBackRight.configSensorTerm(SensorTerm.Sum0, FeedbackDevice.RemoteSensor0);
+    liftBackRight.configSensorTerm(SensorTerm.Sum1, FeedbackDevice.CTRE_MagEncoder_Relative);
+
+    liftBackRight.configSelectedFeedbackSensor(FeedbackDevice.SensorSum, Climber.PRIMARY_LOOP);
+
+    liftBackRight.configSelectedFeedbackCoefficient(0.5, Climber.PRIMARY_LOOP);
+    
+    /* Setup Difference signal to be used for Turn */
+    liftBackRight.configSensorTerm(SensorTerm.Diff1, FeedbackDevice.RemoteSensor0);
+    liftBackRight.configSensorTerm(SensorTerm.Diff0, FeedbackDevice.CTRE_MagEncoder_Relative);
+    
+    /* Configure Difference [Difference between both encoders] to be used for Auxiliary PID Index */
+		liftBackRight.configSelectedFeedbackSensor(FeedbackDevice.SensorDifference, Climber.AUXILIARY_LOOP);
+
+    /* Aux loop coefficient */
+    liftBackRight.configSelectedFeedbackCoefficient(1, Climber.AUXILIARY_LOOP);
+
+    /* Set status frame periods to ensure we don't have stale data */
+    liftBackRight.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20);
+    liftBackRight.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20);
+    liftBackRight.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20);
+    liftBackRight.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20);
+    liftBackLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+
+    isInLiftMode = true;
+
+    /*\_/_\_/_\_/_\*/
+
+    liftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DriveTrain.PRIMARY_LOOP);
+    liftFront.configRemoteFeedbackFilter(liftBackRight.getPort(), RemoteSensorSource.TalonSRX_SelectedSensor, DriveTrain.REMOTE_DEVICE_0);
+    
+    liftFront.configSensorTerm(SensorTerm.Sum0, FeedbackDevice.RemoteSensor0);
+    liftFront.configSensorTerm(SensorTerm.Sum1, FeedbackDevice.CTRE_MagEncoder_Relative);
+
+    liftFront.configSelectedFeedbackSensor(FeedbackDevice.SensorSum, DriveTrain.PRIMARY_LOOP);
+
+    liftFront.configSelectedFeedbackCoefficient(0.5, DriveTrain.PRIMARY_LOOP);
+
+    /* Setup Difference signal to be used for Turn */
+    liftFront.configSensorTerm(SensorTerm.Diff1, FeedbackDevice.RemoteSensor0);
+    liftFront.configSensorTerm(SensorTerm.Diff0, FeedbackDevice.CTRE_MagEncoder_Relative);
+    
+    /* Configure Difference [Difference between both encoders] to be used for Auxiliary PID Index */
+		liftFront.configSelectedFeedbackSensor(FeedbackDevice.SensorDifference, Climber.AUXILIARY_LOOP);
+
+    /* Aux loop coefficient */
+    liftFront.configSelectedFeedbackCoefficient(1, DriveTrain.AUXILIARY_LOOP);
   }
 
   @Override
   public void initDefaultCommand() {
     //.- .-.  -.  .-  ...-      ..  ...       --.  .-  -.--
     //-.-- . ...   ..   .- --. .-. . .
+  }
+
+  public void configPIDSlots(ScrewMotor sm, int primaryPIDSlot, int auxiliaryPIDSlot) {
+    if (primaryPIDSlot >= 0) {
+      if (sm == ScrewMotor.BACK_RIGHT)
+        liftBackRight.selectProfileSlot(primaryPIDSlot, DriveTrain.PRIMARY_LOOP);
+      else if (sm == ScrewMotor.FRONT)
+        liftFront.selectProfileSlot(primaryPIDSlot, DriveTrain.PRIMARY_LOOP);
+      else
+        liftBackLeft.selectProfileSlot(primaryPIDSlot, DriveTrain.PRIMARY_LOOP);
+    }
+    if (auxiliaryPIDSlot >= 0) {
+      if (sm == ScrewMotor.BACK_RIGHT)
+        liftBackRight.selectProfileSlot(auxiliaryPIDSlot, DriveTrain.AUXILIARY_LOOP);
+      else if (sm == ScrewMotor.FRONT)
+        liftFront.selectProfileSlot(auxiliaryPIDSlot, DriveTrain.AUXILIARY_LOOP);
+      else
+        liftBackLeft.selectProfileSlot(auxiliaryPIDSlot, DriveTrain.AUXILIARY_LOOP);
+    }
   }
 
   /**
@@ -69,28 +172,28 @@ public class Climber extends Subsystem implements PIDOutput {
     
   }
 
-  public IMercMotorController getFrontLeft(){
-    return liftFrontLeft;
+  public IMercMotorController getBackLeft(){
+    return liftBackLeft;
   }
 
-  public IMercMotorController getFrontRight(){
-    return liftFrontRight;
+  public IMercMotorController getBackRight(){
+    return liftBackRight;
   }
 
-  public IMercMotorController getBack(){
-    return liftBack;
+  public IMercMotorController getFront(){
+    return liftFront;
   }
 
-  public double getFrontLeftHeightInTicks(){
-    return liftFrontLeft.getEncTicks();
+  public double getBackLeftHeightInTicks(){
+    return liftBackLeft.getEncTicks();
   }
 
-  public double getFrontRightHeightInTicks(){
-    return liftFrontRight.getEncTicks();
+  public double getBackRightHeightInTicks(){
+    return liftBackRight.getEncTicks();
   }
 
-  public double getBackHeightInTicks(){
-    return liftBack.getEncTicks();
+  public double getFrontHeightInTicks(){
+    return liftFront.getEncTicks();
   }
 
   public ClimberPosition getClimberPosition(){
@@ -102,8 +205,8 @@ public class Climber extends Subsystem implements PIDOutput {
     this.currentPosition = pos;
   }
 
-  public boolean isInMotionMagicMode(){
-    return isInMotionMagicMode;
+  public boolean isInLiftMode(){
+    return isInLiftMode;
   }
 
   public boolean isDriveEnabled(){

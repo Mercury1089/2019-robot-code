@@ -90,6 +90,7 @@ public class MercTalonSRX implements IMercMotorController {
         talonsrx.config_kI(slot, gains.kI, 10);
         talonsrx.config_kD(slot, gains.kD, 10);
         talonsrx.config_kF(slot, gains.kF, 10);
+        talonsrx.configClosedLoopPeakOutput(slot, gains.clMaxOut, 10);
     }
 
     @Override
@@ -156,6 +157,11 @@ public class MercTalonSRX implements IMercMotorController {
     @Override
     public void selectProfileSlot(int slotIdx, int pidIdx) {
         talonsrx.selectProfileSlot(slotIdx, pidIdx);
+    }
+
+    @Override
+    public void configClosedLoopPeakOutput(int slotIdx, double peakOutput) {
+        talonsrx.configClosedLoopPeakOutput(slotIdx, peakOutput);
     }
 
 //_________________________________________________________________________________
