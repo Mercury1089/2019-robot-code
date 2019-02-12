@@ -30,6 +30,8 @@ public class Elevator extends Subsystem {
     public static final double NORMAL_P_VAL = 0.1;
     public static final double CLIMBING_P_VAL = 0.15;
 
+    public static final int PRIMARY_PID_LOOP = 0;
+
     /**
      * Enumeration of positions that the elevator can have.
      * This is more a representation of the target positions, and does not reflect
@@ -37,18 +39,15 @@ public class Elevator extends Subsystem {
      */
     public enum ElevatorPosition {
         // TODO: Temporary Values
-        ROCKET_3_C(80000.0, NORMAL_P_VAL, 0, 0),    // 3st level Rocket: Cargo
-        ROCKET_2_C(65000.0, NORMAL_P_VAL, 0, 0),    // 2rd level Rocket: Cargo
-        ROCKET_1_C(38000.0, NORMAL_P_VAL, 0, 0),    // 1nd level Rocket: Cargo
-        ROCKET_3_HP(25000.0, NORMAL_P_VAL, 0, 0),   // 3th level Rocket: Hatch Panel
-        ROCKET_2_HP(25000, NORMAL_P_VAL, 0, 0),     // 2st level Rocket: Hatch Panel
-        CARGOSHIP_C(7000.0, NORMAL_P_VAL, 0, 0),    // Cargo ship: Cargo
-        BOTTOM(-2000.0, NORMAL_P_VAL, 0, 0);        // Elavator bottom, can do hatchpanel at loading station, rocket level 1, and cargo ship
+        ROCKET_3_C(80000.0),    // 3st level Rocket: Cargo
+        ROCKET_2_C(65000.0),    // 2rd level Rocket: Cargo
+        ROCKET_1_C(38000.0),    // 1nd level Rocket: Cargo
+        ROCKET_3_HP(25000.0),   // 3th level Rocket: Hatch Panel
+        ROCKET_2_HP(25000),     // 2st level Rocket: Hatch Panel
+        CARGOSHIP_C(7000.0),    // Cargo ship: Cargo
+        BOTTOM(-2000.0);        // Elavator bottom, can do hatchpanel at loading station, rocket level 1, and cargo ship
 
         public final double encPos;
-        public final double pVal;
-        public final double iVal;
-        public final double dVal;
 
         /**
          * Creates an elevator position, storing the encoder ticks
@@ -56,13 +55,9 @@ public class Elevator extends Subsystem {
          * as well as the P value to use to reach that level.
          *
          * @param ep encoder position, in ticks
-         * @param kp p value between 0 and 1
          */
-        ElevatorPosition(double ep, double kp, double ki, double kd) {
+        ElevatorPosition(double ep) {
             encPos = ep;
-            pVal = kp;
-            iVal = ki;
-            dVal = kd;
         }
     }
 
@@ -87,6 +82,8 @@ public class Elevator extends Subsystem {
         elevatorLeader.configAllowableClosedLoopError(0, 5);
         elevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RobotMap.PID.PRIMARY_PID_LOOP);
         elevatorLeader.configSetParameter(ParamEnum.eClearPositionOnLimitR, 1, 0, 0);
+
+        elevatorLeader.configPID(Elevator.PRIMARY_PID_LOOP, new PIDGain(NORMAL_P_VAL, 0.0, 0.0, 0.0));
     }
 
     @Override
@@ -118,8 +115,6 @@ public class Elevator extends Subsystem {
      * @param pid the pid values
      */
     public void setPosition(ElevatorPosition ep) {
-      elevatorLeader.configPID(0, new PIDGain(ep.pVal, ep.iVal, ep.dVal, 0));
-
       position = ep;
     }
 
