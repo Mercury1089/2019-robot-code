@@ -204,6 +204,6 @@ public class Limelight implements PIDSource, TableEntryListener {
     }
 
     private double calcRobotHeading2(){
-        return Math.atan2(calcDistFromVert()*Math.cos(targetCenterXAngle), calcDistFromVert()*Math.sin(targetCenterXAngle) - HALF_ROBOT_FRAME_WIDTH_INCHES);
+        return Math.atan(calcDistFromVert()*Math.cos(targetCenterXAngle)/(calcDistFromVert()*Math.sin(targetCenterXAngle) - HALF_ROBOT_FRAME_WIDTH_INCHES));
     }
 }
