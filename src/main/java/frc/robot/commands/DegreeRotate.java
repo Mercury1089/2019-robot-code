@@ -19,7 +19,7 @@ public class DegreeRotate extends MoveHeading {
     requires(Robot.driveTrain);
 
     moveThresholdTicks = 100;
-    angleThresholdDeg = 2;
+    angleThresholdDeg = 1;
     onTargetMinCount = 3;
   }
 

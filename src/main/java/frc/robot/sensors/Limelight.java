@@ -204,7 +204,7 @@ public class Limelight implements PIDSource, TableEntryListener {
         return MercMath.lawOfSinesAngle(temp5, temp2, alpha); 
     }
 
-    private double calcRobotHeading2(){
+    public double calcRobotHeading2(){
         return Math.atan2(calcDistFromVert()*Math.cos(targetCenterXAngle), calcDistFromVert()*Math.sin(targetCenterXAngle) - HALF_ROBOT_FRAME_WIDTH_INCHES);
     }
 }

@@ -29,7 +29,7 @@ public class TrackTarget extends MoveHeading {
   protected void initialize() {
     super.initialize();
     Robot.driveTrain.configVoltage(0.25, 0.75);
-    Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
+    Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_TURN_SLOT);
   }
 
   // Called repeatedly when this Command is scheduled to run
