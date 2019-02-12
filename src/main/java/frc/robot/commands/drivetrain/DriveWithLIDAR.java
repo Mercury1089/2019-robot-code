@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import frc.robot.Robot;
 
-public class DriveWithLIDAR extends EncDriveDistance {
+public class DriveWithLIDAR extends MoveHeading {
   private final Logger LOG = LogManager.getLogger(DriveWithLIDAR.class);
 
   public double minimumDistance;
@@ -37,14 +37,13 @@ public class DriveWithLIDAR extends EncDriveDistance {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    distance = Robot.cargoShooter.getLidar().getDistance() - minimumDistance;
-    updateDistance();
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.cargoShooter.getLidar().getDistance() - minimumDistance <= 0;
+    return false;
   }
 
   // Called once after isFinished returns true
