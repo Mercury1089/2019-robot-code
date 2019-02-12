@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 
 public class EjectHatchPanel extends Command {
   private final Logger LOG = LogManager.getLogger(EjectHatchPanel.class);
-  private int targetPosition = 4096;
+  private int targetPosition = 4096; //Make this a constant somewhere
   private IMercMotorController ejector;
 
   private int onTargetCount;
@@ -32,7 +32,7 @@ public class EjectHatchPanel extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.hatchManipulator.getEjector().setPosition(targetPosition);
+    ejector.setPosition(ejector.getEncTicks() + targetPosition);
 
     LOG.info(getName() + " Initialized");
   }
