@@ -14,7 +14,7 @@ import frc.robot.subsystems.CargoManipulator.ShooterSpeed;
 
 public class RunCargoManipulator extends Command {
   private ShooterSpeed targetState;
-  private double minimumDistance = 8.0;
+  private double minimumDistance = CargoManipulator.CARGO_IN_ROBOT_THRESH;
   private int timeThreshold = 550;
   private long startTimeMillis;
 

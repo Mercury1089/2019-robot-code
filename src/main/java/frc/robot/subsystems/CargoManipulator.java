@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.CANifier;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.Robot;
 import frc.robot.RobotMap.CAN;
 import frc.robot.sensors.LIDAR;
 import frc.robot.util.MercVictorSPX;
@@ -18,10 +19,10 @@ import frc.robot.util.MercVictorSPX;
  * Add your docs here.
  */
 public class CargoManipulator extends Subsystem {
-  MercVictorSPX shooterLeft;
-  MercVictorSPX shooterRight;
-  CANifier canifier;
-  LIDAR lidar;
+  private MercVictorSPX shooterLeft, shooterRight;
+  private CANifier canifier;
+  private LIDAR lidar;
+  public static final double CARGO_IN_ROBOT_THRESH = 8.0;
 
   public enum ShooterSpeed {
     FAST_INTAKE(-1.0),
@@ -70,5 +71,9 @@ public class CargoManipulator extends Subsystem {
   public void setClawState(CargoManipulator.ShooterSpeed state) {
     shooterLeft.setSpeed(state.SPEED);
     shooterRight.setSpeed(state.SPEED);
+  }
+  
+  public boolean isCargoInRobot() {
+    return Robot.cargoShooter.getLidar().getDistance() - CARGO_IN_ROBOT_THRESH <= 0;
   }
 }
