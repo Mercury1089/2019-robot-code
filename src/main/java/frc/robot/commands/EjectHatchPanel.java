@@ -18,14 +18,14 @@ public class EjectHatchPanel extends Command {
 
   public EjectHatchPanel() {
     requires(Robot.hatchManipulator);
-    setName("ScoreHatchPanel Command");
+    setName("EjectHatchPanel Command");
     LOG.info(getName() + " Constructed");
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
+    LOG.info(getName() + " Initialized");
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -45,7 +45,7 @@ public class EjectHatchPanel extends Command {
   @Override
   protected void end() {
     Robot.hatchManipulator.setEjectorSpeed(0.0);
-    LOG.info(getName() + " End");
+    LOG.info(getName() + " Ended");
   }
 
   // Called when another command which requires one or more of the same
