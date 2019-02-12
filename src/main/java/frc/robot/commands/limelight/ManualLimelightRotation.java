@@ -9,10 +9,8 @@ package frc.robot.commands.limelight;
 
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.sensors.Limelight;
 import frc.robot.util.MercMath;
 
 public class ManualLimelightRotation extends Command {

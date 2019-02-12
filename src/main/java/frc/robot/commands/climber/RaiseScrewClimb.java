@@ -13,8 +13,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.util.MercTalonSRX;
-import frc.robot.util.interfaces.IMercMotorController;
 
 public class RaiseScrewClimb extends Command {
 

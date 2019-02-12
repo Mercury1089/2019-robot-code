@@ -9,7 +9,6 @@ package frc.robot.commands.cargo;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.CargoIntake;
 import frc.robot.subsystems.CargoIntake.ArticulationPosition;
 import frc.robot.util.interfaces.IMercMotorController.LimitSwitchDirection;
 

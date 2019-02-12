@@ -10,7 +10,6 @@ package frc.robot.commands.hatch;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap.DS_USB;
-import frc.robot.RobotMap.GAMEPAD_AXIS;
 
 public class ManualHatchEjector extends Command {
   public ManualHatchEjector() {

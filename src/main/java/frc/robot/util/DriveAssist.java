@@ -19,7 +19,6 @@ public class DriveAssist {
 	private final DelayableLogger SLOW_LOG = new DelayableLogger(LOG, 10, TimeUnit.SECONDS);
 	private final IMercMotorController LEFT_CONTROLLER, RIGHT_CONTROLLER;
 	private double maxOutput = 1.0;
-	private double deadzone = 0.08;
 	//private boolean invertDirection = false;
 	private DriveDirection direction;
 

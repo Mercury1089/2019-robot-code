@@ -3,7 +3,6 @@ package frc.robot.util;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -22,7 +21,6 @@ import frc.robot.RobotMap;
 public class MercTalonSRX implements IMercMotorController {
     private WPI_TalonSRX talonsrx;
     private int port;
-    private int timeoutms = 20;
 
     public MercTalonSRX(int port) {
         talonsrx = new WPI_TalonSRX(port);

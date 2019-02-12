@@ -16,7 +16,6 @@ import org.apache.logging.log4j.LogManager;
 import frc.robot.util.DelayableLogger;
 import java.util.concurrent.TimeUnit;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 
 public class AutomaticElevator extends Command {
   private final Logger LOG = LogManager.getLogger(AutomaticElevator.class);

@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import frc.robot.RobotMap;
-import frc.robot.subsystems.DriveTrain;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
@@ -20,7 +19,6 @@ import frc.robot.util.interfaces.IMercMotorController;
 public class MercVictorSPX implements IMercMotorController {
     private WPI_VictorSPX victorspx;
     private int port;
-    private int timeoutms = 20;
 
     public MercVictorSPX(int port) {
         victorspx = new WPI_VictorSPX(port);
