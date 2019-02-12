@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap.CAN;
 import frc.robot.util.MercVictorSPX;
+import frc.robot.util.PIDGain;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.util.interfaces.IMercMotorController.LimitSwitchDirection;
@@ -26,7 +27,10 @@ public class HatchManipulator extends Subsystem {
   public final int ARTICULATOR_PID_SLOT = 0;
   public final int EJECTOR_PID_SLOT = 0;
 
-  //Config these    v
+  public final PIDGain ejectorGain = new PIDGain(0.1, 0.0, 0.0, 0.0, 0.75);
+  public final PIDGain articulatorGain = new PIDGain(0.1, 0.0, 0.0, 0.0, 0.75);
+
+  //Config these   v
   public final int EJECTOR_THRESHOLD = 100;
   public final int ARTICULATOR_THRESHOLD = 100;
   
@@ -34,7 +38,6 @@ public class HatchManipulator extends Subsystem {
     //Temporary encoder tick values
     ACQUIRE(2500),
     READY_TO_PICK(1100),
-    LOAD_STATION(500),
     IN_BOT(-2000);
 
     public int encPos;
@@ -52,8 +55,11 @@ public class HatchManipulator extends Subsystem {
     ejector = new MercVictorSPX(CAN.HATCH_EJECTOR);
     articulator = new MercTalonSRX(CAN.HATCH_INTAKE);
 
+    ejector.configPID(EJECTOR_PID_SLOT, ejectorGain);
+    articulator.configPID(ARTICULATOR_PID_SLOT, articulatorGain);
+
     ejector.configAllowableClosedLoopError(EJECTOR_PID_SLOT, EJECTOR_THRESHOLD);
-    articulator.configAllowableClosedLoopError(ARTICULATOR_PID_SLOT, ARTICULATOR_THRESHOLD);
+    articulator.configAllowableClosedLoopError(ARTICULATOR_PID_SLOT, ARTICULATOR_THRESHOLD);    
   }
 
   @Override

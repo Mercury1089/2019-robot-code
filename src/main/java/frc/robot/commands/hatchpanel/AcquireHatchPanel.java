@@ -29,14 +29,13 @@ public class AcquireHatchPanel extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.hatchManipulator.setArticulatorPosition(state);
     LOG.info(getName() + " Initialized");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    LOG.info(getName() + " Executed");
-    Robot.hatchManipulator.setArticulatorPosition(state);
   }
 
   // Make this return true when this Command no longer needs to run execute()
