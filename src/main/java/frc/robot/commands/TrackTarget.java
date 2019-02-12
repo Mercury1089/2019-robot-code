@@ -12,6 +12,8 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FollowerType;
 
 import frc.robot.Robot;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrain.DriveTrainSide;
 import frc.robot.util.MercMath;
 
 public class TrackTarget extends MoveHeading {
@@ -26,20 +28,16 @@ public class TrackTarget extends MoveHeading {
   @Override
   protected void initialize() {
     super.initialize();
-    /*
-    double distance = MercMath.feetToEncoderTicks(Robot.limelightRotate.getLimeLight().getVertDistance());
-    double targetHeading = -MercMath.degreesToPigeonUnits(Robot.limelightRotate.getLimeLight().getTargetCenterXAngle());
-    right.set(ControlMode.MotionMagic, distance, DemandType.AuxPID, targetHeading);
-    left.follow(right, FollowerType.AuxOutput1);
-    */
+    Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     double adjustedDistance = MercMath.feetToEncoderTicks(Robot.limelightAssembly.getLimeLight().getVertDistance());
+    System.out.println(adjustedDistance);
     double adjustedHeading = -MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
-    right.set(ControlMode.MotionMagic, adjustedDistance, DemandType.AuxPID, adjustedHeading);
+    right.set(ControlMode.Position, adjustedDistance, DemandType.AuxPID, adjustedHeading);
     left.follow(right, FollowerType.AuxOutput1);
   }
 

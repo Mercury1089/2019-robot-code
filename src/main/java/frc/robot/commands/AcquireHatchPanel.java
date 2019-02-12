@@ -42,6 +42,7 @@ public class AcquireHatchPanel extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    // below if-statement should never execute because endable is false
     if (endable && POSITION_THRESHOLD >= Math.abs(state.encPos - Robot.hatchManipulator.getArticulatorPositionTicks())) {
       LOG.info("Reached " + state.toString());
       return true;
@@ -60,6 +61,8 @@ public class AcquireHatchPanel extends Command {
   @Override
   protected void end() {
     LOG.info(getName() + " Ended");
+    if(Robot.hatchManipulator.getArticulatorPosition() != ArticulatorPosition.IN_BOT)
+      Robot.hatchManipulator.setArticulatorPosition(ArticulatorPosition.IN_BOT);
   }
 
   // Called when another command which requires one or more of the same
