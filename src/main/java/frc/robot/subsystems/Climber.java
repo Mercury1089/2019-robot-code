@@ -30,6 +30,9 @@ public class Climber extends Subsystem implements PIDOutput {
                                liftFrontRight, 
                                liftBack;
 
+
+  private boolean isInMotionMagicMode;
+
   public static enum ClimberPosition{
     GROUNDED,
     RAISED,
@@ -66,6 +69,18 @@ public class Climber extends Subsystem implements PIDOutput {
     
   }
 
+  public IMercMotorController getFrontLeft(){
+    return liftFrontLeft;
+  }
+
+  public IMercMotorController getFrontRight(){
+    return liftFrontRight;
+  }
+
+  public IMercMotorController getBack(){
+    return liftBack;
+  }
+
   public double getFrontLeftHeightInTicks(){
     return liftFrontLeft.getEncTicks();
   }
@@ -85,6 +100,10 @@ public class Climber extends Subsystem implements PIDOutput {
   public void setPosition(ClimberPosition pos){
     
     this.currentPosition = pos;
+  }
+
+  public boolean isInMotionMagicMode(){
+    return isInMotionMagicMode;
   }
 
   public boolean isDriveEnabled(){
