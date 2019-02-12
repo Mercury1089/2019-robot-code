@@ -33,11 +33,14 @@ public class ShuffleDash {
         SmartDashboard.putNumber("LIDAR Raw Distance (in.)", MercMath.roundFloat(Robot.driveTrain.getLidar().getRawDistance(), 10));
         //SmartDashboard.putNumber("LIDAR Period", MercMath.roundFloat(Robot.claw.getLidar().getDistance(), 10));
 
-        SmartDashboard.putNumber("Lime Target Offset", Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
+        SmartDashboard.putNumber("Lime Target Offset CALCULATION", Robot.limelightAssembly.getLimeLight().getRobotHeading());
         SmartDashboard.putNumber("Lime Target Area", Robot.limelightAssembly.getLimeLight().getTargetArea());
         SmartDashboard.putNumber("Lime Dist From Area", Robot.limelightAssembly.getLimeLight().getAreaDistance());
         SmartDashboard.putNumber("Lime Dist From Vert", Robot.limelightAssembly.getLimeLight().getVertDistance());
         SmartDashboard.putNumber("Lime Dist From Horiz", Robot.limelightAssembly.getLimeLight().getHorizDistance());
+
+        SmartDashboard.putNumber("Lime Dist CALCULATION", Robot.limelightAssembly.getLimeLight().getHorizDistance());
+        
         SmartDashboard.putNumber("Gyro Angle", Robot.driveTrain.getPigeonYaw());
 
         SmartDashboard.putBoolean("Auton Initialized", ntInstance.getTable("AutonConfiguration").containsKey("startingPosition"));
