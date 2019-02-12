@@ -16,14 +16,18 @@ public class RightSight {
     private DigitalInput RightSight;
     private final int DIO_PORT;
 
-    // sets the sensor to its respective port on the DIO
+    /**
+     * Sets the sensor to its respective port on the DIO
+     */
     public RightSight(int dioPort)
     {
         DIO_PORT = dioPort;
         RightSight = new DigitalInput(DIO_PORT);
     }
 
-    // checks the DIO port assigned to the sensor for its alignment
+    /**
+     * checks the DIO port assigned to the sensor for its alignment
+     */
     public boolean getAlignment()
     {
         return RightSight.get();

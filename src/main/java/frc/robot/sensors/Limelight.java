@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import frc.robot.util.MercMath;
 
 /**
- * Add your docs here.
+ * A wrapper class for limelight information from the network table.
  */
 public class Limelight implements PIDSource, TableEntryListener {
     private NetworkTable nt; //finds the limelight network table
@@ -111,81 +111,154 @@ public class Limelight implements PIDSource, TableEntryListener {
         }
     }
 
+    /**
+     * u want the angle to target in x direction?
+     * @return angle to target in x direction
+     */
     public synchronized double getTargetCenterXAngle(){
         return this.targetCenterXAngle;
     }
 
+    /**
+     * u want the angle to target in y direction?
+     * @return angle to target in y direction
+     */
     public synchronized double getTargetCenterYAngle(){
         return this.targetCenterYAngle;
     }
 
+    /**
+     * u want the angle to target's area?
+     * @return angle to target in x direction
+     */
     public synchronized double getTargetArea(){
         return this.targetArea;
     }
 
+    /**
+     * u want the number of targets?
+     * @return number of visible targets
+     */
     public synchronized double getNumTargets(){
         return this.numTargets;
     }
 
+    /**
+     * u want the vertical length of the target?
+     * @return the vertical length of the target
+     */
     public synchronized double getVerticalLength() {
         return this.verticalLength;
     }
 
+    /**
+     * u want the number of targets?
+     * @return number of visible targets
+     */
     public synchronized double getHorizontalLength() {
         return this.horizontalLength;
     }
+
+    /**
+     * Set the PID Source (should not be implemented)
+     */
     public synchronized void setPIDSourceType(PIDSourceType pidST){
         
     }
 
+    /**
+     * Get the PID Source Type (what kind of value PID is acting on)
+     */
     public synchronized PIDSourceType getPIDSourceType() {
         return PIDSourceType.kDisplacement;
     }
 
+    /**
+     * Get the value that PID acts on. For PIDCommand
+     */
     public synchronized double pidGet() {
         return this.targetCenterXAngle;
     }
 
+    /**
+     * u want the distance based on the area?
+     * @return the distance based on the area
+     */
     public synchronized double getAreaDistance() {
         return calcDistFromArea();
     }
 
+    /**
+     * u want the distance based on the vertical distance?
+     * @return the distance based on the vertical distance
+     */
     public synchronized double getVertDistance() {
         return calcDistFromVert();
     }
 
+    /**
+     * u want the distance based on the horizontal distance?
+     * @return the distance based on the horizontal distance
+     */
     public synchronized double getHorizDistance() {
         return calcDistFromHoriz();
     }
 
+    /**
+     * Helper method for the area-dist calculation
+     * @return the distance based on area
+     */
     private double calcDistFromArea() {
         return areaCoeff * Math.pow(targetArea, areaExp);
     }
 
+    /**
+     * Helper method for the vert-dist calculation
+     * @return the distance based on vertical distance
+     */
     private double calcDistFromVert() {
         return vertCoeff * Math.pow(verticalLength, vertExp);
     }
 
+    /**
+     * Helper method for the horiz-dist calculation
+     * @return the distance based on horizontal distance
+     */
     private double calcDistFromHoriz() {
         return horizCoeff * Math.pow(horizontalLength, horizExp);
     }
 
+    /**
+     * u need the robot distance to the target based on trig?
+     * @return the distance to target using the trig formulas
+     */
     public double getRobotDistance() {
         return calcRobotDistance();
     }
 
+    /**
+     * Helper method for the distance to target based on trig
+     * @return the distance to target based on trig
+     */
     private double calcRobotDistance() {
             return MercMath.lawOfCosines(calcDistFromVert(), 
                                          LIMELIGHT_TO_ROBOT_CENTER_CARGO_IN, 
                                          LIMELIGHT_TO_ROBOT_CENTER_CARGO_DEG + targetCenterXAngle);
     }
 
-    public synchronized double getRobotHeading() {
+    /**
+     * u need the robot angle offset to the target based on trig?
+     * @return the distance to target using the trig formulas
+     */
+    public synchronized double getRobotHeadingOffset() {
         return calcRobotHeading();
     }
 
-    public void 
-    setLEDState(LimelightLEDState limelightLEDState) {
+    /**
+     * Set the LED state on the limelight.
+     * @param limelightLEDState the state of the LED.
+     */
+    public void setLEDState(LimelightLEDState limelightLEDState) {
         nt.getEntry("ledMode").setDouble(limelightLEDState.value);
     }
 
@@ -204,6 +277,10 @@ public class Limelight implements PIDSource, TableEntryListener {
         return MercMath.lawOfSinesAngle(temp5, temp2, alpha); 
     }
 
+    /**
+     * Calculating the robot heading by switching the coordinate system the camera is on
+     * @return the heading from switching from cartesian to polar and back.
+     */
     public double calcRobotHeading2(){
         return Math.atan(calcDistFromVert()*Math.cos(targetCenterXAngle)/(calcDistFromVert()*Math.sin(targetCenterXAngle) - HALF_ROBOT_FRAME_WIDTH_INCHES));
     }

@@ -33,7 +33,7 @@ public class ShuffleDash {
         SmartDashboard.putNumber("LIDAR Raw Distance (in.)", MercMath.roundFloat(Robot.driveTrain.getLidar().getRawDistance(), 10));
         //SmartDashboard.putNumber("LIDAR Period", MercMath.roundFloat(Robot.claw.getLidar().getDistance(), 10));
 
-        SmartDashboard.putNumber("Lime Target Offset CALCULATION", Robot.limelightAssembly.getLimeLight().getRobotHeading());
+        SmartDashboard.putNumber("Lime Target Offset CALCULATION", Robot.limelightAssembly.getLimeLight().getRobotHeadingOffset());
         SmartDashboard.putNumber("Lime Target Offset CALCULATION 2", Robot.limelightAssembly.getLimeLight().calcRobotHeading2());
         SmartDashboard.putNumber("Lime Dist From Vert", Robot.limelightAssembly.getLimeLight().getVertDistance());
         SmartDashboard.putNumber("Lime Dist CALCULATION", Robot.limelightAssembly.getLimeLight().getRobotDistance());

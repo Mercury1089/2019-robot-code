@@ -78,6 +78,11 @@ public class LIDAR  implements PIDSource {
         return equation.apply(getRawDistance());
     }
 
+    /**
+     * Get the distance reported by the LIDAR with a moving average provided by a LinearDigitalFilter
+     * 
+     * @return the distance to the target
+     */
     public double getDistance() {
         return linearDigitalFilter.pidGet();
     }
@@ -105,11 +110,17 @@ public class LIDAR  implements PIDSource {
         return PWM_INPUT[1];
     }
 
+    /**
+     * Set the pid source type (Should not be implemented)
+     */
     @Override
     public void setPIDSourceType(PIDSourceType pidSource) {
 
     }
 
+    /**
+     * Get the PID source type
+     */
     @Override
     public PIDSourceType getPIDSourceType() {
         return PIDSourceType.kDisplacement;
