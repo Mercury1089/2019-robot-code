@@ -235,7 +235,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
         isInMotionMagicMode = true;
     }
-
+    
     public void configPIDSlots(DriveTrainSide dts, int primaryPIDSlot, int auxiliaryPIDSlot) {
         if (primaryPIDSlot >= 0) {
             if (dts == DriveTrainSide.RIGHT)

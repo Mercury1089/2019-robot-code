@@ -5,13 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.drivetrain;
+package frc.robot.commands.climber;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class DriveWithLIDAR extends MoveHeading {
+public class DriveWithLIDAR extends Command {
   private final Logger LOG = LogManager.getLogger(DriveWithLIDAR.class);
 
   public double minimumDistance;
@@ -20,7 +22,7 @@ public class DriveWithLIDAR extends MoveHeading {
    * @param minDist The distance for the robot to be away from the LIDAR's target when it reaches said target.
    */
   public DriveWithLIDAR(double minDist, double percentVoltage) {
-    super(0, percentVoltage);
+    //super(0, percentVoltage);
     LOG.info(getName() + " Beginning constructor");
     requires(Robot.driveTrain);
     minimumDistance = minDist;
