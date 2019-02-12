@@ -19,22 +19,17 @@ import frc.robot.util.interfaces.IMercMotorController.LimitSwitchDirection;
  * articulator is the intake mechanism
  */
 public class HatchManipulator extends Subsystem {
-  IMercMotorController ejector;
-  IMercMotorController articulator;
-  ArticulatorPosition position;
-/*
-  public enum HatchIntakeSpeed {
-    FAST_REVERSE(-1.0),
-    SLOW_REVERSE(-0.5),
-    SLOW_FORWARD(0.5),
-    FAST_FORWARD(1.0);
-    public final double HATCH_ARTICULATOR_SPEED;
+  private IMercMotorController ejector;
+  private IMercMotorController articulator;
+  private ArticulatorPosition position;
 
-    HatchIntakeSpeed(double speed) {
-      HATCH_ARTICULATOR_SPEED = speed;
-    }
-  }
-*/
+  public final int ARTICULATOR_PID_SLOT = 0;
+  public final int EJECTOR_PID_SLOT = 0;
+
+  //Config these    v
+  public final int EJECTOR_THRESHOLD = 100;
+  public final int ARTICULATOR_THRESHOLD = 100;
+  
   public enum ArticulatorPosition{
     //Temporary encoder tick values
     ACQUIRE(2500),
@@ -56,6 +51,9 @@ public class HatchManipulator extends Subsystem {
   public HatchManipulator() {
     ejector = new MercVictorSPX(CAN.HATCH_EJECTOR);
     articulator = new MercTalonSRX(CAN.HATCH_INTAKE);
+
+    ejector.configAllowableClosedLoopError(EJECTOR_PID_SLOT, EJECTOR_THRESHOLD);
+    articulator.configAllowableClosedLoopError(ARTICULATOR_PID_SLOT, ARTICULATOR_THRESHOLD);
   }
 
   @Override
