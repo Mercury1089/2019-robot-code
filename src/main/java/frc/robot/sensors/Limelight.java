@@ -186,7 +186,7 @@ public class Limelight implements PIDSource, TableEntryListener {
 
     public void 
     setLEDState(LimelightLEDState limelightLEDState) {
-        nt.getEntry("ledMode").setDouble(limelightLEDState.value);
+        nt.getEntry("ledMode").setNumber(limelightLEDState.value);
     }
 
     /**
