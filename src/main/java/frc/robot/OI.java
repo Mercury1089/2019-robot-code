@@ -36,7 +36,8 @@ public class OI {
 
   private Joystick rightJoystick, leftJoystick, gamepad;
 
-  private JoystickButton left1, left2, left3, left4, left5, left7, left8, left10, right1, right2, right6, right7, right8, right9, right10, right11;
+  private JoystickButton left1, left2, left3, left4, left5, left7, left8, left10;
+  private JoystickButton right1, right2, right6, right7, right8, right9, right10, right11;
 
   public OI() {
     leftJoystick = new Joystick(DS_USB.LEFT_STICK);
