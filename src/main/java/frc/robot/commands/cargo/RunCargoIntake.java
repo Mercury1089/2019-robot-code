@@ -12,10 +12,20 @@ import frc.robot.Robot;
 
 public class RunCargoIntake extends Command {
   private double speed;
+  public enum IntakeSpeed {
+    FAST(1.0),
+    SLOW(0.5);
 
-  public RunCargoIntake(double speed) {
+    public double speed;
+
+    IntakeSpeed(double speed) {
+      this.speed = speed;
+    }
+  }
+
+  public RunCargoIntake(IntakeSpeed intakeSpeed) {
     requires(Robot.cargoIntake);
-    this.speed = speed;
+    this.speed = intakeSpeed.speed;
   }
 
   // Called just before this Command runs the first time
