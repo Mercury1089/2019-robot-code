@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import frc.robot.Robot;
 import frc.robot.commands.hatchpanel.AcquireHatchPanel;
 import frc.robot.commands.cargo.RunCargoIntake;
-import frc.robot.commands.cargo.RunCargoIntake.IntakeSpeed;
+import frc.robot.subsystems.CargoIntake.IntakeSpeed;
 import frc.robot.util.DriveAssist.DriveDirection;
 
 public class GeneralIntake extends ConditionalCommand {
 
   public GeneralIntake() {
-    super(new AcquireHatchPanel(), new RunCargoIntake(IntakeSpeed.FAST));
+    super(new AcquireHatchPanel(), new RunCargoIntake(IntakeSpeed.FAST_IN));
   }
 
   @Override
