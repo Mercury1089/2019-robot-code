@@ -14,7 +14,6 @@ import frc.robot.subsystems.CargoManipulator.ShooterSpeed;
 
 public class RunCargoManipulator extends Command {
   private ShooterSpeed targetState;
-  private double minimumDistance = CargoManipulator.CARGO_IN_ROBOT_THRESH;
   private int timeThreshold = 550;
   private long startTimeMillis;
 
@@ -39,7 +38,7 @@ public class RunCargoManipulator extends Command {
   @Override
   protected boolean isFinished() {
     if (targetState == CargoManipulator.ShooterSpeed.FAST_INTAKE || targetState == CargoManipulator.ShooterSpeed.SLOW_INTAKE)
-      return Robot.cargoShooter.getLidar().getDistance() - minimumDistance <= 0;
+      return Robot.cargoShooter.getLidar().getDistance() - CargoManipulator.CARGO_IN_ROBOT_THRESH <= 0;
 
     return System.currentTimeMillis() - startTimeMillis > timeThreshold;
   }

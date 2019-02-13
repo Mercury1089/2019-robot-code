@@ -9,29 +9,22 @@ package frc.robot.commands.cargo;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.CargoIntake;
+import frc.robot.subsystems.CargoManipulator;
+import frc.robot.subsystems.CargoIntake.IntakeSpeed;
 
 public class RunCargoIntake extends Command {
-  private double speed;
-  public enum IntakeSpeed {
-    FAST(1.0),
-    SLOW(0.5);
-
-    public double speed;
-
-    IntakeSpeed(double speed) {
-      this.speed = speed;
-    }
-  }
+  private IntakeSpeed intakeSpeed;
 
   public RunCargoIntake(IntakeSpeed intakeSpeed) {
     requires(Robot.cargoIntake);
-    this.speed = intakeSpeed.speed;
+    this.intakeSpeed = intakeSpeed;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.cargoIntake.setIntakeSpeed(speed);
+    Robot.cargoIntake.setIntakeSpeed(intakeSpeed);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -42,7 +35,10 @@ public class RunCargoIntake extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.cargoShooter.isCargoInRobot();
+    if (intakeSpeed == CargoIntake.IntakeSpeed.FAST_IN || intakeSpeed == CargoIntake.IntakeSpeed.SLOW_IN) {
+      return Robot.cargoShooter.getLidar().getDistance() - CargoManipulator.CARGO_IN_ROBOT_THRESH <= 0;
+    }
+    return false;
   }
 
   // Called once after isFinished returns true

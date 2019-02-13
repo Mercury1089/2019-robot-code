@@ -20,15 +20,28 @@ public class CargoIntake extends Subsystem {
   MercTalonSRX articulator;
   ArticulationPosition currentState;
 
-  public enum IntakeSpeed {
+  public enum ArticulationSpeed {
     FAST_REVERSE(-1.0),
     SLOW_REVERSE(-0.5),
     SLOW_FORWARD(0.5),
     FAST_FORWARD(1.0);
     public final double SPEED;
 
-    IntakeSpeed(double speed) {
+    ArticulationSpeed(double speed) {
       SPEED = speed;
+    }
+  }
+
+  public enum IntakeSpeed {
+    FAST_IN(1.0),
+    SLOW_IN(0.5),
+    SLOW_OUT(-0.5),
+    FAST_OUT(-1.0);
+
+    public double speed;
+
+    IntakeSpeed(double speed) {
+      this.speed = speed;
     }
   }
 
@@ -47,8 +60,8 @@ public class CargoIntake extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
 
-  public void setIntakeSpeed(double x) {
-    intake.setSpeed(x);
+  public void setIntakeSpeed(IntakeSpeed intakeSpeed) {
+    intake.setSpeed(intakeSpeed.speed);
   }
 
   public void setArticulatorSpeed(double speed) {
