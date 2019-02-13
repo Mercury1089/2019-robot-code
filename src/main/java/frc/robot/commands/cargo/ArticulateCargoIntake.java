@@ -15,8 +15,9 @@ import frc.robot.util.interfaces.IMercMotorController.LimitSwitchDirection;
 public class ArticulateCargoIntake extends Command {
   ArticulationPosition targetState;
 
-  public ArticulateCargoIntake() {
+  public ArticulateCargoIntake(ArticulationPosition targetState) {
     requires(Robot.cargoIntake);
+    this.targetState = targetState;
   }
 
   @Override

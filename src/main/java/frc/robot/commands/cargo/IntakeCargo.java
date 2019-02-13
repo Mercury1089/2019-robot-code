@@ -5,17 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.hatchpanel;
+package frc.robot.commands.cargo;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.subsystems.HatchManipulator.ArticulatorPosition;
+import frc.robot.commands.cargo.ArticulateCargoIntake;
+import frc.robot.subsystems.CargoIntake.IntakeSpeed;
+import frc.robot.subsystems.CargoIntake.ArticulationPosition;
+import frc.robot.subsystems.CargoManipulator.ShooterSpeed;
 
-public class AcquireHatchPanel extends CommandGroup {
-  /**
-   * Moves the Hatch Panel Pickup to the floor and then up slightly
-   */
-  public AcquireHatchPanel() {
-    addSequential(new ArticulateHatchPanel(ArticulatorPosition.ACQUIRE, true));
-    addSequential(new ArticulateHatchPanel(ArticulatorPosition.READY_TO_PICK));
+public class IntakeCargo extends CommandGroup {
+
+  public IntakeCargo() {
+    addSequential(new ArticulateCargoIntake(ArticulationPosition.OUT));
+    addSequential(new RunCargoIntake(IntakeSpeed.FAST_IN));
+    addParallel(new RunCargoManipulator(ShooterSpeed.FAST_INTAKE));
   }
 }

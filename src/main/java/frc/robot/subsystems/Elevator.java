@@ -43,7 +43,7 @@ public class Elevator extends Subsystem {
         ROCKET_2_C(65000.0),    // 2rd level Rocket: Cargo
         ROCKET_1_C(38000.0),    // 1nd level Rocket: Cargo
         ROCKET_3_HP(25000.0),   // 3th level Rocket: Hatch Panel
-        ROCKET_2_HP(25000),     // 2st level Rocket: Hatch Panel
+        ROCKET_2_HP(25000.0),     // 2st level Rocket: Hatch Panel
         CARGOSHIP_C(7000.0),    // Cargo ship: Cargo
         BOTTOM(-2000.0);        // Elavator bottom, can do hatchpanel at loading station, rocket level 1, and cargo ship
 
