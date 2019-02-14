@@ -81,6 +81,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     private boolean isInMotionMagicMode;
 
     private static final double CARGO_INTAKE_THRESHOLD = 8.0;
+    private LEDColor currentLEDColor;
 
     public enum DriveTrainLayout {
         SPARKS,
@@ -314,9 +315,14 @@ public class DriveTrain extends Subsystem implements PIDOutput {
      * CANifier use BRG (not RGB) for its LED Channels
      */
     private void setLEDColor(LEDColor ledColor) {
+        currentLEDColor = ledColor;
         canifier.setLEDOutput(ledColor.getRed(), CANifier.LEDChannel.LEDChannelB);
         canifier.setLEDOutput(ledColor.getBlue(), CANifier.LEDChannel.LEDChannelA);
         canifier.setLEDOutput(ledColor.getGreen(), CANifier.LEDChannel.LEDChannelC);
+    }
+
+    public LEDColor getCurrentLEDOutput() {
+        return currentLEDColor;
     }
 
     /**
