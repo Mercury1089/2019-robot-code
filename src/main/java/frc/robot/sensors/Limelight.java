@@ -282,6 +282,6 @@ public class Limelight implements PIDSource, TableEntryListener {
      * @return the heading from switching from cartesian to polar and back.
      */
     public double calcRobotHeading2(){
-        return Math.atan(calcDistFromVert()*Math.cos(targetCenterXAngle)/(calcDistFromVert()*Math.sin(targetCenterXAngle) - HALF_ROBOT_FRAME_WIDTH_INCHES));
+        return Math.atan((this.calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle)) - 19)/(calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle) - 9.0)));
     }
 }
