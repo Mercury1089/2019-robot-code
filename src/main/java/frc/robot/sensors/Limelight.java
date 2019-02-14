@@ -293,4 +293,20 @@ public class Limelight implements PIDSource, TableEntryListener {
     public double calcRobotHeading2(){
         return Math.atan((this.calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle)) - 19)/(calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle) - 9.0)));
     }
+
+
+
+    public double calcRobotDistance3() {
+        return Math.sqrt(   Math.pow(getVertDistance(), 2)   +   Math.pow(LIMELIGHT_TO_ROBOT_CENTER_CARGO_IN, 2)
+                            -   2   *   getVertDistance()   *   LIMELIGHT_TO_ROBOT_CENTER_CARGO_IN
+                            *   Math.toDegrees(Math.cos(Math.toRadians(LIMELIGHT_TO_ROBOT_CENTER_CARGO_DEG))));
+    }
+
+    public double calcRobotHeading3() {
+        return 90   -   Math.toDegrees(Math.asin(   Math.toRadians(   getVertDistance()    /    (    ( Math.sqrt(   Math.pow(getVertDistance(), 2)   
+                            +  Math.pow(HALF_ROBOT_FRAME_WIDTH_INCHES, 2)   -  2  *  getVertDistance()  *  HALF_ROBOT_FRAME_WIDTH_INCHES
+                            *  Math.toDegrees(Math.cos(Math.toRadians(  90 + targetCenterXAngle  )))  )
+                            /  Math.toDegrees(Math.sin(Math.toRadians(  90 + targetCenterXAngle  )))  )
+                            ))));
+    }
 }
