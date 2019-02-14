@@ -29,10 +29,10 @@ public class Limelight implements PIDSource, TableEntryListener {
     private final double areaExp = -0.504;
 
     //WARNING: Arbitrary values below v
-    private final double LIMELIGHT_TO_ROBOT_CENTER_CARGO_IN = 10; //Distance from the LL to the center of the cargo side
-    private final double LIMELIGHT_TO_ROBOT_CENTER_CARGO_DEG = 30; //Angle from the LL to the center of the cargo side
-    private final double LIMELIGHT_TO_ROBOT_CARGO_PLANE_IN = 8; //Distance from the LL to the plane of the cargo side
-    private final double HALF_ROBOT_FRAME_WIDTH_INCHES = 9.5;
+    private final double LIMELIGHT_TO_ROBOT_CENTER_CARGO_IN = 24; //Distance from the LL to the center of the cargo side
+    private final double LIMELIGHT_TO_ROBOT_CENTER_CARGO_DEG = 65; //Angle from the LL to the center of the cargo side
+    private final double LIMELIGHT_TO_ROBOT_CARGO_PLANE_IN = 21; //Distance from the LL to the plane of the cargo side
+    private final double HALF_ROBOT_FRAME_WIDTH_INCHES = 13;
 
     public enum LimelightLEDState {
         ON(3.0),
@@ -91,6 +91,7 @@ public class Limelight implements PIDSource, TableEntryListener {
                 }
                 case "tv": {
                     targetAcquired = nv.getDouble() != 0.0;
+                    break;
                 }
                 case "tl": {
                     numTargets = nv.getDouble();
@@ -141,6 +142,14 @@ public class Limelight implements PIDSource, TableEntryListener {
      */
     public synchronized double getNumTargets(){
         return this.numTargets;
+    }
+
+    /**
+     * u want to know if the limelight sees a valid target?
+     * @return If there is a valid target
+     */
+    public synchronized boolean getTargetAcquired() {
+        return this.targetAcquired;
     }
 
     /**
@@ -209,7 +218,7 @@ public class Limelight implements PIDSource, TableEntryListener {
      * @return the distance based on area
      */
     private double calcDistFromArea() {
-        return areaCoeff * Math.pow(targetArea, areaExp);
+        return areaCoeff * Math.pow(targetArea, areaExp) * 12;
     }
 
     /**
@@ -217,7 +226,7 @@ public class Limelight implements PIDSource, TableEntryListener {
      * @return the distance based on vertical distance
      */
     private double calcDistFromVert() {
-        return vertCoeff * Math.pow(verticalLength, vertExp);
+        return vertCoeff * Math.pow(verticalLength, vertExp) * 12;
     }
 
     /**
@@ -225,7 +234,7 @@ public class Limelight implements PIDSource, TableEntryListener {
      * @return the distance based on horizontal distance
      */
     private double calcDistFromHoriz() {
-        return horizCoeff * Math.pow(horizontalLength, horizExp);
+        return horizCoeff * Math.pow(horizontalLength, horizExp) * 12;
     }
 
     /**
