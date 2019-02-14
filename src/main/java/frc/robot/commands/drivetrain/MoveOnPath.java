@@ -23,6 +23,7 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.util.MercMath;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * Use motion profiling to move on a specified path
@@ -53,7 +54,7 @@ public class MoveOnPath extends Command {
      *
      * @param name name of the trajectory
      */
-    public MoveOnPath(String filename, MPDirection direction) {
+    public MoveOnPath(String filename, MPDirection direction) throws FileNotFoundException{
         requires(Robot.driveTrain);
         setName("MoveOnPath-" + filename);
         log.info(getName() + " Beginning constructor");
