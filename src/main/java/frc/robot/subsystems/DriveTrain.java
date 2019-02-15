@@ -23,7 +23,6 @@ import frc.robot.RobotMap.CAN;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.util.MercMath;
-import frc.robot.util.MercSparkMax;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.MercVictorSPX;
 import frc.robot.util.DriveAssist;
@@ -80,6 +79,9 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     private boolean isInMotionMagicMode;
 
+    private static final double CARGO_INTAKE_THRESHOLD = 8.0;
+    private LEDColor currentLEDColor;
+
     public enum DriveTrainLayout {
         SPARKS,
         TALONS,
@@ -89,6 +91,37 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public enum DriveTrainSide {
         RIGHT,
         LEFT
+    }
+
+    public enum LEDColor {
+        RED(1.0, 0.0, 0.0),
+        GREEN(0.0, 0.0, 1.0),
+        BLUE(0.0, 0.0, 1.0),
+        YELLOW(1.0, 1.0, 0.0),
+        CYAN(0.0, 1.0, 1.0),
+        MAGENTA(1.0, 0.0, 1.0),
+        WHITE(1.0, 1.0, 1.0),
+        BLACK(0.0, 0.0, 0.0);
+
+        private double r, g, b;
+
+        LEDColor(double r, double g, double b) {
+            this.r = r;
+            this.g = g;
+            this.b = b;
+        }
+
+        public double getRed() {
+            return r;
+        }
+
+        public double getGreen() {
+            return g;
+        }
+
+        public double getBlue() {
+            return b;
+        }
     }
 
 	/**
@@ -110,19 +143,19 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 	        	leaderRight = new MercTalonSRX(CAN.DRIVETRAIN_MR);
                 followerLeft = new MercTalonSRX(CAN.DRIVETRAIN_SL);
                 followerRight = new MercTalonSRX(CAN.DRIVETRAIN_SR);
-                break;
+                break;/*
             case SPARKS:
                 leaderLeft = new MercSparkMax(CAN.DRIVETRAIN_ML);
                 leaderRight = new MercSparkMax(CAN.DRIVETRAIN_MR);
                 followerLeft = new MercSparkMax(CAN.DRIVETRAIN_SL);
                 followerRight = new MercSparkMax(CAN.DRIVETRAIN_SR);
-                break;
+                break;*/
 			case TALONS:
                 leaderLeft = new MercTalonSRX(CAN.DRIVETRAIN_ML);
 	        	leaderRight = new MercTalonSRX(CAN.DRIVETRAIN_MR);
                 followerLeft = new MercVictorSPX(CAN.DRIVETRAIN_SL);
 				followerRight = new MercVictorSPX(CAN.DRIVETRAIN_SR);
-				break;
+                break;
         }
 
         //Initialize the gyro that is currently on the robot. Comment out the initialization of the one not in use.
@@ -156,10 +189,10 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         initializeMotionMagicFeedback();
 
         // Config PID
-        DRIVE_GAINS = new PIDGain(0.1, 0.0, 0.0, 0.0, 0.75);
+        DRIVE_GAINS = new PIDGain(0.1, 0.0, 0.0, 0.0, .95);
         SMOOTH_GAINS = new PIDGain(2.0, 0.0, 4.0, getFeedForward(), 1.0);
         MOTION_PROFILE_GAINS = new PIDGain(0.6, 0.0, 0.0, getFeedForward(), 1.0);
-        TURN_GAINS = new PIDGain(0.25, 0.0, 0.27, 0.0, 0.75);
+        TURN_GAINS = new PIDGain(0.25, 0.0, 0.27, 0.0, 1.0);
         leaderRight.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
         leaderLeft.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
         leaderRight.configPID(DRIVE_SMOOTH_MOTION_SLOT, SMOOTH_GAINS);
@@ -264,6 +297,31 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     @Override
     public void periodic() {
         lidar.updatePWMInput();
+        updateLEDs();
+    }
+
+    private void updateLEDs() {
+        if(lidar.getDistance() <= CARGO_INTAKE_THRESHOLD) {
+            setLEDColor(LEDColor.BLUE);
+        }
+        else {
+            setLEDColor(LEDColor.BLACK);
+        }
+    }
+
+    /**
+     * Sets the canifier LED output to the correct {@code LEDColor}. The
+     * CANifier use BRG (not RGB) for its LED Channels
+     */
+    private void setLEDColor(LEDColor ledColor) {
+        currentLEDColor = ledColor;
+        canifier.setLEDOutput(ledColor.getRed(), CANifier.LEDChannel.LEDChannelB);
+        canifier.setLEDOutput(ledColor.getBlue(), CANifier.LEDChannel.LEDChannelA);
+        canifier.setLEDOutput(ledColor.getGreen(), CANifier.LEDChannel.LEDChannelC);
+    }
+
+    public LEDColor getCurrentLEDOutput() {
+        return currentLEDColor;
     }
 
     /**

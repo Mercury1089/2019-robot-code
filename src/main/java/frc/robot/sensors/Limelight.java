@@ -21,18 +21,18 @@ public class Limelight implements PIDSource, TableEntryListener {
     * variable, either vertical length (vert), horizontal length (horiz),
     * or area (area).
     */
-    private final double vertCoeff = 164.0;
-    private final double vertExp = -1.09;
-    private final double horizCoeff = 308.0;
-    private final double horizExp = -0.99;
-    private final double areaCoeff = 6.6;
-    private final double areaExp = -0.504;
+    private final double vertCoeff = 111.0;
+    private final double vertExp = -0.948;
+    private final double horizCoeff = 264.0;
+    private final double horizExp = -0.953;
+    private final double areaCoeff = 6.64;
+    private final double areaExp = -0.466;
 
     //WARNING: Arbitrary values below v
-    private final double LIMELIGHT_TO_ROBOT_CENTER_CARGO_IN = 10; //Distance from the LL to the center of the cargo side
-    private final double LIMELIGHT_TO_ROBOT_CENTER_CARGO_DEG = 30; //Angle from the LL to the center of the cargo side
-    private final double LIMELIGHT_TO_ROBOT_CARGO_PLANE_IN = 8; //Distance from the LL to the plane of the cargo side
-    private final double HALF_ROBOT_FRAME_WIDTH_INCHES = 9.5;
+    private final double LIMELIGHT_TO_ROBOT_CENTER_CARGO_IN = 23.75; //Distance from the LL to the center of the cargo side
+    private final double LIMELIGHT_TO_ROBOT_CENTER_CARGO_DEG = 35.5; //Angle from the LL to the center of the cargo side
+    private final double LIMELIGHT_TO_ROBOT_CARGO_PLANE_IN = 21; //Distance from the LL to the plane of the cargo side
+    private final double HALF_ROBOT_FRAME_WIDTH_INCHES = 13;
 
     public enum LimelightLEDState {
         ON(3.0),
@@ -91,6 +91,7 @@ public class Limelight implements PIDSource, TableEntryListener {
                 }
                 case "tv": {
                     targetAcquired = nv.getDouble() != 0.0;
+                    break;
                 }
                 case "tl": {
                     numTargets = nv.getDouble();
@@ -141,6 +142,14 @@ public class Limelight implements PIDSource, TableEntryListener {
      */
     public synchronized double getNumTargets(){
         return this.numTargets;
+    }
+
+    /**
+     * u want to know if the limelight sees a valid target?
+     * @return If there is a valid target
+     */
+    public synchronized boolean getTargetAcquired() {
+        return this.targetAcquired;
     }
 
     /**
@@ -209,7 +218,7 @@ public class Limelight implements PIDSource, TableEntryListener {
      * @return the distance based on area
      */
     private double calcDistFromArea() {
-        return areaCoeff * Math.pow(targetArea, areaExp);
+        return areaCoeff * Math.pow(targetArea, areaExp) * 12;
     }
 
     /**
@@ -217,7 +226,7 @@ public class Limelight implements PIDSource, TableEntryListener {
      * @return the distance based on vertical distance
      */
     private double calcDistFromVert() {
-        return vertCoeff * Math.pow(verticalLength, vertExp);
+        return vertCoeff * Math.pow(verticalLength, vertExp) * 12;
     }
 
     /**
@@ -225,14 +234,14 @@ public class Limelight implements PIDSource, TableEntryListener {
      * @return the distance based on horizontal distance
      */
     private double calcDistFromHoriz() {
-        return horizCoeff * Math.pow(horizontalLength, horizExp);
+        return horizCoeff * Math.pow(horizontalLength, horizExp) * 12;
     }
 
     /**
      * u need the robot distance to the target based on trig?
      * @return the distance to target using the trig formulas
      */
-    public double getRobotDistance() {
+    public synchronized double getRobotDistance() {
         return calcRobotDistance();
     }
 
@@ -268,13 +277,13 @@ public class Limelight implements PIDSource, TableEntryListener {
      * TODO: Make this work for both sides (It should choose between constants)
      */
     private double calcRobotHeading() {
-        double alpha = LIMELIGHT_TO_ROBOT_CENTER_CARGO_DEG + targetCenterXAngle;
-        double temp1 = LIMELIGHT_TO_ROBOT_CARGO_PLANE_IN / Math.cos(targetCenterXAngle);
+        double alpha = Math.toRadians(LIMELIGHT_TO_ROBOT_CENTER_CARGO_DEG + targetCenterXAngle);
+        double temp1 = LIMELIGHT_TO_ROBOT_CARGO_PLANE_IN / Math.cos(Math.toRadians(targetCenterXAngle));
         double temp2 = calcDistFromVert() - temp1;
         double temp3 = temp1 * Math.sin(alpha);
         double temp4 = temp3 + HALF_ROBOT_FRAME_WIDTH_INCHES;
         double temp5 = MercMath.lawOfCosines(temp2, temp4, alpha);
-        return MercMath.lawOfSinesAngle(temp5, temp2, alpha); 
+        return Math.toDegrees(MercMath.lawOfSinesAngle(temp5, temp2, alpha)); 
     }
 
     /**
@@ -282,6 +291,22 @@ public class Limelight implements PIDSource, TableEntryListener {
      * @return the heading from switching from cartesian to polar and back.
      */
     public double calcRobotHeading2(){
-        return Math.atan(calcDistFromVert()*Math.cos(targetCenterXAngle)/(calcDistFromVert()*Math.sin(targetCenterXAngle) - HALF_ROBOT_FRAME_WIDTH_INCHES));
+        return Math.atan((this.calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle)) - 19)/(calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle) - 9.0)));
+    }
+
+
+
+    public double calcRobotDistance3() {
+        return Math.sqrt(   Math.pow(getVertDistance(), 2)   +   Math.pow(LIMELIGHT_TO_ROBOT_CENTER_CARGO_IN, 2)
+                            -   2   *   getVertDistance()   *   LIMELIGHT_TO_ROBOT_CENTER_CARGO_IN
+                            *   Math.toDegrees(Math.cos(Math.toRadians(LIMELIGHT_TO_ROBOT_CENTER_CARGO_DEG))));
+    }
+
+    public double calcRobotHeading3() {
+        return 90   -   Math.toDegrees(Math.asin(   Math.toRadians(   getVertDistance()    /    (    ( Math.sqrt(   Math.pow(getVertDistance(), 2)   
+                            +  Math.pow(HALF_ROBOT_FRAME_WIDTH_INCHES, 2)   -  2  *  getVertDistance()  *  HALF_ROBOT_FRAME_WIDTH_INCHES
+                            *  Math.toDegrees(Math.cos(Math.toRadians(  90 + targetCenterXAngle  )))  )
+                            /  Math.toDegrees(Math.sin(Math.toRadians(  90 + targetCenterXAngle  )))  )
+                            ))));
     }
 }

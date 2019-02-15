@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import java.io.FileNotFoundException;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.RobotMap.*;
@@ -68,10 +70,13 @@ public class OI {
     left3.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
     left4.whenPressed(new RotateLimelight(LimelightPosition.FACING_HATCH_PANEL));
     left5.whenPressed(new RotateLimelight(LimelightPosition.FACING_CARGO));
-    left7.whenPressed(new MoveOnPath("CurveLeft", MPDirection.FORWARD));
-    left8.whenPressed(new MoveOnPath("StraightProfile", MPDirection.FORWARD));
+    try {
+      left7.whenPressed(new MoveOnPath("LeftMid", MPDirection.FORWARD));
+      left8.whenPressed(new MoveOnPath("LeftFar", MPDirection.FORWARD));
+    } catch(FileNotFoundException fnfe) {
+      System.out.println("Invalid file!!!!");
+    }
     left10.whenPressed(new RotateToTarget());
-
     right1.whenPressed(new RunCargoManipulator(ShooterSpeed.FAST_EJECT));
     right2.whenPressed(new RunCargoManipulator(ShooterSpeed.STOP));
     right6.whenPressed(new DegreeRotate(90));
