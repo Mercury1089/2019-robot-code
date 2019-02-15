@@ -109,7 +109,7 @@ public class Climber extends Subsystem {
 
     isInLiftMode = true;
 
-    /*\_/_\_/_\_/_\*/
+    /*\_/_\_/_\_/_\*/ 
 
     liftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DriveTrain.PRIMARY_LOOP);
     liftFront.configRemoteFeedbackFilter(liftBackRight.getPort(), RemoteSensorSource.TalonSRX_SelectedSensor, DriveTrain.REMOTE_DEVICE_0);
@@ -202,7 +202,6 @@ public class Climber extends Subsystem {
   }
 
   public void setPosition(ClimberPosition pos){
-    
     this.currentPosition = pos;
   }
 
