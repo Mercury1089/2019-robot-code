@@ -79,6 +79,9 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     private boolean isInMotionMagicMode;
 
+    private static final double CARGO_INTAKE_THRESHOLD = 8.0;
+    private LEDColor currentLEDColor;
+
     public enum DriveTrainLayout {
         SPARKS,
         TALONS,
@@ -88,6 +91,37 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public enum DriveTrainSide {
         RIGHT,
         LEFT
+    }
+
+    public enum LEDColor {
+        RED(1.0, 0.0, 0.0),
+        GREEN(0.0, 0.0, 1.0),
+        BLUE(0.0, 0.0, 1.0),
+        YELLOW(1.0, 1.0, 0.0),
+        CYAN(0.0, 1.0, 1.0),
+        MAGENTA(1.0, 0.0, 1.0),
+        WHITE(1.0, 1.0, 1.0),
+        BLACK(0.0, 0.0, 0.0);
+
+        private double r, g, b;
+
+        LEDColor(double r, double g, double b) {
+            this.r = r;
+            this.g = g;
+            this.b = b;
+        }
+
+        public double getRed() {
+            return r;
+        }
+
+        public double getGreen() {
+            return g;
+        }
+
+        public double getBlue() {
+            return b;
+        }
     }
 
 	/**
@@ -263,6 +297,31 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     @Override
     public void periodic() {
         lidar.updatePWMInput();
+        updateLEDs();
+    }
+
+    private void updateLEDs() {
+        if(lidar.getDistance() <= CARGO_INTAKE_THRESHOLD) {
+            setLEDColor(LEDColor.BLUE);
+        }
+        else {
+            setLEDColor(LEDColor.BLACK);
+        }
+    }
+
+    /**
+     * Sets the canifier LED output to the correct {@code LEDColor}. The
+     * CANifier use BRG (not RGB) for its LED Channels
+     */
+    private void setLEDColor(LEDColor ledColor) {
+        currentLEDColor = ledColor;
+        canifier.setLEDOutput(ledColor.getRed(), CANifier.LEDChannel.LEDChannelB);
+        canifier.setLEDOutput(ledColor.getBlue(), CANifier.LEDChannel.LEDChannelA);
+        canifier.setLEDOutput(ledColor.getGreen(), CANifier.LEDChannel.LEDChannelC);
+    }
+
+    public LEDColor getCurrentLEDOutput() {
+        return currentLEDColor;
     }
 
     /**
