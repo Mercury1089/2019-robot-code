@@ -281,9 +281,11 @@ public class Limelight implements PIDSource, TableEntryListener {
     }
 
     /**
+     * DEPRECATED: We can just get the corner positions
      * Get the x pixel coordinate of the target
      * @return the pixel x-position of the target
      */
+    @Deprecated
     public synchronized double getTargetPixelXPos() {
         double vpw = 2 * Math.tan(LIMELIGHT_HFOV_DEG / 2);
         double x = Math.tan(targetCenterXAngle);
@@ -292,9 +294,11 @@ public class Limelight implements PIDSource, TableEntryListener {
     }
 
     /**
+     * DEPRECATED: We can just get the corner positions
      * Get the y pixel coordinate of the target
      * @return the pixel y-position of the target
      */
+    @Deprecated
     public synchronized double getTargetPixelYPos() {
         double vph = 2 * Math.tan(LIMELIGHT_VFOV_DEG / 2);
         double y = Math.tan(targetCenterYAngle);
