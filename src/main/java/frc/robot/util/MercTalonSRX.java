@@ -212,6 +212,6 @@ public class MercTalonSRX implements IMercMotorController {
 
     @Override
     public double getClosedLoopError(int slotIdx) {
-        return getClosedLoopError(slotIdx);
+        return talonsrx.getClosedLoopError(slotIdx);
     }
 }

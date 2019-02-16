@@ -208,6 +208,6 @@ public class MercVictorSPX implements IMercMotorController {
 
     @Override
     public double getClosedLoopError(int slotIdx) {
-        return victorspx.getClosedLoopTarget(slotIdx);
+        return victorspx.getClosedLoopError(slotIdx);
     }
 }
