@@ -296,7 +296,7 @@ public class Limelight implements PIDSource, TableEntryListener {
     }
 
     public double calcRobotDistance4(){
-        return Math.sqrt(Math.pow(this.calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle)) - limelightToCenterX, 2) + Math.pow(this.calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle)) - limelightToCenterY, 2));
+        return Math.sqrt(Math.pow(this.calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle)) - 9.5, 2) + Math.pow(this.calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle)) - 19.0, 2));
     }
 
 
