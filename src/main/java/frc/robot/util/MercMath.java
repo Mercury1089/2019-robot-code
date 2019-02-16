@@ -74,7 +74,7 @@ public class MercMath {
 	 * side, and another angle and its opposite side
 	 * 
 	 * @param x a known sidelength
-	 * @param theta x's opposite angle
+	 * @param theta x's opposite angle  "Y DIS ! θ" - Aidan Sharpe
 	 * @param y the side opposite to the angle you want to know
 	 * 
 	 * @return the unknown angle

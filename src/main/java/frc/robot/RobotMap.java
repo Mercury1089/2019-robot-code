@@ -44,10 +44,15 @@ public class RobotMap {
 			HATCH_INTAKE = 11,
 			HATCH_EJECTOR = 12,
 			CARGO_MANIPULATOR = 13,
-			LIFT_FRONT = 14,
-			LIFT_BL = 15,
-			LIFT_BR = 16,
+			SCREW_BL = 14,
+			SCREW_BR = 15,
+			SCREW_FRONT = 16,
 			SCREW_DRIVE = 17;
+		/**
+		 *
+		 */
+
+		private static final int SCREW_FL2 = SCREW_BL;
 
 			
 		private CAN() {

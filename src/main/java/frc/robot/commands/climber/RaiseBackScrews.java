@@ -7,9 +7,6 @@
 
 package frc.robot.commands.climber;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -17,24 +14,21 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Climber.ScrewMotor;
-import frc.robot.util.MercMath;
-import frc.robot.util.interfaces.IMercMotorController;
 
-public class RaiseScrewClimb extends Command {
+public class RaiseBackScrews extends Command {
 
-  private IMercMotorController backRight, backLeft, front;
+  private WPI_TalonSRX backRight, backLeft, front;
 
-  private final double CLIMB_DIST_INCHES = 22;
+  private final double CLIMB_DIST_INCHES = 22, END_POS, FRONT_START_POS;
   private double setPos;
 
-  public RaiseScrewClimb() {
+  public RaiseBackScrews(double endPosition) {
     requires(Robot.climber);
 
-    backRight = Robot.climber.getBackRight();
-    backLeft = Robot.climber.getBackLeft();
-    front = Robot.climber.getFront();
+    END_POS = endPosition;
 
-    setPos = MercMath.inchesToEncoderTicks(-CLIMB_DIST_INCHES);
+    //Find the average height of the robot in ticks
+    FRONT_START_POS = Robot.climber.getFrontHeightInTicks();
   }
 
   // Called just before this Command runs the first time
@@ -71,26 +65,27 @@ public class RaiseScrewClimb extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    backRight.set(ControlMode.MotionMagic, setPos, DemandType.AuxPID, 0);
-    front.set(ControlMode.MotionMagic, setPos, DemandType.AuxPID, 0); 
+
   }
-  
+
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Robot.climber.getFrontHeightInTicks() == FRONT_START_POS
+        && Robot.climber.getBackLeftHeightInTicks() == END_POS
+        && Robot.climber.getBackRightHeightInTicks() == END_POS;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-
+    Robot.climber.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    this.end();
+      end();
   }
 }
