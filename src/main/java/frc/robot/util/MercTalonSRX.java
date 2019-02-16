@@ -2,6 +2,7 @@ package frc.robot.util;
 
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 
@@ -171,5 +172,30 @@ public class MercTalonSRX implements IMercMotorController {
      */
     public WPI_TalonSRX get() {
         return talonsrx;
+    }
+
+    @Override
+    public void configClosedLoopPeriod(int slotIdx, int closedLoopTimeMs, int timeoutMs) {
+        talonsrx.configClosedLoopPeriod(slotIdx, closedLoopTimeMs, timeoutMs);
+    }
+
+    @Override
+    public void configAuxPIDPolarity(boolean invert, int timeoutMs) {
+        talonsrx.configAuxPIDPolarity(invert, timeoutMs);
+    }
+
+    @Override
+    public void set(ControlMode controlMode, double demand0, DemandType demand1Type, double demand1) {
+        talonsrx.set(controlMode, demand0, demand1Type, demand1);
+    }
+
+    @Override
+    public void configMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs) {
+        talonsrx.configMotionAcceleration(sensorUnitsPer100msPerSec, timeoutMs);
+    }
+
+    @Override
+    public void configMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs) {
+        talonsrx.configMotionCruiseVelocity(sensorUnitsPer100ms, timeoutMs);
     }
 }

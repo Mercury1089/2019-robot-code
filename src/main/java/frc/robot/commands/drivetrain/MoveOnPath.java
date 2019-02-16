@@ -3,46 +3,43 @@
  */
 package frc.robot.commands.drivetrain;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.SetValueMotionProfile;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import frc.robot.util.MercTalonSRX;
-import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.command.Command;
-
-import java.io.FileReader;
-import java.io.Reader;
 
 import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-
-import java.lang.Iterable;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.util.MercMath;
-import java.io.File;
-import java.io.FileNotFoundException;
+import frc.robot.util.MercTalonSRX;
 
 /**
  * Use motion profiling to move on a specified path
  */
 public class MoveOnPath extends Command {
     private static Logger log = LogManager.getLogger(MoveOnPath.class);
-	private TalonSRX left;
+    private TalonSRX left;
     private TalonSRX right;
 
-	private final int TRAJECTORY_SIZE;
-
-    private double[][] trajectoryR, trajectoryL;
+    private Reader rightTrajCSV, leftTrajCSV;
+    private List<CSVRecord> trajectoryListRight = new ArrayList<CSVRecord>(), trajectoryListLeft = new ArrayList<CSVRecord>();
 
     private MotionProfileStatus statusLeft, statusRight;
     private static Notifier trajectoryProcessor;
@@ -50,33 +47,32 @@ public class MoveOnPath extends Command {
     private boolean isRunning;
     private int dir;
 
+    private final int TRAJECTORY_SIZE;
+
     public enum MPDirection {
-        BACKWARD,
-        FORWARD
+        BACKWARD, FORWARD
     }
 
     /**
-     * Creates this command using the file prefix to determine
-     * the files to load.
+     * Creates this command using the file prefix to determine the files to load.
      *
      * @param name name of the trajectory
      */
-    public MoveOnPath(String filename, MPDirection direction) throws FileNotFoundException{
+    public MoveOnPath(String filename, MPDirection direction) throws FileNotFoundException {
         requires(Robot.driveTrain);
         setName("MoveOnPath-" + filename);
         log.info(getName() + " Beginning constructor");
-        
-        //trajectoryR = Pathfinder.readFromCSV(new File("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".left.pf1.csv"));
-        //trajectoryL = Pathfinder.readFromCSV(new File("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".right.pf1.csv"));
 
-        //System.out.println(trajectoryL);
-        
-        Reader in = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".left.pf1.csv");
-        //Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(in);
-        //for (CSVRecord record : records) {
-        //    String columnOne = record.get(0);
-        //    String columnTwo = record.get(1);
-        //}
+        try {
+            leftTrajCSV = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".right.pf1.csv");
+            rightTrajCSV = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".left.pf1.csv");
+            CSVFormat.RFC4180.withFirstRecordAsHeader().parse(leftTrajCSV).forEach(record -> trajectoryListLeft.add(record));
+            CSVFormat.RFC4180.withFirstRecordAsHeader().parse(rightTrajCSV).forEach(record -> trajectoryListRight.add(record));
+        } catch(Exception e) {
+            System.out.println("this a'int a profile fella");
+            e.printStackTrace();
+            end();
+        }
 
         left = ((MercTalonSRX)Robot.driveTrain.getLeftLeader()).get();
         right = ((MercTalonSRX)Robot.driveTrain.getRightLeader()).get();
@@ -101,12 +97,13 @@ public class MoveOnPath extends Command {
         statusLeft = new MotionProfileStatus();
         statusRight = new MotionProfileStatus();
 
-        if (trajectoryL != null) {
-            TRAJECTORY_SIZE = trajectoryL.length;
+        if (trajectoryListLeft != null) {
+            TRAJECTORY_SIZE = trajectoryListLeft.size();
+
             log.info(getName() + " construced: " + TRAJECTORY_SIZE);
         } else {
             TRAJECTORY_SIZE = 0;
-            log.info(getName() + " could not be construced!");
+            log.info(getName() + " could not be constructed!");
             end();
         }
     }
@@ -180,41 +177,37 @@ public class MoveOnPath extends Command {
      * Fill top-level (API-level) buffer with all points
      */
     private void fillTopBuffer() {
-	    for (int i = 0; i < TRAJECTORY_SIZE; i++) {
+        for (int i = 0; i < TRAJECTORY_SIZE; i++) {
+
+            CSVRecord profileLeft = trajectoryListLeft.get(i);
+            CSVRecord profileRight = trajectoryListRight.get(i);
+
             TrajectoryPoint trajPointL = new TrajectoryPoint();
             TrajectoryPoint trajPointR = new TrajectoryPoint();
-
+            
 	        // NOTE: Encoder ticks are backwards, we need to work with that.
-            //double currentPosL = trajectoryL.segments[i].position * dir;
-            //double currentPosR = trajectoryR.segments[i].position * dir;
+            double currentPosL = Double.parseDouble(profileLeft.get("position")) * dir;
+            double currentPosR = Double.parseDouble(profileRight.get("position")) * dir;
 
-            //double velocityL = trajectoryL.segments[i].velocity;
-            //double velocityR = trajectoryR.segments[i].velocity;
-
-            boolean isLastPointL = TRAJECTORY_SIZE == i + 1;
-            boolean isLastPointR = TRAJECTORY_SIZE == i + 1;
-            boolean isZero = i == 0;
+            double velocityL = Double.parseDouble(profileLeft.get("velocity")) * dir;
+            double velocityR = Double.parseDouble(profileRight.get("velocity")) * dir;
 
             // For each point, fill our structure and pass it to API
-            //trajPointL.position = MercMath.feetToEncoderTicks(currentPosL); //Convert Revolutions to Units
-            //trajPointR.position = MercMath.feetToEncoderTicks(currentPosR);
-            //trajPointL.velocity = MercMath.revsPerMinuteToTicksPerTenth(velocityL); //Convert RPM to Units/100ms
-            //trajPointR.velocity = MercMath.revsPerMinuteToTicksPerTenth(velocityR);
+            trajPointL.position = MercMath.feetToEncoderTicks(currentPosL); //Convert Revolutions to Units
+            trajPointR.position = MercMath.feetToEncoderTicks(currentPosR); //Convert Revolutions to Units
+            trajPointL.velocity = MercMath.revsPerMinuteToTicksPerTenth(velocityL); //Convert RPM to Units/100ms
+            trajPointR.velocity = MercMath.revsPerMinuteToTicksPerTenth(velocityR); //Convert RPM to Units/100ms
             
-            trajPointL.profileSlotSelect0 = DriveTrain.DRIVE_MOTION_PROFILE_SLOT;
-            trajPointR.profileSlotSelect0 = DriveTrain.DRIVE_MOTION_PROFILE_SLOT;
+            trajPointL.profileSlotSelect0 = trajPointR.profileSlotSelect0 = DriveTrain.DRIVE_MOTION_PROFILE_SLOT;
 
             // Sets the duration of each trajectory point to 20ms
-            trajPointL.timeDur = 20;
-            trajPointR.timeDur = 20;
+            trajPointL.timeDur = trajPointR.timeDur = 20;
 
             // Set these to true on the first point
-            trajPointL.zeroPos = isZero;
-            trajPointR.zeroPos = isZero;
+            trajPointL.zeroPos = trajPointR.zeroPos = i == 0;
 
             // Set these to true on the last point
-            trajPointL.isLastPoint = isLastPointL;
-            trajPointR.isLastPoint = isLastPointR;
+            trajPointL.isLastPoint = trajPointR.isLastPoint = i == TRAJECTORY_SIZE - 1;
 
             // Push to API level buffer
             left.pushMotionProfileTrajectory(trajPointL);
@@ -239,5 +232,10 @@ public class MoveOnPath extends Command {
         right.clearMotionProfileTrajectories();
 
         log.log(Level.INFO, "Cleared trajectories; check: " + statusLeft.btmBufferCnt);
+    }
+
+    @Override
+    protected void interrupted() {
+        this.end();
     }
 }

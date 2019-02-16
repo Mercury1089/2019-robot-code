@@ -71,8 +71,8 @@ public class OI {
     left4.whenPressed(new RotateLimelight(LimelightPosition.FACING_HATCH_PANEL));
     left5.whenPressed(new RotateLimelight(LimelightPosition.FACING_CARGO));
     try {
-      left7.whenPressed(new MoveOnPath("LeftMid", MPDirection.FORWARD));
-      left8.whenPressed(new MoveOnPath("LeftFar", MPDirection.FORWARD));
+      left7.whenPressed(new MoveOnPath("RightMiddle", MPDirection.FORWARD));
+      left8.whenPressed(new MoveOnPath("RightFar", MPDirection.FORWARD));
     } catch(FileNotFoundException fnfe) {
       System.out.println("Invalid file!!!!");
     }
