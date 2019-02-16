@@ -8,6 +8,8 @@ import com.ctre.phoenix.motorcontrol.StatusFrame;
 import frc.robot.util.PIDGain;
 
 import com.ctre.phoenix.ParamEnum;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 public interface IMercMotorController {
@@ -30,6 +32,9 @@ public interface IMercMotorController {
      * @param position the final position in ticks
      */
     public void setPosition(double x);
+
+    //TODO implement this
+    //public void set()
 
     /**
      * Want the speed of the controller?
@@ -125,6 +130,8 @@ public interface IMercMotorController {
      */
     public void setSensorPhase(boolean bool);
 
+    public void set(ControlMode controlMode, double demand0, DemandType demand1Type, double demand1);
+
     /**
      * NOTE: This is a CTRE Method.
      * Configures the closed loop threshold of error.
@@ -151,4 +158,15 @@ public interface IMercMotorController {
     public void selectProfileSlot(int slotIdx, int pidIdx);
 
     public void configClosedLoopPeakOutput(int slotIdx, double peakOutput);
+
+    //Below this line is motion magic stuff. Kyrag probably has something to do with this//
+    //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-//
+
+    public void configClosedLoopPeriod(int slotIdx, int closedLoopTimeMs, int timeoutMs);
+
+    public void configAuxPIDPolarity(boolean invert, int timeoutMs);
+
+    public void configMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs);
+
+    public void configMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs);
 }

@@ -2,6 +2,7 @@ package frc.robot.util;
 
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import frc.robot.RobotMap;
@@ -160,6 +161,11 @@ public class MercVictorSPX implements IMercMotorController {
         victorspx.configClosedLoopPeakOutput(slotIdx, peakOutput);
     }
 
+    @Override
+    public void set(ControlMode controlMode, double demand0, DemandType demand1Type, double demand1) {
+        victorspx.set(controlMode, demand0, demand1Type, demand1);
+    }
+
 //_________________________________________________________________________________
     /**
      * Get the VictorSPX tied to this class
@@ -167,5 +173,25 @@ public class MercVictorSPX implements IMercMotorController {
      */
     public WPI_VictorSPX get() {
         return victorspx;
+    }
+
+    @Override
+    public void configClosedLoopPeriod(int slotIdx, int closedLoopTimeMs, int timeoutMs) {
+        victorspx.configClosedLoopPeriod(slotIdx, closedLoopTimeMs, timeoutMs);
+    }
+
+    @Override
+    public void configAuxPIDPolarity(boolean invert, int timeoutMs) {
+        victorspx.configAuxPIDPolarity(invert, timeoutMs);
+    }
+
+    @Override
+    public void configMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs) {
+        victorspx.configMotionAcceleration(sensorUnitsPer100msPerSec, timeoutMs);
+    }
+
+    @Override
+    public void configMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs) {
+        victorspx.configMotionCruiseVelocity(sensorUnitsPer100ms, timeoutMs);
     }
 }

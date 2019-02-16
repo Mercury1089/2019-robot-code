@@ -9,6 +9,7 @@ package frc.robot.commands.climber;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -17,10 +18,11 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Climber.ScrewMotor;
 import frc.robot.util.MercMath;
+import frc.robot.util.interfaces.IMercMotorController;
 
 public class RaiseScrewClimb extends Command {
 
-  private WPI_TalonSRX backRight, backLeft, front;
+  private IMercMotorController backRight, backLeft, front;
 
   private final double CLIMB_DIST_INCHES = 22;
   private double setPos;
@@ -28,9 +30,9 @@ public class RaiseScrewClimb extends Command {
   public RaiseScrewClimb() {
     requires(Robot.climber);
 
-    backRight = (WPI_TalonSRX)Robot.climber.getBackRight();
-    backLeft = (WPI_TalonSRX)Robot.climber.getBackLeft();
-    front = (WPI_TalonSRX)Robot.climber.getFront();
+    backRight = Robot.climber.getBackRight();
+    backLeft = Robot.climber.getBackLeft();
+    front = Robot.climber.getFront();
 
     setPos = MercMath.inchesToEncoderTicks(-CLIMB_DIST_INCHES);
   }
