@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.graalvm.compiler.nodes.calc.LeftShiftNode;
 
 /**
  * Command group that specifies the commands to be run
