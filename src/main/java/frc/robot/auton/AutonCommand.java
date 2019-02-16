@@ -26,6 +26,22 @@ public class AutonCommand extends CommandGroup {
 
     public AutonCommand(AutonStartSide autonSide, MoveLocation[] moveLocations) {
         // FIRST MOVE
+          // Add Commands here:
+        // e.g. addSequential(new Command1());
+        //      addSequential(new Command2());
+        // these will run in order.
+
+        // To run multiple commands at the same time,
+        // use addParallel()
+        // e.g. addParallel(new Command1());
+        //      addSequential(new Command2());
+        // Command1 and Command2 will run in parallel.
+
+        // A command group will require all of the subsystems that each member
+        // would require.
+        // e.g. if Command1 requires chassis, and Command2 requires arm,
+        // a CommandGroup containing them would require both the chassis and the
+        // arm.
         try {
             addSequential(new MoveOnPath(autonSide.name() + moveLocations[0].name(), MPDirection.FORWARD));
         } catch(FileNotFoundException fnfe) {
@@ -33,5 +49,9 @@ public class AutonCommand extends CommandGroup {
             return;
             // In the future we COULD do a stupid check to make sure user didn't say " Right Middle " or so
         }
+    }
+    public AutonCommand(){
+        log.info("No args constructor with default auton running");
+        //use addSequential() for a set DriveDistance or other simple commands
     }
 }

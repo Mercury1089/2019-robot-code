@@ -30,12 +30,9 @@ public class ShuffleDash {
 
         SmartDashboard.putNumber("LIDAR Raw Distance (in.)", MercMath.roundFloat(Robot.driveTrain.getLidar().getRawDistance(), 10));
 
-        SmartDashboard.putNumber("Lime Target Offset CALCULATION 1 - LUKE", Robot.limelightAssembly.getLimeLight().getRobotHeadingOffset());
-        SmartDashboard.putNumber("Lime Target Offset CALCULATION 2 - ADAM", Robot.limelightAssembly.getLimeLight().calcRobotHeading2());
-        SmartDashboard.putNumber("Lime Target Offset CALCULATION 3 - SRIHARI", Robot.limelightAssembly.getLimeLight().calcRobotHeading3());
-        SmartDashboard.putNumber("Lime Dist From Vertical", Robot.limelightAssembly.getLimeLight().getVertDistance());
-        SmartDashboard.putNumber("Lime Dist CALCULATION 1 - LUKE", Robot.limelightAssembly.getLimeLight().getRobotDistance());
-        SmartDashboard.putNumber("Lime Dist CALCULATION 2 - SRIHARI", Robot.limelightAssembly.getLimeLight().calcRobotDistance3());
+        SmartDashboard.putNumber("Lime Dist From Vertical", Robot.limelightAssembly.getLimeLight().getRawVertDistance());
+        SmartDashboard.putNumber("Robot Heading Offset from Target", Robot.limelightAssembly.getLimeLight().getRobotHeadingOffset());
+        SmartDashboard.putNumber("Robot Distance Offset from Target", Robot.limelightAssembly.getLimeLight().getRobotDistanceOffset());
         
         SmartDashboard.putNumber("Gyro Angle", Robot.driveTrain.getPigeonYaw());
 
