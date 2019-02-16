@@ -13,6 +13,7 @@ public class Limelight implements PIDSource, TableEntryListener {
     private NetworkTable nt; //finds the limelight network table
     private double numTargets, targetCenterXAngle, targetCenterYAngle, targetArea, horizontalLength, verticalLength;
     private boolean targetAcquired;
+    private final double limelightToCenterX = 13.0, limelightToCenterY = 15.5;
 
     /*
     * Coefficients and exponents to help find the distance of a target
@@ -291,7 +292,11 @@ public class Limelight implements PIDSource, TableEntryListener {
      * @return the heading from switching from cartesian to polar and back.
      */
     public double calcRobotHeading2(){
-        return Math.atan((this.calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle)) - 19)/(calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle) - 9.0)));
+        return 180 / Math.PI * Math.atan((this.calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle)) - limelightToCenterX)/(calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle) - limelightToCenterY)));
+    }
+
+    public double calcRobotDistance4(){
+        return Math.sqrt(Math.pow(this.calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle)) - limelightToCenterX, 2) + Math.pow(this.calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle)) - limelightToCenterY, 2));
     }
 
 
