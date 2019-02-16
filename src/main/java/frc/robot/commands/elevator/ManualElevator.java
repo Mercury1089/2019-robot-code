@@ -23,7 +23,7 @@ public class ManualElevator extends Command {
 
     public ManualElevator() {
         requires(Robot.elevator);
-
+        setName("ManualElevator Command");
         LOG.info(getName() + " Constructed");
     }
 

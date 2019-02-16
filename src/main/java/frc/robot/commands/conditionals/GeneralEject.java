@@ -13,11 +13,15 @@ import frc.robot.commands.hatchpanel.EjectHatchPanel;
 import frc.robot.subsystems.CargoManipulator.ShooterSpeed;
 import frc.robot.commands.cargo.RunCargoManipulator;
 import frc.robot.util.DriveAssist.DriveDirection;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GeneralEject extends ConditionalCommand {
-
+  private final Logger LOG = LogManager.getLogger(GeneralEject.class);
   public GeneralEject() {
     super(new EjectHatchPanel(), new RunCargoManipulator(ShooterSpeed.FAST_EJECT));
+    setName("GeneralEject ConditionalCommand");
+    LOG.info(getName() + " Constructed");
   }
 
   @Override
