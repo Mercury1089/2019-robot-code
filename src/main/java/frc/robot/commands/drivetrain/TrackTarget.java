@@ -18,7 +18,7 @@ import frc.robot.util.MercMath;
 
 public class TrackTarget extends MoveHeading {
 
-  private double allowableDistError = 6; //inches
+  private double allowableDistError = 24; //inches
 
   public TrackTarget() {
     // Use requires() here to declare subsystem dependencies
@@ -31,14 +31,15 @@ public class TrackTarget extends MoveHeading {
   protected void initialize() {
     super.initialize();
     Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
+    Robot.driveTrain.configClosedLoopPeakOutput(DriveTrain.DRIVE_PID_SLOT, .3);
+    Robot.driveTrain.configClosedLoopPeakOutput(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT, .35);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     double adjustedDistance = MercMath.feetToEncoderTicks(Robot.limelightAssembly.getLimeLight().getRobotDistanceOffset() - allowableDistError);
-    System.out.println(adjustedDistance);
-    double adjustedHeading = MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getRobotHeadingOffset());
+    double adjustedHeading = -MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
     right.set(ControlMode.Position, adjustedDistance, DemandType.AuxPID, adjustedHeading);
     left.follow(right, FollowerType.AuxOutput1);
   }
@@ -46,13 +47,41 @@ public class TrackTarget extends MoveHeading {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    if (initialCheckCount < checkThreshold) {
+      initialCheckCount++;
+      return false;
+    }
+
+    double distError = MercMath.feetToEncoderTicks(Robot.limelightAssembly.getLimeLight().getRobotDistanceOffset() - allowableDistError), 
+           angleError = MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
+
+    angleError = MercMath.pigeonUnitsToDegrees(angleError);
+
+    boolean isFinished = false;
+
+    boolean isOnTarget = (Math.abs(distError) < moveThresholdTicks && 
+                          Math.abs(angleError) < angleThresholdDeg);
+
+    if (isOnTarget) {
+      onTargetCount++;
+    } else {
+      if (onTargetCount > 0)
+        onTargetCount = 0;
+    }
+
+    if (onTargetCount > onTargetMinCount) {
+      isFinished = true;
+      onTargetCount = 0;
+    }
+
+    return isFinished;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    super.end();
+    Robot.driveTrain.configClosedLoopPeakOutput(DriveTrain.DRIVE_PID_SLOT, .75);
+    Robot.driveTrain.configClosedLoopPeakOutput(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT, 1.0);
   }
 
   // Called when another command which requires one or more of the same

@@ -12,8 +12,9 @@ import frc.robot.util.MercMath;
 public class Limelight implements PIDSource, TableEntryListener {
     private NetworkTable nt; //finds the limelight network table
     private double numTargets, targetCenterXAngle, targetCenterYAngle, targetArea, horizontalLength, verticalLength;
+    private double[] cornerx;
     private boolean targetAcquired;
-    private final double limelightToCenterX = 13.0, limelightToCenterY = 15.5;
+    private final double limelightToCenterX = 13.0, limelightToCenterY = 15.5, safeTurnThreshold = 10.0, limelightResX = 320;
 
     /*
     * Coefficients and exponents to help find the distance of a target
@@ -64,6 +65,7 @@ public class Limelight implements PIDSource, TableEntryListener {
         horizontalLength = nt.getEntry("thor").getDouble(0.0);
         verticalLength = nt.getEntry("tvert").getDouble(0.0);
         targetAcquired = nt.getEntry("tv").getDouble(0.0) == 0.0 ? false : true;
+        cornerx = nt.getEntry("tcornx").getDoubleArray(new double[] {0});
         nt.addEntryListener(this, EntryListenerFlags.kUpdate);
     }
 
@@ -105,6 +107,9 @@ public class Limelight implements PIDSource, TableEntryListener {
                 case "tvert": {
                     verticalLength = nv.getDouble();
                     break;
+                }
+                case "tcornx": {
+                    cornerx = nv.getDoubleArray();
                 }
                 default: {
                     break;
@@ -167,6 +172,10 @@ public class Limelight implements PIDSource, TableEntryListener {
      */
     public synchronized double getHorizontalLength() {
         return this.horizontalLength;
+    }
+
+    public synchronized double[] getCornerXArray() {
+        return this.cornerx;
     }
 
     /**
@@ -277,4 +286,13 @@ public class Limelight implements PIDSource, TableEntryListener {
         nt.getEntry("ledMode").setNumber(limelightLEDState.value);
     }
 
+    public synchronized boolean isSafeToTrack() {
+        for (double corner : this.cornerx) {
+            if (corner >= limelightResX - safeTurnThreshold || corner <= safeTurnThreshold) {
+                System.out.println("not safe, turning!");
+                return false;
+            }
+        }
+        return true;
+    }
 }

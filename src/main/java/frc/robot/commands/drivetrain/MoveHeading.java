@@ -109,10 +109,7 @@ public class MoveHeading extends Command {
     angleError = MercMath.pigeonUnitsToDegrees(angleError);
 
     boolean isFinished = false;
-
-    SmartDashboard.putNumber("dist error", distError);
-    SmartDashboard.putNumber("ang error", angleError);
-
+    
     boolean isOnTarget = (Math.abs(distError) < moveThresholdTicks && 
                           Math.abs(angleError) < angleThresholdDeg);
 

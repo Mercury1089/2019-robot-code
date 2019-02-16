@@ -189,10 +189,10 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         initializeMotionMagicFeedback();
 
         // Config PID
-        DRIVE_GAINS = new PIDGain(0.1, 0.0, 0.0, 0.0, .3);
-        SMOOTH_GAINS = new PIDGain(2.0, 0.0, 4.0, getFeedForward(), .5);
+        DRIVE_GAINS = new PIDGain(0.1, 0.0, 0.0, 0.0, .75);   // .3
+        SMOOTH_GAINS = new PIDGain(0.35, 0.0, .6, getFeedForward(), 1.0);    //.35
         MOTION_PROFILE_GAINS = new PIDGain(0.6, 0.0, 0.0, getFeedForward(), 1.0);
-        TURN_GAINS = new PIDGain(0.25, 0.0, 0.27, 0.0, .5);
+        TURN_GAINS = new PIDGain(0.35, 0.0, 0.27, 0.0, .75);
         leaderRight.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
         leaderLeft.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
         leaderRight.configPID(DRIVE_SMOOTH_MOTION_SLOT, SMOOTH_GAINS);
@@ -283,6 +283,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
                 leaderLeft.selectProfileSlot(auxiliaryPIDSlot, DriveTrain.AUXILIARY_LOOP);
         }
         
+    }
+
+    public void configClosedLoopPeakOutput(int driveTrainPIDSlot, double maxOut) {
+        leaderLeft.configClosedLoopPeakOutput(driveTrainPIDSlot, maxOut);
+        leaderRight.configClosedLoopPeakOutput(driveTrainPIDSlot, maxOut);
     }
 
     public void initDefaultCommand() {
