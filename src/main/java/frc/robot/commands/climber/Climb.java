@@ -11,14 +11,15 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.subsystems.Climber;
 
 public class Climb extends CommandGroup {
+  
+  private final double HI = 1000, LO = 0;
+
   /**
    * Add your docs here.
    */
   public Climb() {
-   addSequential(new RaiseOrLowerRobot(Climber.ClimberPosition.RAISED));
-   // drive robot while raised      addSequential();
-   addSequential(new RaiseOrLowerRobot(Climber.ClimberPosition.RAISED_BACK));
-   // drive robot while raised      addSequential();
-   addSequential(new RaiseOrLowerRobot(Climber.ClimberPosition.GROUNDED));
+   addSequential(new LowerAllScrews(HI));
+   addSequential(new RaiseBackScrews(HI));
+   addSequential(new RaiseAllScrews(LO));
   }
 }

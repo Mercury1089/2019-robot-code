@@ -9,7 +9,6 @@ package frc.robot.commands.climber;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -18,21 +17,21 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Climber.ScrewMotor;
 import frc.robot.util.MercMath;
-import frc.robot.util.interfaces.IMercMotorController;
 
-public class RaiseScrewClimb extends Command {
+public class LowerAllScrews extends Command {
 
-  private IMercMotorController backRight, backLeft, front;
+  private WPI_TalonSRX backRight, backLeft, front;
 
-  private final double CLIMB_DIST_INCHES = 22;
+  private final double CLIMB_DIST_INCHES = 22, END_POS;
   private double setPos;
 
-  public RaiseScrewClimb() {
+  public LowerAllScrews(double endPosition) {
     requires(Robot.climber);
 
-    backRight = Robot.climber.getBackRight();
-    backLeft = Robot.climber.getBackLeft();
-    front = Robot.climber.getFront();
+    END_POS = endPosition;
+    backRight = (WPI_TalonSRX)Robot.climber.getBackRight();
+    backLeft = (WPI_TalonSRX)Robot.climber.getBackLeft();
+    front = (WPI_TalonSRX)Robot.climber.getFront();
 
     setPos = MercMath.inchesToEncoderTicks(-CLIMB_DIST_INCHES);
   }
@@ -78,19 +77,21 @@ public class RaiseScrewClimb extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Robot.climber.getFrontHeightInTicks() == END_POS && 
+           Robot.climber.getBackLeftHeightInTicks() == END_POS && 
+           Robot.climber.getBackRightHeightInTicks() == END_POS;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-
+    Robot.climber.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    this.end();
+    end();
   }
 }
