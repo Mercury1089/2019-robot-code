@@ -9,6 +9,7 @@ package frc.robot.commands.climber;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -25,14 +26,14 @@ public class RaiseAllScrews extends Command {
   private final double CLIMB_DIST_INCHES = 22, END_POS;
   private double setPos;
 
-  public RaiseAllScrews(double endPosition) {
+  public RaiseAllScrews(double endPositionInches) {
     requires(Robot.climber);
 
-    END_POS = endPosition;
     backRight = (WPI_TalonSRX)Robot.climber.getBackRight();
     backLeft = (WPI_TalonSRX)Robot.climber.getBackLeft();
     front = (WPI_TalonSRX)Robot.climber.getFront();
-
+    
+    END_POS = MercMath.inchesToEncoderTicks(endPositionInches);
     setPos = MercMath.inchesToEncoderTicks(CLIMB_DIST_INCHES);
   }
 
@@ -71,6 +72,7 @@ public class RaiseAllScrews extends Command {
   @Override
   protected void execute() {
     backRight.set(ControlMode.MotionMagic, setPos, DemandType.AuxPID, 0);
+    backLeft.follow(backRight, FollowerType.AuxOutput1);
     front.set(ControlMode.MotionMagic, setPos, DemandType.AuxPID, 0); 
   }
 

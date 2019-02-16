@@ -7,6 +7,9 @@
 
 package frc.robot.commands.climber;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -14,6 +17,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Climber.ScrewMotor;
+import frc.robot.util.MercMath;
 
 public class RaiseBackScrews extends Command {
 
@@ -22,12 +26,17 @@ public class RaiseBackScrews extends Command {
   private final double CLIMB_DIST_INCHES = 22, END_POS, FRONT_START_POS;
   private double setPos;
 
-  public RaiseBackScrews(double endPosition) {
+  public RaiseBackScrews(double endPositionInches) {
     requires(Robot.climber);
 
-    END_POS = endPosition;
+    backRight = (WPI_TalonSRX)Robot.climber.getBackRight();
+    backLeft = (WPI_TalonSRX)Robot.climber.getBackLeft();
+    front = (WPI_TalonSRX)Robot.climber.getFront();
 
-    //Find the average height of the robot in ticks
+    setPos = MercMath.inchesToEncoderTicks(CLIMB_DIST_INCHES);
+    END_POS = MercMath.inchesToEncoderTicks(endPositionInches);
+
+    //Find the height of the front 
     FRONT_START_POS = Robot.climber.getFrontHeightInTicks();
   }
 
@@ -65,7 +74,8 @@ public class RaiseBackScrews extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
+    backRight.set(ControlMode.MotionMagic, setPos, DemandType.AuxPID, 0);
+    backLeft.follow(backRight, FollowerType.AuxOutput1);
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -12,14 +12,13 @@ import frc.robot.subsystems.Climber;
 
 public class Climb extends CommandGroup {
   
-  private final double HI = 1000, LO = 0;
+  private final double HI = 22, LO = 0;
 
-  /**
-   * Add your docs here.
-   */
   public Climb() {
    addSequential(new LowerAllScrews(HI));
+   addSequential(new DriveOnClimbBase());
    addSequential(new RaiseBackScrews(HI));
+   addSequential(new DriveOnClimbBase());
    addSequential(new RaiseAllScrews(LO));
   }
 }
