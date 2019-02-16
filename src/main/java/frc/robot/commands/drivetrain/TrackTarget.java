@@ -18,6 +18,8 @@ import frc.robot.util.MercMath;
 
 public class TrackTarget extends MoveHeading {
 
+  private double allowableDistError = 6; //inches
+
   public TrackTarget() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -34,9 +36,9 @@ public class TrackTarget extends MoveHeading {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double adjustedDistance = MercMath.feetToEncoderTicks(Robot.limelightAssembly.getLimeLight().getVertDistance());
+    double adjustedDistance = MercMath.feetToEncoderTicks(Robot.limelightAssembly.getLimeLight().getRobotDistanceOffset() - allowableDistError);
     System.out.println(adjustedDistance);
-    double adjustedHeading = -MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
+    double adjustedHeading = MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getRobotHeadingOffset());
     right.set(ControlMode.Position, adjustedDistance, DemandType.AuxPID, adjustedHeading);
     left.follow(right, FollowerType.AuxOutput1);
   }

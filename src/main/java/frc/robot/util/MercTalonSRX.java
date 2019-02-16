@@ -165,37 +165,37 @@ public class MercTalonSRX implements IMercMotorController {
         talonsrx.configClosedLoopPeakOutput(slotIdx, peakOutput);
     }
 
-//_________________________________________________________________________________
-    /**
-     * Get the TalonSRX tied to this class
-     * @return the Talon
-     */
-    public WPI_TalonSRX get() {
-        return talonsrx;
-    }
-
-    @Override
-    public void configClosedLoopPeriod(int slotIdx, int closedLoopTimeMs, int timeoutMs) {
-        talonsrx.configClosedLoopPeriod(slotIdx, closedLoopTimeMs, timeoutMs);
-    }
-
-    @Override
-    public void configAuxPIDPolarity(boolean invert, int timeoutMs) {
-        talonsrx.configAuxPIDPolarity(invert, timeoutMs);
-    }
-
     @Override
     public void set(ControlMode controlMode, double demand0, DemandType demand1Type, double demand1) {
         talonsrx.set(controlMode, demand0, demand1Type, demand1);
     }
 
     @Override
-    public void configMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs) {
-        talonsrx.configMotionAcceleration(sensorUnitsPer100msPerSec, timeoutMs);
+    public void configClosedLoopPeriod(int slotIdx, int closedLoopTimeMs) {
+        talonsrx.configClosedLoopPeriod(slotIdx, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
     }
 
     @Override
-    public void configMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs) {
-        talonsrx.configMotionCruiseVelocity(sensorUnitsPer100ms, timeoutMs);
+    public void configAuxPIDPolarity(boolean invert) {
+        talonsrx.configAuxPIDPolarity(invert, RobotMap.CTRE_TIMEOUT);
+    }
+
+    @Override
+    public void configMotionAcceleration(int sensorUnitsPer100msPerSec) {
+        talonsrx.configMotionAcceleration(sensorUnitsPer100msPerSec, RobotMap.CTRE_TIMEOUT);
+    }
+
+    @Override
+    public void configMotionCruiseVelocity(int sensorUnitsPer100ms) {
+        talonsrx.configMotionCruiseVelocity(sensorUnitsPer100ms, RobotMap.CTRE_TIMEOUT);
+    }
+
+    //_________________________________________________________________________________
+    /**
+     * Get the TalonSRX tied to this class
+     * @return the Talon
+     */
+    public WPI_TalonSRX get() {
+        return talonsrx;
     }
 }

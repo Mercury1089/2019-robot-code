@@ -166,32 +166,32 @@ public class MercVictorSPX implements IMercMotorController {
         victorspx.set(controlMode, demand0, demand1Type, demand1);
     }
 
-//_________________________________________________________________________________
+    @Override
+    public void configClosedLoopPeriod(int slotIdx, int closedLoopTimeMs) {
+        victorspx.configClosedLoopPeriod(slotIdx, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
+    }
+
+    @Override
+    public void configAuxPIDPolarity(boolean invert) {
+        victorspx.configAuxPIDPolarity(invert, RobotMap.CTRE_TIMEOUT);
+    }
+
+    @Override
+    public void configMotionAcceleration(int sensorUnitsPer100msPerSec) {
+        victorspx.configMotionAcceleration(sensorUnitsPer100msPerSec, RobotMap.CTRE_TIMEOUT);
+    }
+
+    @Override
+    public void configMotionCruiseVelocity(int sensorUnitsPer100ms) {
+        victorspx.configMotionCruiseVelocity(sensorUnitsPer100ms, RobotMap.CTRE_TIMEOUT);
+    }
+
+    //_________________________________________________________________________________
     /**
      * Get the VictorSPX tied to this class
      * @return the Victor
      */
     public WPI_VictorSPX get() {
         return victorspx;
-    }
-
-    @Override
-    public void configClosedLoopPeriod(int slotIdx, int closedLoopTimeMs, int timeoutMs) {
-        victorspx.configClosedLoopPeriod(slotIdx, closedLoopTimeMs, timeoutMs);
-    }
-
-    @Override
-    public void configAuxPIDPolarity(boolean invert, int timeoutMs) {
-        victorspx.configAuxPIDPolarity(invert, timeoutMs);
-    }
-
-    @Override
-    public void configMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs) {
-        victorspx.configMotionAcceleration(sensorUnitsPer100msPerSec, timeoutMs);
-    }
-
-    @Override
-    public void configMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs) {
-        victorspx.configMotionCruiseVelocity(sensorUnitsPer100ms, timeoutMs);
     }
 }

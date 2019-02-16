@@ -48,19 +48,19 @@ public class LowerAllScrews extends Command {
     //initialCheckCount = 0;
 
     /* Motion Magic Configurations */
-    backRight.configMotionAcceleration(1000, RobotMap.CTRE_TIMEOUT);
-    backRight.configMotionCruiseVelocity(1000, RobotMap.CTRE_TIMEOUT); //TEMP VALUE
-    front.configMotionAcceleration(1000, RobotMap.CTRE_TIMEOUT);
-    front.configMotionCruiseVelocity(1000, RobotMap.CTRE_TIMEOUT); //TEMP VALUE
+    backRight.configMotionAcceleration(1000);
+    backRight.configMotionCruiseVelocity(1000); //TEMP VALUE
+    front.configMotionAcceleration(1000);
+    front.configMotionCruiseVelocity(1000); //TEMP VALUE
 
     int closedLoopTimeMs = 1;
-    backRight.configClosedLoopPeriod(0, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
-    backRight.configClosedLoopPeriod(1, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
-    front.configClosedLoopPeriod(0, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
-    front.configClosedLoopPeriod(1, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
+    backRight.configClosedLoopPeriod(0, closedLoopTimeMs);
+    backRight.configClosedLoopPeriod(1, closedLoopTimeMs);
+    front.configClosedLoopPeriod(0, closedLoopTimeMs);
+    front.configClosedLoopPeriod(1, closedLoopTimeMs);
 
-    backRight.configAuxPIDPolarity(false, RobotMap.CTRE_TIMEOUT);
-    front.configAuxPIDPolarity(false, RobotMap.CTRE_TIMEOUT);
+    backRight.configAuxPIDPolarity(false);
+    front.configAuxPIDPolarity(false);
 
     Robot.climber.configPIDSlots(ScrewMotor.BACK_RIGHT, Climber.LIFT_BR_RUN, Climber.LIFT_BR_ADJUST);
     Robot.climber.configPIDSlots(ScrewMotor.FRONT, Climber.LIFT_FRONT_RUN, Climber.LIFT_FRONT_ADJUST);

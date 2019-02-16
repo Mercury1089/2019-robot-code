@@ -194,7 +194,7 @@ public class Limelight implements PIDSource, TableEntryListener {
      * u want the distance based on the area?
      * @return the distance based on the area
      */
-    public synchronized double getAreaDistance() {
+    public synchronized double getRawAreaDistance() {
         return calcDistFromArea();
     }
 
@@ -202,7 +202,7 @@ public class Limelight implements PIDSource, TableEntryListener {
      * u want the distance based on the vertical distance?
      * @return the distance based on the vertical distance
      */
-    public synchronized double getVertDistance() {
+    public synchronized double getRawVertDistance() {
         return calcDistFromVert();
     }
 
@@ -210,7 +210,7 @@ public class Limelight implements PIDSource, TableEntryListener {
      * u want the distance based on the horizontal distance?
      * @return the distance based on the horizontal distance
      */
-    public synchronized double getHorizDistance() {
+    public synchronized double getRawHorizDistance() {
         return calcDistFromHoriz();
     }
 
@@ -242,26 +242,31 @@ public class Limelight implements PIDSource, TableEntryListener {
      * u need the robot distance to the target based on trig?
      * @return the distance to target using the trig formulas
      */
-    public synchronized double getRobotDistance() {
+    public synchronized double getRobotDistanceOffset() {
         return calcRobotDistance();
     }
-
-    /**
-     * Helper method for the distance to target based on trig
-     * @return the distance to target based on trig
-     */
-    private double calcRobotDistance() {
-            return MercMath.lawOfCosines(calcDistFromVert(), 
-                                         LIMELIGHT_TO_ROBOT_CENTER_CARGO_IN, 
-                                         LIMELIGHT_TO_ROBOT_CENTER_CARGO_DEG + targetCenterXAngle);
-    }
-
     /**
      * u need the robot angle offset to the target based on trig?
      * @return the distance to target using the trig formulas
      */
     public synchronized double getRobotHeadingOffset() {
         return calcRobotHeading();
+    }
+
+    /**
+     * Calculating the robot heading by switching the coordinate plane the camera is on
+     * @return the heading from switching from cartesian to polar and back.
+     */
+    public double calcRobotHeading(){
+        return 180 / Math.PI * Math.atan((this.calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle)) - limelightToCenterX)/(calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle) - limelightToCenterY)));
+    }
+
+    /**
+     * Calculating the robot distance by switching the coordinate plane the camera is on
+     * @return the distance from switching from cartesian to polar and back.
+     */
+    public double calcRobotDistance(){
+        return Math.sqrt(Math.pow(this.calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle)) - 9.5, 2) + Math.pow(this.calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle)) - 19.0, 2));
     }
 
     /**
@@ -272,46 +277,4 @@ public class Limelight implements PIDSource, TableEntryListener {
         nt.getEntry("ledMode").setNumber(limelightLEDState.value);
     }
 
-    /**
-     * Calculates the angle from the center of the robot to the target
-     * Trust me on this one
-     * TODO: Make this work for both sides (It should choose between constants)
-     */
-    private double calcRobotHeading() {
-        double alpha = Math.toRadians(LIMELIGHT_TO_ROBOT_CENTER_CARGO_DEG + targetCenterXAngle);
-        double temp1 = LIMELIGHT_TO_ROBOT_CARGO_PLANE_IN / Math.cos(Math.toRadians(targetCenterXAngle));
-        double temp2 = calcDistFromVert() - temp1;
-        double temp3 = temp1 * Math.sin(alpha);
-        double temp4 = temp3 + HALF_ROBOT_FRAME_WIDTH_INCHES;
-        double temp5 = MercMath.lawOfCosines(temp2, temp4, alpha);
-        return Math.toDegrees(MercMath.lawOfSinesAngle(temp5, temp2, alpha)); 
-    }
-
-    /**
-     * Calculating the robot heading by switching the coordinate system the camera is on
-     * @return the heading from switching from cartesian to polar and back.
-     */
-    public double calcRobotHeading2(){
-        return 180 / Math.PI * Math.atan((this.calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle)) - limelightToCenterX)/(calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle) - limelightToCenterY)));
-    }
-
-    public double calcRobotDistance4(){
-        return Math.sqrt(Math.pow(this.calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle)) - 9.5, 2) + Math.pow(this.calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle)) - 19.0, 2));
-    }
-
-
-
-    public double calcRobotDistance3() {
-        return Math.sqrt(   Math.pow(getVertDistance(), 2)   +   Math.pow(LIMELIGHT_TO_ROBOT_CENTER_CARGO_IN, 2)
-                            -   2   *   getVertDistance()   *   LIMELIGHT_TO_ROBOT_CENTER_CARGO_IN
-                            *   Math.toDegrees(Math.cos(Math.toRadians(LIMELIGHT_TO_ROBOT_CENTER_CARGO_DEG))));
-    }
-
-    public double calcRobotHeading3() {
-        return 90   -   Math.toDegrees(Math.asin(   Math.toRadians(   getVertDistance()    /    (    ( Math.sqrt(   Math.pow(getVertDistance(), 2)   
-                            +  Math.pow(HALF_ROBOT_FRAME_WIDTH_INCHES, 2)   -  2  *  getVertDistance()  *  HALF_ROBOT_FRAME_WIDTH_INCHES
-                            *  Math.toDegrees(Math.cos(Math.toRadians(  90 + targetCenterXAngle  )))  )
-                            /  Math.toDegrees(Math.sin(Math.toRadians(  90 + targetCenterXAngle  )))  )
-                            ))));
-    }
 }
