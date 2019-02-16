@@ -60,7 +60,8 @@ public class TrackTarget extends MoveHeading {
     boolean isFinished = false;
 
     boolean isOnTarget = (Math.abs(distError) < moveThresholdTicks && 
-                          Math.abs(angleError) < angleThresholdDeg);
+                          Math.abs(angleError) < angleThresholdDeg &&
+                          Robot.limelightAssembly.getLimeLight().isSafeToTrack());
 
     if (isOnTarget) {
       onTargetCount++;
