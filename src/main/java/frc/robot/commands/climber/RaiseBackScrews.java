@@ -9,7 +9,7 @@ package frc.robot.commands.climber;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.IMotorController;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -18,23 +18,26 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Climber.ScrewMotor;
 import frc.robot.util.MercMath;
-import frc.robot.util.interfaces.IMercMotorController;
 
-public class RaiseScrewClimb extends Command {
+public class RaiseBackScrews extends Command {
 
-  private IMercMotorController backRight, backLeft, front;
+  private WPI_TalonSRX backRight, backLeft, front;
 
-  private final double CLIMB_DIST_INCHES = 22;
+  private final double CLIMB_DIST_INCHES = 22, END_POS, FRONT_START_POS;
   private double setPos;
 
-  public RaiseScrewClimb() {
+  public RaiseBackScrews(double endPositionInches) {
     requires(Robot.climber);
 
-    backRight = Robot.climber.getBackRight();
-    backLeft = Robot.climber.getBackLeft();
-    front = Robot.climber.getFront();
+    backRight = (WPI_TalonSRX)Robot.climber.getBackRight();
+    backLeft = (WPI_TalonSRX)Robot.climber.getBackLeft();
+    front = (WPI_TalonSRX)Robot.climber.getFront();
 
-    setPos = MercMath.inchesToEncoderTicks(-CLIMB_DIST_INCHES);
+    setPos = MercMath.inchesToEncoderTicks(CLIMB_DIST_INCHES);
+    END_POS = MercMath.inchesToEncoderTicks(endPositionInches);
+
+    //Find the height of the front 
+    FRONT_START_POS = Robot.climber.getFrontHeightInTicks();
   }
 
   // Called just before this Command runs the first time
@@ -49,19 +52,19 @@ public class RaiseScrewClimb extends Command {
     //initialCheckCount = 0;
 
     /* Motion Magic Configurations */
-    backRight.configMotionAcceleration(1000);
-    backRight.configMotionCruiseVelocity(1000); //TEMP VALUE
-    front.configMotionAcceleration(1000);
-    front.configMotionCruiseVelocity(1000); //TEMP VALUE
+    backRight.configMotionAcceleration(1000, RobotMap.CTRE_TIMEOUT);
+    backRight.configMotionCruiseVelocity(1000, RobotMap.CTRE_TIMEOUT); //TEMP VALUE
+    front.configMotionAcceleration(1000, RobotMap.CTRE_TIMEOUT);
+    front.configMotionCruiseVelocity(1000, RobotMap.CTRE_TIMEOUT); //TEMP VALUE
 
     int closedLoopTimeMs = 1;
-    backRight.configClosedLoopPeriod(0, closedLoopTimeMs);
-    backRight.configClosedLoopPeriod(1, closedLoopTimeMs);
-    front.configClosedLoopPeriod(0, closedLoopTimeMs);
-    front.configClosedLoopPeriod(1, closedLoopTimeMs);
+    backRight.configClosedLoopPeriod(0, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
+    backRight.configClosedLoopPeriod(1, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
+    front.configClosedLoopPeriod(0, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
+    front.configClosedLoopPeriod(1, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
 
-    backRight.configAuxPIDPolarity(false);
-    front.configAuxPIDPolarity(false);
+    backRight.configAuxPIDPolarity(false, RobotMap.CTRE_TIMEOUT);
+    front.configAuxPIDPolarity(false, RobotMap.CTRE_TIMEOUT);
 
     Robot.climber.configPIDSlots(ScrewMotor.BACK_RIGHT, Climber.LIFT_BR_RUN, Climber.LIFT_BR_ADJUST);
     Robot.climber.configPIDSlots(ScrewMotor.FRONT, Climber.LIFT_FRONT_RUN, Climber.LIFT_FRONT_ADJUST);
@@ -72,25 +75,27 @@ public class RaiseScrewClimb extends Command {
   @Override
   protected void execute() {
     backRight.set(ControlMode.MotionMagic, setPos, DemandType.AuxPID, 0);
-    front.set(ControlMode.MotionMagic, setPos, DemandType.AuxPID, 0); 
+    backLeft.follow(backRight, FollowerType.AuxOutput1);
   }
-  
+
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Robot.climber.getFrontHeightInTicks() == FRONT_START_POS
+        && Robot.climber.getBackLeftHeightInTicks() == END_POS
+        && Robot.climber.getBackRightHeightInTicks() == END_POS;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-
+    Robot.climber.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    this.end();
+      end();
   }
 }

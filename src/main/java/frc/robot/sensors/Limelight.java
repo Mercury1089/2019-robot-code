@@ -36,6 +36,9 @@ public class Limelight implements PIDSource, TableEntryListener {
     private final double LIMELIGHT_TO_ROBOT_CARGO_PLANE_IN = 21; //Distance from the LL to the plane of the cargo side
     private final double HALF_ROBOT_FRAME_WIDTH_INCHES = 13;
 
+    private final double LIMELIGHT_HFOV_DEG = 59.6;
+    private final double LIMELIGHT_VFOV_DEG = 45.7;
+
     public enum LimelightLEDState {
         ON(3.0),
         OFF(1.0),
@@ -267,7 +270,7 @@ public class Limelight implements PIDSource, TableEntryListener {
      * @return the heading from switching from cartesian to polar and back.
      */
     public double calcRobotHeading(){
-        return 180 / Math.PI * Math.atan((this.calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle)) - limelightToCenterX)/(calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle) - limelightToCenterY)));
+        return 0; //180 / Math.PI * Math.atan((this.calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle)) - RobotCenterX)/(calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle) - RobotCenterY)));
     }
 
     /**
@@ -294,5 +297,31 @@ public class Limelight implements PIDSource, TableEntryListener {
             }
         }
         return true;
+    }
+    
+    /**
+     * DEPRECATED: We can just get the corner positions
+     * Get the x pixel coordinate of the target
+     * @return the pixel x-position of the target
+     */
+    @Deprecated
+    public synchronized double getTargetPixelXPos() {
+        double vpw = 2 * Math.tan(LIMELIGHT_HFOV_DEG / 2);
+        double x = Math.tan(targetCenterXAngle);
+        double nx = (2 * x) / vpw;
+        return 160 * nx + 159.5;
+    }
+
+    /**
+     * DEPRECATED: We can just get the corner positions
+     * Get the y pixel coordinate of the target
+     * @return the pixel y-position of the target
+     */
+    @Deprecated
+    public synchronized double getTargetPixelYPos() {
+        double vph = 2 * Math.tan(LIMELIGHT_VFOV_DEG / 2);
+        double y = Math.tan(targetCenterYAngle);
+        double ny = (2 * y) / vph;
+        return 120 * ny + 159.5;
     }
 }

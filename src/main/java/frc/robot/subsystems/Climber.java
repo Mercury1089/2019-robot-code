@@ -12,9 +12,13 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
 import frc.robot.RobotMap.CAN;
+import frc.robot.util.DriveAssist;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.PIDGain;
 import frc.robot.util.interfaces.IMercMotorController;
@@ -61,9 +65,9 @@ public class Climber extends Subsystem {
   public Climber(){
     currentPosition = ClimberPosition.GROUNDED;
     drive = new MercTalonSRX(CAN.SCREW_DRIVE);
-    liftBackLeft = new MercTalonSRX(CAN.LIFT_BL);
-    liftBackRight = new MercTalonSRX(CAN.LIFT_BR);
-    liftFront = new MercTalonSRX(CAN.LIFT_FRONT);
+    liftBackLeft = new MercTalonSRX(CAN.SCREW_BL);
+    liftBackRight = new MercTalonSRX(CAN.SCREW_BR);
+    liftFront = new MercTalonSRX(CAN.SCREW_FRONT);
 
     LIFT_BR_RUN_GAINS = new PIDGain(0.1, 0.0, 0.0, 0.0, 0.75);
     LIFT_BR_ADJUST_GAINS = new PIDGain(1.0, 0.0, 2.0, 0.0, 1.0); //CALCULATE FF
@@ -105,7 +109,7 @@ public class Climber extends Subsystem {
 
     isInLiftMode = true;
 
-    /*\_/_\_/_\_/_\*/
+    /*\_/_\_/_\_/_\*/ 
 
     liftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DriveTrain.PRIMARY_LOOP);
     liftFront.configRemoteFeedbackFilter(liftBackRight.getPort(), RemoteSensorSource.TalonSRX_SelectedSensor, DriveTrain.REMOTE_DEVICE_0);
@@ -130,7 +134,6 @@ public class Climber extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    
   }
 
   public void configPIDSlots(ScrewMotor sm, int primaryPIDSlot, int auxiliaryPIDSlot) {
@@ -197,7 +200,6 @@ public class Climber extends Subsystem {
   }
 
   public void setPosition(ClimberPosition pos){
-    
     this.currentPosition = pos;
   }
 
@@ -208,4 +210,11 @@ public class Climber extends Subsystem {
   public boolean isDriveEnabled(){
     return currentPosition != ClimberPosition.GROUNDED;     
   }
+
+  public void stop() {
+    liftBackLeft.stop();
+    liftBackRight.stop();
+    liftFront.stop();
+  }
+
 }
