@@ -30,8 +30,7 @@ public class MoveHeading extends Command {
   protected int checkThreshold = 50;
   protected final int CLOSED_LOOP_TIME_MS = 1;
 
-  protected IMercMotorController leftI, rightI;
-  protected WPI_TalonSRX left, right;
+  protected IMercMotorController left, right;
 
   protected double distance, targetHeading;
 
@@ -48,11 +47,8 @@ public class MoveHeading extends Command {
     // eg. requires(chassis);
     requires(Robot.driveTrain);
 
-    leftI = Robot.driveTrain.getLeftLeader();
-    rightI = Robot.driveTrain.getRightLeader();
-
-    left = ((MercTalonSRX)(leftI)).get();
-    right = ((MercTalonSRX)(rightI)).get();
+    left = Robot.driveTrain.getLeftLeader();
+    right = Robot.driveTrain.getRightLeader();
 
     moveThresholdTicks = 500;
     angleThresholdDeg = 5;
@@ -74,14 +70,14 @@ public class MoveHeading extends Command {
     initialCheckCount = 0;
 
     /* Motion Magic Configurations */
-    right.configMotionAcceleration(1000, RobotMap.CTRE_TIMEOUT);
-    right.configMotionCruiseVelocity((int)MercMath.revsPerMinuteToTicksPerTenth(DriveTrain.MAX_RPM), RobotMap.CTRE_TIMEOUT);
+    right.configMotionAcceleration(1000);
+    right.configMotionCruiseVelocity((int)MercMath.revsPerMinuteToTicksPerTenth(DriveTrain.MAX_RPM));
 
     int closedLoopTimeMs = 1;
-    right.configClosedLoopPeriod(0, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
-    right.configClosedLoopPeriod(1, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
+    right.configClosedLoopPeriod(0, closedLoopTimeMs);
+    right.configClosedLoopPeriod(1, closedLoopTimeMs);
 
-    right.configAuxPIDPolarity(false, RobotMap.CTRE_TIMEOUT);
+    right.configAuxPIDPolarity(false);
 
     Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
     

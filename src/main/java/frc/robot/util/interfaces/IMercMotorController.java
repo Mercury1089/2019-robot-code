@@ -11,6 +11,7 @@ import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 
 public interface IMercMotorController {
 
@@ -99,6 +100,14 @@ public interface IMercMotorController {
     public double getClosedLoopError();
 
     /**
+     * Want the error from setpoint from a specific slot?
+     * NOTE: Not to be used with Victors (no connected encoder)
+     * 
+     * @return the error from setpoint in ticks
+     */
+    public double getClosedLoopError(int slotIdx);
+
+    /**
      * Configure PID for the motor controller
      * 
      * @param slot slot to put it in
@@ -130,6 +139,8 @@ public interface IMercMotorController {
      */
     public void setSensorPhase(boolean bool);
 
+    public void follow(IMercMotorController leader, FollowerType followerType);
+
     public void set(ControlMode controlMode, double demand0, DemandType demand1Type, double demand1);
 
     /**
@@ -158,6 +169,7 @@ public interface IMercMotorController {
     public void selectProfileSlot(int slotIdx, int pidIdx);
 
     public void configClosedLoopPeakOutput(int slotIdx, double peakOutput);
+
 
     //Below this line is motion magic stuff. Kyrag probably has something to do with this//
     //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-//

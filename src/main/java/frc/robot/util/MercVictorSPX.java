@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 
 import frc.robot.util.interfaces.IMercMotorController;
 
@@ -186,6 +187,16 @@ public class MercVictorSPX implements IMercMotorController {
         victorspx.configMotionCruiseVelocity(sensorUnitsPer100ms, RobotMap.CTRE_TIMEOUT);
     }
 
+    @Override
+    public void follow(IMercMotorController leader, FollowerType followerType) {
+        if(leader instanceof MercTalonSRX) {
+            victorspx.follow(((MercTalonSRX)leader).get(), followerType);
+        }
+        else if(leader instanceof MercVictorSPX) {
+            victorspx.follow(((MercVictorSPX)leader).get(), followerType);
+        }
+    }
+
     //_________________________________________________________________________________
     /**
      * Get the VictorSPX tied to this class
@@ -193,5 +204,10 @@ public class MercVictorSPX implements IMercMotorController {
      */
     public WPI_VictorSPX get() {
         return victorspx;
+    }
+
+    @Override
+    public double getClosedLoopError(int slotIdx) {
+        return victorspx.getClosedLoopTarget(slotIdx);
     }
 }
