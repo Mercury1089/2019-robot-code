@@ -162,11 +162,11 @@ public interface IMercMotorController {
     //Below this line is motion magic stuff. Kyrag probably has something to do with this//
     //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-//
 
-    public void configClosedLoopPeriod(int slotIdx, int closedLoopTimeMs, int timeoutMs);
+    public void configClosedLoopPeriod(int slotIdx, int closedLoopTimeMs);
 
-    public void configAuxPIDPolarity(boolean invert, int timeoutMs);
+    public void configAuxPIDPolarity(boolean invert);
 
-    public void configMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs);
+    public void configMotionAcceleration(int sensorUnitsPer100msPerSec);
 
-    public void configMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs);
+    public void configMotionCruiseVelocity(int sensorUnitsPer100ms);
 }
