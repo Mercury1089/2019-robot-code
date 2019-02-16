@@ -13,7 +13,7 @@ public class Limelight implements PIDSource, TableEntryListener {
     private NetworkTable nt; //finds the limelight network table
     private double numTargets, targetCenterXAngle, targetCenterYAngle, targetArea, horizontalLength, verticalLength;
     private boolean targetAcquired;
-    private final double limelightToCenterX = 13.0, limelightToCenterY = 15.5;
+    private final double RobotCenterX = 13.0, RobotCenterY = 15.5;
 
     /*
     * Coefficients and exponents to help find the distance of a target
@@ -34,6 +34,9 @@ public class Limelight implements PIDSource, TableEntryListener {
     private final double LIMELIGHT_TO_ROBOT_CENTER_CARGO_DEG = 35.5; //Angle from the LL to the center of the cargo side
     private final double LIMELIGHT_TO_ROBOT_CARGO_PLANE_IN = 21; //Distance from the LL to the plane of the cargo side
     private final double HALF_ROBOT_FRAME_WIDTH_INCHES = 13;
+
+    private final double LIMELIGHT_HFOV_DEG = 59.6;
+    private final double LIMELIGHT_VFOV_DEG = 45.7;
 
     public enum LimelightLEDState {
         ON(3.0),
@@ -258,7 +261,7 @@ public class Limelight implements PIDSource, TableEntryListener {
      * @return the heading from switching from cartesian to polar and back.
      */
     public double calcRobotHeading(){
-        return 180 / Math.PI * Math.atan((this.calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle)) - limelightToCenterX)/(calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle) - limelightToCenterY)));
+        return 180 / Math.PI * Math.atan((this.calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle)) - RobotCenterX)/(calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle) - RobotCenterY)));
     }
 
     /**
@@ -277,4 +280,25 @@ public class Limelight implements PIDSource, TableEntryListener {
         nt.getEntry("ledMode").setNumber(limelightLEDState.value);
     }
 
+    /**
+     * Get the x pixel coordinate of the target
+     * @return the pixel x-position of the target
+     */
+    public synchronized double getTargetPixelXPos() {
+        double vpw = 2 * Math.tan(LIMELIGHT_HFOV_DEG / 2);
+        double x = Math.tan(targetCenterXAngle);
+        double nx = (2 * x) / vpw;
+        return 160 * nx + 159.5;
+    }
+
+    /**
+     * Get the y pixel coordinate of the target
+     * @return the pixel y-position of the target
+     */
+    public synchronized double getTargetPixelYPos() {
+        double vph = 2 * Math.tan(LIMELIGHT_VFOV_DEG / 2);
+        double y = Math.tan(targetCenterYAngle);
+        double ny = (2 * y) / vph;
+        return 120 * ny + 159.5;
+    }
 }
