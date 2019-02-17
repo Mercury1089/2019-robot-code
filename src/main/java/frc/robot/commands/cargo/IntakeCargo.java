@@ -12,12 +12,16 @@ import frc.robot.commands.cargo.ArticulateCargoIntake;
 import frc.robot.subsystems.CargoIntake.IntakeSpeed;
 import frc.robot.subsystems.CargoIntake.ArticulationPosition;
 import frc.robot.subsystems.CargoManipulator.ShooterSpeed;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class IntakeCargo extends CommandGroup {
-
+  private final Logger LOG = LogManager.getLogger(IntakeCargo.class);
   public IntakeCargo() {
     addSequential(new ArticulateCargoIntake(ArticulationPosition.OUT));
     addSequential(new RunCargoIntake(IntakeSpeed.FAST_IN));
     addParallel(new RunCargoManipulator(ShooterSpeed.FAST_INTAKE));
+    setName("IntakeCargo CommandGroup");
+    LOG.info(getName() + " Constructed");
   }
 }

@@ -9,9 +9,11 @@ package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.subsystems.Climber;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Climb extends CommandGroup {
-  
+  private final Logger LOG = LogManager.getLogger(Climb.class);
   private final double HI = 22, LO = 0;
 
   public Climb() {
@@ -20,5 +22,7 @@ public class Climb extends CommandGroup {
    addSequential(new RaiseBackScrews(HI));
    addSequential(new DriveOnClimbBase());
    addSequential(new RaiseAllScrews(LO));
+   setName("Climb CommandGroup");
+   LOG.info(getName() + " Constructed");
   }
 }

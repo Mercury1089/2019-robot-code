@@ -11,12 +11,17 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.CargoIntake.ArticulationPosition;
 import frc.robot.util.interfaces.IMercMotorController.LimitSwitchDirection;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ArticulateCargoIntake extends Command {
+  private final Logger LOG = LogManager.getLogger(ArticulateCargoIntake.class);
   ArticulationPosition targetState;
 
   public ArticulateCargoIntake(ArticulationPosition targetState) {
     requires(Robot.cargoIntake);
+    setName("ArticulateCargoIntake Command");
+    LOG.info(getName() + " Constructed");
     this.targetState = targetState;
   }
 
@@ -32,6 +37,7 @@ public class ArticulateCargoIntake extends Command {
   @Override
   protected void execute() {
     Robot.cargoIntake.setArticulatorSpeed(targetState == ArticulationPosition.IN ? -1.0 : 1.0);
+    LOG.info(getName() + " Executed");
   }
 
   /**
@@ -42,12 +48,15 @@ public class ArticulateCargoIntake extends Command {
   protected boolean isFinished() {
     if(targetState == ArticulationPosition.IN &&
       Robot.cargoIntake.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.REVERSE)) {
+        LOG.info(getName() + " isFinished");
         return true;
     }
     else if(targetState == ArticulationPosition.OUT &&
       Robot.cargoIntake.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.FORWARD)) {
+        LOG.info(getName() + " isFinished");
         return true;
     }
+    LOG.info(getName() + " isFinished");
     return false;
   }
 
@@ -55,12 +64,14 @@ public class ArticulateCargoIntake extends Command {
   @Override
   protected void end() {
     Robot.cargoIntake.setArticulatorState(targetState);
+    LOG.info(getName() + " Ended");
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    LOG.info(getName() + " Interrupted");
     this.end();
   }
 

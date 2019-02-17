@@ -21,7 +21,7 @@ public class ArticulateHatchPanel extends Command {
 
   public ArticulateHatchPanel(ArticulatorPosition state) {
     requires(Robot.hatchManipulator);
-    setName("AquireHatchPanel Command");
+    setName("ArticulateHatchPanel Command");
     LOG.info(getName() + " Constructed");
     this.state = state;
   }

@@ -18,9 +18,11 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Climber.ScrewMotor;
 import frc.robot.util.MercMath;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class LowerAllScrews extends Command {
-
+  private final Logger LOG = LogManager.getLogger(LowerAllScrews.class);
   private WPI_TalonSRX backRight, backLeft, front;
 
   private final double CLIMB_DIST_INCHES = 22, END_POS;
@@ -35,6 +37,8 @@ public class LowerAllScrews extends Command {
     
     END_POS = MercMath.inchesToEncoderTicks(endPositionInches);
     setPos = MercMath.inchesToEncoderTicks(-CLIMB_DIST_INCHES);
+    setName("LowerAllScrews Command");
+    LOG.info(getName() + " Constructed");
   }
 
   // Called just before this Command runs the first time
@@ -66,6 +70,7 @@ public class LowerAllScrews extends Command {
     Robot.climber.configPIDSlots(ScrewMotor.BACK_RIGHT, Climber.LIFT_BR_RUN, Climber.LIFT_BR_ADJUST);
     Robot.climber.configPIDSlots(ScrewMotor.FRONT, Climber.LIFT_FRONT_RUN, Climber.LIFT_FRONT_ADJUST);
     
+    LOG.info(getName() + " Initialized");
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -74,6 +79,7 @@ public class LowerAllScrews extends Command {
     backRight.set(ControlMode.MotionMagic, setPos, DemandType.AuxPID, 0);
     backLeft.follow(backRight, FollowerType.AuxOutput1);
     front.set(ControlMode.MotionMagic, setPos, DemandType.AuxPID, 0); 
+    LOG.info(getName() + " Executed");
   }
   
   // Make this return true when this Command no longer needs to run execute()
@@ -88,12 +94,14 @@ public class LowerAllScrews extends Command {
   @Override
   protected void end() {
     Robot.climber.stop();
+    LOG.info(getName() + " Ended");
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    LOG.info(getName() + " Interrupted");
     end();
   }
 }

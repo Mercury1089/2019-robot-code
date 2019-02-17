@@ -7,8 +7,11 @@
 
 package frc.robot.commands.drivetrain;
 
-public class DriveDistance extends MoveHeading {
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+public class DriveDistance extends MoveHeading {
+  private final Logger LOG = LogManager.getLogger(DriveDistance.class);
   /**
    * Construct Drive Distance w / Motion Magic
    * @param distance in inches
@@ -19,18 +22,22 @@ public class DriveDistance extends MoveHeading {
     moveThresholdTicks = 500;
     angleThresholdDeg = 2;
     onTargetMinCount = 10;
+    setName("DriveDistance MoveHeading Command");
+    LOG.info(getName() + " Constructed");
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     super.initialize();
+    LOG.info(getName() + " Initialized");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     super.execute();
+    LOG.info(getName() + " Executed");
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -66,12 +73,14 @@ public class DriveDistance extends MoveHeading {
   @Override
   protected void end() {
     super.end();
+    LOG.info(getName() + " Ended");
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    LOG.info(getName() + " Interrupted");
     this.end();
   }
 }
