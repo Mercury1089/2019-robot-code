@@ -95,7 +95,7 @@ public class MoveHeading extends Command {
   @Override
   protected void execute() {
     /* Configured for MotionMagic on Quad Encoders and Auxiliary PID on Pigeon */
-    right.set(ControlMode.MotionMagic, distance, DemandType.AuxPID, targetHeading);
+    right.set(ControlMode.Position, distance, DemandType.AuxPID, targetHeading);
     left.follow(right, FollowerType.AuxOutput1);
     LOG.info(getName() + " Executed");
   }
@@ -113,7 +113,7 @@ public class MoveHeading extends Command {
     angleError = MercMath.pigeonUnitsToDegrees(angleError);
 
     boolean isFinished = false;
-    
+
     boolean isOnTarget = (Math.abs(distError) < moveThresholdTicks && 
                           Math.abs(angleError) < angleThresholdDeg);
 
