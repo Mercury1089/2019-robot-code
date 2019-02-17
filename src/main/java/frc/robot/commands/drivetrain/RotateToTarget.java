@@ -17,7 +17,7 @@ public class RotateToTarget extends DegreeRotate {
     super(0);
     requires(Robot.driveTrain);
 
-    angleThresholdDeg = 1;
+    angleThresholdDeg = 2;
   }
 
   // Called just before this Command runs the first time
@@ -43,6 +43,7 @@ public class RotateToTarget extends DegreeRotate {
     double angleError = right.getClosedLoopError(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
 
     angleError = MercMath.pigeonUnitsToDegrees(angleError);
+    System.out.println(angleError);
 
     boolean isFinished = false;
 

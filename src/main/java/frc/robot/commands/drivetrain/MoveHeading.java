@@ -88,7 +88,7 @@ public class MoveHeading extends Command {
   @Override
   protected void execute() {
     /* Configured for MotionMagic on Quad Encoders and Auxiliary PID on Pigeon */
-    right.set(ControlMode.Position, distance, DemandType.AuxPID, targetHeading);
+    right.set(ControlMode.MotionMagic, distance, DemandType.AuxPID, targetHeading);
     left.follow(right, FollowerType.AuxOutput1);
   }
 

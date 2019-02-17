@@ -18,7 +18,8 @@ import frc.robot.util.MercMath;
 
 public class TrackTarget extends MoveHeading {
 
-  private double allowableDistError = 24; //inches
+  private double allowableDistError = 24; //feet
+  private double allowableAngError = 4; //degrees
 
   public TrackTarget() {
     // Use requires() here to declare subsystem dependencies
