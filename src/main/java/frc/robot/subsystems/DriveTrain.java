@@ -173,10 +173,10 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         lidar = new LIDAR(canifier, CANifier.PWMChannel.PWMChannel0, PWMOffset.EQUATION_C);
 
         //Account for motor orientation.
-        leaderLeft.setInverted(false);
-        followerLeft.setInverted(false);
-        leaderRight.setInverted(true);
-        followerRight.setInverted(true);
+        leaderLeft.setInverted(true);
+        followerLeft.setInverted(true);
+        leaderRight.setInverted(false);
+        followerRight.setInverted(false);
 
         //Set neutral mode
         setNeutralMode(NeutralMode.Brake);
@@ -188,12 +188,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         //Config feedback sensors for each PID slot, ready for MOTION PROFILING
         initializeMotionMagicFeedback();
 
-        
         // Config PID
         DRIVE_GAINS = new PIDGain(0.125, 0.0, 0.05, 0.0, .75);   // .3
-        SMOOTH_GAINS = new PIDGain(0.9, 0.0006, 0.45, getFeedForward(), 1.0);    //.00032
+        SMOOTH_GAINS = new PIDGain(0.6, 0.00032, 0.45, getFeedForward(), 1.0);    //.00032
         MOTION_PROFILE_GAINS = new PIDGain(0.6, 0.0, 0.0, getFeedForward(), 1.0);
-        TURN_GAINS = new PIDGain(0.35, 0.0, 0.27, 0.0, .75);
+        TURN_GAINS = new PIDGain(0.35, 0.0, 0.27, 0.0, 1.0);
         leaderRight.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
         leaderLeft.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
         leaderRight.configPID(DRIVE_SMOOTH_MOTION_SLOT, SMOOTH_GAINS);

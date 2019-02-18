@@ -86,7 +86,7 @@ public class MoveHeading extends Command {
     right.configClosedLoopPeriod(0, closedLoopTimeMs);
     right.configClosedLoopPeriod(1, closedLoopTimeMs);
 
-    right.configAuxPIDPolarity(false);
+    right.configAuxPIDPolarity(true);
 
     Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
     
@@ -133,7 +133,7 @@ public class MoveHeading extends Command {
       onTargetCount = 0;
     }
 
-    return isFinished;
+    return false;
   }
 
   // Called once after isFinished returns true

@@ -18,6 +18,8 @@ import frc.robot.util.MercMath;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class TrackTarget extends MoveHeading {
 
   private double allowableDistError = 19; //inches
@@ -44,7 +46,7 @@ public class TrackTarget extends MoveHeading {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double adjustedDistance = MercMath.feetToEncoderTicks(Robot.limelightAssembly.getLimeLight().getRobotDistanceOffset() - allowableDistError);
+    double adjustedDistance = MercMath.feetToEncoderTicks(Robot.limelightAssembly.getLimeLight().getRawVertDistance() - allowableDistError);
     adjustedDistance *= Robot.driveTrain.getDirection().dir;
     double adjustedHeading = -MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
     right.set(ControlMode.Position, adjustedDistance, DemandType.AuxPID, adjustedHeading);
@@ -65,6 +67,8 @@ public class TrackTarget extends MoveHeading {
 
     angleError = MercMath.pigeonUnitsToDegrees(angleError);
     distError *= Robot.driveTrain.getDirection().dir;
+
+    SmartDashboard.putString("ang error, dist error", angleError + ", " + distError); 
 
     System.out.println(distError);
 

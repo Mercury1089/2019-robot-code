@@ -87,7 +87,7 @@ public class DriveAssist {
 		// Clamp moveVal and rotateVal.
 		// Assume a deadzone is already being applied to these values.
 		moveVal = MercMath.clamp(moveVal, -1.0, 1.0);
-		rotateVal = MercMath.clamp(rotateVal, -1.0, 1.0);
+		rotateVal = -MercMath.clamp(rotateVal, -1.0, 1.0);
 
 		if(direction == DriveDirection.CARGO) {
 			moveVal = -moveVal;
