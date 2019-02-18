@@ -7,56 +7,65 @@
 
 package frc.robot.commands.drivetrain;
 
-import frc.robot.Robot;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.DriveTrain.DriveTrainSide;
-import frc.robot.util.MercMath;
-import org.apache.logging.log4j.LogManager;
+import java.util.logging.LogManager;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FollowerType;
+
 import org.apache.logging.log4j.Logger;
 
-public class RotateToTarget extends DegreeRotate {
-  private final Logger LOG = LogManager.getLogger(RotateToTarget.class);
-  public RotateToTarget() {
-    super(0);
-    requires(Robot.driveTrain);
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
-    angleThresholdDeg = 1.2;
+public class DriveWithLidar extends MoveHeading {
+  //private final Logger LOG = LogManager.getLogger(DriveWithLidar.class);
+  private double inchThreshold;
+  private double startingDistance;
 
-    setName("RotateToTarget DegreeRotate Command");
-    LOG.info(getName() + " Constructed");
+  /**
+   * Construct Drive Distance w / Motion Magic
+   * @param distance in inches
+   */
+  public DriveWithLidar(double distance) {
+    super(distance, 0);
+
+    moveThresholdTicks = 500;
+    inchThreshold = 0.5;
+    angleThresholdDeg = 2;
+    onTargetMinCount = 10;
+    setName("DriveWithLidar MoveHeading Command");
+    //LOG.info(getName() + " Constructed");
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     super.initialize();
-
-    Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
-
-    targetHeading = -MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
-    System.out.println("RotateToTarget initialized with angle " + Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
-    
-    LOG.info(getName() + " Initialized");
+    //LOG.info(getName() + " Initialized");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    super.execute();
-    LOG.info(getName() + " Executed");
+    right.set(ControlMode.Position, distance, DemandType.AuxPID, targetHeading);
+    left.follow(right, FollowerType.AuxOutput1);
+    //LOG.info(getName() + " Executed");
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    double angleError = right.getClosedLoopError(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
+    if (initialCheckCount < checkThreshold) {
+      initialCheckCount++;
+      return false;
+    }
 
-    angleError = MercMath.pigeonUnitsToDegrees(angleError);
-    System.out.println(angleError);
+    double distError = Math.abs(Robot.driveTrain.getLidar().getDistance() - (startingDistance - distance));
 
     boolean isFinished = false;
 
-    boolean isOnTarget = (Math.abs(angleError) < angleThresholdDeg);
+    boolean isOnTarget = (distError < inchThreshold);
 
     if (isOnTarget) {
       onTargetCount++;
@@ -77,14 +86,14 @@ public class RotateToTarget extends DegreeRotate {
   @Override
   protected void end() {
     super.end();
-    LOG.info(getName() + " Ended");
+    //LOG.info(getName() + " Ended");
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    LOG.info(getName() + " Interrupted");
+    //LOG.info(getName() + " Interrupted");
     this.end();
   }
 }

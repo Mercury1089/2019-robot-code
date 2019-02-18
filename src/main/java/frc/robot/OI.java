@@ -13,12 +13,15 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.RobotMap.*;
 import frc.robot.util.ShuffleDash;
+import frc.robot.util.DriveAssist.DriveDirection;
 import frc.robot.commands.drivetrain.DegreeRotate;
 import frc.robot.commands.drivetrain.DriveDistance;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.drivetrain.MoveOnPath;
 import frc.robot.commands.limelight.RotateLimelight;
 import frc.robot.commands.drivetrain.RotateToTarget;
+import frc.robot.commands.drivetrain.SwitchDrive;
+import frc.robot.commands.drivetrain.SwitchDriveDirection;
 import frc.robot.commands.drivetrain.MoveOnPath.MPDirection;
 import frc.robot.commands.drivetrain.MoveHeading;
 import frc.robot.subsystems.CargoManipulator.ShooterSpeed;
@@ -39,7 +42,7 @@ public class OI {
   private Joystick rightJoystick, leftJoystick, gamepad;
 
   private JoystickButton left1, left2, left3, left4, left5, left7, left8, left10;
-  private JoystickButton right1, right2, right6, right7, right8, right9, right10, right11;
+  private JoystickButton right1, right2, right3, right6, right7, right8, right9, right10, right11;
 
   public OI() {
     leftJoystick = new Joystick(DS_USB.LEFT_STICK);
@@ -58,6 +61,7 @@ public class OI {
     left10 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN10);
     right1 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN1);
     right2 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN2);
+    right3 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN3);
     right6 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN6);
     right7 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN7);
     right8 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN8);
@@ -67,24 +71,27 @@ public class OI {
     //gamepadB = new JoystickButton(gamepad, GAMEPAD_BUTTONS.B);
 
     left1.whenPressed(new RunCargoManipulator(ShooterSpeed.FAST_INTAKE));
+    left2.whenPressed(new SwitchDriveDirection(DriveDirection.HATCH));
     left3.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
     left4.whenPressed(new RotateLimelight(LimelightPosition.FACING_HATCH_PANEL));
     left5.whenPressed(new RotateLimelight(LimelightPosition.FACING_CARGO));
     try {
-      left7.whenPressed(new MoveOnPath("RightMiddle", MPDirection.FORWARD));
-      left8.whenPressed(new MoveOnPath("RightFar", MPDirection.FORWARD));
+      left7.whenPressed(new MoveOnPath("RightMiddle"));
+      left8.whenPressed(new MoveOnPath("RightFar"));
+      right10.whenPressed(new MoveOnPath("RightRocketClose"));
+      right11.whenPressed(new MoveOnPath("RightRocketFar"));
     } catch(FileNotFoundException fnfe) {
       System.out.println("Invalid file!!!!");
     }
     left10.whenPressed(new RotateToTarget());
     right1.whenPressed(new RunCargoManipulator(ShooterSpeed.FAST_EJECT));
-    right2.whenPressed(new RunCargoManipulator(ShooterSpeed.STOP));
+    right2.whenPressed(new SwitchDriveDirection(DriveDirection.CARGO));
+    right3.whenPressed(new RunCargoManipulator(ShooterSpeed.STOP));
     right6.whenPressed(new DegreeRotate(90));
     right7.whenPressed(new DegreeRotate(-90));
     right8.whenPressed(new DriveDistance(36));
     right9.whenPressed(new TrackTarget());
-    right10.whenPressed(new MoveHeading(60, -60));
-    right11.whenPressed(new MoveHeading(60, 60));
+    //right11.whenPressed(new MoveHeading(60, 60));
 
     //gamepadB.whenPressed();
   }

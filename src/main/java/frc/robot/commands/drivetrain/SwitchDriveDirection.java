@@ -38,7 +38,7 @@ public class SwitchDriveDirection extends CommandGroup {
     // arm.
 
     addParallel(new SwitchDrive(driveDir));
-    addSequential(new RotateLimelight(driveDir == DriveDirection.FORWARD ? 
+    addSequential(new RotateLimelight(driveDir == DriveDirection.HATCH ? 
             LimelightPosition.FACING_HATCH_PANEL : LimelightPosition.FACING_CARGO));
             
     setName("SwitchDriveDirection CommandGroup");

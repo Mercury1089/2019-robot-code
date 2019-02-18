@@ -170,7 +170,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
         //Initialize the CANifier and LIDAR
         canifier = new CANifier(RobotMap.CAN.CANIFIER);
-        lidar = new LIDAR(canifier, CANifier.PWMChannel.PWMChannel0, PWMOffset.DEFAULT);
+        lidar = new LIDAR(canifier, CANifier.PWMChannel.PWMChannel0, PWMOffset.EQUATION_C);
 
         //Account for motor orientation.
         leaderLeft.setInverted(false);
@@ -182,15 +182,16 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         setNeutralMode(NeutralMode.Brake);
 
         //Account for encoder orientation.
-        leaderLeft.setSensorPhase(true);
-        leaderRight.setSensorPhase(true);
+        leaderLeft.setSensorPhase(false);
+        leaderRight.setSensorPhase(false);
 
         //Config feedback sensors for each PID slot, ready for MOTION PROFILING
         initializeMotionMagicFeedback();
 
+        
         // Config PID
         DRIVE_GAINS = new PIDGain(0.125, 0.0, 0.05, 0.0, .75);   // .3
-        SMOOTH_GAINS = new PIDGain(0.9, 0.0002, 0.45, getFeedForward(), 1.0);    //.35
+        SMOOTH_GAINS = new PIDGain(0.9, 0.0006, 0.45, getFeedForward(), 1.0);    //.00032
         MOTION_PROFILE_GAINS = new PIDGain(0.6, 0.0, 0.0, getFeedForward(), 1.0);
         TURN_GAINS = new PIDGain(0.35, 0.0, 0.27, 0.0, .75);
         leaderRight.configPID(DRIVE_PID_SLOT, DRIVE_GAINS);
@@ -206,7 +207,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         resetEncoders();
 
         //Initialize drive with joysticks
-        drive = new DriveAssist(leaderLeft, leaderRight, DriveDirection.FORWARD);
+        drive = new DriveAssist(leaderLeft, leaderRight, DriveDirection.HATCH);
         
         // Set follower control on back talons. Use follow() instead of ControlMode.Follower so that Talons can follow Victors and vice versa.
         followerLeft.follow(leaderLeft);

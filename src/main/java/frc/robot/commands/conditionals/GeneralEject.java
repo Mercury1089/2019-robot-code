@@ -26,6 +26,6 @@ public class GeneralEject extends ConditionalCommand {
 
   @Override
   public boolean condition() {
-    return Robot.driveTrain.getDirection() == DriveDirection.FORWARD;
+    return Robot.driveTrain.getDirection() == DriveDirection.HATCH;
   }
 }

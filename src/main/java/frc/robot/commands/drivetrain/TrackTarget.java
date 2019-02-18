@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 
 public class TrackTarget extends MoveHeading {
 
-  private double allowableDistError = 24; //feet
+  private double allowableDistError = 19; //inches
   private final Logger LOG = LogManager.getLogger(TrackTarget.class);
 
   public TrackTarget() {
@@ -45,6 +45,7 @@ public class TrackTarget extends MoveHeading {
   @Override
   protected void execute() {
     double adjustedDistance = MercMath.feetToEncoderTicks(Robot.limelightAssembly.getLimeLight().getRobotDistanceOffset() - allowableDistError);
+    adjustedDistance *= Robot.driveTrain.getDirection().dir;
     double adjustedHeading = -MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
     right.set(ControlMode.Position, adjustedDistance, DemandType.AuxPID, adjustedHeading);
     left.follow(right, FollowerType.AuxOutput1);
@@ -59,10 +60,13 @@ public class TrackTarget extends MoveHeading {
       return false;
     }
 
-    double distError = MercMath.feetToEncoderTicks(Robot.limelightAssembly.getLimeLight().getRobotDistanceOffset() - allowableDistError), 
+    double distError = MercMath.inchesToEncoderTicks(Robot.limelightAssembly.getLimeLight().getRawVertDistance() - allowableDistError), 
            angleError = MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
 
     angleError = MercMath.pigeonUnitsToDegrees(angleError);
+    distError *= Robot.driveTrain.getDirection().dir;
+
+    System.out.println(distError);
 
     boolean isFinished = false;
 

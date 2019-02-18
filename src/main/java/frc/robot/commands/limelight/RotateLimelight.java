@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 public class RotateLimelight extends Command {
   private final Logger LOG = LogManager.getLogger(RotateLimelight.class);
+  private LimelightPosition limePos;
   private double position;
 
   public RotateLimelight(double position) {
@@ -27,6 +28,7 @@ public class RotateLimelight extends Command {
 
   public RotateLimelight(LimelightPosition pos) {
     this(pos.servoPosition);
+    limePos = pos;
   }
 
   // Called just before this Command runs the first time
@@ -34,6 +36,7 @@ public class RotateLimelight extends Command {
   protected void initialize() {
     LOG.info(getName() + " Initialized");
     Robot.limelightAssembly.setServoPosition(position);
+    Robot.limelightAssembly.getLimeLight().setPipeline(limePos);
   }
 
   // Called repeatedly when this Command is scheduled to run

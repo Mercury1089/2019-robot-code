@@ -4,6 +4,7 @@ import edu.wpi.first.networktables.*;
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import frc.robot.subsystems.LimelightAssembly.LimelightPosition;
 import frc.robot.util.MercMath;
 
 /**
@@ -287,6 +288,10 @@ public class Limelight implements PIDSource, TableEntryListener {
      */
     public void setLEDState(LimelightLEDState limelightLEDState) {
         nt.getEntry("ledMode").setNumber(limelightLEDState.value);
+    }
+
+    public void setPipeline(LimelightPosition position) {
+        nt.getEntry("pipeline").setNumber(position.pipeline);
     }
 
     public synchronized boolean isSafeToTrack() {

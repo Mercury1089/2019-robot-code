@@ -18,7 +18,6 @@ import frc.robot.subsystems.LimelightAssembly;
 //import frc.robot.subsystems.PDP;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
-import frc.robot.subsystems.testing.OneTalonTest;
 import frc.robot.auton.AutonCommand;
 import frc.robot.sensors.Limelight.LimelightLEDState;
 
@@ -44,7 +43,6 @@ public class Robot extends TimedRobot {
   public static HatchManipulator hatchManipulator;
   public static Elevator elevator;
   public static Climber climber;
-  public static OneTalonTest oneTalonTest;
 
   private AutonCommand autonCommand;
 
@@ -66,7 +64,6 @@ public class Robot extends TimedRobot {
     hatchManipulator = new HatchManipulator();
     climber = new Climber();
     limelightAssembly = new LimelightAssembly();
-    oneTalonTest = new OneTalonTest();
 
     oi = new OI();
   }

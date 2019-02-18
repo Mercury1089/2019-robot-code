@@ -36,6 +36,8 @@ public class MoveHeading extends Command {
 
   protected double distance, targetHeading;
 
+  protected double dirFactor;
+
   protected int onTargetCount, initialCheckCount;
 
   /**
@@ -56,7 +58,9 @@ public class MoveHeading extends Command {
     angleThresholdDeg = 5;
     onTargetMinCount = 10;
 
-    this.distance = MercMath.inchesToEncoderTicks(distance);
+    dirFactor = Robot.driveTrain.getDirection().dir;
+
+    this.distance = MercMath.inchesToEncoderTicks(distance * dirFactor);
     this.targetHeading = MercMath.degreesToPigeonUnits(heading);
 
     setName("MoveHeading Command");

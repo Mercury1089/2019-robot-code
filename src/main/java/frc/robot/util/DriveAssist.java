@@ -23,10 +23,10 @@ public class DriveAssist {
 	private DriveDirection direction;
 
 	public enum DriveDirection {
-		FORWARD(1.0),
-		REVERSE(-1.0);
+		HATCH(1.0),
+		CARGO(-1.0);
 
-		private double dir;
+		public double dir;
 
 		private DriveDirection(double direction) {
 			dir = direction;
@@ -89,9 +89,8 @@ public class DriveAssist {
 		moveVal = MercMath.clamp(moveVal, -1.0, 1.0);
 		rotateVal = MercMath.clamp(rotateVal, -1.0, 1.0);
 
-		if(direction == DriveDirection.REVERSE) {
+		if(direction == DriveDirection.CARGO) {
 			moveVal = -moveVal;
-			rotateVal = -rotateVal;
 		}
 		
 		// Square inputs, but maintain their signs.
@@ -147,7 +146,7 @@ public class DriveAssist {
 
 		// Apply speeds to motors.
 		// This assumes that the Controllers have been setClawState properly.
-		LEFT_CONTROLLER.setSpeed((direction == DriveDirection.REVERSE ? -leftVal : leftVal) * maxOutput);
-		RIGHT_CONTROLLER.setSpeed((direction == DriveDirection.REVERSE ? -rightVal : rightVal) * maxOutput);
+		LEFT_CONTROLLER.setSpeed((direction == DriveDirection.CARGO ? -leftVal : leftVal) * maxOutput);
+		RIGHT_CONTROLLER.setSpeed((direction == DriveDirection.CARGO ? -rightVal : rightVal) * maxOutput);
 	}
 }

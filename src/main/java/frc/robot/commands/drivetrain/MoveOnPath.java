@@ -29,6 +29,7 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.util.MercMath;
 import frc.robot.util.MercTalonSRX;
+import frc.robot.util.DriveAssist.DriveDirection;
 
 /**
  * Use motion profiling to move on a specified path
@@ -59,13 +60,33 @@ public class MoveOnPath extends Command {
      * @param name name of the trajectory
      */
     public MoveOnPath(String filename, MPDirection direction) throws FileNotFoundException {
+        this(filename);
+        switch(direction) {
+            case BACKWARD:
+                dir = -1;
+                break;
+            case FORWARD:
+            default:
+                dir = 1;
+                break;
+        }
+    }
+
+    public MoveOnPath(String filename) throws FileNotFoundException {
         requires(Robot.driveTrain);
         setName("MoveOnPath-" + filename);
         log.info(getName() + " Beginning constructor");
 
         try {
-            leftTrajCSV = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".right.pf1.csv");
-            rightTrajCSV = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".left.pf1.csv");
+            if (Robot.driveTrain.getDirection() == DriveDirection.CARGO) {
+                dir = -1;   
+                leftTrajCSV = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".left.pf1.csv");
+                rightTrajCSV = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".right.pf1.csv");
+            } else if (Robot.driveTrain.getDirection() == DriveDirection.HATCH) {
+                dir = 1;   
+                leftTrajCSV = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".right.pf1.csv");
+                rightTrajCSV = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".left.pf1.csv");
+            }
             CSVFormat.RFC4180.withFirstRecordAsHeader().parse(leftTrajCSV).forEach(record -> trajectoryListLeft.add(record));
             CSVFormat.RFC4180.withFirstRecordAsHeader().parse(rightTrajCSV).forEach(record -> trajectoryListRight.add(record));
         } catch(Exception e) {
@@ -76,16 +97,6 @@ public class MoveOnPath extends Command {
 
         left = ((MercTalonSRX)Robot.driveTrain.getLeftLeader()).get();
         right = ((MercTalonSRX)Robot.driveTrain.getRightLeader()).get();
-
-        switch(direction) {
-            case BACKWARD:
-                dir = -1;
-                break;
-            case FORWARD:
-            default:
-                dir = 1;
-                break;
-        }
 
         if (trajectoryProcessor == null) {
             trajectoryProcessor = new Notifier(() -> {

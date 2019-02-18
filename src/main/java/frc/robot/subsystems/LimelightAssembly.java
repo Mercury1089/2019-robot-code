@@ -22,13 +22,15 @@ public class LimelightAssembly extends Subsystem {
   private LimelightPosition limeLightPosition;
 
   public enum LimelightPosition{
-    FACING_HATCH_PANEL(0.023),
-    FACING_CARGO(0.94);
+    FACING_HATCH_PANEL(0.023, 1),
+    FACING_CARGO(0.94, 0);
 
-    public double servoPosition; 
+    public double servoPosition;
+    public int pipeline;
 
-    LimelightPosition(double servoPosition){
+    LimelightPosition(double servoPosition, int pipeline){
       this.servoPosition = servoPosition;
+      this.pipeline = pipeline;
     }
   }
   public LimelightAssembly() {
