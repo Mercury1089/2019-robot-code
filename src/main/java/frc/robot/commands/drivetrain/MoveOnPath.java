@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrain.DriveTrainSide;
 import frc.robot.util.MercMath;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.DriveAssist.DriveDirection;
@@ -130,6 +131,8 @@ public class MoveOnPath extends Command {
 	    // Reset command state
         reset();
         
+        Robot.driveTrain.configPIDSlots(DriveTrainSide.LEFT, DriveTrain.DRIVE_MOTION_PROFILE_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
+        Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_MOTION_PROFILE_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
 
         // Change motion control frame period
         left.changeMotionControlFramePeriod(10);
