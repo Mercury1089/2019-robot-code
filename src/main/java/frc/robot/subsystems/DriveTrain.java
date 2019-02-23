@@ -182,8 +182,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         setNeutralMode(NeutralMode.Brake);
 
         //Account for encoder orientation.
-        leaderLeft.setSensorPhase(false);
-        leaderRight.setSensorPhase(false);
+        leaderLeft.setSensorPhase(true);
+        leaderRight.setSensorPhase(true);
 
         //Config feedback sensors for each PID slot, ready for MOTION PROFILING
         initializeMotionMagicFeedback();

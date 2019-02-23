@@ -130,6 +130,8 @@ public class MoveOnPath extends Command {
 
 	    // Reset command state
         reset();
+
+        dir = Robot.driveTrain.getDirection() == DriveDirection.HATCH ? 1 : -1;
         
         Robot.driveTrain.configPIDSlots(DriveTrainSide.LEFT, DriveTrain.DRIVE_MOTION_PROFILE_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
         Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_MOTION_PROFILE_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);

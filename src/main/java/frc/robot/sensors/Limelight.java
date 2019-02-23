@@ -256,14 +256,14 @@ public class Limelight implements PIDSource, TableEntryListener {
      * @return the distance to target using the trig formulas
      */
     public synchronized double getRobotDistanceOffset() {
-        return calcRobotDistance();
+        return this.calcRobotDistance();
     }
     /**
      * u need the robot angle offset to the target based on trig?
      * @return the distance to target using the trig formulas
      */
     public synchronized double getRobotHeadingOffset() {
-        return calcRobotHeading();
+        return this.calcRobotHeading();
     }
 
     /**
