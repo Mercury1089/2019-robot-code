@@ -8,21 +8,31 @@
 package frc.robot.commands.cargo;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.cargo.ArticulateCargoIntake;
 import frc.robot.subsystems.CargoIntake.IntakeSpeed;
-import frc.robot.subsystems.CargoIntake.ArticulationPosition;
 import frc.robot.subsystems.CargoManipulator.ShooterSpeed;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-public class IntakeCargo extends CommandGroup {
-  private final Logger LOG = LogManager.getLogger(IntakeCargo.class);
-  public IntakeCargo() {
-    addParallel(new ArticulateCargoIntake(ArticulationPosition.OUT));
+public class ManuallyIntakeCargo extends CommandGroup {
+  /**
+   * Add your docs here.
+   */
+  public ManuallyIntakeCargo() {
+    // Add Commands here:
+    // e.g. addSequential(new Command1());
+    // addSequential(new Command2());
+    // these will run in order.
+
+    // To run multiple commands at the same time,
+    // use addParallel()
+    // e.g. addParallel(new Command1());
+    // addSequential(new Command2());
+    // Command1 and Command2 will run in parallel.
+
+    // A command group will require all of the subsystems that each member
+    // would require.
+    // e.g. if Command1 requires chassis, and Command2 requires arm,
+    // a CommandGroup containing them would require both the chassis and the
+    // arm.
     addParallel(new RunCargoIntake(IntakeSpeed.FAST_IN));
     addSequential(new RunCargoManipulator(ShooterSpeed.FAST_INTAKE));
-    addSequential(new ArticulateCargoIntake(ArticulationPosition.IN));
-    setName("IntakeCargo CommandGroup");
-    LOG.info(getName() + " Constructed");
   }
 }
