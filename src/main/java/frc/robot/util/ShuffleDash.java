@@ -30,6 +30,8 @@ public class ShuffleDash {
 
         SmartDashboard.putNumber("LIDAR Raw Distance (in.)", MercMath.roundFloat(Robot.driveTrain.getLidar().getRawDistance(), 10));
 
+        SmartDashboard.putNumber("Ultrasonic Distance (Some unit)", Robot.driveTrain.getLeftUltrasonic().getDistance());
+
         SmartDashboard.putNumber("Lime Dist From Vertical", Robot.limelightAssembly.getLimeLight().getRawVertDistance());
         SmartDashboard.putNumber("Robot Heading Offset from Target", Robot.limelightAssembly.getLimeLight().getRobotHeadingOffset());
         SmartDashboard.putNumber("Robot Distance Offset from Target", Robot.limelightAssembly.getLimeLight().getRobotDistanceOffset());
@@ -39,6 +41,9 @@ public class ShuffleDash {
         SmartDashboard.putString("FrontCamera", (Robot.driveTrain.getDirection() == DriveAssist.DriveDirection.HATCH) ? "Panel" : "Cargo");
         SmartDashboard.putString("BackCamera", (Robot.driveTrain.getDirection() == DriveAssist.DriveDirection.HATCH) ? "Cargo" : "Panel");
 
+        SmartDashboard.putBoolean("a", true);
+        SmartDashboard.putBoolean("b", Robot.driveTrain.getLeftUltrasonic().getDistance() <= 2);
+        
         //SmartDashboard.putBoolean("Auton Initialized", ntInstance.getTable("AutonConfiguration").containsKey("startingPosition"));
 
         // SmartDashboard.putString("LED Output",Robot.claw.getCurrentLEDOutput()[0]+","+Robot.claw.getCurrentLEDOutput()[1]+","+Robot.claw.getCurrentLEDOutput()[2]);

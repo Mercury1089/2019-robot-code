@@ -28,6 +28,7 @@ import frc.robot.util.MercVictorSPX;
 import frc.robot.util.DriveAssist;
 import frc.robot.sensors.LIDAR;
 import frc.robot.sensors.RightSight;
+import frc.robot.sensors.Ultrasonic;
 import frc.robot.sensors.LIDAR.PWMOffset;
 
 /**
@@ -72,6 +73,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     private RightSight rightSight;
     private CANifier canifier;
     private LIDAR lidar;
+    private Ultrasonic leftUltrasonic;
+    private Ultrasonic rightUltrasonic;
 
     private DriveTrainLayout layout;
 
@@ -168,9 +171,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         //Initialize RightSight
         rightSight = new RightSight(0);
 
-        //Initialize the CANifier and LIDAR
+        //Initialize the CANifier, ultrasonics, and LIDAR
         canifier = new CANifier(RobotMap.CAN.CANIFIER);
         lidar = new LIDAR(canifier, CANifier.PWMChannel.PWMChannel0, PWMOffset.EQUATION_C);
+        rightUltrasonic = new Ultrasonic(RobotMap.AIO.RIGHT_ULTRASONIC);
+        leftUltrasonic = new Ultrasonic(RobotMap.AIO.LEFT_ULTRASONIC);
 
         //Account for motor orientation.
         leaderLeft.setInverted(true);
@@ -392,6 +397,20 @@ public class DriveTrain extends Subsystem implements PIDOutput {
             log.error("LIDAR was not initialized!");
         }
         return lidar;
+    }
+
+    public Ultrasonic getRightUltrasonic() {
+        if(rightUltrasonic == null) {
+            log.error("Right Ultrasonic was not initialized!");
+        }
+        return rightUltrasonic;
+    }
+
+    public Ultrasonic getLeftUltrasonic() {
+        if(leftUltrasonic == null) {
+            log.error("Right Ultrasonic was not initialized!");
+        }
+        return leftUltrasonic;
     }
 
     public double getPigeonYaw() {

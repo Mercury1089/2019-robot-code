@@ -63,6 +63,8 @@ public class RobotMap {
 	 * Class containing constants for AIO device channels
 	 */
 	public static class AIO {
+		public static final int LEFT_ULTRASONIC = 0;
+		public static final int RIGHT_ULTRASONIC = 1;
 
 		private AIO() {
 		} // Should never be constructed.
