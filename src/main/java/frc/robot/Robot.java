@@ -18,7 +18,6 @@ import frc.robot.subsystems.LimelightAssembly;
 //import frc.robot.subsystems.PDP;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
-import frc.robot.auton.AutonCommand;
 import frc.robot.sensors.Limelight.LimelightLEDState;
 
 //import frc.robot.commands.ExampleCommand;
@@ -43,8 +42,6 @@ public class Robot extends TimedRobot {
   public static HatchManipulator hatchManipulator;
   public static Elevator elevator;
   public static Climber climber;
-
-  private AutonCommand autonCommand;
 
   public static OI oi;
 
@@ -118,11 +115,7 @@ public class Robot extends TimedRobot {
      * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
      * ExampleCommand(); break; }
      */
-
-    // schedule the autonomous command (example)
-    if (autonCommand != null) {
-      autonCommand.start();
-    }
+    
   }
 
   /**
@@ -140,9 +133,6 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (autonCommand != null) {
-      autonCommand.cancel();
-    }
   }
 
   /**

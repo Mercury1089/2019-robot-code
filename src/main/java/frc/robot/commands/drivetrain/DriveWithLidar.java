@@ -27,9 +27,10 @@ public class DriveWithLidar extends MoveHeading {
    * Construct Drive Distance w / Motion Magic
    * @param distance in inches
    */
-  public DriveWithLidar(double distance) {
-    super(distance, 0);
+  public DriveWithLidar() {
+    super(0, 0);
 
+    targetHeading = Robot.driveTrain.getPigeonYaw();
     moveThresholdTicks = 500;
     inchThreshold = 0.5;
     angleThresholdDeg = 2;
@@ -48,7 +49,8 @@ public class DriveWithLidar extends MoveHeading {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    right.set(ControlMode.Position, distance, DemandType.AuxPID, targetHeading);
+    double adjustedDistance = Robot.driveTrain.getLidar().getDistance() - startingDistance;
+    right.set(ControlMode.Position, adjustedDistance, DemandType.AuxPID, targetHeading);
     left.follow(right, FollowerType.AuxOutput1);
     //LOG.info(getName() + " Executed");
   }
@@ -65,7 +67,7 @@ public class DriveWithLidar extends MoveHeading {
 
     boolean isFinished = false;
 
-    boolean isOnTarget = (distError < inchThreshold);
+    boolean isOnTarget = (Math.abs(distError) < inchThreshold);
 
     if (isOnTarget) {
       onTargetCount++;
