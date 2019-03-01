@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.ParamEnum;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap.CAN;
 import frc.robot.util.MercTalonSRX;
@@ -46,12 +48,24 @@ public class CargoIntake extends Subsystem {
   }
 
   public enum ArticulationPosition {
-    IN,
-    OUT;
+    IN(0.0),
+    OUT(1.0);
+
+    private double ticks;
+
+    ArticulationPosition(double ticks) {
+      this.ticks = ticks;
+    }
+
+    public double getTicks() {
+      return ticks;
+    }
   }
 
   public CargoIntake() {
     intake = new MercVictorSPX(CAN.CARGO_INTAKE);
+    articulator = new MercTalonSRX(CAN.CARGO_MANIPULATOR);
+    articulator.configSetParameter(ParamEnum.eClearPositionOnLimitR, 1, 0, 0);
   }
 
   @Override
@@ -62,10 +76,6 @@ public class CargoIntake extends Subsystem {
 
   public void setIntakeSpeed(IntakeSpeed intakeSpeed) {
     intake.setSpeed(intakeSpeed.speed);
-  }
-
-  public void setArticulatorSpeed(double speed) {
-    articulator.setSpeed(speed);
   }
 
   public MercTalonSRX getArticulator() {

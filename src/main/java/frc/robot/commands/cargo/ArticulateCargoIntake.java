@@ -27,36 +27,16 @@ public class ArticulateCargoIntake extends Command {
 
   @Override
   protected void initialize() {
-
+    Robot.cargoIntake.getArticulator().setPosition(targetState.getTicks());
   }
 
-  /**
-   * TODO Check the values for the speeds to make sure that the motors are running
-   * the right direction. Also, make constants for input/output directions
-   */
-  @Override
-  protected void execute() {
-    Robot.cargoIntake.setArticulatorSpeed(targetState == ArticulationPosition.IN ? -1.0 : 1.0);
-    LOG.info(getName() + " Executed");
-  }
-
-  /**
-   * TODO Check the reverse/forward limit switch configuration to see if
-   * this is activated correctly and we don't decimate the robot
-   */
   @Override
   protected boolean isFinished() {
     if(targetState == ArticulationPosition.IN &&
-      Robot.cargoIntake.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.REVERSE)) {
+      Robot.cargoIntake.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.REVERSE)) { //Check if reverse limit switch
         LOG.info(getName() + " isFinished");
         return true;
     }
-    else if(targetState == ArticulationPosition.OUT &&
-      Robot.cargoIntake.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.FORWARD)) {
-        LOG.info(getName() + " isFinished");
-        return true;
-    }
-    LOG.info(getName() + " isFinished");
     return false;
   }
 
