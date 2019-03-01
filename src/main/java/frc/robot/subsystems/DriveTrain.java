@@ -178,10 +178,10 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         leftUltrasonic = new Ultrasonic(RobotMap.AIO.LEFT_ULTRASONIC);
 
         //Account for motor orientation.
-        leaderLeft.setInverted(true);
-        followerLeft.setInverted(true);
-        leaderRight.setInverted(false);
-        followerRight.setInverted(false);
+        leaderLeft.setInverted(false);
+        followerLeft.setInverted(false);
+        leaderRight.setInverted(true);
+        followerRight.setInverted(true);
 
         //Set neutral mode
         setNeutralMode(NeutralMode.Brake);
