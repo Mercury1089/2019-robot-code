@@ -137,7 +137,7 @@ public class OI {
 
   }
   
-  public double getX(int port) {
+  public double getJoystickX(int port) {
     switch(port) {
       case DS_USB.LEFT_STICK:
         return leftJoystick.getX();
@@ -148,7 +148,7 @@ public class OI {
     }
   }
 
-  public double getY(int port) {
+  public double getJoystickY(int port) {
     switch(port) {
       case DS_USB.LEFT_STICK:
         return leftJoystick.getY();
@@ -159,7 +159,7 @@ public class OI {
     }
   }
 
-  public double getZ(int port) {
+  public double getJoystickZ(int port) {
     switch(port) {
       case DS_USB.LEFT_STICK:
         return leftJoystick.getZ();

@@ -32,7 +32,7 @@ public class ManualLimelightRotation extends Command {
   @Override
   protected void execute() {
     Servo servo = Robot.limelightAssembly.getServo();
-    servo.setPosition(MercMath.clamp(servo.get() + MercMath.applyDeadzone(Robot.oi.getX(RobotMap.DS_USB.GAMEPAD), 0.1), 0.0, 1.0));
+    servo.setPosition(MercMath.clamp(servo.get() + MercMath.applyDeadzone(Robot.oi.getJoystickX(RobotMap.DS_USB.GAMEPAD), 0.1), 0.0, 1.0));
     LOG.info(getName() + " Executed");
   }
 
