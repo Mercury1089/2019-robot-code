@@ -48,12 +48,6 @@ public class RobotMap {
 			SCREW_BR = 15,
 			SCREW_FRONT = 16,
 			SCREW_DRIVE = 17;
-		/**
-		 *
-		 */
-
-		private static final int SCREW_FL2 = SCREW_BL;
-
 			
 		private CAN() {
 		} // Should never be constructed.

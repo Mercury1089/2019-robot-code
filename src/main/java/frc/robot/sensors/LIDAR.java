@@ -62,7 +62,7 @@ public class LIDAR  implements PIDSource {
      * Updates the current duty cycle and period recieved
      * from the LIDAR.
      */
-    public void updatePWMInput() {
+    public synchronized void updatePWMInput() {
         canifier.getPWMInput(pwmChannel, PWM_INPUT);
     }
 
@@ -73,7 +73,7 @@ public class LIDAR  implements PIDSource {
      * @return raw distance from LIDAR, with applied offset
      */
     @Override
-    public double pidGet() {
+    public synchronized double pidGet() {
         // Apply offset equation
         return equation.apply(getRawDistance());
     }
@@ -83,7 +83,7 @@ public class LIDAR  implements PIDSource {
      * 
      * @return the distance to the target
      */
-    public double getDistance() {
+    public synchronized double getDistance() {
         return linearDigitalFilter.pidGet();
     }
 
@@ -92,12 +92,10 @@ public class LIDAR  implements PIDSource {
      *
      * @return the distance sensed from the LIDAR, in inches
      */
-    public double getRawDistance() {
+    public synchronized double getRawDistance() {
         // Convert microseconds to cm
         double cm = PWM_INPUT[0] / 10.0; // TODO: use a conversion method in MercMath
-        // Convert cm to in
         double in = MercMath.centimetersToInches(cm);
-
         return in;
     }
 
@@ -106,7 +104,7 @@ public class LIDAR  implements PIDSource {
      *
      * @return PWM input period, in microseconds
      */
-    public double getPeriod() {
+    public synchronized double getPeriod() {
         return PWM_INPUT[1];
     }
 
