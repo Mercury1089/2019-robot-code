@@ -170,6 +170,11 @@ public interface IMercMotorController {
 
     public void configClosedLoopPeakOutput(int slotIdx, double peakOutput);
 
+    public void setForwardSoftLimit(int limitTicks);
+
+    public void enableForwardSoftLimit();
+
+    public void disableForwardSoftLimit();
 
     //Below this line is motion magic stuff. Kyrag probably has something to do with this//
     //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-//

@@ -137,6 +137,21 @@ public class MercTalonSRX implements IMercMotorController {
     }
 
     @Override
+    public void setForwardSoftLimit(int limitTicks) {
+        talonsrx.configForwardSoftLimitThreshold(10000, RobotMap.CTRE_TIMEOUT);
+    }
+
+    @Override
+    public void enableForwardSoftLimit() {
+        talonsrx.configForwardSoftLimitEnable(true, RobotMap.CTRE_TIMEOUT);
+    }
+
+    @Override
+    public void disableForwardSoftLimit() {
+        talonsrx.configForwardSoftLimitEnable(false, RobotMap.CTRE_TIMEOUT);
+    }
+
+    @Override
     public void configSensorTerm(SensorTerm st, FeedbackDevice fd) {
         talonsrx.configSensorTerm(st, fd, RobotMap.CTRE_TIMEOUT);
     }
