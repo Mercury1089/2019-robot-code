@@ -49,6 +49,8 @@ public class MoveOnPath extends Command {
     private boolean isRunning;
     private int dir;
 
+    private String name;
+
     private final int TRAJECTORY_SIZE;
 
     public enum MPDirection {
@@ -77,6 +79,8 @@ public class MoveOnPath extends Command {
         requires(Robot.driveTrain);
         setName("MoveOnPath-" + filename);
         log.info(getName() + " Beginning constructor");
+
+        name = filename;
 
         try {
             if (Robot.driveTrain.getDirection() == DriveDirection.CARGO) {
@@ -254,5 +258,9 @@ public class MoveOnPath extends Command {
     @Override
     protected void interrupted() {
         this.end();
+    }
+
+    public String getFilename() {
+        return name;
     }
 }

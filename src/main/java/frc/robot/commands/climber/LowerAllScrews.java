@@ -10,20 +10,20 @@ package frc.robot.commands.climber;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FollowerType;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Climber.ScrewMotor;
 import frc.robot.util.MercMath;
+import frc.robot.util.interfaces.IMercMotorController;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class LowerAllScrews extends Command {
   private final Logger LOG = LogManager.getLogger(LowerAllScrews.class);
-  private WPI_TalonSRX backRight, backLeft, front;
+  private IMercMotorController backRight, backLeft, front;
 
   private final double CLIMB_DIST_INCHES = 22, END_POS;
   private double setPos;
@@ -31,9 +31,9 @@ public class LowerAllScrews extends Command {
   public LowerAllScrews(double endPositionInches) {
     requires(Robot.climber);
 
-    backRight = (WPI_TalonSRX)Robot.climber.getBackRight();
-    backLeft = (WPI_TalonSRX)Robot.climber.getBackLeft();
-    front = (WPI_TalonSRX)Robot.climber.getFront();
+    backRight = Robot.climber.getBackRight();
+    backLeft = Robot.climber.getBackLeft();
+    front = Robot.climber.getFront();
     
     END_POS = MercMath.inchesToEncoderTicks(endPositionInches);
     setPos = MercMath.inchesToEncoderTicks(-CLIMB_DIST_INCHES);

@@ -1,6 +1,7 @@
 package frc.robot.util;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
@@ -9,11 +10,15 @@ import frc.robot.Robot;
  */
 public class ShuffleDash {
     private NetworkTableInstance ntInstance;
+    private SendableChooser sandstormFirstStep;
 
     public ShuffleDash() {
         //new Notifier(this::updateDash).startPeriodic(0.020);
 
         ntInstance = NetworkTableInstance.getDefault();
+
+        sandstormFirstStep = new SendableChooser<String>();
+        sandstormFirstStep.addOption("Close Rocket", "CRocket");
     }
 
     public void updateDash() {
@@ -40,10 +45,8 @@ public class ShuffleDash {
 
         SmartDashboard.putString("FrontCamera", (Robot.driveTrain.getDirection() == DriveAssist.DriveDirection.HATCH) ? "Panel" : "Cargo");
         SmartDashboard.putString("BackCamera", (Robot.driveTrain.getDirection() == DriveAssist.DriveDirection.HATCH) ? "Cargo" : "Panel");
-
-        SmartDashboard.putBoolean("a", true);
-        SmartDashboard.putBoolean("b", Robot.driveTrain.getLeftUltrasonic().getDistance() <= 2);
         
+        SmartDashboard.putData("Sandstorm First Step", sandstormFirstStep);
         //SmartDashboard.putBoolean("Auton Initialized", ntInstance.getTable("AutonConfiguration").containsKey("startingPosition"));
 
         // SmartDashboard.putString("LED Output",Robot.claw.getCurrentLEDOutput()[0]+","+Robot.claw.getCurrentLEDOutput()[1]+","+Robot.claw.getCurrentLEDOutput()[2]);

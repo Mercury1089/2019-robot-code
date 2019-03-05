@@ -18,12 +18,14 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Climber.ScrewMotor;
 import frc.robot.util.MercMath;
+import frc.robot.util.interfaces.IMercMotorController;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class RaiseBackScrews extends Command {
   private final Logger LOG = LogManager.getLogger(RaiseBackScrews.class);
-  private WPI_TalonSRX backRight, backLeft, front;
+  private IMercMotorController backRight, backLeft, front;
 
   private final double CLIMB_DIST_INCHES = 22, END_POS, FRONT_START_POS;
   private double setPos;
@@ -31,9 +33,9 @@ public class RaiseBackScrews extends Command {
   public RaiseBackScrews(double endPositionInches) {
     requires(Robot.climber);
 
-    backRight = (WPI_TalonSRX)Robot.climber.getBackRight();
-    backLeft = (WPI_TalonSRX)Robot.climber.getBackLeft();
-    front = (WPI_TalonSRX)Robot.climber.getFront();
+    backRight = Robot.climber.getBackRight();
+    backLeft = Robot.climber.getBackLeft();
+    front = Robot.climber.getFront();
 
     setPos = MercMath.inchesToEncoderTicks(CLIMB_DIST_INCHES);
     END_POS = MercMath.inchesToEncoderTicks(endPositionInches);
@@ -57,19 +59,19 @@ public class RaiseBackScrews extends Command {
     //initialCheckCount = 0;
 
     /* Motion Magic Configurations */
-    backRight.configMotionAcceleration(1000, RobotMap.CTRE_TIMEOUT);
-    backRight.configMotionCruiseVelocity(1000, RobotMap.CTRE_TIMEOUT); //TEMP VALUE
-    front.configMotionAcceleration(1000, RobotMap.CTRE_TIMEOUT);
-    front.configMotionCruiseVelocity(1000, RobotMap.CTRE_TIMEOUT); //TEMP VALUE
+    backRight.configMotionAcceleration(1000);
+    backRight.configMotionCruiseVelocity(1000); //TEMP VALUE
+    front.configMotionAcceleration(1000);
+    front.configMotionCruiseVelocity(1000); //TEMP VALUE
 
     int closedLoopTimeMs = 1;
-    backRight.configClosedLoopPeriod(0, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
-    backRight.configClosedLoopPeriod(1, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
-    front.configClosedLoopPeriod(0, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
-    front.configClosedLoopPeriod(1, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
+    backRight.configClosedLoopPeriod(0, closedLoopTimeMs);
+    backRight.configClosedLoopPeriod(1, closedLoopTimeMs);
+    front.configClosedLoopPeriod(0, closedLoopTimeMs);
+    front.configClosedLoopPeriod(1, closedLoopTimeMs);
 
-    backRight.configAuxPIDPolarity(false, RobotMap.CTRE_TIMEOUT);
-    front.configAuxPIDPolarity(false, RobotMap.CTRE_TIMEOUT);
+    backRight.configAuxPIDPolarity(false);
+    front.configAuxPIDPolarity(false);
 
     Robot.climber.configPIDSlots(ScrewMotor.BACK_RIGHT, Climber.LIFT_BR_RUN, Climber.LIFT_BR_ADJUST);
     Robot.climber.configPIDSlots(ScrewMotor.FRONT, Climber.LIFT_FRONT_RUN, Climber.LIFT_FRONT_ADJUST);
