@@ -51,6 +51,7 @@ public class ArticulateHatchPanel extends Command {
       LOG.info("Reached " + state.toString());
       return true;
     }
+    /**
     if (state == ArticulatorPosition.IN_BOT) {
       if (Robot.hatchManipulator.isArticulatorLimitSwitchClosedReverse() || Robot.hatchManipulator.isArticulatorLimitSwitchClosedForward()) {
         Robot.hatchManipulator.getArticulator().setPosition(state.encPos);
@@ -58,6 +59,7 @@ public class ArticulateHatchPanel extends Command {
         return true;
       }
     }
+    */
     return false;
   }
 

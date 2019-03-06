@@ -10,7 +10,6 @@ package frc.robot.commands.cargo;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.CargoIntake.ArticulationPosition;
-import frc.robot.util.interfaces.IMercMotorController.LimitSwitchDirection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,23 +26,25 @@ public class ArticulateCargoIntake extends Command {
 
   @Override
   protected void initialize() {
+    Robot.cargoIntake.setArticulatorState(targetState);
     Robot.cargoIntake.getArticulator().setPosition(targetState.getTicks());
   }
 
   @Override
   protected boolean isFinished() {
+    /**
     if(targetState == ArticulationPosition.IN &&
       Robot.cargoIntake.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.REVERSE)) { //Check if reverse limit switch
         LOG.info(getName() + " isFinished");
         return true;
     }
+    */
     return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.cargoIntake.setArticulatorState(targetState);
     LOG.info(getName() + " Ended");
   }
 

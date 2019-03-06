@@ -22,6 +22,7 @@ import frc.robot.commands.cargo.ManuallyIntakeCargo;
 import frc.robot.commands.conditionals.ConditionalLevel2Elevator;
 import frc.robot.commands.conditionals.ConditionalLevel3Elevator;
 import frc.robot.commands.conditionals.GeneralIntake;
+import frc.robot.commands.conditionals.UseElevator;
 import frc.robot.commands.drivetrain.DriveToTarget;
 import frc.robot.commands.drivetrain.MoveOnPath;
 import frc.robot.commands.drivetrain.SwitchDriveDirection;
@@ -126,10 +127,10 @@ public class OI {
       System.out.println("Invalid file! " + fnfe.getMessage());
     }
 
-    gamepadA.whenPressed(new AutomaticElevator(ElevatorPosition.BOTTOM));
+    gamepadA.whenPressed(new UseElevator(ElevatorPosition.BOTTOM));
     gamepadB.whenPressed(new ManualElevator());
-    gamepadX.whenPressed(new AutomaticElevator(ElevatorPosition.CARGOSHIP_C));
-    gamepadY.whenPressed(new AutomaticElevator(ElevatorPosition.ROCKET_1_C));
+    gamepadX.whenPressed(new UseElevator(ElevatorPosition.CARGOSHIP_C));
+    gamepadY.whenPressed(new UseElevator(ElevatorPosition.ROCKET_1_C));
     gamepadLB.whenPressed(new ConditionalLevel2Elevator());
     gamepadRB.whenPressed(new ConditionalLevel3Elevator());
     //gamepadBack.whenPressed(new Climb());

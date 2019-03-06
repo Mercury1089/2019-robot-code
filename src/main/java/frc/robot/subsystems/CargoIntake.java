@@ -49,6 +49,7 @@ public class CargoIntake extends Subsystem {
 
   public enum ArticulationPosition {
     IN(0.0),
+    ANGLED45(0.5),
     OUT(1.0);
 
     private double ticks;

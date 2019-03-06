@@ -20,7 +20,7 @@ public class ConditionalLevel3Elevator extends ConditionalCommand {
   private final Logger LOG = LogManager.getLogger(GeneralEject.class);
 
     public ConditionalLevel3Elevator() {
-        super(new AutomaticElevator(ElevatorPosition.ROCKET_3_HP), new AutomaticElevator(ElevatorPosition.ROCKET_3_C));
+        super(new UseElevator(ElevatorPosition.ROCKET_3_HP), new UseElevator(ElevatorPosition.ROCKET_3_C));
         setName("GeneralEject ConditionalCommand");
         LOG.info(getName() + " Constructed");
     }

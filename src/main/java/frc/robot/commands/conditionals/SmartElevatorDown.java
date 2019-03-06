@@ -7,26 +7,24 @@
 
 package frc.robot.commands.conditionals;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import frc.robot.Robot;
 import frc.robot.commands.elevator.AutomaticElevator;
+import frc.robot.commands.elevator.SafeElevatorDown;
 import frc.robot.subsystems.Elevator.ElevatorPosition;
-import frc.robot.util.DriveAssist.DriveDirection;
 
-public class ConditionalLevel2Elevator extends ConditionalCommand {
-  private final Logger LOG = LogManager.getLogger(GeneralEject.class);
+public class SmartElevatorDown extends ConditionalCommand {
 
-    public ConditionalLevel2Elevator() {
-        super(new UseElevator(ElevatorPosition.ROCKET_2_HP), new UseElevator(ElevatorPosition.ROCKET_2_C));
-        setName("GeneralEject ConditionalCommand");
-        LOG.info(getName() + " Constructed");
-    }
+	ElevatorPosition targetPosition;
 
-  @Override
-  public boolean condition() {
-    return Robot.driveTrain.getDirection() == DriveDirection.HATCH;
-  }
+	public SmartElevatorDown(ElevatorPosition targetPosition) {
+		super(new SafeElevatorDown(targetPosition), new AutomaticElevator(targetPosition));
+		this.targetPosition = targetPosition;
+	}
+
+	@Override
+	public boolean condition() {
+		return Robot.elevator.getCurrentHeight() >= ElevatorPosition.ROCKET_1_C.encPos &&
+			   targetPosition.encPos < ElevatorPosition.ROCKET_1_C.encPos;
+	}
 }

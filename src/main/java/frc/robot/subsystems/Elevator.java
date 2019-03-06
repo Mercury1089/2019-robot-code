@@ -22,6 +22,7 @@ import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.util.interfaces.IMercMotorController.LimitSwitchDirection;
 import frc.robot.util.PIDGain;
 
+//FORWARD IS DOWN
 public class Elevator extends Subsystem {
   private static Logger log = LogManager.getLogger(Elevator.class);
 
