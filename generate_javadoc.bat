@@ -1,0 +1,1 @@
+C:\Users\Public\frc2019\jdk\bin\javadoc -sourcepath .\src\main\java\ -subpackages frc.robot  -classpath .\build\libs\2019-robot-code.jar -d D:\Documents\workspace-2019\2019-javadoc
