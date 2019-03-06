@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands.cargo;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -14,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ArticulateCargoIntake extends Command {
+
   private final Logger LOG = LogManager.getLogger(ArticulateCargoIntake.class);
   ArticulationPosition targetState;
 
@@ -26,7 +20,6 @@ public class ArticulateCargoIntake extends Command {
 
   @Override
   protected void initialize() {
-    Robot.cargoIntake.setArticulatorState(targetState);
     Robot.cargoIntake.getArticulator().setPosition(targetState.getTicks());
   }
 
@@ -42,14 +35,11 @@ public class ArticulateCargoIntake extends Command {
     return false;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
     LOG.info(getName() + " Ended");
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
     LOG.info(getName() + " Interrupted");
@@ -59,7 +49,7 @@ public class ArticulateCargoIntake extends Command {
   /**
    * HMMMM Is this number even?
    * @param num
-   * @return
+   * @return true if num is even, false otherwise
    */
   public boolean isEven(int num) {
     return (num & 1) == 0;

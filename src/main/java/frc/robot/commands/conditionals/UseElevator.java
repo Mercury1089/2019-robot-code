@@ -1,16 +1,13 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands.conditionals;
 
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import frc.robot.subsystems.Elevator.ElevatorPosition;
 import frc.robot.Robot;
 
+/**
+ * The command that should be used to run the elevator. 
+ * Runs the correct Safe elevator
+ */
 public class UseElevator extends ConditionalCommand {
 
   private ElevatorPosition targetPosition;
@@ -22,6 +19,6 @@ public class UseElevator extends ConditionalCommand {
 
   @Override
   public boolean condition() {
-    return Robot.elevator.getCurrentHeight() - targetPosition.encPos < 0; //true = up; false = down
+    return targetPosition.encPos - Robot.elevator.getCurrentHeight()> 0; //true = up; false = down
   }
 }

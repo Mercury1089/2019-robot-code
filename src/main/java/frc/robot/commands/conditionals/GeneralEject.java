@@ -16,8 +16,14 @@ import frc.robot.util.DriveAssist.DriveDirection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Ejects a game piece (cargo or hatch panel)
+ * depending on which way we are driving
+ */
 public class GeneralEject extends ConditionalCommand {
+
   private final Logger LOG = LogManager.getLogger(GeneralEject.class);
+  
   public GeneralEject() {
     super(new EjectHatchPanel(), new RunCargoManipulator(ShooterSpeed.FAST_EJECT));
     setName("GeneralEject ConditionalCommand");

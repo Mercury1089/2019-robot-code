@@ -16,7 +16,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class IntakeCargo extends CommandGroup {
+
   private final Logger LOG = LogManager.getLogger(IntakeCargo.class);
+  
   public IntakeCargo() {
     addParallel(new ArticulateCargoIntake(ArticulationPosition.OUT));
     addParallel(new RunCargoIntake(IntakeSpeed.FAST_IN));

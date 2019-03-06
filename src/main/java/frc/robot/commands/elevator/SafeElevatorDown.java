@@ -13,12 +13,16 @@ import frc.robot.commands.elevator.AutomaticElevator;
 import frc.robot.subsystems.CargoIntake.ArticulationPosition;
 import frc.robot.subsystems.Elevator.ElevatorPosition;
 
+/**
+ * It has been determined the elevator is moving down and may collide with the cargo intake.
+ * Therefore, we will move the intake and the elevator in such a way they don't do that.
+ */
 public class SafeElevatorDown extends CommandGroup {
   
   public SafeElevatorDown(ElevatorPosition targetPosition) {
     addSequential(new ArticulateCargoIntake(ArticulationPosition.ANGLED45));
     addParallel(new AutomaticElevator(ElevatorPosition.ROCKET_1_C));
-    addSequential(new AutomaticElevator(ElevatorPosition.BOTTOM));
+    addSequential(new AutomaticElevator(targetPosition));
     addSequential(new ArticulateCargoIntake(ArticulationPosition.IN));
   }
 }

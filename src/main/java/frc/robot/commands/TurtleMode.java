@@ -9,7 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.cargo.ArticulateCargoIntake;
-import frc.robot.commands.elevator.AutomaticElevator;
+import frc.robot.commands.conditionals.UseElevator;
 import frc.robot.commands.hatchpanel.ArticulateHatchPanel;
 import frc.robot.subsystems.CargoIntake.ArticulationPosition;
 import frc.robot.subsystems.Elevator.ElevatorPosition;
@@ -20,8 +20,8 @@ public class TurtleMode extends CommandGroup {
    * Stows the robot to starting position
    */
   public TurtleMode() {
-    addParallel(new AutomaticElevator(ElevatorPosition.BOTTOM));
-    addParallel(new ArticulateCargoIntake(ArticulationPosition.IN));
-    addSequential(new ArticulateHatchPanel(ArticulatorPosition.IN_BOT));
+    addSequential(new UseElevator(ElevatorPosition.BOTTOM));
+    addParallel(new ArticulateHatchPanel(ArticulatorPosition.IN_BOT));
+    addSequential(new ArticulateCargoIntake(ArticulationPosition.IN));
   }
 }

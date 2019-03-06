@@ -13,6 +13,10 @@ import frc.robot.commands.elevator.AutomaticElevator;
 import frc.robot.commands.elevator.SafeElevatorUp;
 import frc.robot.subsystems.Elevator.ElevatorPosition;
 
+/**
+ * Elevator is SAFE if: Elevator is currently below the danger line and it wants to go above the danger line
+ * Otherwise, elevator is UNSAFE
+ */
 public class SmartElevatorUp extends ConditionalCommand {
 
 	ElevatorPosition targetPosition;

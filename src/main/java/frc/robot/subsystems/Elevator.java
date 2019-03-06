@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.ParamEnum;
@@ -44,7 +37,7 @@ public class Elevator extends Subsystem {
         ROCKET_2_C(65000.0),    // 2rd level Rocket: Cargo
         ROCKET_1_C(38000.0),    // 1nd level Rocket: Cargo
         ROCKET_3_HP(25000.0),   // 3th level Rocket: Hatch Panel
-        ROCKET_2_HP(25000.0),     // 2st level Rocket: Hatch Panel
+        ROCKET_2_HP(25000.0),   // 2st level Rocket: Hatch Panel
         CARGOSHIP_C(7000.0),    // Cargo ship: Cargo
         BOTTOM(-2000.0);        // Elavator bottom, can do hatchpanel at loading station, rocket level 1, and cargo ship
 
@@ -83,7 +76,7 @@ public class Elevator extends Subsystem {
         elevatorLeader.configAllowableClosedLoopError(0, 5);
         elevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RobotMap.PID.PRIMARY_PID_LOOP);
         elevatorLeader.configSetParameter(ParamEnum.eClearPositionOnLimitR, 1, 0, 0);
-        elevatorLeader.setForwardSoftLimit(10000); //<-- Arbitrary
+        elevatorLeader.setForwardSoftLimit(10000); //TODO <-- Arbitrary
         elevatorLeader.enableForwardSoftLimit();
 
         elevatorLeader.configPID(Elevator.PRIMARY_PID_LOOP, new PIDGain(NORMAL_P_VAL, 0.0, 0.0, 0.0));

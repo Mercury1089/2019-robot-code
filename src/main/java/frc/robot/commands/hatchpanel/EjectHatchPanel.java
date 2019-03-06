@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands.hatchpanel;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,7 +6,11 @@ import frc.robot.util.interfaces.IMercMotorController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Spins the HatchPanel ejector one rotation to eject a hatch panel
+ */
 public class EjectHatchPanel extends Command {
+
   private final Logger LOG = LogManager.getLogger(EjectHatchPanel.class);
   private int targetPosition = 4096; //Make this a constant somewhere
   private IMercMotorController ejector;
@@ -29,20 +26,12 @@ public class EjectHatchPanel extends Command {
     onTargetCount = 0;
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     ejector.setPosition(ejector.getEncTicks() + targetPosition);
-
     LOG.info(getName() + " Initialized");
   }
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-  }
-
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     double error = ejector.getClosedLoopError();
@@ -64,15 +53,11 @@ public class EjectHatchPanel extends Command {
     return isFinished;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
-    ejector.stop();
     LOG.info(getName() + " Ended");
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
     LOG.info(getName() + " Interrupted");

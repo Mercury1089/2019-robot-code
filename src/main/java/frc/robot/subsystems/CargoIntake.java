@@ -14,25 +14,11 @@ import frc.robot.RobotMap.CAN;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.MercVictorSPX;
 
-/**
- * Add your docs here.
- */
 public class CargoIntake extends Subsystem {
+
   MercVictorSPX intake;
   MercTalonSRX articulator;
   ArticulationPosition currentState;
-
-  public enum ArticulationSpeed {
-    FAST_REVERSE(-1.0),
-    SLOW_REVERSE(-0.5),
-    SLOW_FORWARD(0.5),
-    FAST_FORWARD(1.0);
-    public final double SPEED;
-
-    ArticulationSpeed(double speed) {
-      SPEED = speed;
-    }
-  }
 
   public enum IntakeSpeed {
     FAST_IN(1.0),
@@ -71,8 +57,7 @@ public class CargoIntake extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    
   }
 
   public void setIntakeSpeed(IntakeSpeed intakeSpeed) {
@@ -81,13 +66,5 @@ public class CargoIntake extends Subsystem {
 
   public MercTalonSRX getArticulator() {
     return articulator;
-  }
-
-  public ArticulationPosition getArticulatorPosition() {
-    return this.currentState;
-  }
-
-  public void setArticulatorState(ArticulationPosition state) {
-    this.currentState = state;
   }
 }
