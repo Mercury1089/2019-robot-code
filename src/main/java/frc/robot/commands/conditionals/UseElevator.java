@@ -19,6 +19,6 @@ public class UseElevator extends ConditionalCommand {
 
   @Override
   public boolean condition() {
-    return targetPosition.encPos - Robot.elevator.getCurrentHeight()> 0; //true = up; false = down
+    return targetPosition.encPos - Robot.elevator.getCurrentHeight() > 0; //true = up; false = down
   }
 }

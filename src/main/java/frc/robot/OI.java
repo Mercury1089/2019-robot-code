@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.RobotMap.DS_USB;
 import frc.robot.RobotMap.GAMEPAD_BUTTONS;
 import frc.robot.RobotMap.JOYSTICK_BUTTONS;
+import frc.robot.auton.AutonMove;
 import frc.robot.commands.TurtleMode;
 import frc.robot.commands.cargo.ArticulateCargoIntake;
 import frc.robot.commands.cargo.RunCargoManipulator;
@@ -21,11 +22,14 @@ import frc.robot.commands.cargo.ManuallyIntakeCargo;
 //import frc.robot.commands.climber.Climb;
 import frc.robot.commands.conditionals.ConditionalLevel2Elevator;
 import frc.robot.commands.conditionals.ConditionalLevel3Elevator;
+import frc.robot.commands.conditionals.GeneralEject;
 import frc.robot.commands.conditionals.GeneralIntake;
 import frc.robot.commands.conditionals.UseElevator;
 import frc.robot.commands.drivetrain.DriveToTarget;
+import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.drivetrain.MoveOnPath;
 import frc.robot.commands.drivetrain.SwitchDriveDirection;
+import frc.robot.commands.drivetrain.DriveWithJoysticks.DriveType;
 import frc.robot.commands.elevator.AutomaticElevator;
 import frc.robot.commands.elevator.ManualElevator;
 import frc.robot.commands.hatchpanel.ArticulateHatchPanel;
@@ -99,33 +103,25 @@ public class OI {
     left4.whenPressed(new ArticulateHatchPanel(HatchArticulatorPosition.READY_TO_PICK));
     left5.whenPressed(new ArticulateHatchPanel(HatchArticulatorPosition.IN_BOT));
 
-    try {
-      left6.whenPressed(new MoveOnPath("LeftMiddle"));
-      left7.whenPressed(new MoveOnPath("LeftClose"));
-      left8.whenPressed(new MoveOnPath("MidLeft"));
-      left9.whenPressed(new MoveOnPath("MidRight"));
-      left10.whenPressed(new MoveOnPath("RightClose"));
-      left11.whenPressed(new MoveOnPath("RightMiddle"));
-    } catch(FileNotFoundException fnfe) {
-      System.out.println("Invalid file! " + fnfe.getMessage());
-    }
+    left6.whenPressed(new AutonMove("LeftMiddle"));
+    left7.whenPressed(new AutonMove("LeftClose"));
+    left8.whenPressed(new AutonMove("MidLeft"));
+    left9.whenPressed(new AutonMove("MidRight"));
+    left10.whenPressed(new AutonMove("RightClose"));
+    left11.whenPressed(new AutonMove("RightMiddle"));
 
-    right1.whenPressed(new RunCargoManipulator(ShooterSpeed.FAST_EJECT));
+    right1.whenPressed(new GeneralEject());
     right2.whenPressed(new SwitchDriveDirection(DriveDirection.CARGO));
-    right3.whenPressed(new ManuallyIntakeCargo());
+    right3.whenPressed(new ArticulateCargoIntake(CargoArticulatorPosition.IN));
     right4.whenPressed(new ArticulateCargoIntake(CargoArticulatorPosition.OUT));
-    right5.whenPressed(new ArticulateCargoIntake(CargoArticulatorPosition.IN));
+    right5.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
 
-    try {
-      right6.whenPressed(new MoveOnPath("LeftRocketFar"));
-      right7.whenPressed(new MoveOnPath("LeftRocketClose"));
-      right8.whenPressed(new MoveOnPath("MidLeft"));        /* PLACEHOLDER FOR GO TO STATION */
-      right9.whenPressed(new MoveOnPath("MidRight"));       /* PLACEHOLDER FOR GO TO STATION */
-      right10.whenPressed(new MoveOnPath("RightRocketClose"));
-      right11.whenPressed(new MoveOnPath("RightRocketFar"));
-    } catch(FileNotFoundException fnfe) {
-      System.out.println("Invalid file! " + fnfe.getMessage());
-    }
+    right6.whenPressed(new AutonMove("LeftRocketFar"));
+    right7.whenPressed(new AutonMove("LeftRocketClose"));
+    right8.whenPressed(new AutonMove("LeftStation"));        /* PLACEHOLDER FOR GO TO STATION */
+    right9.whenPressed(new AutonMove("RightStation"));       /* PLACEHOLDER FOR GO TO STATION */
+    right10.whenPressed(new AutonMove("RightRocketClose"));
+    right11.whenPressed(new AutonMove("RightRocketFar"));
 
     gamepadA.whenPressed(new UseElevator(ElevatorPosition.BOTTOM));
     gamepadB.whenPressed(new ManualElevator());
@@ -133,7 +129,7 @@ public class OI {
     gamepadY.whenPressed(new UseElevator(ElevatorPosition.ROCKET_1_C));
     gamepadLB.whenPressed(new ConditionalLevel2Elevator());
     gamepadRB.whenPressed(new ConditionalLevel3Elevator());
-    //gamepadBack.whenPressed(new Climb());
+    gamepadBack.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
     gamepadStart.whenPressed(new TurtleMode());
 
   }

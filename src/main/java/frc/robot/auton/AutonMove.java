@@ -21,7 +21,12 @@ public class AutonMove extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public AutonMove(MoveOnPath mop, DriveDirection driveDirection) {
+
+  public AutonMove(String pathname) {
+    this(pathname, Robot.driveTrain.getDirection());
+  }
+
+  public AutonMove(String pathname, DriveDirection driveDirection) {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -38,6 +43,15 @@ public class AutonMove extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
+
+    MoveOnPath mop = null;
+
+    try {
+      mop = new MoveOnPath(pathname);
+    } catch(FileNotFoundException fnfe) {
+      System.out.println("Not a path!");
+      fnfe.printStackTrace();
+    }
 
     addSequential(mop);
     if(Robot.driveTrain.getDirection() != driveDirection) {

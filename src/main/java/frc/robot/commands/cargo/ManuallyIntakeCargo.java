@@ -6,6 +6,7 @@ import frc.robot.subsystems.CargoManipulator.ShooterSpeed;
 
 /**
  * Seems useless, remove?
+ * >>NO -Srihari
  */
 @Deprecated
 public class ManuallyIntakeCargo extends CommandGroup {
