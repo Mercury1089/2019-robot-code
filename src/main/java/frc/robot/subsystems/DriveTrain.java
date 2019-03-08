@@ -312,8 +312,9 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     private void updateLEDs() {
         if(lidar.getDistance() <= CARGO_INTAKE_THRESHOLD) {
-            setLEDColor(LEDColor.BLUE);
+            setLEDColor(LEDColor.GREEN);
         }
+        
         else {
             setLEDColor(LEDColor.BLACK);
         }

@@ -34,7 +34,7 @@ public class ShuffleDash {
     public void updateDash() {
         // SmartDashboard.putString("Alliance Color", DriverStation.getInstance().getAlliance().toString());
 
-        // SmartDashboard.putNumber("Left Enc in ticks", Robot+.driveTrain.getLeftLeader().getEncTicks());
+        // SmartDashboard.putNumber("Left Enc in ticks", Robot.driveTrain.getLeftLeader().getEncTicks());
         // SmartDashboard.putNumber("Right Enc in ticks", Robot.driveTrain.getRightLeader().getEncTicks());
 
         SmartDashboard.putNumber("Left Enc in feet", Robot.driveTrain.getLeftEncPositionInFeet());

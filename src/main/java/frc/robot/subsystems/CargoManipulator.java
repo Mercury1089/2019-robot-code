@@ -15,14 +15,12 @@ import frc.robot.RobotMap.CAN;
 import frc.robot.sensors.LIDAR;
 import frc.robot.util.MercVictorSPX;
 
-/**
- * Add your docs here.
- */
 public class CargoManipulator extends Subsystem {
   private MercVictorSPX shooterLeft, shooterRight;
   private CANifier canifier;
   private LIDAR lidar;
   public static final double CARGO_IN_ROBOT_THRESH = 8.0;
+  private boolean isIntaking, isEjecting;
 
   public enum ShooterSpeed {
     FAST_INTAKE(-1.0),
@@ -75,5 +73,21 @@ public class CargoManipulator extends Subsystem {
   
   public boolean isCargoInRobot() {
     return Robot.cargoShooter.getLidar().getDistance() - CARGO_IN_ROBOT_THRESH <= 0;
+  }
+
+  public boolean isIntaking() {
+    return isIntaking;
+  }
+
+  public boolean isEjecting() {
+    return isEjecting;
+  }
+
+  public void setEjecting(boolean ejecting) {
+    isEjecting = ejecting;
+  }
+
+  public void setIntaking(boolean intaking) {
+    isIntaking = intaking;
   }
 }
