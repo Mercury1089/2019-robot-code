@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 import frc.robot.util.PIDGain;
 import frc.robot.util.DriveAssist.DriveDirection;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.CAN;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
@@ -314,7 +315,12 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         if(lidar.getDistance() <= CARGO_INTAKE_THRESHOLD) {
             setLEDColor(LEDColor.GREEN);
         }
-        
+        else if(Robot.cargoShooter.isEjecting()) {
+            setLEDColor(LEDColor.RED);
+        }
+        else if(Robot.cargoShooter.isIntaking()) {
+            setLEDColor(LEDColor.BLUE);
+        }
         else {
             setLEDColor(LEDColor.BLACK);
         }

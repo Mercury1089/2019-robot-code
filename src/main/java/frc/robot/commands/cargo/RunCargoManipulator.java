@@ -24,7 +24,10 @@ public class RunCargoManipulator extends Command {
   @Override
   protected void initialize() {
     if(targetState == ShooterSpeed.FAST_INTAKE || targetState == ShooterSpeed.SLOW_INTAKE) {
-      Robot.cargoShooter.;
+      Robot.cargoShooter.setIntaking(true);
+    }
+    else if(targetState == ShooterSpeed.FAST_EJECT || targetState == ShooterSpeed.SLOW_EJECT) {
+      Robot.cargoShooter.setEjecting(true);
     }
     startTimeMillis = System.currentTimeMillis();
     LOG.info(getName() + " Initialized");
@@ -47,6 +50,8 @@ public class RunCargoManipulator extends Command {
   @Override
   protected void end() {
     Robot.cargoShooter.setClawState(ShooterSpeed.STOP);
+    Robot.cargoShooter.setIntaking(false);
+    Robot.cargoShooter.setEjecting(false);
     LOG.info(getName() + " Ended");
   }
 
