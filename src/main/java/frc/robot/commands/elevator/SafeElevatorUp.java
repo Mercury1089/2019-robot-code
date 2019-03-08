@@ -9,7 +9,7 @@ package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.cargo.ArticulateCargoIntake;
-import frc.robot.subsystems.CargoIntake.ArticulationPosition;
+import frc.robot.subsystems.CargoIntake.CargoArticulatorPosition;
 import frc.robot.subsystems.Elevator.ElevatorPosition;
 
 /**
@@ -19,9 +19,9 @@ import frc.robot.subsystems.Elevator.ElevatorPosition;
 public class SafeElevatorUp extends CommandGroup {
 
   public SafeElevatorUp(ElevatorPosition targetPosition) {
-    addSequential(new ArticulateCargoIntake(ArticulationPosition.ANGLED45));
+    addSequential(new ArticulateCargoIntake(CargoArticulatorPosition.ANGLED45));
     addSequential(new AutomaticElevator(ElevatorPosition.ROCKET_1_C));
     addSequential(new AutomaticElevator(targetPosition));
-    addParallel(new ArticulateCargoIntake(ArticulationPosition.IN));
+    addParallel(new ArticulateCargoIntake(CargoArticulatorPosition.IN));
   }
 }

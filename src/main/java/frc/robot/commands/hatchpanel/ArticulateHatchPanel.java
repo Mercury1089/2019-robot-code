@@ -2,7 +2,7 @@ package frc.robot.commands.hatchpanel;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.HatchManipulator.ArticulatorPosition;
+import frc.robot.subsystems.HatchManipulator.HatchArticulatorPosition;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,18 +11,18 @@ import org.apache.logging.log4j.Logger;
  */
 public class ArticulateHatchPanel extends Command {
   private final Logger LOG = LogManager.getLogger(ArticulateHatchPanel.class);
-  private ArticulatorPosition state;
+  private HatchArticulatorPosition state;
   private final int POSITION_THRESHOLD = 500;
   private boolean endable = false;
 
-  public ArticulateHatchPanel(ArticulatorPosition state) {
+  public ArticulateHatchPanel(HatchArticulatorPosition state) {
     requires(Robot.hatchManipulator);
     setName("ArticulateHatchPanel Command");
     LOG.info(getName() + " Constructed");
     this.state = state;
   }
 
-  public ArticulateHatchPanel(ArticulatorPosition state, boolean endable) {
+  public ArticulateHatchPanel(HatchArticulatorPosition state, boolean endable) {
     this(state);
     this.endable = endable;
   }

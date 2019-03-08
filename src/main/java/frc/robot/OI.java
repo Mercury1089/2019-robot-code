@@ -29,10 +29,10 @@ import frc.robot.commands.drivetrain.SwitchDriveDirection;
 import frc.robot.commands.elevator.AutomaticElevator;
 import frc.robot.commands.elevator.ManualElevator;
 import frc.robot.commands.hatchpanel.ArticulateHatchPanel;
-import frc.robot.subsystems.CargoIntake.ArticulationPosition;
+import frc.robot.subsystems.CargoIntake.CargoArticulatorPosition;
 import frc.robot.subsystems.CargoManipulator.ShooterSpeed;
 import frc.robot.subsystems.Elevator.ElevatorPosition;
-import frc.robot.subsystems.HatchManipulator.ArticulatorPosition;
+import frc.robot.subsystems.HatchManipulator.HatchArticulatorPosition;
 import frc.robot.util.DriveAssist.DriveDirection;
 import frc.robot.util.ShuffleDash;
 
@@ -96,8 +96,8 @@ public class OI {
     left1.whenPressed(new GeneralIntake());
     left2.whenPressed(new SwitchDriveDirection(DriveDirection.HATCH));
     left3.whenPressed(new DriveToTarget());
-    left4.whenPressed(new ArticulateHatchPanel(ArticulatorPosition.READY_TO_PICK));
-    left5.whenPressed(new ArticulateHatchPanel(ArticulatorPosition.IN_BOT));
+    left4.whenPressed(new ArticulateHatchPanel(HatchArticulatorPosition.READY_TO_PICK));
+    left5.whenPressed(new ArticulateHatchPanel(HatchArticulatorPosition.IN_BOT));
 
     try {
       left6.whenPressed(new MoveOnPath("LeftMiddle"));
@@ -113,8 +113,8 @@ public class OI {
     right1.whenPressed(new RunCargoManipulator(ShooterSpeed.FAST_EJECT));
     right2.whenPressed(new SwitchDriveDirection(DriveDirection.CARGO));
     right3.whenPressed(new ManuallyIntakeCargo());
-    right4.whenPressed(new ArticulateCargoIntake(ArticulationPosition.OUT));
-    right5.whenPressed(new ArticulateCargoIntake(ArticulationPosition.IN));
+    right4.whenPressed(new ArticulateCargoIntake(CargoArticulatorPosition.OUT));
+    right5.whenPressed(new ArticulateCargoIntake(CargoArticulatorPosition.IN));
 
     try {
       right6.whenPressed(new MoveOnPath("LeftRocketFar"));

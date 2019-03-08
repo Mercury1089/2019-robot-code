@@ -2,16 +2,16 @@ package frc.robot.commands.cargo;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.CargoIntake.ArticulationPosition;
+import frc.robot.subsystems.CargoIntake.CargoArticulatorPosition;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ArticulateCargoIntake extends Command {
 
   private final Logger LOG = LogManager.getLogger(ArticulateCargoIntake.class);
-  ArticulationPosition targetState;
+  CargoArticulatorPosition targetState;
 
-  public ArticulateCargoIntake(ArticulationPosition targetState) {
+  public ArticulateCargoIntake(CargoArticulatorPosition targetState) {
     requires(Robot.cargoIntake);
     setName("ArticulateCargoIntake Command");
     LOG.info(getName() + " Constructed");

@@ -18,7 +18,7 @@ public class CargoIntake extends Subsystem {
 
   MercVictorSPX intake;
   MercTalonSRX articulator;
-  ArticulationPosition currentState;
+  CargoArticulatorPosition currentState;
 
   public enum IntakeSpeed {
     FAST_IN(1.0),
@@ -33,14 +33,14 @@ public class CargoIntake extends Subsystem {
     }
   }
 
-  public enum ArticulationPosition {
+  public enum CargoArticulatorPosition {
     IN(0.0),
     ANGLED45(0.5),
     OUT(1.0);
 
     private double ticks;
 
-    ArticulationPosition(double ticks) {
+    CargoArticulatorPosition(double ticks) {
       this.ticks = ticks;
     }
 

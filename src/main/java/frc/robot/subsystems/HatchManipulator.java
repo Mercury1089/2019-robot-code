@@ -22,7 +22,7 @@ import frc.robot.util.interfaces.IMercMotorController.LimitSwitchDirection;
 public class HatchManipulator extends Subsystem {
   private IMercMotorController ejector;
   private IMercMotorController articulator;
-  private ArticulatorPosition position;
+  private HatchArticulatorPosition position;
 
   public final int ARTICULATOR_PID_SLOT = 0;
   public final int EJECTOR_PID_SLOT = 0;
@@ -34,7 +34,7 @@ public class HatchManipulator extends Subsystem {
   public final int EJECTOR_THRESHOLD = 100;
   public final int ARTICULATOR_THRESHOLD = 100;
   
-  public enum ArticulatorPosition{
+  public enum HatchArticulatorPosition{
     //Temporary encoder tick values
     ACQUIRE(2500),
     READY_TO_PICK(1100),
@@ -42,7 +42,7 @@ public class HatchManipulator extends Subsystem {
 
     public int encPos;
 
-    ArticulatorPosition(int encPos){
+    HatchArticulatorPosition(int encPos){
       this.encPos = encPos;
     }
     
@@ -76,11 +76,11 @@ public class HatchManipulator extends Subsystem {
     return articulator;
   }
 
-  public ArticulatorPosition getArticulatorPosition(){
+  public HatchArticulatorPosition getArticulatorPosition(){
     return position;
   }
 
-  public void setArticulatorPosition(ArticulatorPosition newState){
+  public void setArticulatorPosition(HatchArticulatorPosition newState){
     position = newState;
     articulator.setPosition(newState.encPos);
   }
