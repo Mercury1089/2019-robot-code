@@ -10,21 +10,31 @@ import frc.robot.Robot;
  */
 public class ShuffleDash {
     private NetworkTableInstance ntInstance;
-    private SendableChooser sandstormFirstStep;
+    private SendableChooser<String> sandstormFirstStep;
 
     public ShuffleDash() {
         //new Notifier(this::updateDash).startPeriodic(0.020);
 
         ntInstance = NetworkTableInstance.getDefault();
 
-        sandstormFirstStep = new SendableChooser<String>();
-        sandstormFirstStep.addOption("Close Rocket", "CRocket");
+        sandstormFirstStep = new SendableChooser<>();
+        sandstormFirstStep.addOption("Left Close", "LeftClose");
+        sandstormFirstStep.addOption("Left Middle", "LeftMiddle");
+        sandstormFirstStep.addOption("Left Far", "LeftFar");
+        sandstormFirstStep.addOption("Left Rocket Close", "LeftRocketClose");
+        sandstormFirstStep.addOption("Left Rocket Far", "LeftRocketFar");
+        sandstormFirstStep.addOption("Mid Left", "MidLeft");
+        sandstormFirstStep.addOption("Mid Right", "MidRight");
+        sandstormFirstStep.addOption("Right Close", "RightClose");
+        sandstormFirstStep.addOption("Right Middle", "RightMiddle");
+        sandstormFirstStep.addOption("Right Far", "RightFar");
+        sandstormFirstStep.setDefaultOption("Straight", "StraightProfile");
     }
 
     public void updateDash() {
         // SmartDashboard.putString("Alliance Color", DriverStation.getInstance().getAlliance().toString());
 
-        // SmartDashboard.putNumber("Left Enc in ticks", Robot.driveTrain.getLeftLeader().getEncTicks());
+        // SmartDashboard.putNumber("Left Enc in ticks", Robot+.driveTrain.getLeftLeader().getEncTicks());
         // SmartDashboard.putNumber("Right Enc in ticks", Robot.driveTrain.getRightLeader().getEncTicks());
 
         SmartDashboard.putNumber("Left Enc in feet", Robot.driveTrain.getLeftEncPositionInFeet());
@@ -50,5 +60,9 @@ public class ShuffleDash {
         //SmartDashboard.putBoolean("Auton Initialized", ntInstance.getTable("AutonConfiguration").containsKey("startingPosition"));
 
         // SmartDashboard.putString("LED Output",Robot.claw.getCurrentLEDOutput()[0]+","+Robot.claw.getCurrentLEDOutput()[1]+","+Robot.claw.getCurrentLEDOutput()[2]);
+    }
+
+    public String getFirstStep() {
+        return sandstormFirstStep.getSelected();
     }
 }

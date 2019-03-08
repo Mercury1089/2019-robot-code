@@ -18,6 +18,7 @@ import frc.robot.subsystems.LimelightAssembly;
 //import frc.robot.subsystems.PDP;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
+import frc.robot.auton.AutonMove;
 import frc.robot.sensors.Limelight.LimelightLEDState;
 
 //import frc.robot.commands.ExampleCommand;
@@ -94,7 +95,7 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
   }
 
-  /**
+  /** 
    * This autonomous (along with the chooser code above) shows how to select
    * between different autonomous modes using the dashboard. The sendable chooser
    * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
@@ -109,11 +110,13 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.ON);
+
+    new AutonMove(oi.getAutonFirstStep()).start();
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
      * switch(autoSelected) { case "My Auto": autonomousCommand = new
      * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
-     * ExampleCommand(); break; }
+     * ExampleCommand(); break; 
      */
     
   }

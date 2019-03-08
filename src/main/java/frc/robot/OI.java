@@ -133,6 +133,10 @@ public class OI {
     gamepadStart.whenPressed(new TurtleMode());
 
   }
+
+  public String getAutonFirstStep() {
+    return shuffleDash.getFirstStep();
+  }
   
   public double getJoystickX(int port) {
     switch(port) {
