@@ -118,8 +118,8 @@ public class OI {
 
     right6.whenPressed(new AutonMove("LeftRocketFar"));
     right7.whenPressed(new AutonMove("LeftRocketClose"));
-    right8.whenPressed(new AutonMove("LeftStation"));        /* PLACEHOLDER FOR GO TO STATION */
-    right9.whenPressed(new AutonMove("RightStation"));       /* PLACEHOLDER FOR GO TO STATION */
+    //right8.whenPressed(new AutonMove("LeftStation"));        /* PLACEHOLDER FOR GO TO STATION */
+    //right9.whenPressed(new AutonMove("RightStation"));       /* PLACEHOLDER FOR GO TO STATION */
     right10.whenPressed(new AutonMove("RightRocketClose"));
     right11.whenPressed(new AutonMove("RightRocketFar"));
 
