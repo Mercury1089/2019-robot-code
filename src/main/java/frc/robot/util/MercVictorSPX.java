@@ -240,4 +240,8 @@ public class MercVictorSPX implements IMercMotorController {
     public double getClosedLoopError(int slotIdx) {
         return victorspx.getClosedLoopError(slotIdx);
     }
+
+    public void configFactoryReset() {
+        victorspx.configFactoryDefault();
+    }
 }

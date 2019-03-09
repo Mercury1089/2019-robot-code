@@ -244,4 +244,8 @@ public class MercTalonSRX implements IMercMotorController {
     public double getClosedLoopError(int slotIdx) {
         return talonsrx.getClosedLoopError(slotIdx);
     }
+
+    public void configFactoryReset() {
+        talonsrx.configFactoryDefault();
+    }
 }

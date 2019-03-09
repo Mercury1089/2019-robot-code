@@ -20,10 +20,10 @@ public class IntakeCargo extends CommandGroup {
   private final Logger LOG = LogManager.getLogger(IntakeCargo.class);
   
   public IntakeCargo() {
-    addSequential(new ArticulateCargoIntake(CargoArticulatorPosition.OUT));
+    //addSequential(new ArticulateCargoIntake(CargoArticulatorPosition.OUT));
     addParallel(new RunCargoIntake(IntakeSpeed.FAST_IN));
     addSequential(new RunCargoManipulator(ShooterSpeed.FAST_INTAKE));
-    addSequential(new ArticulateCargoIntake(CargoArticulatorPosition.IN));
+    //addSequential(new ArticulateCargoIntake(CargoArticulatorPosition.IN));
     setName("IntakeCargo CommandGroup");
     LOG.info(getName() + " Constructed");
   }

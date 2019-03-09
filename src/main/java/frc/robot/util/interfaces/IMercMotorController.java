@@ -192,4 +192,6 @@ public interface IMercMotorController {
     public void configMotionAcceleration(int sensorUnitsPer100msPerSec);
 
     public void configMotionCruiseVelocity(int sensorUnitsPer100ms);
+
+    public void configFactoryReset();
 }
