@@ -13,7 +13,6 @@ public class EjectHatchPanel extends Command {
 
   private final Logger LOG = LogManager.getLogger(EjectHatchPanel.class);
   private int targetPosition = 4096; //Make this a constant somewhere
-  private IMercMotorController ejector;
 
   private int onTargetCount;
   private final int ON_TARGET_MIN_COUNT = 5;
@@ -28,13 +27,13 @@ public class EjectHatchPanel extends Command {
 
   @Override
   protected void initialize() {
-    ejector.setPosition(ejector.getEncTicks() + targetPosition);
+    Robot.hatchManipulator.getEjector().setPosition(Robot.hatchManipulator.getEjector().getEncTicks() + targetPosition);
     LOG.info(getName() + " Initialized");
   }
 
   @Override
   protected boolean isFinished() {
-    double error = ejector.getClosedLoopError();
+    double error = Robot.hatchManipulator.getEjector().getClosedLoopError();
     boolean isFinished = false;
     boolean isOnTarget = (Math.abs(error) < Robot.hatchManipulator.EJECTOR_THRESHOLD);
 

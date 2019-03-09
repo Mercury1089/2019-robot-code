@@ -25,9 +25,11 @@ public class RunCargoManipulator extends Command {
   protected void initialize() {
     if(targetState == ShooterSpeed.FAST_INTAKE || targetState == ShooterSpeed.SLOW_INTAKE) {
       Robot.cargoShooter.setIntaking(true);
+      Robot.cargoShooter.setEjecting(false);
     }
     else if(targetState == ShooterSpeed.FAST_EJECT || targetState == ShooterSpeed.SLOW_EJECT) {
       Robot.cargoShooter.setEjecting(true);
+      Robot.cargoShooter.setIntaking(false);
     }
     startTimeMillis = System.currentTimeMillis();
     LOG.info(getName() + " Initialized");

@@ -36,9 +36,9 @@ public class HatchManipulator extends Subsystem {
   
   public enum HatchArticulatorPosition{
     //Temporary encoder tick values
-    ACQUIRE(2500),
+    ACQUIRE(0),
     READY_TO_PICK(1100),
-    IN_BOT(-2000);
+    IN_BOT(2000);
 
     public int encPos;
 
