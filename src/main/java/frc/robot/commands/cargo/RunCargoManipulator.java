@@ -44,7 +44,7 @@ public class RunCargoManipulator extends Command {
   @Override
   protected boolean isFinished() {
     if (targetState == ShooterSpeed.FAST_INTAKE || targetState == ShooterSpeed.SLOW_INTAKE) {
-      return Robot.cargoShooter.getLidar().getDistance() <= CargoManipulator.CARGO_IN_ROBOT_THRESH;
+      return Robot.cargoShooter.getLidar().getRawDistance() <= CargoManipulator.CARGO_IN_ROBOT_THRESH;
     }
     return System.currentTimeMillis() - startTimeMillis > timeThreshold;
   }

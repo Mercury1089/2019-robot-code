@@ -11,6 +11,7 @@ import com.ctre.phoenix.ParamEnum;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap.CAN;
+import frc.robot.commands.hatchpanel.EjectHatchPanel;
 import frc.robot.util.MercVictorSPX;
 import frc.robot.util.PIDGain;
 import frc.robot.util.MercTalonSRX;
@@ -33,7 +34,7 @@ public class HatchManipulator extends Subsystem {
   public final PIDGain articulatorGain = new PIDGain(0.1, 0.0, 0.0, 0.0, 0.75);
 
   //Config these   v
-  public final int EJECTOR_THRESHOLD = 100;
+  public final int EJECTOR_THRESHOLD = 500;
   public final int ARTICULATOR_THRESHOLD = 100;
   
   public enum HatchArticulatorPosition{
@@ -54,8 +55,14 @@ public class HatchManipulator extends Subsystem {
   }
 
   public HatchManipulator() {
-    ejector = new MercVictorSPX(CAN.HATCH_EJECTOR);
+    ejector = new MercTalonSRX(CAN.HATCH_EJECTOR);
     articulator = new MercTalonSRX(CAN.HATCH_INTAKE);
+
+    ejector.resetEncoder();
+    articulator.resetEncoder();
+
+    ejector.setPosition(0);
+    articulator.setPosition(0);
 
     ejector.configPID(EJECTOR_PID_SLOT, ejectorGain);
     articulator.configPID(ARTICULATOR_PID_SLOT, articulatorGain);
@@ -64,12 +71,11 @@ public class HatchManipulator extends Subsystem {
     articulator.configAllowableClosedLoopError(ARTICULATOR_PID_SLOT, ARTICULATOR_THRESHOLD);    
 
     articulator.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0);
+    articulator.configSetParameter(ParamEnum.eClearPositionOnLimitR, 1, 0, 0);
   }
 
-  @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new EjectHatchPanel(0));
   }
 
   public void setArticulatorSpeed(double speed) {
@@ -87,6 +93,10 @@ public class HatchManipulator extends Subsystem {
   public void setArticulatorPosition(HatchArticulatorPosition newState){
     position = newState;
     articulator.setPosition(newState.encPos);
+  }
+
+  public double getEjectorPosition() {
+    return ejector.getEncTicks();
   }
 
   public void setEjectorSpeed(double speed){

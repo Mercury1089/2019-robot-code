@@ -22,8 +22,8 @@ public class LimelightAssembly extends Subsystem {
   private LimelightPosition limeLightPosition;
 
   public enum LimelightPosition{
-    FACING_HATCH_PANEL(0.023, 1),
-    FACING_CARGO(0.94, 0);
+    FACING_HATCH_PANEL(0.94, 1),
+    FACING_CARGO(0.023, 0);
 
     public double servoPosition;
     public int pipeline;

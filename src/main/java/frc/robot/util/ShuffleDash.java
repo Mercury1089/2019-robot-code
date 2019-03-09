@@ -3,6 +3,7 @@ package frc.robot.util;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.util.interfaces.IMercMotorController.LimitSwitchDirection;
 import frc.robot.Robot;
 
 /**
@@ -57,6 +58,18 @@ public class ShuffleDash {
         SmartDashboard.putData("Sandstorm First Step", sandstormFirstStep);
 
         SmartDashboard.putBoolean("Elevator Limit Switch Closed", Robot.elevator.isLimitSwitchClosed());
+
+        SmartDashboard.putNumber("Elevator enc", Robot.elevator.getElevatorLeader().getEncTicks());
+        SmartDashboard.putNumber("Hatch pos", Robot.hatchManipulator.getEjectorPosition());
+
+        SmartDashboard.putNumber("Cargo Intake Enc", Robot.cargoIntake.getArticulator().getEncTicks());
+        SmartDashboard.putBoolean("Cargo Intake Fwd Limit", Robot.cargoIntake.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.FORWARD));
+        SmartDashboard.putBoolean("Cargo Intake Rwd Limit", Robot.cargoIntake.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.REVERSE));
+
+        SmartDashboard.putNumber("HatchPanel Intake Enc", Robot.hatchManipulator.getArticulatorPositionTicks());
+        SmartDashboard.putBoolean("HatchPanel Intake Fwd Limit", Robot.cargoIntake.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.FORWARD));
+        SmartDashboard.putBoolean("Cargo Intake Rwd Limit", Robot.cargoIntake.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.REVERSE));
+
 
         //SmartDashboard.putBoolean("Auton Initialized", ntInstance.getTable("AutonConfiguration").containsKey("startingPosition"));
 

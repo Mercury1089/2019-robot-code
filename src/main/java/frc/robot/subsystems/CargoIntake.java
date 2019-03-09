@@ -21,10 +21,10 @@ public class CargoIntake extends Subsystem {
   CargoArticulatorPosition currentState;
 
   public enum IntakeSpeed {
-    FAST_IN(1.0),
-    SLOW_IN(0.5),
-    SLOW_OUT(-0.5),
-    FAST_OUT(-1.0);
+    FAST_IN(-1.0),
+    SLOW_IN(-0.5),
+    SLOW_OUT(0.5),
+    FAST_OUT(1.0);
 
     public double speed;
 
@@ -34,9 +34,9 @@ public class CargoIntake extends Subsystem {
   }
 
   public enum CargoArticulatorPosition {
-    IN(0.0),
-    ANGLED45(0.5),
-    OUT(1.0);
+    IN(-1000),
+    ANGLED45(36300.0),
+    OUT(68000.0);
 
     private double ticks;
 

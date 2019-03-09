@@ -18,7 +18,10 @@ import frc.robot.subsystems.LimelightAssembly;
 //import frc.robot.subsystems.PDP;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
+import frc.robot.subsystems.LimelightAssembly.LimelightPosition;
+import frc.robot.util.DriveAssist.DriveDirection;
 import frc.robot.auton.AutonMove;
+import frc.robot.commands.drivetrain.SwitchDriveDirection;
 import frc.robot.sensors.Limelight.LimelightLEDState;
 
 //import frc.robot.commands.ExampleCommand;
@@ -132,6 +135,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.ON);
+    (new SwitchDriveDirection(DriveDirection.HATCH)).start();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

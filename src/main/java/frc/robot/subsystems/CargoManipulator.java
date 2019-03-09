@@ -19,7 +19,7 @@ public class CargoManipulator extends Subsystem {
   private MercVictorSPX shooterLeft, shooterRight;
   private CANifier canifier;
   private LIDAR lidar;
-  public static final double CARGO_IN_ROBOT_THRESH = 8.0;
+  public static final double CARGO_IN_ROBOT_THRESH = 10.0;
   private boolean isIntaking, isEjecting;
 
   public enum ShooterSpeed {
@@ -72,7 +72,7 @@ public class CargoManipulator extends Subsystem {
   }
   
   public boolean isCargoInRobot() {
-    return Robot.cargoShooter.getLidar().getDistance() - CARGO_IN_ROBOT_THRESH <= 0;
+    return Robot.driveTrain.getLidar().getDistance() - CARGO_IN_ROBOT_THRESH <= 0;
   }
 
   public boolean isIntaking() {
