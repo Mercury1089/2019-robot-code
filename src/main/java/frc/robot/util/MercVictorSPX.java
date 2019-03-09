@@ -134,7 +134,7 @@ public class MercVictorSPX implements IMercMotorController {
 
     @Override
     public void setForwardSoftLimit(int limitTicks) {
-        victorspx.configForwardSoftLimitThreshold(10000, RobotMap.CTRE_TIMEOUT);
+        victorspx.configForwardSoftLimitThreshold(limitTicks, RobotMap.CTRE_TIMEOUT);
     }
 
     @Override
@@ -145,6 +145,21 @@ public class MercVictorSPX implements IMercMotorController {
     @Override
     public void disableForwardSoftLimit() {
         victorspx.configForwardSoftLimitEnable(false, RobotMap.CTRE_TIMEOUT);
+    }
+
+    @Override
+    public void setReverseSoftLimit(int limitTicks) {
+        victorspx.configReverseSoftLimitThreshold(limitTicks, RobotMap.CTRE_TIMEOUT);
+    }
+
+    @Override
+    public void enableReverseSoftLimit() {
+        victorspx.configReverseSoftLimitEnable(true, RobotMap.CTRE_TIMEOUT);
+    }
+
+    @Override
+    public void disableReverseSoftLimit() {
+        victorspx.configReverseSoftLimitEnable(false, RobotMap.CTRE_TIMEOUT);
     }
 
     @Override

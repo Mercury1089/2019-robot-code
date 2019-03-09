@@ -176,6 +176,12 @@ public interface IMercMotorController {
 
     public void disableForwardSoftLimit();
 
+    public void setReverseSoftLimit(int limitTicks);
+
+    public void enableReverseSoftLimit();
+
+    public void disableReverseSoftLimit();
+
     //Below this line is motion magic stuff. Kyrag probably has something to do with this//
     //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-//
 

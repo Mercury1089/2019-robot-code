@@ -30,8 +30,8 @@ public class Limelight implements PIDSource, TableEntryListener {
     private final double areaCoeff = 6.64;
     private final double areaExp = -0.466;
 
-    private final double LIMELIGHT_HFOV_DEG = 59.6;
-    private final double LIMELIGHT_VFOV_DEG = 45.7;
+    //private final double LIMELIGHT_HFOV_DEG = 59.6;
+    //private final double LIMELIGHT_VFOV_DEG = 45.7;
 
     public enum LimelightLEDState {
         ON(3.0),
