@@ -74,13 +74,19 @@ public class RobotMap {
 		} // Should never be constructed.
 	}
 
+	public static class CANIFIER_PWM {
+		public static final int 
+			HATCH_LIDAR = 0,
+			CARGO_LIDAR = 1;
+		private CANIFIER_PWM() {
+		} // Should never be constructed.
+	}
+
 	/**
 	 * Class containing constants for PWM device channels
 	 */
 	public static class PWM {
-		public static final int 
-			LIDAR = 0,
-			LIMELIGHT_SERVO = 1;
+		public static final int LIMELIGHT_SERVO = 1;
 		private PWM() {
 		} // Should never be constructed.
 	}
