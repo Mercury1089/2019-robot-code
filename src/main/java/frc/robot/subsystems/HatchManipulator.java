@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.ParamEnum;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap.CAN;
 import frc.robot.util.MercVictorSPX;
@@ -60,6 +62,8 @@ public class HatchManipulator extends Subsystem {
 
     ejector.configAllowableClosedLoopError(EJECTOR_PID_SLOT, EJECTOR_THRESHOLD);
     articulator.configAllowableClosedLoopError(ARTICULATOR_PID_SLOT, ARTICULATOR_THRESHOLD);    
+
+    articulator.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0);
   }
 
   @Override

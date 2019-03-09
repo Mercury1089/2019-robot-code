@@ -75,7 +75,7 @@ public class Elevator extends Subsystem {
         elevatorLeader.configVoltage(0.125, 1.0);
         elevatorLeader.configAllowableClosedLoopError(0, 5);
         elevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RobotMap.PID.PRIMARY_PID_LOOP);
-        elevatorLeader.configSetParameter(ParamEnum.eClearPositionOnLimitR, 1, 0, 0);
+        elevatorLeader.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0);
         elevatorLeader.setForwardSoftLimit(10000); //TODO <-- Arbitrary
         elevatorLeader.enableForwardSoftLimit();
 
