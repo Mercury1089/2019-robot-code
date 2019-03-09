@@ -7,15 +7,10 @@
 
 package frc.robot.commands.drivetrain;
 
-import java.util.logging.LogManager;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FollowerType;
 
-import org.apache.logging.log4j.Logger;
-
-import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class DriveWithLidar extends MoveHeading {

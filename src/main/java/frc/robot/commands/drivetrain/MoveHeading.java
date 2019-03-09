@@ -10,17 +10,13 @@ package frc.robot.commands.drivetrain;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FollowerType;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.util.MercMath;
 import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveTrainSide;
-import frc.robot.util.MercTalonSRX;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -133,7 +129,7 @@ public class MoveHeading extends Command {
       onTargetCount = 0;
     }
 
-    return false;
+    return isFinished;
   }
 
   // Called once after isFinished returns true

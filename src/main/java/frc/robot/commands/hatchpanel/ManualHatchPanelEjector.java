@@ -9,7 +9,6 @@ package frc.robot.commands.hatchpanel;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.RobotMap.DS_USB;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

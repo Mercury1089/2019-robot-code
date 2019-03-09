@@ -2,7 +2,6 @@ package frc.robot.commands.hatchpanel;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.util.interfaces.IMercMotorController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -6,11 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import frc.robot.Robot;
 import frc.robot.RobotMap.DS_USB;
-import frc.robot.util.DelayableLogger;
 import frc.robot.util.DriveAssist;
 import frc.robot.subsystems.DriveTrain;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Command that puts the drive train into a manual control mode.
@@ -19,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class DriveWithJoysticks extends Command {
 	private DriveAssist tDrive;
 	private static Logger log = LogManager.getLogger(DriveWithJoysticks.class);
-	private DelayableLogger everySecond = new DelayableLogger(log, 10, TimeUnit.SECONDS);
+	//private DelayableLogger everySecond = new DelayableLogger(log, 10, TimeUnit.SECONDS);
 	private DriveType driveType;
 
 	public enum DriveType {
