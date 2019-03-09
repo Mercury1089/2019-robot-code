@@ -26,8 +26,6 @@ public class TrackTarget extends MoveHeading {
   private final Logger LOG = LogManager.getLogger(TrackTarget.class);
 
   public TrackTarget() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     super(0, 0);    
     setName("TrackTarget MoveHeading Command");
     LOG.info(getName() + " Constructed");

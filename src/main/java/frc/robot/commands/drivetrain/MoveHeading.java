@@ -43,8 +43,6 @@ public class MoveHeading extends Command {
    * @param heading heading to turn to for the pigeon
    */
   public MoveHeading(double distance, double heading) {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.driveTrain);
 
     left = Robot.driveTrain.getLeftLeader();
@@ -52,7 +50,7 @@ public class MoveHeading extends Command {
 
     moveThresholdTicks = 500;
     angleThresholdDeg = 5;
-    onTargetMinCount = 10;
+    onTargetMinCount = 4;
 
     dirFactor = Robot.driveTrain.getDirection().dir;
 
