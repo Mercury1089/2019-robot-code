@@ -17,6 +17,7 @@ import frc.robot.RobotMap.JOYSTICK_BUTTONS;
 import frc.robot.auton.AutonMove;
 import frc.robot.commands.TurtleMode;
 import frc.robot.commands.cargo.ArticulateCargoIntake;
+import frc.robot.commands.cargo.IntakeCargo;
 import frc.robot.commands.cargo.RunCargoManipulator;
 import frc.robot.commands.cargo.ManuallyIntakeCargo;
 //import frc.robot.commands.climber.Climb;
@@ -97,7 +98,7 @@ public class OI {
     gamepadLeftStickButton = new JoystickButton(gamepad, GAMEPAD_BUTTONS.L3);
     gamepadRightStickButton = new JoystickButton(gamepad, GAMEPAD_BUTTONS.R3);
 
-    left1.whenPressed(new GeneralIntake());
+    left1.whileHeld(new IntakeCargo()); 
     left2.whenPressed(new SwitchDriveDirection(DriveDirection.HATCH));
     left3.whenPressed(new DriveToTarget());
     left4.whenPressed(new ArticulateHatchPanel(HatchArticulatorPosition.READY_TO_PICK));

@@ -30,18 +30,20 @@ public class RunCargoIntake extends Command {
   protected boolean isFinished() {
     if (intakeSpeed == CargoIntake.IntakeSpeed.FAST_IN || intakeSpeed == CargoIntake.IntakeSpeed.SLOW_IN) {
       LOG.info(getName() + " isFinished");
-      return Robot.driveTrain.getLidar().getDistance() <= CargoManipulator.CARGO_IN_ROBOT_THRESH;
+      return Robot.driveTrain.getLidar().getRawDistance() <= CargoManipulator.CARGO_IN_ROBOT_THRESH;
     }
     return false;
   }
 
   @Override
   protected void end() {
+    Robot.cargoIntake.setIntakeSpeed(IntakeSpeed.OFF);
     LOG.info(getName() + " Ended");
   }
 
   @Override
   protected void interrupted() {
     LOG.info(getName() + " Interrupted");
+    end();
   }
 }

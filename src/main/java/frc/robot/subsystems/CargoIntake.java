@@ -25,6 +25,7 @@ public class CargoIntake extends Subsystem {
   public enum IntakeSpeed {
     FAST_IN(-1.0),
     SLOW_IN(-0.5),
+    OFF(0.0),
     SLOW_OUT(0.5),
     FAST_OUT(1.0);
 

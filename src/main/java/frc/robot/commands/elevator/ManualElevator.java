@@ -28,7 +28,7 @@ public class ManualElevator extends Command {
 
     @Override
     protected void execute() {
-      Robot.elevator.getElevatorLeader().setSpeed(MercMath.applyDeadzone(Robot.oi.getGamepadAxis(GAMEPAD_AXIS.rightY), 0.1));
+      Robot.elevator.getElevatorLeader().setSpeed(-MercMath.applyDeadzone(Robot.oi.getGamepadAxis(GAMEPAD_AXIS.rightY), 0.1));
     }
 
     @Override
