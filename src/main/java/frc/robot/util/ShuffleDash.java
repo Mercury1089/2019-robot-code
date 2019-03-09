@@ -48,8 +48,6 @@ public class ShuffleDash {
         SmartDashboard.putNumber("Ultrasonic Distance (Some unit)", Robot.driveTrain.getLeftUltrasonic().getDistance());
 
         SmartDashboard.putNumber("Lime Dist From Vertical", Robot.limelightAssembly.getLimeLight().getRawVertDistance());
-        SmartDashboard.putNumber("Robot Heading Offset from Target", Robot.limelightAssembly.getLimeLight().getRobotHeadingOffset());
-        SmartDashboard.putNumber("Robot Distance Offset from Target", Robot.limelightAssembly.getLimeLight().getRobotDistanceOffset());
         
         SmartDashboard.putNumber("Gyro Angle", Robot.driveTrain.getPigeonYaw());
 
@@ -57,7 +55,6 @@ public class ShuffleDash {
         SmartDashboard.putString("BackCamera", (Robot.driveTrain.getDirection() == DriveAssist.DriveDirection.HATCH) ? "Cargo" : "Panel");
         
         SmartDashboard.putData("Sandstorm First Step", sandstormFirstStep);
-
 
         SmartDashboard.putBoolean("Elevator Limit Switch Closed", Robot.elevator.isLimitSwitchClosed());
 

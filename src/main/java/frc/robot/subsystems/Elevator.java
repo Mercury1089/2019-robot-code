@@ -92,7 +92,7 @@ public class Elevator extends Subsystem {
     }
 
     public boolean isLimitSwitchClosed() {
-        return elevatorLeader.isLimitSwitchClosed(LimitSwitchDirection.REVERSE);
+        return elevatorLeader.isLimitSwitchClosed(LimitSwitchDirection.FORWARD);
     }
 
     /**

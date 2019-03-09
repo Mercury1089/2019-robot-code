@@ -5,7 +5,6 @@ import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import frc.robot.subsystems.LimelightAssembly.LimelightPosition;
-import frc.robot.util.MercMath;
 
 /**
  * A wrapper class for limelight information from the network table.
@@ -15,7 +14,7 @@ public class Limelight implements PIDSource, TableEntryListener {
     private double numTargets, targetCenterXAngle, targetCenterYAngle, targetArea, horizontalLength, verticalLength;
     private double[] cornerx;
     private boolean targetAcquired;
-    private final double limelightToCenterX = 13.0, limelightToCenterY = 15.5, safeTurnThreshold = 10.0, limelightResX = 320;
+    private final double safeTurnThreshold = 10.0, limelightResX = 320;
 
     /*
     * Coefficients and exponents to help find the distance of a target
@@ -30,12 +29,6 @@ public class Limelight implements PIDSource, TableEntryListener {
     private final double horizExp = -0.953;
     private final double areaCoeff = 6.64;
     private final double areaExp = -0.466;
-
-    //WARNING: Arbitrary values below v
-    private final double LIMELIGHT_TO_ROBOT_CENTER_CARGO_IN = 23.75; //Distance from the LL to the center of the cargo side
-    private final double LIMELIGHT_TO_ROBOT_CENTER_CARGO_DEG = 35.5; //Angle from the LL to the center of the cargo side
-    private final double LIMELIGHT_TO_ROBOT_CARGO_PLANE_IN = 21; //Distance from the LL to the plane of the cargo side
-    private final double HALF_ROBOT_FRAME_WIDTH_INCHES = 13;
 
     private final double LIMELIGHT_HFOV_DEG = 59.6;
     private final double LIMELIGHT_VFOV_DEG = 45.7;
@@ -252,37 +245,6 @@ public class Limelight implements PIDSource, TableEntryListener {
     }
 
     /**
-     * u need the robot distance to the target based on trig?
-     * @return the distance to target using the trig formulas
-     */
-    public synchronized double getRobotDistanceOffset() {
-        return this.calcRobotDistance();
-    }
-    /**
-     * u need the robot angle offset to the target based on trig?
-     * @return the distance to target using the trig formulas
-     */
-    public synchronized double getRobotHeadingOffset() {
-        return this.calcRobotHeading();
-    }
-
-    /**
-     * Calculating the robot heading by switching the coordinate plane the camera is on
-     * @return the heading from switching from cartesian to polar and back.
-     */
-    public double calcRobotHeading(){
-        return 0; //180 / Math.PI * Math.atan((this.calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle)) - RobotCenterX)/(calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle) - RobotCenterY)));
-    }
-
-    /**
-     * Calculating the robot distance by switching the coordinate plane the camera is on
-     * @return the distance from switching from cartesian to polar and back.
-     */
-    public double calcRobotDistance(){
-        return Math.sqrt(Math.pow(this.calcDistFromVert()*Math.sin(Math.toRadians(this.targetCenterXAngle)) - 9.5, 2) + Math.pow(this.calcDistFromVert()*Math.cos(Math.toRadians(this.targetCenterXAngle)) - 19.0, 2));
-    }
-
-    /**
      * Set the LED state on the limelight.
      * @param limelightLEDState the state of the LED.
      */
@@ -302,31 +264,5 @@ public class Limelight implements PIDSource, TableEntryListener {
             }
         }
         return true;
-    }
-    
-    /**
-     * DEPRECATED: We can just get the corner positions
-     * Get the x pixel coordinate of the target
-     * @return the pixel x-position of the target
-     */
-    @Deprecated
-    public synchronized double getTargetPixelXPos() {
-        double vpw = 2 * Math.tan(LIMELIGHT_HFOV_DEG / 2);
-        double x = Math.tan(targetCenterXAngle);
-        double nx = (2 * x) / vpw;
-        return 160 * nx + 159.5;
-    }
-
-    /**
-     * DEPRECATED: We can just get the corner positions
-     * Get the y pixel coordinate of the target
-     * @return the pixel y-position of the target
-     */
-    @Deprecated
-    public synchronized double getTargetPixelYPos() {
-        double vph = 2 * Math.tan(LIMELIGHT_VFOV_DEG / 2);
-        double y = Math.tan(targetCenterYAngle);
-        double ny = (2 * y) / vph;
-        return 120 * ny + 159.5;
     }
 }
