@@ -61,7 +61,7 @@ public class CargoIntake extends Subsystem {
 
     articulator.setSensorPhase(true);
 
-    articulator.configPID(0, new PIDGain(0.01, 0, 0, 0));
+    articulator.configPID(0, new PIDGain(0.05, 0, 0, 0));
 
     articulator.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0);
   }
