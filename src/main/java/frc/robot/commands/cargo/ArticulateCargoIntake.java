@@ -20,6 +20,7 @@ public class ArticulateCargoIntake extends Command {
 
   @Override
   protected void initialize() {
+    Robot.cargoIntake.updateArticulatorP(targetState.getP());
     Robot.cargoIntake.getArticulator().setPosition(targetState.getTicks());
   }
 

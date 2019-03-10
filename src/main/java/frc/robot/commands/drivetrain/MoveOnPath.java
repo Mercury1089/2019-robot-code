@@ -85,12 +85,12 @@ public class MoveOnPath extends Command {
         try {
             if (Robot.driveTrain.getDirection() == DriveDirection.CARGO) {
                 dir = -1;   
-                leftTrajCSV = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".left.pf1.csv");
-                rightTrajCSV = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".right.pf1.csv");
+                leftTrajCSV = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".right.pf1.csv");
+                rightTrajCSV = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".left.pf1.csv");
             } else if (Robot.driveTrain.getDirection() == DriveDirection.HATCH) {
                 dir = 1;   
-                leftTrajCSV = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".left.pf1.csv");
-                rightTrajCSV = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".right.pf1.csv");
+                leftTrajCSV = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".right.pf1.csv");
+                rightTrajCSV = new FileReader("/home/lvuser/deploy/trajectories/PathWeaver/output/" + filename + ".left.pf1.csv");
             }
             CSVFormat.RFC4180.withFirstRecordAsHeader().parse(leftTrajCSV).forEach(record -> trajectoryListLeft.add(record));
             CSVFormat.RFC4180.withFirstRecordAsHeader().parse(rightTrajCSV).forEach(record -> trajectoryListRight.add(record));

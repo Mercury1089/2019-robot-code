@@ -50,7 +50,7 @@ public class CargoManipulator extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new RunCargoIntake(IntakeSpeed.OFF));
+    
   }
 
   @Override

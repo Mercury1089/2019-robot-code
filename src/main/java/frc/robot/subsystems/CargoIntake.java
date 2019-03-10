@@ -36,20 +36,26 @@ public class CargoIntake extends Subsystem {
       this.speed = speed;
     }
   }
-
+        
   public enum CargoArticulatorPosition {
-    IN(5000),
-    ANGLED45(-36300.0),
-    OUT(-60000.0);
+    IN(100000, 0.45),
+    ANGLED45(-36300.0, 0.07),
+    OUT(-45000.0, 0.07);
 
     private double ticks;
+    private double p;
 
-    CargoArticulatorPosition(double ticks) {
+    CargoArticulatorPosition(double ticks, double p) {
       this.ticks = ticks;
+      this.p = p;
     }
 
     public double getTicks() {
       return ticks;
+    }
+
+    public double getP() {
+      return p;
     }
   }
 
@@ -62,9 +68,11 @@ public class CargoIntake extends Subsystem {
 
     articulator.setSensorPhase(true);
 
-    articulator.configPID(0, new PIDGain(0.07, 0.001, 0.001, 0));
-
     articulator.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0);
+  }
+
+  public void updateArticulatorP(double p) {
+    articulator.configPID(0, new PIDGain(p, 0.0, 0.0, 0));
   }
 
   @Override
