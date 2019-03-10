@@ -11,6 +11,7 @@ import com.ctre.phoenix.ParamEnum;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap.CAN;
+import frc.robot.commands.cargo.ArticulateCargoIntake;
 import frc.robot.commands.cargo.ManuallyArticulateCargoIntake;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.MercVictorSPX;
@@ -61,14 +62,14 @@ public class CargoIntake extends Subsystem {
 
     articulator.setSensorPhase(true);
 
-    articulator.configPID(0, new PIDGain(0.05, 0, 0, 0));
+    articulator.configPID(0, new PIDGain(0.07, 0.001, 0.001, 0));
 
     articulator.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0);
   }
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new ManuallyArticulateCargoIntake());
+    setDefaultCommand(new ArticulateCargoIntake(CargoArticulatorPosition.IN));
   }
 
   public void setIntakeSpeed(IntakeSpeed intakeSpeed) {

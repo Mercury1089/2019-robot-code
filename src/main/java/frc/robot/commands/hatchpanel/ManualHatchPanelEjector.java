@@ -9,6 +9,8 @@ package frc.robot.commands.hatchpanel;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,7 +18,7 @@ public class ManualHatchPanelEjector extends Command {
   private final Logger LOG = LogManager.getLogger(ManualHatchPanelEjector.class);
   private double speed;
 
-  public ManualHatchPanelEjector(double speed) {
+  public ManualHatchPanelEjector() {
     requires(Robot.hatchManipulator);
     setName("ManualHatchPanelEjector Command");
     LOG.info(getName() + " Constructed");
@@ -31,7 +33,7 @@ public class ManualHatchPanelEjector extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.hatchManipulator.setEjectorSpeed(speed);
+    Robot.hatchManipulator.setEjectorSpeed(Robot.oi.getGamepadAxis(RobotMap.GAMEPAD_AXIS.leftY));
     LOG.info(getName() + " Executed");
   }
 

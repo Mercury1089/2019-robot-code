@@ -12,7 +12,9 @@ import com.ctre.phoenix.CANifier;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.RobotMap.CAN;
+import frc.robot.commands.cargo.RunCargoIntake;
 import frc.robot.sensors.LIDAR;
+import frc.robot.subsystems.CargoIntake.IntakeSpeed;
 import frc.robot.util.MercVictorSPX;
 
 public class CargoManipulator extends Subsystem {
@@ -48,8 +50,7 @@ public class CargoManipulator extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new RunCargoIntake(IntakeSpeed.OFF));
   }
 
   @Override

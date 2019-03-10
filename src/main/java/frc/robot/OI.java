@@ -34,6 +34,7 @@ import frc.robot.commands.drivetrain.DriveWithJoysticks.DriveType;
 import frc.robot.commands.elevator.AutomaticElevator;
 import frc.robot.commands.elevator.ManualElevator;
 import frc.robot.commands.hatchpanel.ArticulateHatchPanel;
+import frc.robot.commands.hatchpanel.ManualHatchPanelEjector;
 import frc.robot.subsystems.CargoIntake.CargoArticulatorPosition;
 import frc.robot.subsystems.CargoManipulator.ShooterSpeed;
 import frc.robot.subsystems.Elevator.ElevatorPosition;
@@ -101,7 +102,7 @@ public class OI {
     left1.whileHeld(new IntakeCargo()); 
     left2.whenPressed(new SwitchDriveDirection(DriveDirection.HATCH));
     left3.whenPressed(new DriveToTarget());
-    left4.whenPressed(new ArticulateHatchPanel(HatchArticulatorPosition.READY_TO_PICK));
+    left4.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
     left5.whenPressed(new ArticulateHatchPanel(HatchArticulatorPosition.IN_BOT));
 
     left6.whenPressed(new AutonMove("LeftMiddle"));
@@ -115,7 +116,7 @@ public class OI {
     right2.whenPressed(new SwitchDriveDirection(DriveDirection.CARGO));
     right3.whenPressed(new ArticulateCargoIntake(CargoArticulatorPosition.IN));
     right4.whenPressed(new ArticulateCargoIntake(CargoArticulatorPosition.OUT));
-    right5.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
+    right5.whenPressed(new ArticulateCargoIntake(CargoArticulatorPosition.ANGLED45));
 
     right6.whenPressed(new AutonMove("LeftRocketFar"));
     right7.whenPressed(new AutonMove("LeftRocketClose"));
@@ -132,7 +133,7 @@ public class OI {
     gamepadRB.whenPressed(new ConditionalLevel3Elevator());
     gamepadBack.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
     gamepadStart.whenPressed(new TurtleMode());
-
+    gamepadLeftStickButton.whenPressed(new ManualHatchPanelEjector());
   }
 
   public String getAutonFirstStep() {
