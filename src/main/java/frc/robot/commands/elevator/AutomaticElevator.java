@@ -14,7 +14,7 @@ public class AutomaticElevator extends Command {
 
   private final Logger LOG = LogManager.getLogger(AutomaticElevator.class);
   private final DelayableLogger SLOW_LOG = new DelayableLogger(LOG, 1, TimeUnit.SECONDS);
-  private final int ELEVATOR_THRESHOLD = 500;
+  private final int ELEVATOR_THRESHOLD = 3000;
 
   private ElevatorPosition targetPos;
 
@@ -28,6 +28,12 @@ public class AutomaticElevator extends Command {
     setName("UseElevator (" + pos + ")");
     LOG.info(getName() + " Constructed");
   }
+
+  public AutomaticElevator(ElevatorPosition pos, boolean endable) {
+    this(pos);
+    endable = true;
+  }
+
   @Override
   protected void initialize() {
     Robot.elevator.setPosition(targetPos); //line switched with next

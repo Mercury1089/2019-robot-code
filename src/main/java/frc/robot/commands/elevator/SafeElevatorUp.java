@@ -19,9 +19,9 @@ import frc.robot.subsystems.Elevator.ElevatorPosition;
 public class SafeElevatorUp extends CommandGroup {
 
   public SafeElevatorUp(ElevatorPosition targetPosition) {
-    addSequential(new ArticulateCargoIntake(CargoArticulatorPosition.ANGLED45));
+    //addSequential(new ArticulateCargoIntake(CargoArticulatorPosition.ANGLED45));
     addSequential(new AutomaticElevator(ElevatorPosition.ROCKET_1_C));
-    addSequential(new AutomaticElevator(targetPosition));
-    addParallel(new ArticulateCargoIntake(CargoArticulatorPosition.IN));
+    addSequential(new AutomaticElevator(targetPosition, true));
+    //addParallel(new ArticulateCargoIntake(CargoArticulatorPosition.IN));
   }
 }

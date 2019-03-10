@@ -22,7 +22,6 @@ public class Elevator extends Subsystem {
     private IMercMotorController elevatorLeader;
 
     public static final double NORMAL_P_VAL = 0.1;
-    public static final double CLIMBING_P_VAL = 0.15;
 
     public static final int PRIMARY_PID_LOOP = 0;
 
@@ -33,13 +32,13 @@ public class Elevator extends Subsystem {
      */
     public enum ElevatorPosition {
         // TODO: Temporary Values
-        ROCKET_3_C(80000.0),    // 3st level Rocket: Cargo
-        ROCKET_2_C(65000.0),    // 2rd level Rocket: Cargo
-        ROCKET_1_C(38000.0),    // 1nd level Rocket: Cargo
-        ROCKET_3_HP(25000.0),   // 3th level Rocket: Hatch Panel
-        ROCKET_2_HP(25000.0),   // 2st level Rocket: Hatch Panel
-        CARGOSHIP_C(7000.0),    // Cargo ship: Cargo
-        BOTTOM(-2000.0);        // Elavator bottom, can do hatchpanel at loading station, rocket level 1, and cargo ship
+        ROCKET_3_C(914641.0),    // 3st level Rocket: Cargo
+        ROCKET_2_C(551295.0),    // 2rd level Rocket: Cargo
+        ROCKET_1_C(179359.0),    // 1nd level Rocket: Cargo
+        ROCKET_3_HP(678940.0),   // 3th level Rocket: Hatch Panel
+        ROCKET_2_HP(304939.0),   // 2st level Rocket: Hatch Panel
+        CARGOSHIP_C(195349.0),    // Cargo ship: Cargo
+        BOTTOM(-5000.0);        // Elavator bottom, can do hatchpanel at loading station, rocket level 1, and cargo ship
 
         public final double encPos;
 
@@ -71,12 +70,12 @@ public class Elevator extends Subsystem {
         elevatorLeader = new MercTalonSRX(CAN.ELEVATOR_TALON);
         elevatorLeader.setNeutralMode(NeutralMode.Brake);
 
-        elevatorLeader.setSensorPhase(true);
-        elevatorLeader.setInverted(false);
+        elevatorLeader.setSensorPhase(false);
+        elevatorLeader.setInverted(true);
         elevatorLeader.configVoltage(0.125, 1.0);
         elevatorLeader.configAllowableClosedLoopError(0, 5);
         elevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RobotMap.PID.PRIMARY_PID_LOOP);
-        elevatorLeader.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0);
+        elevatorLeader.configSetParameter(ParamEnum.eClearPositionOnLimitR, 1, 0, 0);
         //elevatorLeader.setReverseSoftLimit(10000); //TODO <-- Arbitrary
         //elevatorLeader.enableForwardSoftLimit();
         elevatorLeader.disableForwardSoftLimit();
@@ -95,7 +94,7 @@ public class Elevator extends Subsystem {
     }
 
     public boolean isLimitSwitchClosed() {
-        return elevatorLeader.isLimitSwitchClosed(LimitSwitchDirection.FORWARD);
+        return elevatorLeader.isLimitSwitchClosed(LimitSwitchDirection.REVERSE);
     }
 
     /**
