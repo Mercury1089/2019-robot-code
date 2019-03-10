@@ -24,7 +24,7 @@ public class ManuallyArticulateCargoIntake extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.cargoIntake.getArticulator().setSpeed(Robot.oi.getGamepadAxis(RobotMap.GAMEPAD_AXIS.leftX) * 0.5);
+    Robot.cargoIntake.getArticulator().setSpeed(-Robot.oi.getGamepadAxis(RobotMap.GAMEPAD_AXIS.leftY) * 0.5);
   }
 
   // Make this return true when this Command no longer needs to run execute()

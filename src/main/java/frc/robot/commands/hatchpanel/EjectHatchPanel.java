@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 public class EjectHatchPanel extends Command {
 
   private final Logger LOG = LogManager.getLogger(EjectHatchPanel.class);
-  private int targetPosition = 102000; //Make this a constant somewhere
+  private int targetPosition = 4096*20; //Make this a constant somewhere
 
   private int onTargetCount;
   private final int ON_TARGET_MIN_COUNT = 5;

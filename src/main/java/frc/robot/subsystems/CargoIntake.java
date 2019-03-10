@@ -38,7 +38,7 @@ public class CargoIntake extends Subsystem {
   }
         
   public enum CargoArticulatorPosition {
-    IN(100000, 0.45),
+    IN(100000, 0.15),
     ANGLED45(-36300.0, 0.07),
     OUT(-45000.0, 0.07);
 
@@ -69,6 +69,7 @@ public class CargoIntake extends Subsystem {
     articulator.setSensorPhase(true);
 
     articulator.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0);
+    articulator.configClosedLoopPeakOutput(0, 0.6);
   }
 
   public void updateArticulatorP(double p) {
@@ -77,7 +78,7 @@ public class CargoIntake extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new ArticulateCargoIntake(CargoArticulatorPosition.IN));
+    setDefaultCommand(new ManuallyArticulateCargoIntake());
   }
 
   public void setIntakeSpeed(IntakeSpeed intakeSpeed) {
