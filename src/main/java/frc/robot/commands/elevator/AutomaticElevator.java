@@ -31,7 +31,7 @@ public class AutomaticElevator extends Command {
 
   public AutomaticElevator(ElevatorPosition pos, boolean endable) {
     this(pos);
-    endable = true;
+    this.endable = endable;
   }
 
   @Override
