@@ -1,4 +1,5 @@
 package frc.robot.sensors;
+
 import com.ctre.phoenix.CANifier;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -8,46 +9,21 @@ import frc.robot.util.MercMath;
 /**
  * Wrapper class for the entire LIDAR system that we are using to check for distance.
  */
-public class LIDAR  implements PIDSource {
+public class LIDAR implements PIDSource {
+    private final double[] PWM_INPUT = new double[2];
     private CANifier canifier;
     private CANifier.PWMChannel pwmChannel;
-    private final double[] PWM_INPUT = new double[2];
     private PWMOffset equation;
 
     private LinearDigitalFilter linearDigitalFilter;
-
-    public enum PWMOffset {
-        EQUATION_A(-5.55, 1.0),
-        EQUATION_B(-4.67, 1.02),
-        EQUATION_C(-0.756, 0.996),
-        EQUATION_D(-1.33, 1.02),
-        DEFAULT(0, 0);
-
-        private final double CONSTANT, COEFFICIENT;
-
-        PWMOffset(double c, double coeff) {
-            CONSTANT = c;
-            COEFFICIENT = coeff;
-        }
-
-        /**
-         * Applies the offset equation to the given value
-         *
-         * @param value the raw value
-         * @return the new value, with the offset function applied to it.
-         */
-        public double apply(double value) {
-            return COEFFICIENT * value + CONSTANT;
-        }
-    };
 
     /**
      * Creates a new LIDAR by defining both the CANifier PWM channel that the
      * LIDAR is connected to, as well as the ID of the CANifier that the
      * LIDAR is connected to.
      *
-     * @param cFier    CANifier that LIDAR is connected to
-     * @param channel  PWMChannel of the LIDAR
+     * @param cFier   CANifier that LIDAR is connected to
+     * @param channel PWMChannel of the LIDAR
      */
     public LIDAR(CANifier cFier, CANifier.PWMChannel channel, PWMOffset o) {
         canifier = cFier;
@@ -59,6 +35,8 @@ public class LIDAR  implements PIDSource {
         // canifier(channel.value, true);
     }
 
+    ;
+
     /**
      * Updates the current duty cycle and period recieved
      * from the LIDAR.
@@ -66,7 +44,6 @@ public class LIDAR  implements PIDSource {
     public synchronized void updatePWMInput() {
         canifier.getPWMInput(pwmChannel, PWM_INPUT);
     }
-
 
     /**
      * Gets the distance from the LIDAR sensor.
@@ -81,7 +58,7 @@ public class LIDAR  implements PIDSource {
 
     /**
      * Get the distance reported by the LIDAR with a moving average provided by a LinearDigitalFilter
-     * 
+     *
      * @return the distance to the target
      */
     public synchronized double getDistance() {
@@ -110,6 +87,14 @@ public class LIDAR  implements PIDSource {
     }
 
     /**
+     * Get the PID source type
+     */
+    @Override
+    public PIDSourceType getPIDSourceType() {
+        return PIDSourceType.kDisplacement;
+    }
+
+    /**
      * Set the pid source type (Should not be implemented)
      */
     @Override
@@ -117,11 +102,28 @@ public class LIDAR  implements PIDSource {
 
     }
 
-    /**
-     * Get the PID source type
-     */
-    @Override
-    public PIDSourceType getPIDSourceType() {
-        return PIDSourceType.kDisplacement;
+    public enum PWMOffset {
+        EQUATION_A(-5.55, 1.0),
+        EQUATION_B(-4.67, 1.02),
+        EQUATION_C(-0.756, 0.996),
+        EQUATION_D(-1.33, 1.02),
+        DEFAULT(0, 0);
+
+        private final double CONSTANT, COEFFICIENT;
+
+        PWMOffset(double c, double coeff) {
+            CONSTANT = c;
+            COEFFICIENT = coeff;
+        }
+
+        /**
+         * Applies the offset equation to the given value
+         *
+         * @param value the raw value
+         * @return the new value, with the offset function applied to it.
+         */
+        public double apply(double value) {
+            return COEFFICIENT * value + CONSTANT;
+        }
     }
 }

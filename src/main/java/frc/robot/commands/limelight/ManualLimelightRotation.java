@@ -13,39 +13,39 @@ import org.apache.logging.log4j.Logger;
  */
 public class ManualLimelightRotation extends Command {
 
-  private final Logger LOG = LogManager.getLogger(ManualLimelightRotation.class);
+    private final Logger LOG = LogManager.getLogger(ManualLimelightRotation.class);
 
-  public ManualLimelightRotation() {
-    requires(Robot.limelightAssembly);
-    setName("ManualLimelightRotation Command");
-    LOG.info(getName() + " Constructed");
-  }
+    public ManualLimelightRotation() {
+        requires(Robot.limelightAssembly);
+        setName("ManualLimelightRotation Command");
+        LOG.info(getName() + " Constructed");
+    }
 
-  /**
-   * Use the position of gamepad joystick to rotate the limelight
-   */
-  @Override
-  protected void execute() {
-    Servo servo = Robot.limelightAssembly.getServo();
-    servo.setPosition(MercMath.clamp(servo.get() + MercMath.applyDeadzone(Robot.oi.getJoystickX(RobotMap.DS_USB.GAMEPAD), 0.1), 0.0, 1.0));
-    LOG.info(getName() + " Executed");
-  }
+    /**
+     * Use the position of gamepad joystick to rotate the limelight
+     */
+    @Override
+    protected void execute() {
+        Servo servo = Robot.limelightAssembly.getServo();
+        servo.setPosition(MercMath.clamp(servo.get() + MercMath.applyDeadzone(Robot.oi.getJoystickX(RobotMap.DS_USB.GAMEPAD), 0.1), 0.0, 1.0));
+        LOG.info(getName() + " Executed");
+    }
 
-  /**
-   *  Always return false; When we enable manual mode we have to re-enable automatic mode
-   */
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+    /**
+     * Always return false; When we enable manual mode we have to re-enable automatic mode
+     */
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
 
-  @Override
-  protected void end() {
-    LOG.info(getName() + " Ended");
-  }
+    @Override
+    protected void end() {
+        LOG.info(getName() + " Ended");
+    }
 
-  @Override
-  protected void interrupted() {
-    LOG.info(getName() + " Interrupted");
-  }
+    @Override
+    protected void interrupted() {
+        LOG.info(getName() + " Interrupted");
+    }
 }

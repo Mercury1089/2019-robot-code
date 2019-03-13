@@ -1,18 +1,9 @@
 package frc.robot.util;
 
 import com.ctre.phoenix.ParamEnum;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
 import frc.robot.RobotMap;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
-import com.ctre.phoenix.motorcontrol.SensorTerm;
-import com.ctre.phoenix.motorcontrol.StatusFrame;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.FollowerType;
-
 import frc.robot.util.interfaces.IMercMotorController;
 
 /**
@@ -29,11 +20,6 @@ public class MercVictorSPX implements IMercMotorController {
     }
 
     @Override
-    public void setSpeed(double speed) {
-        victorspx.set(ControlMode.PercentOutput, speed);
-    }
-
-    @Override
     public void setPosition(double ticks) {
         victorspx.set(ControlMode.Position, ticks);
     }
@@ -42,7 +28,12 @@ public class MercVictorSPX implements IMercMotorController {
     public double getSpeed() {
         return victorspx.get();
     }
-   
+
+    @Override
+    public void setSpeed(double speed) {
+        victorspx.set(ControlMode.PercentOutput, speed);
+    }
+
     @Override
     public void setInverted(boolean invert) {
         victorspx.setInverted(invert);
@@ -56,7 +47,7 @@ public class MercVictorSPX implements IMercMotorController {
     @Override
     public void follow(IMercMotorController leader) {
         if (leader instanceof MercTalonSRX) {
-            victorspx.follow(((MercTalonSRX)leader).get());
+            victorspx.follow(((MercTalonSRX) leader).get());
         }
     }
 
@@ -186,7 +177,7 @@ public class MercVictorSPX implements IMercMotorController {
     public void selectProfileSlot(int slotIdx, int pidIdx) {
         victorspx.selectProfileSlot(slotIdx, pidIdx);
     }
-    
+
     @Override
     public void configClosedLoopPeakOutput(int slotIdx, double peakOutput) {
         victorspx.configClosedLoopPeakOutput(slotIdx, peakOutput);
@@ -219,17 +210,18 @@ public class MercVictorSPX implements IMercMotorController {
 
     @Override
     public void follow(IMercMotorController leader, FollowerType followerType) {
-        if(leader instanceof MercTalonSRX) {
-            victorspx.follow(((MercTalonSRX)leader).get(), followerType);
-        }
-        else if(leader instanceof MercVictorSPX) {
-            victorspx.follow(((MercVictorSPX)leader).get(), followerType);
+        if (leader instanceof MercTalonSRX) {
+            victorspx.follow(((MercTalonSRX) leader).get(), followerType);
+        } else if (leader instanceof MercVictorSPX) {
+            victorspx.follow(((MercVictorSPX) leader).get(), followerType);
         }
     }
 
     //_________________________________________________________________________________
+
     /**
      * Get the VictorSPX tied to this class
+     *
      * @return the Victor
      */
     public WPI_VictorSPX get() {

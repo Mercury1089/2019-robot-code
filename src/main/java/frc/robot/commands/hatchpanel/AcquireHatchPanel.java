@@ -1,7 +1,7 @@
 package frc.robot.commands.hatchpanel;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.subsystems.HatchManipulator.HatchArticulatorPosition;
+import frc.robot.subsystems.Forks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,16 +11,16 @@ import org.apache.logging.log4j.Logger;
  * or not.
  */
 public class AcquireHatchPanel extends CommandGroup {
-  
-  private final Logger LOG = LogManager.getLogger(AcquireHatchPanel.class);
-  
-  /**
-   * Moves the Hatch Panel Pickup to the floor and then up slightly
-   */
-  public AcquireHatchPanel() {
-    addSequential(new ArticulateHatchPanel(HatchArticulatorPosition.ACQUIRE, true));
-    addSequential(new ArticulateHatchPanel(HatchArticulatorPosition.READY_TO_PICK));
-    setName("AcquireHatchPanel CommandGroup");
-    LOG.info(getName() + " Constructed");
-  }
+
+    private final Logger LOG = LogManager.getLogger(AcquireHatchPanel.class);
+
+    /**
+     * Moves the Hatch Panel Pickup to the floor and then up slightly
+     */
+    public AcquireHatchPanel() {
+        addSequential(new ArticulateForks(Forks.ForksPosition.GROUND, true));
+        addSequential(new ArticulateForks(Forks.ForksPosition.READY_TO_PICK));
+        setName("AcquireHatchPanel CommandGroup");
+        LOG.info(getName() + " Constructed");
+    }
 }

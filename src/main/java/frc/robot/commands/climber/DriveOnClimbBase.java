@@ -13,42 +13,43 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class DriveOnClimbBase extends Command {
-  private final Logger LOG = LogManager.getLogger(DriveOnClimbBase.class);
-  public DriveOnClimbBase() {
-    requires(Robot.climber);
-    setName("DriveOnClimbBase Command");
-    LOG.info(getName() + " Constructed");
-  }
+    private final Logger LOG = LogManager.getLogger(DriveOnClimbBase.class);
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-    LOG.info(getName() + " Initialized");
-  }
+    public DriveOnClimbBase() {
+        requires(Robot.climber);
+        setName("DriveOnClimbBase Command");
+        LOG.info(getName() + " Constructed");
+    }
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-    LOG.info(getName() + " Executed");
-  }
+    // Called just before this Command runs the first time
+    @Override
+    protected void initialize() {
+        LOG.info(getName() + " Initialized");
+    }
 
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+    // Called repeatedly when this Command is scheduled to run
+    @Override
+    protected void execute() {
+        LOG.info(getName() + " Executed");
+    }
 
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-    LOG.info(getName() + " Ended");
-  }
+    // Make this return true when this Command no longer needs to run execute()
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-    LOG.info(getName() + " Interrupted");
-  }
+    // Called once after isFinished returns true
+    @Override
+    protected void end() {
+        LOG.info(getName() + " Ended");
+    }
+
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    @Override
+    protected void interrupted() {
+        LOG.info(getName() + " Interrupted");
+    }
 
 }

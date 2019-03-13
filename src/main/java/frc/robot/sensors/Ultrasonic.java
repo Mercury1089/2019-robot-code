@@ -13,9 +13,8 @@ import edu.wpi.first.wpilibj.AnalogInput;
  * Add your docs here.
  */
 public class Ultrasonic {
-    AnalogInput ultrasonic;
-
     private final double SCALING_FACTOR = 5.0;
+    AnalogInput ultrasonic;
 
     public Ultrasonic(int port) {
         ultrasonic = new AnalogInput(port);

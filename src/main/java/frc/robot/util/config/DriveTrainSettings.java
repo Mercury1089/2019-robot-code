@@ -5,25 +5,12 @@ import java.util.Properties;
 /**
  * Class that allows user to interface with drivetrain.properties
  * config file with easy-to-access methods.
- *
+ * <p>
  * Note that this class should NOT be modified; if settings need to be
  * modified, edit the drivetrain.properties file.
  */
 @Deprecated
 public class DriveTrainSettings extends Config {
-
-    /**
-     * Enumeration of drivetrain layouts.
-     * <p>
-     * {@code DEFAULT}: 2 Victor SPX followers, 2 Talon SRX leaders
-     * <p>
-     * {@code LEGACY}: 2 Talon SRX followers, 2 Talon SRX leaders
-     */
-    public enum DriveTrainLayout {
-        SPARKS,
-        TALONS,
-        LEGACY
-    }
 
     private static Properties instance;
 
@@ -150,5 +137,18 @@ public class DriveTrainSettings extends Config {
         }
 
         return pid;
+    }
+
+    /**
+     * Enumeration of drivetrain layouts.
+     * <p>
+     * {@code DEFAULT}: 2 Victor SPX followers, 2 Talon SRX leaders
+     * <p>
+     * {@code LEGACY}: 2 Talon SRX followers, 2 Talon SRX leaders
+     */
+    public enum DriveTrainLayout {
+        SPARKS,
+        TALONS,
+        LEGACY
     }
 }
