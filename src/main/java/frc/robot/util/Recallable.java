@@ -1,8 +1,5 @@
 package frc.robot.util;
 
-/**
- * Interface to implement for objects that can recall commands.
- */
 public interface Recallable<T> {
     public T recall();
 

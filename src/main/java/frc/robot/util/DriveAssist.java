@@ -13,11 +13,12 @@ import java.util.concurrent.TimeUnit;
  * which can interfere with Controller's in closed-loop mode.
  */
 public class DriveAssist {
+
     private final Logger LOG = LogManager.getLogger(DriveAssist.class);
     private final DelayableLogger SLOW_LOG = new DelayableLogger(LOG, 10, TimeUnit.SECONDS);
     private final IMercMotorController LEFT_CONTROLLER, RIGHT_CONTROLLER;
     private double maxOutput = 1.0;
-    //private boolean invertDirection = false;
+
     private DriveDirection direction;
 
     /**
@@ -144,7 +145,7 @@ public class DriveAssist {
 
         public double dir;
 
-        private DriveDirection(double direction) {
+        DriveDirection(double direction) {
             dir = direction;
         }
     }

@@ -8,10 +8,8 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
 import frc.robot.util.interfaces.IMercMotorController;
 
-/**
- * Add your docs here.
- */
 public class MercTalonSRX implements IMercMotorController {
+
     private WPI_TalonSRX talonsrx;
     private int port;
 

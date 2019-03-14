@@ -11,21 +11,21 @@ public interface IMercMotorController {
      *
      * @param position the final position in ticks
      */
-    public void setPosition(double position);
+    void setPosition(double position);
 
     /**
      * Want the speed of the controller?
      *
      * @return the speed of the controller
      */
-    public double getSpeed();
+    double getSpeed();
 
     /**
      * Sets the relative speed of the controller.
      *
      * @param speed speed from -1 to 1
      */
-    public void setSpeed(double speed);
+    void setSpeed(double speed);
 
     //TODO implement this
     //public void set()
@@ -35,26 +35,26 @@ public interface IMercMotorController {
      *
      * @param invert Whether to invert or not
      */
-    public void setInverted(boolean invert);
+    void setInverted(boolean invert);
 
     /**
      * Follows the motor controller that is passed in. Will not do anything if it has to follow anything else.
      *
      * @param leader the controller to follow
      */
-    public void follow(IMercMotorController leader);
+    void follow(IMercMotorController leader);
 
     /**
      * Want the CAN ID of this controller?
      *
      * @return the CAN ID of this controller
      */
-    public int getPort();
+    int getPort();
 
     /**
      * STOP! You have been caught singing despacito 9: yodeling kid edition
      */
-    public void stop();
+    void stop();
 
     /**
      * Want the encoder position of the controller?
@@ -62,7 +62,7 @@ public interface IMercMotorController {
      *
      * @return the encoder position of the controller
      */
-    public double getEncTicks();
+    double getEncTicks();
 
     /**
      * Want the encoder velocity of the controller?
@@ -70,12 +70,12 @@ public interface IMercMotorController {
      *
      * @return the encoder velocity of the controller
      */
-    public double getEncVelo();
+    double getEncVelo();
 
     /**
      * Want to reset the encoder?
      */
-    public void resetEncoder();
+    void resetEncoder();
 
     /**
      * Want the error from setpoint?
@@ -83,7 +83,7 @@ public interface IMercMotorController {
      *
      * @return the error from setpoint in ticks
      */
-    public double getClosedLoopError();
+    double getClosedLoopError();
 
     /**
      * Want the error from setpoint from a specific slot?
@@ -91,7 +91,7 @@ public interface IMercMotorController {
      *
      * @return the error from setpoint in ticks
      */
-    public double getClosedLoopError(int slotIdx);
+    double getClosedLoopError(int slotIdx);
 
     /**
      * Configure PID for the motor controller
@@ -99,7 +99,7 @@ public interface IMercMotorController {
      * @param slot  slot to put it in
      * @param gains i got mad gains
      */
-    public void configPID(int slot, PIDGain gains);
+    void configPID(int slot, PIDGain gains);
 
     /**
      * Configure the min and max voltage.
@@ -108,14 +108,14 @@ public interface IMercMotorController {
      * @param nominalOutput min voltage
      * @param peakOutput    max voltage
      */
-    public void configVoltage(double nominalOutput, double peakOutput);
+    void configVoltage(double nominalOutput, double peakOutput);
 
     /**
      * Set the neutral mode - brake or coast
      *
      * @param neutralMode the NeutralMode to set it to
      */
-    public void setNeutralMode(NeutralMode neutralMode);
+    void setNeutralMode(NeutralMode neutralMode);
 
     /**
      * NOTE: This is a CTRE Method.
@@ -123,11 +123,11 @@ public interface IMercMotorController {
      *
      * @param bool whether the sensor follows forward motion (true) or not (false)
      */
-    public void setSensorPhase(boolean bool);
+    void setSensorPhase(boolean bool);
 
-    public void follow(IMercMotorController leader, FollowerType followerType);
+    void follow(IMercMotorController leader, FollowerType followerType);
 
-    public void set(ControlMode controlMode, double demand0, DemandType demand1Type, double demand1);
+    void set(ControlMode controlMode, double demand0, DemandType demand1Type, double demand1);
 
     /**
      * NOTE: This is a CTRE Method.
@@ -136,53 +136,53 @@ public interface IMercMotorController {
      * @param slotIdx                  the PID slot this applies to
      * @param allowableClosedLoopError the amount of error to allow.
      */
-    public void configAllowableClosedLoopError(int slotIdx, int allowableClosedLoopError);
+    void configAllowableClosedLoopError(int slotIdx, int allowableClosedLoopError);
 
-    public void configSelectedFeedbackSensor(FeedbackDevice FeedbackDevice, int pidIdx);
+    void configSelectedFeedbackSensor(FeedbackDevice FeedbackDevice, int pidIdx);
 
-    public void configSetParameter(ParamEnum param, double value, int subValue, int ordinal);
+    void configSetParameter(ParamEnum param, double value, int subValue, int ordinal);
 
-    public boolean isLimitSwitchClosed(LimitSwitchDirection limitSwitchDirection);
+    boolean isLimitSwitchClosed(LimitSwitchDirection limitSwitchDirection);
 
-    public void configSensorTerm(SensorTerm st, FeedbackDevice fd);
+    void configSensorTerm(SensorTerm st, FeedbackDevice fd);
 
-    public void configRemoteFeedbackFilter(int deviceID, RemoteSensorSource rss, int remoteSlotIdx);
+    void configRemoteFeedbackFilter(int deviceID, RemoteSensorSource rss, int remoteSlotIdx);
 
-    public void configSelectedFeedbackCoefficient(double fdbkScale, int pidIdx);
+    void configSelectedFeedbackCoefficient(double fdbkScale, int pidIdx);
 
-    public void setStatusFramePeriod(StatusFrame sf, int statusms);
+    void setStatusFramePeriod(StatusFrame sf, int statusms);
 
-    public void selectProfileSlot(int slotIdx, int pidIdx);
+    void selectProfileSlot(int slotIdx, int pidIdx);
 
-    public void configClosedLoopPeakOutput(int slotIdx, double peakOutput);
+    void configClosedLoopPeakOutput(int slotIdx, double peakOutput);
 
-    public void setForwardSoftLimit(int limitTicks);
+    void setForwardSoftLimit(int limitTicks);
 
-    public void enableForwardSoftLimit();
+    void enableForwardSoftLimit();
 
-    public void disableForwardSoftLimit();
+    void disableForwardSoftLimit();
 
-    public void setReverseSoftLimit(int limitTicks);
+    void setReverseSoftLimit(int limitTicks);
 
-    public void enableReverseSoftLimit();
+    void enableReverseSoftLimit();
 
-    public void disableReverseSoftLimit();
+    void disableReverseSoftLimit();
 
-    public void configClosedLoopPeriod(int slotIdx, int closedLoopTimeMs);
+    void configClosedLoopPeriod(int slotIdx, int closedLoopTimeMs);
 
     //Below this line is motion magic stuff. Kyrag probably has something to do with this//
     //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-//
 
-    public void configAuxPIDPolarity(boolean invert);
+    void configAuxPIDPolarity(boolean invert);
 
-    public void configMotionAcceleration(int sensorUnitsPer100msPerSec);
+    void configMotionAcceleration(int sensorUnitsPer100msPerSec);
 
-    public void configMotionCruiseVelocity(int sensorUnitsPer100ms);
+    void configMotionCruiseVelocity(int sensorUnitsPer100ms);
 
-    public void configFactoryReset();
+    void configFactoryReset();
 
-    public enum LimitSwitchDirection {
+    enum LimitSwitchDirection {
         FORWARD,
-        REVERSE;
+        REVERSE
     }
 }

@@ -6,9 +6,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import frc.robot.RobotMap;
 import frc.robot.util.interfaces.IMercMotorController;
 
-/**
- * Add your docs here.
- */
 public class MercVictorSPX implements IMercMotorController {
     private WPI_VictorSPX victorspx;
     private int port;
@@ -233,6 +230,7 @@ public class MercVictorSPX implements IMercMotorController {
         return victorspx.getClosedLoopError(slotIdx);
     }
 
+    @Override
     public void configFactoryReset() {
         victorspx.configFactoryDefault();
     }

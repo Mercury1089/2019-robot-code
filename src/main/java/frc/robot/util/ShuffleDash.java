@@ -6,10 +6,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.util.interfaces.IMercMotorController.LimitSwitchDirection;
 
-/**
- * Helper class to interface with the Shuffleboard Dashboard.
- */
 public class ShuffleDash {
+
     private NetworkTableInstance ntInstance;
     private SendableChooser<String> sandstormFirstStep;
 

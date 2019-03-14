@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -33,8 +26,6 @@ import frc.robot.subsystems.MouthArticulator;
 import frc.robot.util.DriveAssist.DriveDirection;
 import frc.robot.util.ShuffleDash;
 
-//import frc.robot.commands.climber.Climb;
-
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -57,40 +48,7 @@ public class OI {
 
         shuffleDash = new ShuffleDash();
 
-        left1 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN1);
-        left2 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN2);
-        left3 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN3);
-        left4 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN4);
-        left5 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN5);
-        left6 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN6);
-        left7 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN7);
-        left8 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN8);
-        left9 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN9);
-        left10 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN10);
-        left11 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN11);
-
-        right1 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN1);
-        right2 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN2);
-        right3 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN3);
-        right4 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN4);
-        right5 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN5);
-        right6 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN6);
-        right7 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN7);
-        right8 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN8);
-        right9 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN9);
-        right10 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN10);
-        right11 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN11);
-
-        gamepadA = new JoystickButton(gamepad, GAMEPAD_BUTTONS.A);
-        gamepadB = new JoystickButton(gamepad, GAMEPAD_BUTTONS.B);
-        gamepadX = new JoystickButton(gamepad, GAMEPAD_BUTTONS.X);
-        gamepadY = new JoystickButton(gamepad, GAMEPAD_BUTTONS.Y);
-        gamepadRB = new JoystickButton(gamepad, GAMEPAD_BUTTONS.RB);
-        gamepadLB = new JoystickButton(gamepad, GAMEPAD_BUTTONS.LB);
-        gamepadBack = new JoystickButton(gamepad, GAMEPAD_BUTTONS.BACK);
-        gamepadStart = new JoystickButton(gamepad, GAMEPAD_BUTTONS.START);
-        gamepadLeftStickButton = new JoystickButton(gamepad, GAMEPAD_BUTTONS.L3);
-        gamepadRightStickButton = new JoystickButton(gamepad, GAMEPAD_BUTTONS.R3);
+        initalizeJoystickButtons();
 
         left1.whileHeld(new IntakeCargo());
         left2.whenPressed(new SwitchDriveDirection(DriveDirection.HATCH));
@@ -172,5 +130,42 @@ public class OI {
 
     public void updateDash() {
         shuffleDash.updateDash();
+    }
+
+    private void initalizeJoystickButtons() {
+        left1 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN1);
+        left2 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN2);
+        left3 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN3);
+        left4 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN4);
+        left5 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN5);
+        left6 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN6);
+        left7 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN7);
+        left8 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN8);
+        left9 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN9);
+        left10 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN10);
+        left11 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN11);
+
+        right1 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN1);
+        right2 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN2);
+        right3 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN3);
+        right4 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN4);
+        right5 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN5);
+        right6 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN6);
+        right7 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN7);
+        right8 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN8);
+        right9 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN9);
+        right10 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN10);
+        right11 = new JoystickButton(rightJoystick, JOYSTICK_BUTTONS.BTN11);
+
+        gamepadA = new JoystickButton(gamepad, GAMEPAD_BUTTONS.A);
+        gamepadB = new JoystickButton(gamepad, GAMEPAD_BUTTONS.B);
+        gamepadX = new JoystickButton(gamepad, GAMEPAD_BUTTONS.X);
+        gamepadY = new JoystickButton(gamepad, GAMEPAD_BUTTONS.Y);
+        gamepadRB = new JoystickButton(gamepad, GAMEPAD_BUTTONS.RB);
+        gamepadLB = new JoystickButton(gamepad, GAMEPAD_BUTTONS.LB);
+        gamepadBack = new JoystickButton(gamepad, GAMEPAD_BUTTONS.BACK);
+        gamepadStart = new JoystickButton(gamepad, GAMEPAD_BUTTONS.START);
+        gamepadLeftStickButton = new JoystickButton(gamepad, GAMEPAD_BUTTONS.L3);
+        gamepadRightStickButton = new JoystickButton(gamepad, GAMEPAD_BUTTONS.R3);
     }
 }
