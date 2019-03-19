@@ -9,6 +9,7 @@ public class HoldPosition extends Command {
     private IMercMotorController elevatorMotor;
 
     public HoldPosition() {
+        requires(Robot.elevator);
         elevatorMotor = Robot.elevator.getElevatorLeader();
     }
 

@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap.CAN;
 import frc.robot.commands.cargo.ManuallyArticulateMouth;
+import frc.robot.commands.cargo.RunMouthIntake;
 import frc.robot.util.MercVictorSPX;
 import frc.robot.util.interfaces.IMercMotorController;
 
@@ -22,7 +23,7 @@ public class MouthIntaker extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new ManuallyArticulateMouth());
+        setDefaultCommand(new RunMouthIntake(MouthIntaker.IntakeState.IDLE));
     }
 
     public IMercMotorController getIntaker() {

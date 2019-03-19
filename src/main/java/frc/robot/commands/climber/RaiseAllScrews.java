@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.climber;
+/*package frc.robot.commands.climber;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
@@ -50,7 +50,7 @@ public class RaiseAllScrews extends Command {
         //onTargetCount = 0;
         //initialCheckCount = 0;
 
-        /* Motion Magic Configurations */
+        /* Motion Magic Configurations *//*
         backRight.configMotionAcceleration(1000);
         backRight.configMotionCruiseVelocity(1000); //TEMP VALUE
         front.configMotionAcceleration(1000);
@@ -103,3 +103,4 @@ public class RaiseAllScrews extends Command {
         end();
     }
 }
+*/

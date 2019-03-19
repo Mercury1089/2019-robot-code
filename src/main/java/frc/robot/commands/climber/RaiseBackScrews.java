@@ -4,7 +4,7 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
+/*
 package frc.robot.commands.climber;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -53,7 +53,7 @@ public class RaiseBackScrews extends Command {
         //onTargetCount = 0;
         //initialCheckCount = 0;
 
-        /* Motion Magic Configurations */
+        /* Motion Magic Configurations *//*
         backRight.configMotionAcceleration(1000);
         backRight.configMotionCruiseVelocity(1000); //TEMP VALUE
         front.configMotionAcceleration(1000);
@@ -105,3 +105,4 @@ public class RaiseBackScrews extends Command {
         end();
     }
 }
+*/

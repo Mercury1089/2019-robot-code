@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.subsystems.Forks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import frc.robot.commands.hatchpanel.ArticulateForks;
 
 /**
  * Command group that controls the hatch intake. The hatch intake will go down to the floor

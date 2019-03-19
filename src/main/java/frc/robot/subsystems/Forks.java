@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.ParamEnum;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.hatchpanel.ArticulateForks;
 import frc.robot.commands.hatchpanel.RunStinger;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.PIDGain;
@@ -37,7 +38,7 @@ public class Forks extends Subsystem {
     }
 
     public void initDefaultCommand() {
-        setDefaultCommand(new RunStinger(0));
+        setDefaultCommand(new ArticulateForks(ForksPosition.IN_BOT));
     }
 
     public void setForksSpeed(double speed) {
