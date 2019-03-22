@@ -1,4 +1,4 @@
-package frc.robot.commands;
+/*package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
  * info about power, voltage, amps, current, etc.
  *
  */
-public class LogPDPInfo extends Command {
+/*public class LogPDPInfo extends Command {
     private Logger log = LogManager.getLogger(LogPDPInfo.class);
 	private static final DateTimeFormatter fileTimestampFormat = DateTimeFormatter.ofPattern("MMdd_HHmmss");
 	private static final DateTimeFormatter statusTimestampFormat = DateTimeFormatter.ofPattern("HH:mm:ss.SSS a");
@@ -147,3 +147,4 @@ public class LogPDPInfo extends Command {
 		end();
 	}
 }
+*/

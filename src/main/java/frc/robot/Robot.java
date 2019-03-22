@@ -8,14 +8,21 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.CargoManipulator;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.PDP;
-import frc.robot.auton.AutonCommand;
-import frc.robot.RobotMap.CAN;
+import frc.robot.subsystems.CargoIntake;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.HatchManipulator;
+import frc.robot.subsystems.LimelightAssembly;
+//import frc.robot.subsystems.PDP;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
+import frc.robot.subsystems.LimelightAssembly.LimelightPosition;
+import frc.robot.util.DriveAssist.DriveDirection;
+import frc.robot.auton.AutonMove;
+import frc.robot.commands.drivetrain.SwitchDriveDirection;
+import frc.robot.sensors.Limelight.LimelightLEDState;
 
 //import frc.robot.commands.ExampleCommand;
 //import frc.robot.subsystems.ExampleSubsystem;
@@ -26,56 +33,64 @@ import frc.robot.RobotMap.CAN;
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the build.gradle file in the
  * project.
+ * 
+ * GUYS, WE FOUND THE ROBOT
  */
-public class Robot extends TimedRobot  {
-  //public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
+public class Robot extends TimedRobot {
+
   public static DriveTrain driveTrain;
-	public static PDP pdp;
+  // public static PDP pdp;
+  public static LimelightAssembly limelightAssembly;
+  public static CargoIntake cargoIntake;
+  public static CargoManipulator cargoShooter;
+  public static HatchManipulator hatchManipulator;
+  public static Elevator elevator;
+  public static Climber climber;
 
-	private AutonCommand autonCommand;
+  public static OI oi;
 
-	public static OI oi;
   /**
-   * This function is run when the robot is first started up and should be
-   * used for any initialization code.
+   * This function is run when the robot is first started up and should be used
+   * for any initialization code.
    */
   @Override
   public void robotInit() {
-    
-    driveTrain = new DriveTrain(
-			CAN.DRIVETRAIN_ML,
-			CAN.DRIVETRAIN_MR,
-			CAN.DRIVETRAIN_SL,
-			CAN.DRIVETRAIN_SR
-		);
 
-		driveTrain.resetEncoders();
+    driveTrain = new DriveTrain(DriveTrainLayout.TALONS);
 
-		pdp = new PDP();
+    // pdp = new PDP();
+    cargoIntake = new CargoIntake();
+    cargoShooter = new CargoManipulator();
+    elevator = new Elevator();
+    hatchManipulator = new HatchManipulator();
+    climber = new Climber();
+    limelightAssembly = new LimelightAssembly();
 
-		// OI NEEDS to be constructed as the last line for everything to work.
-		oi = new OI();
+    oi = new OI();
   }
 
   /**
-   * This function is called every robot packet, no matter the mode. Use
-   * this for items like diagnostics that you want ran during disabled,
-   * autonomous, teleoperated and test.
+   * This function is called every robot packet, no matter the mode. Use this for
+   * items like diagnostics that you want ran during disabled, autonomous,
+   * teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
+   * <p>
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
+    oi.updateDash();
   }
 
   /**
-   * This function is called once each time the robot enters Disabled mode.
-   * You can use it to reset any subsystem information you want to clear when
-   * the robot is disabled.
+   * This function is called once each time the robot enters Disabled mode. You
+   * can use it to reset any subsystem information you want to clear when the
+   * robot is disabled.
    */
   @Override
   public void disabledInit() {
+    limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.OFF);
   }
 
   @Override
@@ -83,31 +98,30 @@ public class Robot extends TimedRobot  {
     Scheduler.getInstance().run();
   }
 
-  /**
+  /** 
    * This autonomous (along with the chooser code above) shows how to select
-   * between different autonomous modes using the dashboard. The sendable
-   * chooser code works with the Java SmartDashboard. If you prefer the
-   * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-   * getString code to get the auto name from the text box below the Gyro
+   * between different autonomous modes using the dashboard. The sendable chooser
+   * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
+   * remove all of the chooser code and uncomment the getString code to get the
+   * auto name from the text box below the Gyro
    *
-   * <p>You can add additional auto modes by adding additional commands to the
-   * chooser code above (like the commented example) or additional comparisons
-   * to the switch structure below with additional strings & commands.
+   * <p>
+   * You can add additional auto modes by adding additional commands to the
+   * chooser code above (like the commented example) or additional comparisons to
+   * the switch structure below with additional strings & commands.
    */
   @Override
   public void autonomousInit() {
+    limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.ON);
 
+    new AutonMove(oi.getAutonFirstStep()).start();
     /*
-     * String autoSelected = SmartDashboard.getString("Auto Selector",
-     * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-     * = new MyAutoCommand(); break; case "Default Auto": default:
-     * autonomousCommand = new ExampleCommand(); break; }
+     * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
+     * switch(autoSelected) { case "My Auto": autonomousCommand = new
+     * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
+     * ExampleCommand(); break; 
      */
-
-    // schedule the autonomous command (example)
-    if (autonCommand != null) {
-      autonCommand.start();
-    }
+    
   }
 
   /**
@@ -120,13 +134,12 @@ public class Robot extends TimedRobot  {
 
   @Override
   public void teleopInit() {
+    limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.ON);
+    (new SwitchDriveDirection(DriveDirection.HATCH)).start();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (autonCommand != null) {
-      autonCommand.cancel();
-    }
   }
 
   /**
@@ -142,5 +155,7 @@ public class Robot extends TimedRobot  {
    */
   @Override
   public void testPeriodic() {
+    super.testInit();
+    limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.ON);
   }
 }

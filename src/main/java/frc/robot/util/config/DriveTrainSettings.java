@@ -9,6 +9,7 @@ import java.util.Properties;
  * Note that this class should NOT be modified; if settings need to be
  * modified, edit the drivetrain.properties file.
  */
+@Deprecated
 public class DriveTrainSettings extends Config {
 
     /**

@@ -8,6 +8,7 @@ import java.util.Properties;
  * This needs to be initialized prior to usage.
  * This should not be instantiated, rather other classes need to implement it.
  */
+@Deprecated
 public abstract class Config {
     private static Properties instance;
 

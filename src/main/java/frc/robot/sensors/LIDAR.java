@@ -19,7 +19,8 @@ public class LIDAR  implements PIDSource {
     public enum PWMOffset {
         EQUATION_A(-5.55, 1.0),
         EQUATION_B(-4.67, 1.02),
-        EQUATION_C(-1.85, 1.01),
+        EQUATION_C(-0.756, 0.996),
+        EQUATION_D(-1.33, 1.02),
         DEFAULT(0, 0);
 
         private final double CONSTANT, COEFFICIENT;
@@ -62,7 +63,7 @@ public class LIDAR  implements PIDSource {
      * Updates the current duty cycle and period recieved
      * from the LIDAR.
      */
-    public void updatePWMInput() {
+    public synchronized void updatePWMInput() {
         canifier.getPWMInput(pwmChannel, PWM_INPUT);
     }
 
@@ -73,12 +74,17 @@ public class LIDAR  implements PIDSource {
      * @return raw distance from LIDAR, with applied offset
      */
     @Override
-    public double pidGet() {
+    public synchronized double pidGet() {
         // Apply offset equation
         return equation.apply(getRawDistance());
     }
 
-    public double getDistance() {
+    /**
+     * Get the distance reported by the LIDAR with a moving average provided by a LinearDigitalFilter
+     * 
+     * @return the distance to the target
+     */
+    public synchronized double getDistance() {
         return linearDigitalFilter.pidGet();
     }
 
@@ -87,12 +93,10 @@ public class LIDAR  implements PIDSource {
      *
      * @return the distance sensed from the LIDAR, in inches
      */
-    public double getRawDistance() {
+    public synchronized double getRawDistance() {
         // Convert microseconds to cm
         double cm = PWM_INPUT[0] / 10.0; // TODO: use a conversion method in MercMath
-        // Convert cm to in
         double in = MercMath.centimetersToInches(cm);
-
         return in;
     }
 
@@ -101,15 +105,21 @@ public class LIDAR  implements PIDSource {
      *
      * @return PWM input period, in microseconds
      */
-    public double getPeriod() {
+    public synchronized double getPeriod() {
         return PWM_INPUT[1];
     }
 
+    /**
+     * Set the pid source type (Should not be implemented)
+     */
     @Override
     public void setPIDSourceType(PIDSourceType pidSource) {
 
     }
 
+    /**
+     * Get the PID source type
+     */
     @Override
     public PIDSourceType getPIDSourceType() {
         return PIDSourceType.kDisplacement;
