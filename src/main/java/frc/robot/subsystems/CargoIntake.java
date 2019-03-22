@@ -66,7 +66,7 @@ public class CargoIntake extends Subsystem {
     articulator.configFactoryReset();
     intake.configFactoryReset();
 
-    articulator.setSensorPhase(true);
+    articulator.setSensorPhase(false);
 
     articulator.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0);
     articulator.configClosedLoopPeakOutput(0, 0.6);
