@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.CAN;
@@ -32,6 +33,7 @@ public class Climber extends Subsystem {
   // here. Call these from Commands.
 
   private IMercMotorController drive, liftBackLeft, liftBackRight, liftFront;
+  private DoubleSolenoid HAB_Climber;//Please rename to Scorpion themed name
 
   public static final int LIFT_BR_RUN = 0, 
                           LIFT_BR_ADJUST = 1, 
@@ -215,6 +217,15 @@ public class Climber extends Subsystem {
     liftBackLeft.stop();
     liftBackRight.stop();
     liftFront.stop();
+  }
+
+  public void actuateDoubleSolenoid(boolean actuate){
+    if(actuate) {
+      HAB_Climber.set(DoubleSolenoid.Value.kForward);
+    } else {
+      HAB_Climber.set(DoubleSolenoid.Value.kReverse);
+    }
+    isInLiftMode = actuate;
   }
 
 }
