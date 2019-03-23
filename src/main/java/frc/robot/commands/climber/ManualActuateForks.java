@@ -1,4 +1,4 @@
-package frc.robot.commands.hatchpanel;
+package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -9,11 +9,11 @@ import org.apache.logging.log4j.Logger;
 /**
  * Manual control for the hatch panel intake
  */
-public class ManualHatchPanelArticulator extends Command {
-  private final Logger LOG = LogManager.getLogger(ManualHatchPanelArticulator.class);
-  public ManualHatchPanelArticulator() {
+public class ManualActuateForks extends Command {
+  private final Logger LOG = LogManager.getLogger(ManualActuateForks.class);
+  public ManualActuateForks() {
     requires(Robot.hatchManipulator);
-    setName("ManualHatchPanelArticulator Command");
+    setName("ManualActuateForks Command");
     LOG.info(getName() + " Constructed");
   }
 

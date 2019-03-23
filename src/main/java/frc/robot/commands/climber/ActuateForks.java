@@ -1,4 +1,4 @@
-package frc.robot.commands.hatchpanel;
+package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -9,20 +9,20 @@ import org.apache.logging.log4j.Logger;
 /**
  * Moves the Hatch Panel intake
  */
-public class ArticulateHatchPanel extends Command {
-  private final Logger LOG = LogManager.getLogger(ArticulateHatchPanel.class);
+public class ActuateForks extends Command {
+  private final Logger LOG = LogManager.getLogger(ActuateForks.class);
   private HatchArticulatorPosition state;
   private final int POSITION_THRESHOLD = 500;
   private boolean endable = false;
 
-  public ArticulateHatchPanel(HatchArticulatorPosition state) {
+  public ActuateForks(HatchArticulatorPosition state) {
     requires(Robot.hatchManipulator);
-    setName("ArticulateHatchPanel Command");
+    setName("ActuateForks Command");
     LOG.info(getName() + " Constructed");
     this.state = state;
   }
 
-  public ArticulateHatchPanel(HatchArticulatorPosition state, boolean endable) {
+  public ActuateForks(HatchArticulatorPosition state, boolean endable) {
     this(state);
     this.endable = endable;
   }

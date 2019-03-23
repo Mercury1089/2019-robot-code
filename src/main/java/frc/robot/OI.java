@@ -35,7 +35,7 @@ import frc.robot.commands.drivetrain.TrackTarget;
 import frc.robot.commands.drivetrain.DriveWithJoysticks.DriveType;
 import frc.robot.commands.elevator.AutomaticElevator;
 import frc.robot.commands.elevator.ManualElevator;
-import frc.robot.commands.hatchpanel.ArticulateHatchPanel;
+import frc.robot.commands.climber.ActuateForks;
 import frc.robot.commands.hatchpanel.ManualHatchPanelEjector;
 import frc.robot.subsystems.CargoIntake.CargoArticulatorPosition;
 import frc.robot.subsystems.CargoManipulator.ShooterSpeed;
@@ -105,7 +105,7 @@ public class OI {
     left2.whenPressed(new SwitchDriveDirection(DriveDirection.HATCH));
     left3.whenPressed(new TrackTarget());
     left4.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
-    left5.whenPressed(new ArticulateHatchPanel(HatchArticulatorPosition.IN_BOT));
+    left5.whenPressed(new ActuateForks(HatchArticulatorPosition.IN_BOT));
 
     left6.whenPressed(new AutonMove("LeftMiddle"));
     left7.whenPressed(new AutonMove("LeftClose"));
