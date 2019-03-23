@@ -47,7 +47,8 @@ public class RobotMap {
 			SCREW_BL = 14,
 			SCREW_BR = 15,
 			SCREW_FRONT = 16,
-			SCREW_DRIVE = 17;
+			SCREW_DRIVE = 17,
+			PCM_ID = 18; 
 			
 		private CAN() {
 		} // Should never be constructed.
@@ -72,6 +73,14 @@ public class RobotMap {
 
 		private PID() {
 		} // Should never be constructed.
+	}
+
+	public static class PCM_PORTS{
+		public static final int 
+			HAB_ACTUATE = 0,
+			HAB_RETRACT = 1;
+		private PCM_PORTS(){			
+		} // Should never be constructed
 	}
 
 	public static class CANIFIER_PWM {

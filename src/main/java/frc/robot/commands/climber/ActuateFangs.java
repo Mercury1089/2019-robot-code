@@ -12,13 +12,13 @@ import frc.robot.Robot;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class UseDoubleSolenoid extends Command {
-  private final Logger LOG = LogManager.getLogger(UseDoubleSolenoid.class);
+public class ActuateFangs extends Command {
+  private final Logger LOG = LogManager.getLogger(ActuateFangs.class);
   private boolean actuate; 
 
-  public UseDoubleSolenoid(boolean a) {
+  public ActuateFangs(boolean a) {
     requires(Robot.climber);
-    setName("UseDoubleSolenoid Command");
+    setName("ActuateFangs Command");
     LOG.info(getName() + " Constructed");
 
     this.actuate = a;

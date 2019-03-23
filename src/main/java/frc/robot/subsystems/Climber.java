@@ -7,7 +7,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
-
+/*
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
@@ -15,15 +15,17 @@ import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.command.Subsystem;
+
 import frc.robot.RobotMap;
-import frc.robot.RobotMap.CAN;
 import frc.robot.util.DriveAssist;
 import frc.robot.util.MercTalonSRX;
-import frc.robot.util.PIDGain;
-import frc.robot.util.interfaces.IMercMotorController;
+import frc.robot.util.PIDGain;*/
 
+import frc.robot.util.interfaces.IMercMotorController;
+import frc.robot.RobotMap.CAN;
+import frc.robot.RobotMap.PCM_PORTS;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * Add your docs here.
  * 
@@ -33,9 +35,10 @@ public class Climber extends Subsystem {
   // here. Call these from Commands.
 
   private IMercMotorController drive, liftBackLeft, liftBackRight, liftFront;
-  private DoubleSolenoid HAB_Climber;//Please rename to Scorpion themed name
+  private DoubleSolenoid fangs;
+  private boolean isInLiftMode;
 
-  public static final int LIFT_BR_RUN = 0, 
+  /*public static final int LIFT_BR_RUN = 0, 
                           LIFT_BR_ADJUST = 1, 
                           LIFT_FRONT_RUN = 0,
                           LIFT_FRONT_ADJUST = 1;
@@ -47,10 +50,10 @@ public class Climber extends Subsystem {
                           AUXILIARY_LOOP = 1;
 
   private final PIDGain LIFT_BR_RUN_GAINS, LIFT_BR_ADJUST_GAINS, LIFT_FRONT_RUN_GAINS, LIFT_FRONT_ADJUST_GAINS;
+  */
 
-  private boolean isInLiftMode;
 
-  private ClimberPosition currentPosition; 
+  /*private ClimberPosition currentPosition; 
 
   public enum ClimberPosition {
     GROUNDED,
@@ -62,9 +65,10 @@ public class Climber extends Subsystem {
     BACK_RIGHT,
     BACK_LEFT,
     FRONT
-  } 
+  } */
 
   public Climber(){
+    /*
     currentPosition = ClimberPosition.GROUNDED;
     drive = new MercTalonSRX(CAN.SCREW_DRIVE);
     liftBackLeft = new MercTalonSRX(CAN.SCREW_BL);
@@ -75,13 +79,14 @@ public class Climber extends Subsystem {
     LIFT_BR_ADJUST_GAINS = new PIDGain(1.0, 0.0, 2.0, 0.0, 1.0); //CALCULATE FF
     LIFT_FRONT_RUN_GAINS = new PIDGain(0.1, 0.0, 0.0, 0.0, 0.75);
     LIFT_FRONT_ADJUST_GAINS = new PIDGain(1.0, 0.0, 2.0, 0.0, 1.0); //CALCULATE FF
-
-    initializeLiftFeedback();
+    */
+    isInLiftMode = false;
+    fangs = new DoubleSolenoid(CAN.PCM_ID, PCM_PORTS.HAB_ACTUATE, PCM_PORTS.HAB_RETRACT);
   }
 
-  public void initializeLiftFeedback() {
+  /*public void initializeLiftFeedback() {*/
     /* Configure primary feedback as the average of the two encoders */
-    liftBackLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Climber.PRIMARY_LOOP);
+    /*liftBackLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Climber.PRIMARY_LOOP);
 
     liftBackRight.configRemoteFeedbackFilter(liftBackLeft.getPort(), RemoteSensorSource.TalonSRX_SelectedSensor, Climber.REMOTE_DEVICE_0);
 
@@ -90,30 +95,30 @@ public class Climber extends Subsystem {
 
     liftBackRight.configSelectedFeedbackSensor(FeedbackDevice.SensorSum, Climber.PRIMARY_LOOP);
 
-    liftBackRight.configSelectedFeedbackCoefficient(0.5, Climber.PRIMARY_LOOP);
+    liftBackRight.configSelectedFeedbackCoefficient(0.5, Climber.PRIMARY_LOOP);*/
     
     /* Setup Difference signal to be used for Turn */
-    liftBackRight.configSensorTerm(SensorTerm.Diff1, FeedbackDevice.RemoteSensor0);
-    liftBackRight.configSensorTerm(SensorTerm.Diff0, FeedbackDevice.CTRE_MagEncoder_Relative);
+    /*liftBackRight.configSensorTerm(SensorTerm.Diff1, FeedbackDevice.RemoteSensor0);
+    liftBackRight.configSensorTerm(SensorTerm.Diff0, FeedbackDevice.CTRE_MagEncoder_Relative);*/
     
     /* Configure Difference [Difference between both encoders] to be used for Auxiliary PID Index */
-		liftBackRight.configSelectedFeedbackSensor(FeedbackDevice.SensorDifference, Climber.AUXILIARY_LOOP);
+		//liftBackRight.configSelectedFeedbackSensor(FeedbackDevice.SensorDifference, Climber.AUXILIARY_LOOP);
 
     /* Aux loop coefficient */
-    liftBackRight.configSelectedFeedbackCoefficient(1, Climber.AUXILIARY_LOOP);
+    //liftBackRight.configSelectedFeedbackCoefficient(1, Climber.AUXILIARY_LOOP);
 
     /* Set status frame periods to ensure we don't have stale data */
-    liftBackRight.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20);
+   /* liftBackRight.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20);
     liftBackRight.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20);
     liftBackRight.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20);
     liftBackRight.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20);
-    liftBackLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+    liftBackLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);*/
 
-    isInLiftMode = true;
+    //isInLiftMode = true;
 
     /*\_/_\_/_\_/_\*/ 
 
-    liftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DriveTrain.PRIMARY_LOOP);
+    /*liftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DriveTrain.PRIMARY_LOOP);
     liftFront.configRemoteFeedbackFilter(liftBackRight.getPort(), RemoteSensorSource.TalonSRX_SelectedSensor, DriveTrain.REMOTE_DEVICE_0);
     
     liftFront.configSensorTerm(SensorTerm.Sum0, FeedbackDevice.RemoteSensor0);
@@ -121,24 +126,24 @@ public class Climber extends Subsystem {
 
     liftFront.configSelectedFeedbackSensor(FeedbackDevice.SensorSum, DriveTrain.PRIMARY_LOOP);
 
-    liftFront.configSelectedFeedbackCoefficient(0.5, DriveTrain.PRIMARY_LOOP);
+    liftFront.configSelectedFeedbackCoefficient(0.5, DriveTrain.PRIMARY_LOOP);*/
 
     /* Setup Difference signal to be used for Turn */
-    liftFront.configSensorTerm(SensorTerm.Diff1, FeedbackDevice.RemoteSensor0);
-    liftFront.configSensorTerm(SensorTerm.Diff0, FeedbackDevice.CTRE_MagEncoder_Relative);
+    /*liftFront.configSensorTerm(SensorTerm.Diff1, FeedbackDevice.RemoteSensor0);
+    liftFront.configSensorTerm(SensorTerm.Diff0, FeedbackDevice.CTRE_MagEncoder_Relative);*/
     
     /* Configure Difference [Difference between both encoders] to be used for Auxiliary PID Index */
-		liftFront.configSelectedFeedbackSensor(FeedbackDevice.SensorDifference, Climber.AUXILIARY_LOOP);
+	//	liftFront.configSelectedFeedbackSensor(FeedbackDevice.SensorDifference, Climber.AUXILIARY_LOOP);
 
     /* Aux loop coefficient */
-    liftFront.configSelectedFeedbackCoefficient(1, DriveTrain.AUXILIARY_LOOP);
-  }
+   /* liftFront.configSelectedFeedbackCoefficient(1, DriveTrain.AUXILIARY_LOOP);
+}*/
 
   @Override
   public void initDefaultCommand() {
   }
 
-  public void configPIDSlots(ScrewMotor sm, int primaryPIDSlot, int auxiliaryPIDSlot) {
+  /*public void configPIDSlots(ScrewMotor sm, int primaryPIDSlot, int auxiliaryPIDSlot) {
     if (primaryPIDSlot >= 0) {
       if (sm == ScrewMotor.BACK_RIGHT)
         liftBackRight.selectProfileSlot(primaryPIDSlot, DriveTrain.PRIMARY_LOOP);
@@ -155,7 +160,7 @@ public class Climber extends Subsystem {
       else
         liftBackLeft.selectProfileSlot(auxiliaryPIDSlot, DriveTrain.AUXILIARY_LOOP);
     }
-  }
+  }*/
 
   /**
      * Sets both of the front talons to have a forward output of nominalOutput and peakOutput with the reverse output setClawState to the negated outputs.
@@ -163,7 +168,7 @@ public class Climber extends Subsystem {
      * @param nominalOutput The desired nominal voltage output of the left and right talons, both forward and reverse.
      * @param peakOutput    The desired peak voltage output of the left and right talons, both forward and reverse
      */
-  public void configVoltage(double nominalOutput, double peakOutput) {
+  /*public void configVoltage(double nominalOutput, double peakOutput) {
     drive.configVoltage(nominalOutput, peakOutput);
   }
   
@@ -204,11 +209,11 @@ public class Climber extends Subsystem {
   public void setPosition(ClimberPosition pos){
     this.currentPosition = pos;
   }
-
+*/
   public boolean isInLiftMode(){
     return isInLiftMode;
   }
-
+/*
   public boolean isDriveEnabled(){
     return currentPosition != ClimberPosition.GROUNDED;     
   }
@@ -218,12 +223,12 @@ public class Climber extends Subsystem {
     liftBackRight.stop();
     liftFront.stop();
   }
-
+*/
   public void actuateDoubleSolenoid(boolean actuate){
     if(actuate) {
-      HAB_Climber.set(DoubleSolenoid.Value.kForward);
+      fangs.set(DoubleSolenoid.Value.kForward);
     } else {
-      HAB_Climber.set(DoubleSolenoid.Value.kReverse);
+      fangs.set(DoubleSolenoid.Value.kReverse);
     }
     isInLiftMode = actuate;
   }
