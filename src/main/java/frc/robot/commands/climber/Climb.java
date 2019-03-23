@@ -14,7 +14,9 @@ import org.apache.logging.log4j.Logger;
 
 public class Climb extends CommandGroup {
   private final Logger LOG = LogManager.getLogger(Climb.class);
-  private final double HI = 22, LO = 0;
+  private final double
+        HI = 22, 
+        LO = 0;
 
   public Climb() {
 
