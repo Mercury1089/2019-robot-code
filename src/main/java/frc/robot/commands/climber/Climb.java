@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-/*package frc.robot.commands.climber;
+package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.subsystems.Climber;
@@ -17,12 +17,9 @@ public class Climb extends CommandGroup {
   private final double HI = 22, LO = 0;
 
   public Climb() {
-   addSequential(new LowerAllScrews(HI));
-   addSequential(new DriveOnClimbBase());
-   addSequential(new RaiseBackScrews(HI));
-   addSequential(new DriveOnClimbBase());
-   addSequential(new RaiseAllScrews(LO));
+
+    
    setName("Climb CommandGroup");
    LOG.info(getName() + " Constructed");
   }
-}*/
+}
