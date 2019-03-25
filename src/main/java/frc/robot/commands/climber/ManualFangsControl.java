@@ -9,12 +9,12 @@ import org.apache.logging.log4j.Logger;
 /**
  * Manual control for the hatch panel intake
  */
-public class ManualForksControl extends Command {
-    private final Logger LOG = LogManager.getLogger(ManualForksControl.class);
+public class ManualFangsControl extends Command {
+    private final Logger LOG = LogManager.getLogger(ManualFangsControl.class);
 
-    public ManualForksControl() {
-        requires(Robot.forks);
-        setName("ManualForksControl Command");
+    public ManualFangsControl() {
+        requires(Robot.fangs);
+        setName("ManualFangsControl Command");
         LOG.info(getName() + " Constructed");
     }
 
@@ -23,7 +23,7 @@ public class ManualForksControl extends Command {
      */
     @Override
     protected void execute() {
-        Robot.forks.getArticulator().setSpeed(Robot.oi.getGamepadAxis(GAMEPAD_AXIS.rightY));
+        Robot.fangs.getArticulator().setSpeed(Robot.oi.getGamepadAxis(GAMEPAD_AXIS.rightY));
         LOG.info(getName() + " Executed");
     }
 

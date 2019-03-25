@@ -2,27 +2,27 @@ package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.Forks;
+import frc.robot.subsystems.Fangs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Moves the Hatch Panel intake
+ * Moves the Fangs
  */
-public class ArticulateForks extends Command {
-    private final Logger LOG = LogManager.getLogger(ArticulateForks.class);
+public class ArticulateFangs extends Command {
+    private final Logger LOG = LogManager.getLogger(ArticulateFangs.class);
     private final int POSITION_THRESHOLD = 500;
-    private Forks.ForksPosition state;
+    private Fangs.FangsPosition state;
     private boolean endable = false;
 
-    public ArticulateForks(Forks.ForksPosition state) {
-        requires(Robot.forks);
+    public ArticulateFangs(Fangs.FangsPosition state) {
+        requires(Robot.fangs);
         setName("ArticulateForks Command");
         LOG.info(getName() + " Constructed");
         this.state = state;
     }
 
-    public ArticulateForks(Forks.ForksPosition state, boolean endable) {
+    public ArticulateFangs(Fangs.FangsPosition state, boolean endable) {
         this(state);
         this.endable = endable;
     }
@@ -30,13 +30,13 @@ public class ArticulateForks extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Robot.forks.getArticulator().setPosition(state.getEncTicks());
+        Robot.fangs.getArticulator().setPosition(state.getEncTicks());
         LOG.info(getName() + " Initialized");
     }
 
     @Override
     protected boolean isFinished() {
-        if (endable && POSITION_THRESHOLD >= Math.abs(state.getEncTicks() - Robot.forks.getArticulator().getEncTicks())) {
+        if (endable && POSITION_THRESHOLD >= Math.abs(state.getEncTicks() - Robot.fangs.getArticulator().getEncTicks())) {
             LOG.info("Reached " + state.toString());
             return true;
         }

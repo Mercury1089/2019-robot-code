@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
     public static Elevator elevator;
 
     public static Stinger stinger;
-    public static Forks forks;
+    public static Fangs fangs;
 
     public static LimelightAssembly limelightAssembly;
 
@@ -54,7 +54,7 @@ public class Robot extends TimedRobot {
 
         //Hatch Panel Subsystems
         stinger = new Stinger();
-        forks = new Forks();
+        fangs = new Fangs();
 
         limelightAssembly = new LimelightAssembly();
 

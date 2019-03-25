@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.ParamEnum;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.climber.ArticulateForks;
+import frc.robot.commands.climber.ArticulateFangs;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.PIDGain;
 import frc.robot.util.interfaces.IMercMotorController;
@@ -11,7 +11,7 @@ import frc.robot.util.interfaces.IMercMotorController;
 /**
  * Subsystem to lift the robot's front
  */
-public class Forks extends Subsystem {
+public class Fangs extends Subsystem {
     public final int ARTICULATION_PID_SLOT = 0;
 
     public final PIDGain articulationGain = new PIDGain(0.1, 0.0, 0.0, 0.0, 0.75);
@@ -20,12 +20,12 @@ public class Forks extends Subsystem {
 
     private IMercMotorController articulator;
 
-    public Forks() {
-        articulator = new MercTalonSRX(RobotMap.CAN.FORKS);
+    public Fangs() {
+        articulator = new MercTalonSRX(RobotMap.CAN.FANGS);
 
         articulator.resetEncoder();
 
-        articulator.setPosition(ForksPosition.IN_BOT.getEncTicks());
+        articulator.setPosition(FangsPosition.IN_BOT.getEncTicks());
 
         articulator.configPID(ARTICULATION_PID_SLOT, articulationGain);
 
@@ -36,21 +36,21 @@ public class Forks extends Subsystem {
     }
 
     public void initDefaultCommand() {
-        setDefaultCommand(new ArticulateForks(ForksPosition.IN_BOT));
+        setDefaultCommand(new ArticulateFangs(FangsPosition.IN_BOT));
     }
 
     public IMercMotorController getArticulator() {
         return articulator;
     }
 
-    public enum ForksPosition {
+    public enum FangsPosition {
         //Temporary encoder tick values
         DOWN(0),
         IN_BOT(2000 * 27);
 
         private int encPos;
 
-        ForksPosition(int encPos) {
+        FangsPosition(int encPos) {
             this.encPos = encPos;
         }
 
