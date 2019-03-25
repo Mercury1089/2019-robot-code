@@ -22,9 +22,19 @@ public class RobotMap {
                 SCREW_BL = 14,
                 SCREW_BR = 15,
                 SCREW_FRONT = 16,
-                SCREW_DRIVE = 17;
+                SCREW_DRIVE = 17,
+                PCM = 18;
 
         private CAN() {
+        }
+    }
+
+    public static class PCM {
+        public static final int HAB_ACTUATE = 0;
+        public static final int HAB_RETRACT = 1;
+
+        private PCM() {
+            
         }
     }
 
