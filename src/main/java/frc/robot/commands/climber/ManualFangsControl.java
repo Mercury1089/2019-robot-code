@@ -19,7 +19,7 @@ public class ManualFangsControl extends Command {
     }
 
     /**
-     * Articulate the Forks in accordance with the gamepad axis
+     * Articulate the fangs in accordance with the gamepad axis
      */
     @Override
     protected void execute() {
