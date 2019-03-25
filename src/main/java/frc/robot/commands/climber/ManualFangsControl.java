@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Manual control for the hatch panel intake
+ * Manual control for the fangs
  */
 public class ManualFangsControl extends Command {
     private final Logger LOG = LogManager.getLogger(ManualFangsControl.class);
