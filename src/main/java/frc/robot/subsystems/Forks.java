@@ -46,7 +46,7 @@ public class Forks extends Subsystem {
     public enum ForksPosition {
         //Temporary encoder tick values
         DOWN(0),
-        IN_BOT(2000);
+        IN_BOT(2000 * 27);
 
         private int encPos;
 
