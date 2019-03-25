@@ -2,8 +2,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.cargo.ArticulateMouth;
+import frc.robot.commands.climber.ArticulateForks;
 import frc.robot.commands.conditionals.UseElevator;
-import frc.robot.commands.hatchpanel.ArticulateForks;
 import frc.robot.subsystems.Elevator.ElevatorPosition;
 import frc.robot.subsystems.Forks;
 import frc.robot.subsystems.MouthArticulator;

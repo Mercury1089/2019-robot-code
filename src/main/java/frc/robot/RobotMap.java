@@ -16,7 +16,7 @@ public class RobotMap {
                 CARGO_INTAKE = 8,
                 CANIFIER = 9,
                 PIGEON = 10,
-                HATCH_INTAKE = 11,
+                FORKS = 11,
                 HATCH_EJECTOR = 12,
                 CARGO_MANIPULATOR = 13,
                 SCREW_BL = 14,

@@ -19,7 +19,7 @@ import frc.robot.commands.drivetrain.DriveWithJoysticks.DriveType;
 import frc.robot.commands.drivetrain.SwitchDriveDirection;
 import frc.robot.commands.drivetrain.TrackTarget;
 import frc.robot.commands.elevator.ManualElevator;
-import frc.robot.commands.hatchpanel.ArticulateForks;
+import frc.robot.commands.climber.ArticulateForks;
 import frc.robot.subsystems.Elevator.ElevatorPosition;
 import frc.robot.subsystems.Forks;
 import frc.robot.subsystems.MouthArticulator;

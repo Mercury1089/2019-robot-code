@@ -1,4 +1,4 @@
-package frc.robot.commands.hatchpanel;
+package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -40,17 +40,6 @@ public class ArticulateForks extends Command {
             LOG.info("Reached " + state.toString());
             return true;
         }
-        //The below code ends the command if the ArticulatorPosition is InBot
-        //We do not want the command to end normally so it's commented out for the moment
-        /**
-         * if (state == ArticulatorPosition.IN_BOT) {
-         *   if (Robot.stinger.isArticulatorLimitSwitchClosedReverse() || Robot.stinger.isArticulatorLimitSwitchClosedForward()) {
-         *     Robot.stinger.getArticulator().setPosition(state.encPos);
-         *     LOG.info("Reached!");
-         *     return true;
-         *   }
-         * }
-         */
         return false;
     }
 

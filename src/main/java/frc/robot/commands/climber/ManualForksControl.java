@@ -1,4 +1,4 @@
-package frc.robot.commands.hatchpanel;
+package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -19,7 +19,7 @@ public class ManualForksControl extends Command {
     }
 
     /**
-     * Rotate the hatch panel intake in accordance with the gamepad axis
+     * Articulate the Forks in accordance with the gamepad axis
      */
     @Override
     protected void execute() {
