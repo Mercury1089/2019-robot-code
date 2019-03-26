@@ -66,9 +66,9 @@ public class ShuffleDash {
         SmartDashboard.putBoolean("Cargo Intake Fwd Limit", Robot.mouthArticulator.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.FORWARD));
         SmartDashboard.putBoolean("Cargo Intake Rwd Limit", Robot.mouthArticulator.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.REVERSE));
 
-        SmartDashboard.putNumber("HatchPanel Intake Enc", Robot.forks.getArticulator().getEncTicks());
-        SmartDashboard.putBoolean("HatchPanel Intake Fwd Limit", Robot.forks.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.FORWARD));
-        SmartDashboard.putBoolean("HatchPanel Intake Rwd Limit", Robot.forks.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.REVERSE));
+        SmartDashboard.putNumber("HatchPanel Intake Enc", Robot.fangs.getArticulator().getEncTicks());
+        SmartDashboard.putBoolean("HatchPanel Intake Fwd Limit", Robot.fangs.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.FORWARD));
+        SmartDashboard.putBoolean("HatchPanel Intake Rwd Limit", Robot.fangs.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.REVERSE));
 
 
         //SmartDashboard.putBoolean("Auton Initialized", ntInstance.getTable("AutonConfiguration").containsKey("startingPosition"));
