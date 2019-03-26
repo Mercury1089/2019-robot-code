@@ -11,20 +11,20 @@ import frc.robot.sensors.Limelight.LimelightLEDState;
  */
 public class SetLED extends Command {
 
-  private LimelightLEDState state;
+    private LimelightLEDState state;
 
-  public SetLED(LimelightLEDState state) {
-    requires(Robot.limelightAssembly);
-    this.state = state;
-  }
+    public SetLED(LimelightLEDState state) {
+        requires(Robot.limelightAssembly);
+        this.state = state;
+    }
 
-  @Override
-  protected void initialize() {
-    Robot.limelightAssembly.getLimeLight().setLEDState(this.state);
-  }
+    @Override
+    protected void initialize() {
+        Robot.limelightAssembly.getLimeLight().setLEDState(this.state);
+    }
 
-  @Override
-  protected boolean isFinished() {
-    return true;
-  }
+    @Override
+    protected boolean isFinished() {
+        return true;
+    }
 }

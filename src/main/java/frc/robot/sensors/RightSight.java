@@ -6,21 +6,22 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.sensors;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 //import org.usfirst.frc1089.lib.Ports;
+
 /**
  * Add your docs here.
  */
 public class RightSight {
 
-    private DigitalInput RightSight;
     private final int DIO_PORT;
+    private DigitalInput RightSight;
 
     /**
      * Sets the sensor to its respective port on the DIO
      */
-    public RightSight(int dioPort)
-    {
+    public RightSight(int dioPort) {
         DIO_PORT = dioPort;
         RightSight = new DigitalInput(DIO_PORT);
     }
@@ -28,8 +29,7 @@ public class RightSight {
     /**
      * checks the DIO port assigned to the sensor for its alignment
      */
-    public boolean getAlignment()
-    {
+    public boolean getAlignment() {
         return RightSight.get();
     }
 }

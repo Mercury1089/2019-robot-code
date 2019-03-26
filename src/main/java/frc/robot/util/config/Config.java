@@ -38,17 +38,17 @@ public abstract class Config {
 
     /**
      * Parses a property that is written as an array
+     *
      * @param key       the property key to get the value from
      * @param delimiter the string separating the elements of the array
-     *
      * @return String array of the property's value,
-     *         or a string array with only "" if there is nothing.
+     * or a string array with only "" if there is nothing.
      */
     protected static String[] parseArrayValue(String key, String delimiter) {
         String[] arr = instance.getProperty(key, "").split(delimiter);
 
         if (arr.length == 0)
-            return new String[] {""};
+            return new String[]{""};
 
         for (int i = 0; i < arr.length; i++)
             arr[i] = arr[i].trim();

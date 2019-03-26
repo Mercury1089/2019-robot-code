@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import frc.robot.util.BoundingBox;
+import frc.robot.util.config.SensorsSettings;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import frc.robot.util.BoundingBox;
-import frc.robot.util.config.SensorsSettings;
 
 /**
  * PixyCam implementation using the I2C interface
@@ -16,13 +16,12 @@ import frc.robot.util.config.SensorsSettings;
  */
 public class PixyI2C implements PIDSource {
     private static final Logger LOG = LogManager.getLogger(PixyI2C.class);
-    private BoundingBox curTarget;
     private final I2C PIXY;
     private final BoundingBox[] BOXES;
     private final int DISPLACEMENT_OFFSET;
-
     private final int MIN_BOX_WIDTH = 45; //Arbitrary value, change to what minimum value of width can be for cube to be cassified as "In range"
     private final Notifier PIXY_UPDATE_NOTIFIER = new Notifier(null);
+    private BoundingBox curTarget;
 
     /**
      * Constructs a new PixyCam, assuming that the I2C
@@ -56,6 +55,7 @@ public class PixyI2C implements PIDSource {
 
     /**
      * Read data from the Pixy
+     *
      * @param signature the color signature to get for
      */
     public void read(int signature) { // The signature should be which number object in
@@ -112,14 +112,14 @@ public class PixyI2C implements PIDSource {
     }
 
     @Override
-    public void setPIDSourceType(PIDSourceType pidSource) {
-        // Unused, but must be implemented
-    }
-
-    @Override
     public PIDSourceType getPIDSourceType() {
         return PIDSourceType.kDisplacement;
         // Always a displacement error
+    }
+
+    @Override
+    public void setPIDSourceType(PIDSourceType pidSource) {
+        // Unused, but must be implemented
     }
 
     @Override

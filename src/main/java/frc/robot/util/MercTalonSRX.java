@@ -1,26 +1,15 @@
 package frc.robot.util;
 
 import com.ctre.phoenix.ParamEnum;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
-
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
-import com.ctre.phoenix.motorcontrol.SensorTerm;
-import com.ctre.phoenix.motorcontrol.StatusFrame;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.FollowerType;
-
-import frc.robot.util.interfaces.IMercMotorController;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.subsystems.DriveTrain.DriveTrainLayout;
+import frc.robot.util.interfaces.IMercMotorController;
 
-/**
- * Add your docs here.
- */
 public class MercTalonSRX implements IMercMotorController {
+
     private WPI_TalonSRX talonsrx;
     private int port;
 
@@ -28,11 +17,6 @@ public class MercTalonSRX implements IMercMotorController {
         talonsrx = new WPI_TalonSRX(port);
         this.port = port;
         talonsrx.configFactoryDefault();
-    }
-
-    @Override
-    public void setSpeed(double speed) {
-        talonsrx.set(ControlMode.PercentOutput, speed);
     }
 
     @Override
@@ -44,7 +28,12 @@ public class MercTalonSRX implements IMercMotorController {
     public double getSpeed() {
         return talonsrx.get();
     }
-    
+
+    @Override
+    public void setSpeed(double speed) {
+        talonsrx.set(ControlMode.PercentOutput, speed);
+    }
+
     @Override
     public void setInverted(boolean invert) {
         talonsrx.setInverted(invert);
@@ -58,7 +47,7 @@ public class MercTalonSRX implements IMercMotorController {
     @Override
     public void follow(IMercMotorController leader) {
         if (Robot.driveTrain.getLayout() != DriveTrainLayout.SPARKS)
-            talonsrx.follow(((MercTalonSRX)leader).get());
+            talonsrx.follow(((MercTalonSRX) leader).get());
     }
 
     @Override
@@ -130,7 +119,7 @@ public class MercTalonSRX implements IMercMotorController {
 
     @Override
     public boolean isLimitSwitchClosed(LimitSwitchDirection limitSwitchDirection) {
-        if(limitSwitchDirection == LimitSwitchDirection.FORWARD) {
+        if (limitSwitchDirection == LimitSwitchDirection.FORWARD) {
             return talonsrx.getSensorCollection().isFwdLimitSwitchClosed();
         }
         return talonsrx.getSensorCollection().isRevLimitSwitchClosed();
@@ -223,17 +212,18 @@ public class MercTalonSRX implements IMercMotorController {
 
     @Override
     public void follow(IMercMotorController leader, FollowerType followerType) {
-        if(leader instanceof MercTalonSRX) {
-            talonsrx.follow(((MercTalonSRX)leader).get(), followerType);
-        }
-        else if(leader instanceof MercVictorSPX) {
-            talonsrx.follow(((MercVictorSPX)leader).get(), followerType);
+        if (leader instanceof MercTalonSRX) {
+            talonsrx.follow(((MercTalonSRX) leader).get(), followerType);
+        } else if (leader instanceof MercVictorSPX) {
+            talonsrx.follow(((MercVictorSPX) leader).get(), followerType);
         }
     }
 
     //_________________________________________________________________________________
+
     /**
      * Get the TalonSRX tied to this class
+     *
      * @return the Talon
      */
     public WPI_TalonSRX get() {

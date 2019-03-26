@@ -11,76 +11,78 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class DriveDistance extends MoveHeading {
-  private final Logger LOG = LogManager.getLogger(DriveDistance.class);
-  /**
-   * Construct Drive Distance w / Motion Magic
-   * @param distance in inches
-   */
-  public DriveDistance(double distance) {
-    super(distance, 0);
+    private final Logger LOG = LogManager.getLogger(DriveDistance.class);
 
-    moveThresholdTicks = 500;
-    angleThresholdDeg = 2;
-    onTargetMinCount = 10;
-    setName("DriveDistance MoveHeading Command");
-    LOG.info(getName() + " Constructed");
-  }
+    /**
+     * Construct Drive Distance w / Motion Magic
+     *
+     * @param distance in inches
+     */
+    public DriveDistance(double distance) {
+        super(distance, 0);
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-    super.initialize();
-    LOG.info(getName() + " Initialized");
-  }
-
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-    super.execute();
-    LOG.info(getName() + " Executed");
-  }
-
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    if (initialCheckCount < checkThreshold) {
-      initialCheckCount++;
-      return false;
+        moveThresholdTicks = 500;
+        angleThresholdDeg = 2;
+        onTargetMinCount = 10;
+        setName("DriveDistance MoveHeading Command");
+        LOG.info(getName() + " Constructed");
     }
 
-    double distError = right.getClosedLoopError();
-
-    boolean isFinished = false;
-
-    boolean isOnTarget = (Math.abs(distError) < moveThresholdTicks);
-
-    if (isOnTarget) {
-      onTargetCount++;
-    } else {
-      if (onTargetCount > 0)
-        onTargetCount = 0;
+    // Called just before this Command runs the first time
+    @Override
+    protected void initialize() {
+        super.initialize();
+        LOG.info(getName() + " Initialized");
     }
 
-    if (onTargetCount > onTargetMinCount) {
-      isFinished = true;
-      onTargetCount = 0;
+    // Called repeatedly when this Command is scheduled to run
+    @Override
+    protected void execute() {
+        super.execute();
+        LOG.info(getName() + " Executed");
     }
 
-    return isFinished;
-  }
+    // Make this return true when this Command no longer needs to run execute()
+    @Override
+    protected boolean isFinished() {
+        if (initialCheckCount < checkThreshold) {
+            initialCheckCount++;
+            return false;
+        }
 
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-    super.end();
-    LOG.info(getName() + " Ended");
-  }
+        double distError = right.getClosedLoopError();
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-    LOG.info(getName() + " Interrupted");
-    this.end();
-  }
+        boolean isFinished = false;
+
+        boolean isOnTarget = (Math.abs(distError) < moveThresholdTicks);
+
+        if (isOnTarget) {
+            onTargetCount++;
+        } else {
+            if (onTargetCount > 0)
+                onTargetCount = 0;
+        }
+
+        if (onTargetCount > onTargetMinCount) {
+            isFinished = true;
+            onTargetCount = 0;
+        }
+
+        return isFinished;
+    }
+
+    // Called once after isFinished returns true
+    @Override
+    protected void end() {
+        super.end();
+        LOG.info(getName() + " Ended");
+    }
+
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    @Override
+    protected void interrupted() {
+        LOG.info(getName() + " Interrupted");
+        this.end();
+    }
 }

@@ -1,150 +1,79 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.CANifier;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
-import com.ctre.phoenix.motorcontrol.SensorTerm;
-import com.ctre.phoenix.motorcontrol.StatusFrame;
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
-
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import frc.robot.util.PIDGain;
-import frc.robot.util.DriveAssist.DriveDirection;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.CAN;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
-import frc.robot.util.interfaces.IMercMotorController;
-import frc.robot.util.MercMath;
-import frc.robot.util.MercTalonSRX;
-import frc.robot.util.MercVictorSPX;
-import frc.robot.util.DriveAssist;
 import frc.robot.sensors.LIDAR;
-import frc.robot.sensors.RightSight;
-import frc.robot.sensors.Ultrasonic;
 import frc.robot.sensors.LIDAR.PWMOffset;
+import frc.robot.sensors.Ultrasonic;
+import frc.robot.util.*;
+import frc.robot.util.DriveAssist.DriveDirection;
+import frc.robot.util.interfaces.IMercMotorController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
- * Subsystem that encapsulates the drive train.
- * This contains the {@link DriveAssist} needed to drive manually
+ * Subsystem that encapsulates the driveAssist train.
+ * This contains the {@link DriveAssist} needed to driveAssist manually
  * using the motor controllers.
  */
 public class DriveTrain extends Subsystem implements PIDOutput {
 
-    private Logger log = LogManager.getLogger(DriveTrain.class);
-
-    public static final int DRIVE_PID_SLOT = 0, 
-                            DRIVE_SMOOTH_MOTION_SLOT = 1, 
+    public static final int DRIVE_PID_SLOT = 0,
+            DRIVE_SMOOTH_MOTION_SLOT = 1,
                             DRIVE_MOTION_PROFILE_SLOT = 2,
                             DRIVE_SMOOTH_TURN_SLOT = 3;
-
-    public static final int REMOTE_DEVICE_0 = 0, 
+    public static final int REMOTE_DEVICE_0 = 0,
                             REMOTE_DEVICE_1 = 1;
-
     public static final int PRIMARY_LOOP = 0,
                             AUXILIARY_LOOP = 1;
-
-    public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096, 
+    public static final int MAG_ENCODER_TICKS_PER_REVOLUTION = 4096,
                             NEO_ENCODER_TICKS_PER_REVOLUTION = 42,
                             PIGEON_NATIVE_UNITS_PER_ROTATION = 8192;
-
-    public static final double MAX_SPEED = 1, 
-                            MIN_SPEED = -1;
-
-    public static final double GEAR_RATIO = 1, 
-                            MAX_RPM = 545, 
-                            WHEEL_DIAMETER_INCHES = 5.8;
-
-    public static final double NOMINAL_OUT = 0.0, 
-                            PEAK_OUT = 1.0;
-
-    private IMercMotorController leaderLeft, leaderRight, followerLeft, followerRight;
-
-    private DriveAssist drive;
-    private ADXRS450_Gyro gyroSPI;
-    private PigeonIMU podgeboi;
-    private RightSight rightSight;
-    private CANifier canifier;
-    private LIDAR lidar;
-    private Ultrasonic leftUltrasonic;
-    private Ultrasonic rightUltrasonic;
-
-    private DriveTrainLayout layout;
+    public static final double MAX_SPEED = 1,
+            MIN_SPEED = -1;
+    public static final double GEAR_RATIO = 1,
+            MAX_RPM = 545,
+            WHEEL_DIAMETER_INCHES = 5.8;
+    public static final double NOMINAL_OUT = 0.0,
+            PEAK_OUT = 1.0;
 
     private final PIDGain DRIVE_GAINS, SMOOTH_GAINS, MOTION_PROFILE_GAINS, TURN_GAINS;
 
-    private boolean isInMotionMagicMode;
+    private Logger log = LogManager.getLogger(DriveTrain.class);
 
-    private static final double CARGO_INTAKE_THRESHOLD = 8.0;
+    private IMercMotorController leaderLeft, leaderRight, followerLeft, followerRight;
+    private DriveAssist driveAssist;
+    private PigeonIMU podgeboi;
+    private CANifier canifier;
+    private LIDAR hatchLidar;
+    private Ultrasonic leftUltrasonic;
+    private Ultrasonic rightUltrasonic;
+    private DriveTrainLayout layout;
+    private boolean isInMotionMagicMode;
     private LEDColor currentLEDColor;
 
-    public enum DriveTrainLayout {
-        SPARKS,
-        TALONS,
-        LEGACY
-    }
-
-    public enum DriveTrainSide {
-        RIGHT,
-        LEFT
-    }
-
-    public enum LEDColor {
-        RED(1.0, 0.0, 0.0),
-        GREEN(0.0, 0.0, 1.0),
-        BLUE(0.0, 0.0, 1.0),
-        YELLOW(1.0, 1.0, 0.0),
-        CYAN(0.0, 1.0, 1.0),
-        MAGENTA(1.0, 0.0, 1.0),
-        WHITE(1.0, 1.0, 1.0),
-        BLACK(0.0, 0.0, 0.0);
-
-        private double r, g, b;
-
-        LEDColor(double r, double g, double b) {
-            this.r = r;
-            this.g = g;
-            this.b = b;
-        }
-
-        public double getRed() {
-            return r;
-        }
-
-        public double getGreen() {
-            return g;
-        }
-
-        public double getBlue() {
-            return b;
-        }
-    }
-
-	/**
-	 * Creates the drivetrain, assuming that there are four controllers.
-	 *
-	 * @param fl Front-left controller ID
-	 * @param fr Front-right controller ID
-	 * @param bl Back-left controller ID
-	 * @param br Back-right controller ID
-	 */
-	public DriveTrain(DriveTrain.DriveTrainLayout layout) { 
+    /**
+     * Creates the drivetrain, assuming that there are four controllers.
+     *
+     * @param layout The layout of motor controllers used on the drivetrain
+     */
+    public DriveTrain(DriveTrain.DriveTrainLayout layout) {
         //This should eventually be fully configurable
         // At this point it's based on what the layout is
 
         this.layout = layout;
-        switch(layout) {
+        switch (layout) {
             case LEGACY:
                 leaderLeft = new MercTalonSRX(CAN.DRIVETRAIN_ML);
-	        	leaderRight = new MercTalonSRX(CAN.DRIVETRAIN_MR);
+                leaderRight = new MercTalonSRX(CAN.DRIVETRAIN_MR);
                 followerLeft = new MercTalonSRX(CAN.DRIVETRAIN_SL);
                 followerRight = new MercTalonSRX(CAN.DRIVETRAIN_SR);
                 break;/*
@@ -154,27 +83,21 @@ public class DriveTrain extends Subsystem implements PIDOutput {
                 followerLeft = new MercSparkMax(CAN.DRIVETRAIN_SL);
                 followerRight = new MercSparkMax(CAN.DRIVETRAIN_SR);
                 break;*/
-			case TALONS:
+            case TALONS:
                 leaderLeft = new MercTalonSRX(CAN.DRIVETRAIN_ML);
-	        	leaderRight = new MercTalonSRX(CAN.DRIVETRAIN_MR);
+                leaderRight = new MercTalonSRX(CAN.DRIVETRAIN_MR);
                 followerLeft = new MercVictorSPX(CAN.DRIVETRAIN_SL);
-				followerRight = new MercVictorSPX(CAN.DRIVETRAIN_SR);
+                followerRight = new MercVictorSPX(CAN.DRIVETRAIN_SR);
                 break;
         }
-
-        //Initialize the gyro that is currently on the robot. Comment out the initialization of the one not in use.
-        gyroSPI = new ADXRS450_Gyro();
 
         //Initialize podgeboi
         podgeboi = new PigeonIMU(CAN.PIGEON);
         podgeboi.configFactoryDefault();
 
-        //Initialize RightSight
-        rightSight = new RightSight(0);
-
-        //Initialize the CANifier, ultrasonics, and LIDAR
+        //CANifier and distance sensors
         canifier = new CANifier(RobotMap.CAN.CANIFIER);
-        lidar = new LIDAR(canifier, CANifier.PWMChannel.PWMChannel0, PWMOffset.EQUATION_C);
+        hatchLidar = new LIDAR(canifier, CANifier.PWMChannel.PWMChannel0, PWMOffset.EQUATION_C);
         rightUltrasonic = new Ultrasonic(RobotMap.AIO.RIGHT_ULTRASONIC);
         leftUltrasonic = new Ultrasonic(RobotMap.AIO.LEFT_ULTRASONIC);
 
@@ -184,7 +107,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         leaderRight.setInverted(true);
         followerRight.setInverted(true);
 
-        //Set neutral mode
+        //Set neutral mode to Brake to make sure our motor controllers are all in brake mode by default
         setNeutralMode(NeutralMode.Brake);
 
         //Account for encoder orientation.
@@ -208,19 +131,18 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         leaderRight.configPID(DRIVE_SMOOTH_TURN_SLOT, TURN_GAINS);
         leaderLeft.configPID(DRIVE_SMOOTH_TURN_SLOT, TURN_GAINS);
 
-        //Reset encoders
         resetEncoders();
 
-        //Initialize drive with joysticks
-        drive = new DriveAssist(leaderLeft, leaderRight, DriveDirection.HATCH);
-        
+        driveAssist = new DriveAssist(leaderLeft, leaderRight, DriveDirection.HATCH);
+
         // Set follower control on back talons. Use follow() instead of ControlMode.Follower so that Talons can follow Victors and vice versa.
         followerLeft.follow(leaderLeft);
         followerRight.follow(leaderRight);
-        
-        stop();
+
         configVoltage(NOMINAL_OUT, PEAK_OUT);
         setMaxOutput(PEAK_OUT);
+
+        stop();
     }
 
     public void initializeNormalMotionFeedback() {
@@ -270,11 +192,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         leaderRight.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20);
         leaderRight.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20);
         leaderLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
-        getPigeon().setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_9_SixDeg_YPR , 5);
+        getPigeon().setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_9_SixDeg_YPR, 5);
 
         isInMotionMagicMode = true;
     }
-    
+
     public void configPIDSlots(DriveTrainSide dts, int primaryPIDSlot, int auxiliaryPIDSlot) {
         if (primaryPIDSlot >= 0) {
             if (dts == DriveTrainSide.RIGHT)
@@ -288,7 +210,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
             else
                 leaderLeft.selectProfileSlot(auxiliaryPIDSlot, DriveTrain.AUXILIARY_LOOP);
         }
-        
+
     }
 
     public void configClosedLoopPeakOutput(int driveTrainPIDSlot, double maxOut) {
@@ -299,7 +221,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public void initDefaultCommand() {
         setDefaultCommand(new DriveWithJoysticks(DriveWithJoysticks.DriveType.ARCADE));
     }
-    
+
     public void resetEncoders() {
         leaderLeft.resetEncoder();
         leaderRight.resetEncoder();
@@ -307,21 +229,18 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     @Override
     public void periodic() {
-        lidar.updatePWMInput();
+        hatchLidar.updatePWMInput();
         updateLEDs();
     }
 
     private void updateLEDs() {
-        if(lidar.getDistance() <= CARGO_INTAKE_THRESHOLD) {
+        if (Robot.claw.isCargoInRobot()) {
             setLEDColor(LEDColor.GREEN);
-        }
-        else if(Robot.cargoShooter.isEjecting()) {
+        } else if (Robot.claw.getClawState() == Claw.ClawState.EJECTING) {
             setLEDColor(LEDColor.RED);
-        }
-        else if(Robot.cargoShooter.isIntaking()) {
+        } else if (Robot.claw.getClawState() == Claw.ClawState.INTAKING) {
             setLEDColor(LEDColor.BLUE);
-        }
-        else {
+        } else {
             setLEDColor(LEDColor.BLACK);
         }
     }
@@ -337,12 +256,12 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         canifier.setLEDOutput(ledColor.getGreen(), CANifier.LEDChannel.LEDChannelC);
     }
 
-    public LEDColor getCurrentLEDOutput() {
-        return currentLEDColor;
+    public CANifier getCanifier() {
+        return canifier;
     }
 
     /**
-     * Stops the drive train.
+     * Stops the driveAssist train.
      */
     public void stop() {
         leaderLeft.stop();
@@ -365,56 +284,37 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         leaderRight.configVoltage(nominalOutput, peakOutput);
     }
 
-    public void setDirection(DriveDirection dd) {
-        drive.setDirection(dd);
-    }
-
     public DriveDirection getDirection() {
-        return drive.getDirection();
+        return driveAssist.getDirection();
     }
 
-    /**
-     * Gets the gyro being used by the drive train.
-     *
-     * @return The Analog Gyro currently in use on the robot
-     */
-    public Gyro getSPIGyro() {
-        if(gyroSPI == null) {
-            log.error("SPI Gyro was not initialized!");
-        } 
-        return gyroSPI;
+    public void setDirection(DriveDirection dd) {
+        driveAssist.setDirection(dd);
     }
 
     public PigeonIMU getPigeon() {
-        if(podgeboi == null) {
+        if (podgeboi == null) {
             log.error("PigeonIMU was not initialized!");
         }
         return podgeboi;
     }
 
-    public RightSight getRightSight() {
-        if(rightSight == null) {
-            log.error("Right Sight was not initialized!");
-        }
-        return rightSight;
-    }
-
-    public LIDAR getLidar() {
-        if(lidar == null) {
+    public LIDAR getHatchLidar() {
+        if (hatchLidar == null) {
             log.error("LIDAR was not initialized!");
         }
-        return lidar;
+        return hatchLidar;
     }
 
     public Ultrasonic getRightUltrasonic() {
-        if(rightUltrasonic == null) {
+        if (rightUltrasonic == null) {
             log.error("Right Ultrasonic was not initialized!");
         }
         return rightUltrasonic;
     }
 
     public Ultrasonic getLeftUltrasonic() {
-        if(leftUltrasonic == null) {
+        if (leftUltrasonic == null) {
             log.error("Right Ultrasonic was not initialized!");
         }
         return leftUltrasonic;
@@ -436,11 +336,6 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     public void resetPigeonYaw() {
         podgeboi.setYaw(0);
-    }
-
-    public void setFullSpeed() {
-        leaderLeft.setSpeed(1);
-        leaderRight.setSpeed(1);
     }
 
     public double getLeftEncPositionInTicks() {
@@ -476,7 +371,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     }
 
     public DriveAssist getDriveAssist() {
-        return drive;
+        return driveAssist;
     }
 
     public double getFeedForward() {
@@ -484,11 +379,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     }
 
     public void pidWrite(double output) {
-        drive.tankDrive(output, -output);
+        driveAssist.tankDrive(output, -output);
     }
 
     public void setMaxOutput(double maxOutput) {
-        drive.setMaxOutput(maxOutput);
+        driveAssist.setMaxOutput(maxOutput);
     }
 
     public void setNeutralMode(NeutralMode neutralMode) {
@@ -496,5 +391,47 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         leaderRight.setNeutralMode(neutralMode);
         followerLeft.setNeutralMode(neutralMode);
         followerRight.setNeutralMode(neutralMode);
+    }
+
+    public enum DriveTrainLayout {
+        SPARKS,
+        TALONS,
+        LEGACY
+    }
+
+    public enum DriveTrainSide {
+        RIGHT,
+        LEFT
+    }
+
+    public enum LEDColor {
+        RED(1.0, 0.0, 0.0),
+        GREEN(0.0, 0.0, 1.0),
+        BLUE(0.0, 0.0, 1.0),
+        YELLOW(1.0, 1.0, 0.0),
+        CYAN(0.0, 1.0, 1.0),
+        MAGENTA(1.0, 0.0, 1.0),
+        WHITE(1.0, 1.0, 1.0),
+        BLACK(0.0, 0.0, 0.0);
+
+        private double r, g, b;
+
+        LEDColor(double r, double g, double b) {
+            this.r = r;
+            this.g = g;
+            this.b = b;
+        }
+
+        public double getRed() {
+            return r;
+        }
+
+        public double getGreen() {
+            return g;
+        }
+
+        public double getBlue() {
+            return b;
+        }
     }
 }

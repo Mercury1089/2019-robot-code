@@ -5,7 +5,7 @@ import java.util.Properties;
 /**
  * Class that allows user to interface with manipulator.properties
  * config file with easy-to-access methods.
- *
+ * <p>
  * Note that this class should NOT be modified; if settings need to be
  * modified, edit the manipulator.properties file.
  */

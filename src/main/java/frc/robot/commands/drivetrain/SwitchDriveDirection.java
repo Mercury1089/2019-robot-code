@@ -8,26 +8,25 @@
 package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.limelight.RotateLimelight;
 import frc.robot.commands.limelight.SetLED;
 import frc.robot.sensors.Limelight.LimelightLEDState;
-import frc.robot.subsystems.LimelightAssembly.LimelightPosition;
 import frc.robot.util.DriveAssist.DriveDirection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class SwitchDriveDirection extends CommandGroup {
-  private final Logger LOG = LogManager.getLogger(SwitchDriveDirection.class);
-  /**
-   * Add your docs here.
-   */
-  public SwitchDriveDirection(DriveDirection driveDir) {
+    private final Logger LOG = LogManager.getLogger(SwitchDriveDirection.class);
 
-    addParallel(new SwitchDrive(driveDir));
-    addSequential(new SetLED(driveDir == DriveDirection.HATCH ? 
-            LimelightLEDState.ON : LimelightLEDState.OFF));
-            
-    setName("SwitchDriveDirection CommandGroup");
-    LOG.info(getName() + " Constructed");
-  }
+    /**
+     * Add your docs here.
+     */
+    public SwitchDriveDirection(DriveDirection driveDir) {
+
+        addParallel(new SwitchDrive(driveDir));
+        addSequential(new SetLED(driveDir == DriveDirection.HATCH ?
+                LimelightLEDState.ON : LimelightLEDState.OFF));
+
+        setName("SwitchDriveDirection CommandGroup");
+        LOG.info(getName() + " Constructed");
+    }
 }

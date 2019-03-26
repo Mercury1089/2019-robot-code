@@ -8,19 +8,18 @@ import java.util.function.Consumer;
 /**
  * A logger that can be setClawState to log with a certain delay between logs.
  * This is to prevent overhead from constant logging in periodic commands. <p>
- * 
+ * <p>
  * Usage can be something like:
- * 
+ *
  * <pre>
  * // in init save it as a field
  * everySecond = new DelayableLogger(log, 1_000, TimeUnit.Milliseconds);
- * 
+ *
  * // in execute call the run method with a lambda
  * everySecond.run(log -> log.info("I'm doing something!"));
  * </pre>
- * 
+ * <p>
  * This will only log every 1 second as opposed to every time execute is called.
- *
  */
 public class DelayableLogger {
 
