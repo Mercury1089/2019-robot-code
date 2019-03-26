@@ -13,7 +13,7 @@ public class SafeElevatorUp extends CommandGroup {
 
     public SafeElevatorUp(ElevatorPosition targetPosition) {
         addSequential(new ArticulateMouth(MouthArticulator.MouthPosition.ANGLED45));
-        addSequential(new AutomaticElevator(ElevatorPosition.ROCKET_1_C));
+        addSequential(new AutomaticElevator(ElevatorPosition.ROCKET_1_C, true));
         addParallel(new ArticulateMouth(MouthArticulator.MouthPosition.IN));
         addSequential(new AutomaticElevator(targetPosition, true));
     }

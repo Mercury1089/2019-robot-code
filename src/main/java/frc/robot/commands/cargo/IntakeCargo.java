@@ -19,8 +19,8 @@ public class IntakeCargo extends CommandGroup {
     private final Logger LOG = LogManager.getLogger(IntakeCargo.class);
 
     public IntakeCargo() {
-        addSequential(new ArticulateMouth(MouthPosition.OUT));
         addParallel(new RunMouthIntake(IntakeState.INTAKING));
+        addSequential(new ArticulateMouth(MouthPosition.OUT));
         addSequential(new RunClaw(ClawState.INTAKING));
         addSequential(new ArticulateMouth(MouthPosition.IN));
         setName("IntakeCargo CommandGroup");
