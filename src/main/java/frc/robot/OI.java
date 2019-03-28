@@ -25,6 +25,7 @@ import frc.robot.commands.climber.ManualFangsControl;
 import frc.robot.commands.climber.MoveLegs;
 import frc.robot.subsystems.Elevator.ElevatorPosition;
 import frc.robot.subsystems.Fangs.FangsPosition;
+import frc.robot.subsystems.MouthArticulator.MouthPosition;
 import frc.robot.subsystems.Fangs;
 import frc.robot.subsystems.MouthArticulator;
 import frc.robot.subsystems.Claw.ClawState;
@@ -70,8 +71,8 @@ public class OI {
 
         right1.whenPressed(new RunStinger());
         right2.whenPressed(new RunClaw(ClawState.EJECTING));
-        right3.whenPressed(new ArticulateMouth(true));
-        right4.whenPressed(new ArticulateMouth(false));
+        right3.whenPressed(new ArticulateMouth(MouthPosition.OUT));
+        right4.whenPressed(new ArticulateMouth(MouthPosition.IN));
 
         right6.whenPressed(new AutonMove("LeftRocketFar"));
         right7.whenPressed(new AutonMove("LeftRocketClose"));

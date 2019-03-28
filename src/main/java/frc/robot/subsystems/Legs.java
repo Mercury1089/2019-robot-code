@@ -22,12 +22,20 @@ public class Legs extends Subsystem {
     return isInLiftMode;
   }
 
-  public void actuateDoubleSolenoid(boolean actuate){
-    if(actuate) {
-      legs.set(DoubleSolenoid.Value.kForward);
-    } else {
-      legs.set(DoubleSolenoid.Value.kReverse);
+  public void actuateDoubleSolenoid(LegsPosition position){
+    switch (position) {
+      case OUT:
+        legs.set(DoubleSolenoid.Value.kForward);
+        break;
+      case IN:
+        legs.set(DoubleSolenoid.Value.kReverse);
+        break;
     }
-    isInLiftMode = actuate;
+    isInLiftMode = position == LegsPosition.OUT;
+  }
+
+  public enum LegsPosition {
+    IN,
+    OUT;
   }
 }

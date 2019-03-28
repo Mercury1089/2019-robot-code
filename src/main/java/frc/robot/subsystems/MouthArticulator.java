@@ -15,14 +15,22 @@ public class MouthArticulator extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new ArticulateMouth(false));
+        setDefaultCommand(new ArticulateMouth(MouthPosition.OUT));
     }
 
-    public void setArticulatorPosition(boolean actuate) {
-        if(actuate) {
-            articulator.set(DoubleSolenoid.Value.kForward);
-          } else {
-            articulator.set(DoubleSolenoid.Value.kReverse);
-          }
+    public void setArticulatorPosition(MouthPosition position) {
+        switch(position) {
+            case IN:
+                articulator.set(DoubleSolenoid.Value.kForward);
+                break;
+            case OUT:
+                articulator.set(DoubleSolenoid.Value.kReverse);
+                break;
+        }
+    }
+
+    public enum MouthPosition {
+        IN,
+        OUT;
     }
 }
