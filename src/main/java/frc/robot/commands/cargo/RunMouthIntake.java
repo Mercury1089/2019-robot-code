@@ -29,10 +29,10 @@ public class RunMouthIntake extends Command {
     protected void execute() {
         switch (state) {
             case INTAKING:
-                Robot.mouthIntaker.getIntaker().setSpeed(1.0);
+                Robot.mouthIntaker.getIntaker().setSpeed(-1.0);
                 break;
             case EJECTING:
-                Robot.mouthIntaker.getIntaker().setSpeed(-1.0);
+                Robot.mouthIntaker.getIntaker().setSpeed(1.0);
                 break;
             case IDLE:
                 Robot.mouthIntaker.getIntaker().setSpeed(0.0);
