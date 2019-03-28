@@ -15,6 +15,6 @@ public class TurtleMode extends CommandGroup {
     public TurtleMode() {
         addSequential(new UseElevator(ElevatorPosition.BOTTOM));
         addParallel(new ArticulateFangs(Fangs.FangsPosition.IN_BOT));
-        addSequential(new ArticulateMouth(MouthArticulator.MouthPosition.IN));
+        addSequential(new ArticulateMouth(false));
     }
 }

@@ -129,6 +129,8 @@ public interface IMercMotorController {
 
     void set(ControlMode controlMode, double demand0, DemandType demand1Type, double demand1);
 
+    void set(ControlMode controlMode, double demand0);
+
     /**
      * NOTE: This is a CTRE Method.
      * Configures the closed loop threshold of error.

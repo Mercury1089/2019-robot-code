@@ -30,8 +30,11 @@ public class RobotMap {
     }
 
     public static class PCM {
-        public static final int HAB_ACTUATE = 0;
-        public static final int HAB_RETRACT = 1;
+        public static final int HAB_ACTUATE = 0,
+            HAB_RETRACT = 1,
+            MOUTH_ACTUATE = 2,
+            MOUTH_RETRACT = 3;
+
 
         private PCM() {
             

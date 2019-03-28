@@ -22,7 +22,7 @@ public class SwitchDriveDirection extends CommandGroup {
      */
     public SwitchDriveDirection(DriveDirection driveDir) {
 
-        addParallel(new SwitchDrive(driveDir));
+        //addParallel(new SwitchDrive(driveDir));
         addSequential(new SetLED(driveDir == DriveDirection.HATCH ?
                 LimelightLEDState.ON : LimelightLEDState.OFF));
 

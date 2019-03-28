@@ -12,9 +12,9 @@ import frc.robot.subsystems.MouthArticulator;
 public class SafeElevatorUp extends CommandGroup {
 
     public SafeElevatorUp(ElevatorPosition targetPosition) {
-        addSequential(new ArticulateMouth(MouthArticulator.MouthPosition.ANGLED45));
+        addSequential(new ArticulateMouth(true));
         addSequential(new AutomaticElevator(ElevatorPosition.ROCKET_1_C, true));
-        addParallel(new ArticulateMouth(MouthArticulator.MouthPosition.IN));
+        addParallel(new ArticulateMouth(false));
         addSequential(new AutomaticElevator(targetPosition, true));
     }
 }

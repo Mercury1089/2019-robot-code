@@ -191,6 +191,11 @@ public class MercTalonSRX implements IMercMotorController {
     }
 
     @Override
+    public void set(ControlMode controlMode, double demand0) {
+        talonsrx.set(controlMode, demand0);
+    }
+
+    @Override
     public void configClosedLoopPeriod(int slotIdx, int closedLoopTimeMs) {
         talonsrx.configClosedLoopPeriod(slotIdx, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
     }

@@ -9,7 +9,7 @@ import frc.robot.auton.AutonMove;
 import frc.robot.commands.TurtleMode;
 import frc.robot.commands.cargo.ArticulateMouth;
 import frc.robot.commands.cargo.IntakeCargo;
-import frc.robot.commands.cargo.ManuallyArticulateMouth;
+import frc.robot.commands.cargo.RunClaw;
 import frc.robot.commands.conditionals.ConditionalLevel2Elevator;
 import frc.robot.commands.conditionals.ConditionalLevel3Elevator;
 import frc.robot.commands.conditionals.GeneralEject;
@@ -19,10 +19,15 @@ import frc.robot.commands.drivetrain.DriveWithJoysticks.DriveType;
 import frc.robot.commands.drivetrain.SwitchDriveDirection;
 import frc.robot.commands.drivetrain.TrackTarget;
 import frc.robot.commands.elevator.ManualElevator;
+import frc.robot.commands.hatchpanel.RunStinger;
 import frc.robot.commands.climber.ArticulateFangs;
+import frc.robot.commands.climber.ManualFangsControl;
+import frc.robot.commands.climber.MoveLegs;
 import frc.robot.subsystems.Elevator.ElevatorPosition;
+import frc.robot.subsystems.Fangs.FangsPosition;
 import frc.robot.subsystems.Fangs;
 import frc.robot.subsystems.MouthArticulator;
+import frc.robot.subsystems.Claw.ClawState;
 import frc.robot.util.DriveAssist.DriveDirection;
 import frc.robot.util.ShuffleDash;
 
@@ -63,11 +68,10 @@ public class OI {
         left10.whenPressed(new AutonMove("RightClose"));
         left11.whenPressed(new AutonMove("RightMiddle"));
 
-        right1.whenPressed(new GeneralEject());
-        right2.whenPressed(new SwitchDriveDirection(DriveDirection.CARGO));
-        right3.whenPressed(new ArticulateMouth(MouthArticulator.MouthPosition.IN));
-        right4.whenPressed(new ArticulateMouth(MouthArticulator.MouthPosition.OUT));
-        right5.whenPressed(new ArticulateMouth(MouthArticulator.MouthPosition.ANGLED45));
+        right1.whenPressed(new RunStinger());
+        right2.whenPressed(new RunClaw(ClawState.EJECTING));
+        right3.whenPressed(new ArticulateMouth(true));
+        right4.whenPressed(new ArticulateMouth(false));
 
         right6.whenPressed(new AutonMove("LeftRocketFar"));
         right7.whenPressed(new AutonMove("LeftRocketClose"));
@@ -82,9 +86,12 @@ public class OI {
         gamepadY.whenPressed(new UseElevator(ElevatorPosition.ROCKET_1_C));
         gamepadLB.whenPressed(new ConditionalLevel2Elevator());
         gamepadRB.whenPressed(new ConditionalLevel3Elevator());
-        gamepadBack.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
-        gamepadStart.whenPressed(new TurtleMode());
-        gamepadLeftStickButton.whenPressed(new ManuallyArticulateMouth());
+        //gamepadBack.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
+        //gamepadStart.whenPressed(new TurtleMode());
+        //gamepadLeftStickButton.whenPressed(new ManualFangsControl());
+        gamepadBack.whenPressed(new ArticulateFangs(FangsPosition.IN_BOT));
+        gamepadStart.whenPressed(new ArticulateFangs(FangsPosition.DOWN));
+        gamepadLeftStickButton.whenPressed(new ManualFangsControl());
     }
 
     public String getAutonFirstStep() {

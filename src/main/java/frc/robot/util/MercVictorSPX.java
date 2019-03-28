@@ -186,6 +186,11 @@ public class MercVictorSPX implements IMercMotorController {
     }
 
     @Override
+    public void set(ControlMode controlMode, double demand0) {
+        victorspx.set(controlMode, demand0);
+    }
+
+    @Override
     public void configClosedLoopPeriod(int slotIdx, int closedLoopTimeMs) {
         victorspx.configClosedLoopPeriod(slotIdx, closedLoopTimeMs, RobotMap.CTRE_TIMEOUT);
     }

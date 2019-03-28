@@ -3,6 +3,8 @@ package frc.robot.commands.climber;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotMap.GAMEPAD_AXIS;
+import frc.robot.util.MercMath;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +25,7 @@ public class ManualFangsControl extends Command {
      */
     @Override
     protected void execute() {
-        Robot.fangs.getArticulator().setSpeed(Robot.oi.getGamepadAxis(GAMEPAD_AXIS.rightY));
+        Robot.fangs.getArticulator().setSpeed(MercMath.applyDeadzone(Robot.oi.getGamepadAxis(GAMEPAD_AXIS.leftY), 0.1));
         LOG.info(getName() + " Executed");
     }
 
