@@ -8,9 +8,8 @@
 package frc.robot.commands.cargo;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.subsystems.Claw.ClawState;
+import frc.robot.subsystems.ClawAndIntake.ClawState;
 import frc.robot.subsystems.MouthArticulator.MouthPosition;
-import frc.robot.subsystems.MouthIntaker.IntakeState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,8 +18,7 @@ public class IntakeCargo extends CommandGroup {
     private final Logger LOG = LogManager.getLogger(IntakeCargo.class);
 
     public IntakeCargo() {
-        addParallel(new RunMouthIntake(IntakeState.INTAKING));
-        addSequential(new ArticulateMouth(MouthPosition.OUT));
+        addParallel(new ArticulateMouth(MouthPosition.OUT));
         addSequential(new RunClaw(ClawState.INTAKING));
         setName("IntakeCargo CommandGroup");
         LOG.info(getName() + " Constructed");

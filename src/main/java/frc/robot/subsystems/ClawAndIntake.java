@@ -8,7 +8,7 @@ import frc.robot.commands.cargo.RunClaw;
 import frc.robot.sensors.LIDAR;
 import frc.robot.util.MercVictorSPX;
 
-public class Claw extends Subsystem {
+public class ClawAndIntake extends Subsystem {
 
     public static final double CARGO_IN_ROBOT_THRESHOLD = 10.0;
 
@@ -17,7 +17,7 @@ public class Claw extends Subsystem {
     private MercVictorSPX clawLeft, clawRight;
     private LIDAR lidar;
 
-    public Claw() {
+    public ClawAndIntake() {
         clawLeft = new MercVictorSPX(CAN.CLAW_LEFT);
         clawRight = new MercVictorSPX(CAN.CLAW_RIGHT);
 
@@ -53,6 +53,9 @@ public class Claw extends Subsystem {
 
     public void setClawState(ClawState state) {
         this.state = state;
+        switch (state) {
+            
+        }
     }
 
     public enum ClawState {

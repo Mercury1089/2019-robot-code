@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import frc.robot.Robot;
 import frc.robot.commands.cargo.RunClaw;
 import frc.robot.commands.hatchpanel.RunStinger;
-import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.ClawAndIntake;
 import frc.robot.util.DriveAssist.DriveDirection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +18,7 @@ public class GeneralEject extends ConditionalCommand {
     private final Logger LOG = LogManager.getLogger(GeneralEject.class);
 
     public GeneralEject() {
-        super(new RunStinger(), new RunClaw(Claw.ClawState.EJECTING));
+        super(new RunStinger(), new RunClaw(ClawAndIntake.ClawState.EJECTING));
         setName("GeneralEject ConditionalCommand");
         LOG.info(getName() + " Constructed");
     }

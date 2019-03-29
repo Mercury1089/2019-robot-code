@@ -32,7 +32,7 @@ public class Elevator extends Subsystem {
         elevatorLeader.configAllowableClosedLoopError(0, 5);
         elevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RobotMap.PID.PRIMARY_PID_LOOP);
         elevatorLeader.configSetParameter(ParamEnum.eClearPositionOnLimitR, 1, 0, 0);
-        elevatorLeader.setReverseSoftLimit((int) ElevatorPosition.MAX_HEIGHT.encPos);
+        elevatorLeader.setForwardSoftLimit((int) ElevatorPosition.MAX_HEIGHT.encPos);
         elevatorLeader.enableForwardSoftLimit();
 
         elevatorLeader.configPID(Elevator.PRIMARY_PID_LOOP, new PIDGain(NORMAL_P_VAL, 0.0, 0.0, 0.0));

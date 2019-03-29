@@ -2,19 +2,19 @@ package frc.robot.commands.cargo;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.ClawAndIntake;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class RunClaw extends Command {
 
     private final Logger LOG = LogManager.getLogger(RunClaw.class);
-    private Claw.ClawState state;
+    private ClawAndIntake.ClawState state;
     private int timeThreshold = 550;
     private long startTimeMillis;
 
-    public RunClaw(Claw.ClawState state) {
-        requires(Robot.claw);
+    public RunClaw(ClawAndIntake.ClawState state) {
+        requires(Robot.clawAndIntake);
 
         setName("RunClaw Command");
 
@@ -31,21 +31,23 @@ public class RunClaw extends Command {
 
     @Override
     protected void execute() {
-        Robot.claw.setClawState(state);
+        Robot.clawAndIntake.setClawState(state);
         LOG.info(getName() + " Executed");
     }
 
     @Override
     protected boolean isFinished() {
-        if (state == Claw.ClawState.INTAKING) {
-            return Robot.claw.isCargoInRobot();
+        if (state == ClawAndIntake.ClawState.INTAKING) {
+            return Robot.clawAndIntake.isCargoInRobot();
         }
-        return System.currentTimeMillis() - startTimeMillis > timeThreshold;
+        else {
+            return System.currentTimeMillis() - startTimeMillis > timeThreshold;
+        }
     }
 
     @Override
     protected void end() {
-        Robot.claw.setClawState(Claw.ClawState.IDLE);
+        Robot.clawAndIntake.setClawState(ClawAndIntake.ClawState.IDLE);
         LOG.info(getName() + " Ended");
     }
 

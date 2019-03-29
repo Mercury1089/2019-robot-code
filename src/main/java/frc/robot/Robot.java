@@ -23,8 +23,7 @@ public class Robot extends TimedRobot {
     public static DriveTrain driveTrain;
 
     public static MouthArticulator mouthArticulator;
-    public static MouthIntaker mouthIntaker;
-    public static Claw claw;
+    public static ClawAndIntake clawAndIntake;
 
     public static Elevator elevator;
 
@@ -47,9 +46,8 @@ public class Robot extends TimedRobot {
         driveTrain = new DriveTrain(DriveTrainLayout.TALONS);
 
         //Cargo Subsystems
-        mouthIntaker = new MouthIntaker();
         mouthArticulator = new MouthArticulator();
-        claw = new Claw();
+        clawAndIntake = new ClawAndIntake();
 
         //Elevator
         elevator = new Elevator();

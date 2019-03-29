@@ -25,10 +25,11 @@ import frc.robot.commands.climber.ManualFangsControl;
 import frc.robot.commands.climber.MoveLegs;
 import frc.robot.subsystems.Elevator.ElevatorPosition;
 import frc.robot.subsystems.Fangs.FangsPosition;
+import frc.robot.subsystems.Legs.LegsPosition;
 import frc.robot.subsystems.MouthArticulator.MouthPosition;
 import frc.robot.subsystems.Fangs;
 import frc.robot.subsystems.MouthArticulator;
-import frc.robot.subsystems.Claw.ClawState;
+import frc.robot.subsystems.ClawAndIntake.ClawState;
 import frc.robot.util.DriveAssist.DriveDirection;
 import frc.robot.util.ShuffleDash;
 
@@ -56,7 +57,7 @@ public class OI {
 
         initalizeJoystickButtons();
 
-        left1.whileHeld(new IntakeCargo());
+        left1.whenPressed(new IntakeCargo());
         left2.whenPressed(new SwitchDriveDirection(DriveDirection.HATCH));
         left3.whenPressed(new TrackTarget());
         left4.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
@@ -89,9 +90,8 @@ public class OI {
         gamepadRB.whenPressed(new ConditionalLevel3Elevator());
         //gamepadBack.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
         //gamepadStart.whenPressed(new TurtleMode());
-        //gamepadLeftStickButton.whenPressed(new ManualFangsControl());
-        gamepadBack.whenPressed(new ArticulateFangs(FangsPosition.IN_BOT));
-        gamepadStart.whenPressed(new ArticulateFangs(FangsPosition.DOWN));
+        gamepadBack.whenPressed(new MoveLegs(LegsPosition.OUT));
+        gamepadStart.whenPressed(new MoveLegs(LegsPosition.IN));
         gamepadLeftStickButton.whenPressed(new ManualFangsControl());
     }
 

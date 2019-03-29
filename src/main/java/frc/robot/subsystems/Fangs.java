@@ -26,6 +26,10 @@ public class Fangs extends Subsystem {
 
         articulator.resetEncoder();
 
+        articulator.setInverted(true);
+
+        articulator.setSensorPhase(true);
+
         articulator.setPosition(FangsPosition.IN_BOT.getEncTicks());
 
         articulator.configPID(ARTICULATION_PID_SLOT, articulationGain);
@@ -49,7 +53,7 @@ public class Fangs extends Subsystem {
     public enum FangsPosition {
         //Temporary encoder tick values
         DOWN(-100000),
-        IN_BOT(829237.5);
+        IN_BOT(412000);
 
         private double encPos;
 

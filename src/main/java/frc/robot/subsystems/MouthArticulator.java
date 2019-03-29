@@ -15,15 +15,15 @@ public class MouthArticulator extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new ArticulateMouth(MouthPosition.OUT));
+        //setDefaultCommand(new ArticulateMouth(MouthPosition.OUT));
     }
 
     public void setArticulatorPosition(MouthPosition position) {
         switch(position) {
-            case IN:
+            case OUT:
                 articulator.set(DoubleSolenoid.Value.kForward);
                 break;
-            case OUT:
+            case IN:
                 articulator.set(DoubleSolenoid.Value.kReverse);
                 break;
         }

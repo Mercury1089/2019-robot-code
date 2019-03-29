@@ -42,7 +42,7 @@ public class DriveWithLidar extends MoveHeading {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        double adjustedDistance = Robot.claw.getLidar().getDistance() - startingDistance;
+        double adjustedDistance = Robot.clawAndIntake.getLidar().getDistance() - startingDistance;
         right.set(ControlMode.Position, adjustedDistance, DemandType.AuxPID, targetHeading);
         left.follow(right, FollowerType.AuxOutput1);
         //LOG.info(getName() + " Executed");
@@ -56,7 +56,7 @@ public class DriveWithLidar extends MoveHeading {
             return false;
         }
 
-        double distError = Math.abs(Robot.claw.getLidar().getDistance() - (startingDistance - distance));
+        double distError = Math.abs(Robot.clawAndIntake.getLidar().getDistance() - (startingDistance - distance));
 
         boolean isFinished = false;
 

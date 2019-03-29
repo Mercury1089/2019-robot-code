@@ -234,11 +234,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     }
 
     private void updateLEDs() {
-        if (Robot.claw.isCargoInRobot()) {
+        if (Robot.clawAndIntake.isCargoInRobot()) {
             setLEDColor(LEDColor.GREEN);
-        } else if (Robot.claw.getClawState() == Claw.ClawState.EJECTING) {
+        } else if (Robot.clawAndIntake.getClawState() == ClawAndIntake.ClawState.EJECTING) {
             setLEDColor(LEDColor.RED);
-        } else if (Robot.claw.getClawState() == Claw.ClawState.INTAKING) {
+        } else if (Robot.clawAndIntake.getClawState() == ClawAndIntake.ClawState.INTAKING) {
             setLEDColor(LEDColor.BLUE);
         } else {
             setLEDColor(LEDColor.BLACK);

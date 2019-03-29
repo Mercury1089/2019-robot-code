@@ -44,7 +44,7 @@ public class ShuffleDash {
         SmartDashboard.putNumber("Left Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getLeftLeader().getEncVelo()));
         SmartDashboard.putNumber("Right Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getRightLeader().getEncVelo()));
 
-        SmartDashboard.putNumber("LIDAR Raw Distance (in.)", MercMath.roundFloat(Robot.claw.getLidar().getRawDistance(), 10));
+        SmartDashboard.putNumber("LIDAR Raw Distance (in.)", MercMath.roundFloat(Robot.clawAndIntake.getLidar().getRawDistance(), 10));
 
         SmartDashboard.putNumber("Ultrasonic Distance (Some unit)", Robot.driveTrain.getLeftUltrasonic().getDistance());
 
@@ -63,6 +63,8 @@ public class ShuffleDash {
         SmartDashboard.putNumber("Hatch pos", Robot.stinger.getEjector().getEncTicks());
 
         SmartDashboard.putNumber("Fangs Enc", Robot.fangs.getArticulator().getEncTicks());
+
+        SmartDashboard.putBoolean("Rev Fangs limit", Robot.fangs.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.REVERSE));
 
         //SmartDashboard.putBoolean("Auton Initialized", ntInstance.getTable("AutonConfiguration").containsKey("startingPosition"));
 
