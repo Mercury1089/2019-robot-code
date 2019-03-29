@@ -9,6 +9,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap.CAN;
+import frc.robot.commands.elevator.ManualElevator;
+import frc.robot.commands.hatchpanel.ManualStingerControl;
 import frc.robot.commands.hatchpanel.RunStinger;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.PIDGain;
@@ -41,7 +43,7 @@ public class Stinger extends Subsystem {
     }
 
     public void initDefaultCommand() {
-        setDefaultCommand(new RunStinger(0));
+        setDefaultCommand(new ManualStingerControl());
     }
 
     public StingerState getState() {

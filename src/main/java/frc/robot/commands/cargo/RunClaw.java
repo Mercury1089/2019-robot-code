@@ -26,13 +26,8 @@ public class RunClaw extends Command {
     @Override
     protected void initialize() {
         startTimeMillis = System.currentTimeMillis();
-        LOG.info(getName() + " Initialized");
-    }
-
-    @Override
-    protected void execute() {
         Robot.clawAndIntake.setClawState(state);
-        LOG.info(getName() + " Executed");
+        LOG.info(getName() + " Initialized");
     }
 
     @Override

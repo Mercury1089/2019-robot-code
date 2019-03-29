@@ -14,12 +14,13 @@ public class ClawAndIntake extends Subsystem {
 
     private ClawState state;
 
-    private MercVictorSPX clawLeft, clawRight;
+    private MercVictorSPX clawLeft, clawRight, mouthIntaker;
     private LIDAR lidar;
 
     public ClawAndIntake() {
         clawLeft = new MercVictorSPX(CAN.CLAW_LEFT);
         clawRight = new MercVictorSPX(CAN.CLAW_RIGHT);
+        mouthIntaker = new MercVictorSPX(CAN.MOUTH_INTAKE);
 
         clawLeft.setInverted(true);
         clawRight.setInverted(false);
@@ -54,7 +55,17 @@ public class ClawAndIntake extends Subsystem {
     public void setClawState(ClawState state) {
         this.state = state;
         switch (state) {
-            
+            case INTAKING:
+                clawLeft.setSpeed(-1.0);
+                mouthIntaker.setSpeed(1.0);
+                break;
+            case IDLE:
+                clawLeft.setSpeed(0.0);
+                mouthIntaker.setSpeed(0.0);
+                break;
+            default: //Ejecting
+                clawLeft.setSpeed(1.0);
+                mouthIntaker.setSpeed(0.0);
         }
     }
 

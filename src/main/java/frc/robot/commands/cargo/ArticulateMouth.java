@@ -2,10 +2,7 @@ package frc.robot.commands.cargo;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.MouthArticulator;
 import frc.robot.subsystems.MouthArticulator.MouthPosition;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
