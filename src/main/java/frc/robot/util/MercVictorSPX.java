@@ -45,6 +45,8 @@ public class MercVictorSPX implements IMercMotorController {
     public void follow(IMercMotorController leader) {
         if (leader instanceof MercTalonSRX) {
             victorspx.follow(((MercTalonSRX) leader).get());
+        } else if (leader instanceof MercVictorSPX) {
+            victorspx.follow(((MercVictorSPX)leader).get());
         }
     }
 

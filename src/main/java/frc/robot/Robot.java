@@ -99,6 +99,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
+        System.out.println(stinger.getCurrentCommandName());
         Scheduler.getInstance().run();
     }
 

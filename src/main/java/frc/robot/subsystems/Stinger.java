@@ -43,7 +43,7 @@ public class Stinger extends Subsystem {
     }
 
     public void initDefaultCommand() {
-        setDefaultCommand(new ManualStingerControl());
+        //setDefaultCommand(new ManualStingerControl());
     }
 
     public StingerState getState() {

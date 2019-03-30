@@ -62,7 +62,7 @@ public class Elevator extends Subsystem {
      * the exact height of the claw at any precise moment.
      */
     public enum ElevatorPosition {
-        MAX_HEIGHT(1000000.0),   // TEST THIS
+        MAX_HEIGHT(920000.0),   // TEST THIS
         ROCKET_3_C(914641.0),    // 3st level Rocket: Cargo
         ROCKET_2_C(551295.0),    // 2rd level Rocket: Cargo
         ROCKET_1_C(179359.0),    // 1nd level Rocket: Cargo
@@ -70,6 +70,7 @@ public class Elevator extends Subsystem {
         ROCKET_2_HP(304939.0),   // 2st level Rocket: Hatch Panel
         CARGOSHIP_C(195349.0),   // Cargo ship: Cargo
         DANGER_LINE(150000.0),   // Line where Claw is in danger of hitting the Mouth
+        //3062
         BOTTOM(-5000.0);         // Elevator bottom, can do hatchpanels at: loading station, rocket level 1, and cargo ship
 
         public final double encPos;

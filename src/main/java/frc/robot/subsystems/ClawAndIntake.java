@@ -10,7 +10,7 @@ import frc.robot.util.MercVictorSPX;
 
 public class ClawAndIntake extends Subsystem {
 
-    public static final double CARGO_IN_ROBOT_THRESHOLD = 10.0;
+    public static final double CARGO_IN_ROBOT_THRESHOLD = 12.0;
 
     private ClawState state;
 
@@ -32,7 +32,7 @@ public class ClawAndIntake extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new RunClaw(ClawState.IDLE));
+        //setDefaultCommand(new RunClaw(ClawState.IDLE));
     }
 
     public frc.robot.sensors.LIDAR getLidar() {
@@ -56,7 +56,7 @@ public class ClawAndIntake extends Subsystem {
         this.state = state;
         switch (state) {
             case INTAKING:
-                clawLeft.setSpeed(-1.0);
+                clawLeft.setSpeed(-0.5);
                 mouthIntaker.setSpeed(1.0);
                 break;
             case IDLE:
