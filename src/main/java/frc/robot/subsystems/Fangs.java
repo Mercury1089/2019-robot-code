@@ -36,14 +36,14 @@ public class Fangs extends Subsystem {
 
         articulator.configAllowableClosedLoopError(ARTICULATION_PID_SLOT, ARTICULATION_THRESHOLD);
 
-        articulator.configVoltage(0.15, 0.4);
+        articulator.configVoltage(0.15, 0.65);
 
         articulator.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0);
         articulator.configSetParameter(ParamEnum.eClearPositionOnLimitR, 1, 0, 0);
     }
 
     public void initDefaultCommand() {
-        setDefaultCommand(new ManualFangsControl());//TODO Put this back -> new ArticulateFangs(FangsPosition.IN_BOT));
+        //setDefaultCommand(new ManualFangsControl());//TODO Put this back -> new ArticulateFangs(FangsPosition.IN_BOT));
     }
 
     public IMercMotorController getArticulator() {
@@ -53,7 +53,7 @@ public class Fangs extends Subsystem {
     public enum FangsPosition {
         //Temporary encoder tick values
         DOWN(-100000),
-        IN_BOT(412000);
+        IN_BOT(380000);
 
         private double encPos;
 

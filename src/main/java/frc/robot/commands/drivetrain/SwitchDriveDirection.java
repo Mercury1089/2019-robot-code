@@ -13,6 +13,7 @@ import frc.robot.sensors.Limelight.LimelightLEDState;
 import frc.robot.util.DriveAssist.DriveDirection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import frc.robot.Robot;
 
 public class SwitchDriveDirection extends CommandGroup {
     private final Logger LOG = LogManager.getLogger(SwitchDriveDirection.class);
@@ -23,6 +24,7 @@ public class SwitchDriveDirection extends CommandGroup {
     public SwitchDriveDirection(DriveDirection driveDir) {
 
         //addParallel(new SwitchDrive(driveDir));
+        Robot.driveTrain.setDirection(driveDir);
         addSequential(new SetLED(driveDir == DriveDirection.HATCH ?
                 LimelightLEDState.ON : LimelightLEDState.OFF));
 

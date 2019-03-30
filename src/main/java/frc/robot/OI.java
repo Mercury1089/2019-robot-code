@@ -19,6 +19,7 @@ import frc.robot.commands.drivetrain.DriveWithJoysticks.DriveType;
 import frc.robot.commands.drivetrain.SwitchDriveDirection;
 import frc.robot.commands.drivetrain.TrackTarget;
 import frc.robot.commands.elevator.ManualElevator;
+import frc.robot.commands.hatchpanel.ManualStingerControl;
 import frc.robot.commands.hatchpanel.RunStinger;
 import frc.robot.commands.climber.ArticulateFangs;
 import frc.robot.commands.climber.ManualFangsControl;
@@ -58,7 +59,7 @@ public class OI {
         initalizeJoystickButtons();
 
         left1.whenPressed(new IntakeCargo());
-        left2.whenPressed(new SwitchDriveDirection(DriveDirection.HATCH));
+        //left2.whenPressed(new SwitchDriveDirection(DriveDirection.HATCH));
         left3.whenPressed(new TrackTarget());
         left4.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
         left5.whenPressed(new ArticulateFangs(Fangs.FangsPosition.IN_BOT));
@@ -77,8 +78,8 @@ public class OI {
 
         right6.whenPressed(new AutonMove("LeftRocketFar"));
         right7.whenPressed(new AutonMove("LeftRocketClose"));
-        //right8.whenPressed(new AutonMove("LeftStation"));        /* PLACEHOLDER FOR GO TO STATION */
-        //right9.whenPressed(new AutonMove("RightStation"));       /* PLACEHOLDER FOR GO TO STATION */
+        right8.whenPressed(new SwitchDriveDirection(DriveDirection.HATCH));
+        right9.whenPressed(new SwitchDriveDirection(DriveDirection.CARGO));
         right10.whenPressed(new AutonMove("RightRocketClose"));
         right11.whenPressed(new AutonMove("RightRocketFar"));
 

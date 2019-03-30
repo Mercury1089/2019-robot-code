@@ -21,7 +21,7 @@ public class SmartElevatorDown extends ConditionalCommand {
 
     @Override
     public boolean condition() {
-        return Robot.elevator.getCurrentHeight() > ElevatorPosition.ROCKET_1_C.encPos &&
-                targetPosition.encPos < ElevatorPosition.ROCKET_1_C.encPos;
+        return Robot.elevator.getCurrentHeight() > ElevatorPosition.DANGER_LINE.encPos &&
+                targetPosition.encPos < ElevatorPosition.DANGER_LINE.encPos;
     }
 }

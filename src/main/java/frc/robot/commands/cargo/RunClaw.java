@@ -3,6 +3,8 @@ package frc.robot.commands.cargo;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.ClawAndIntake;
+import frc.robot.util.DriveAssist.DriveDirection;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,11 +35,18 @@ public class RunClaw extends Command {
     @Override
     protected boolean isFinished() {
         if (state == ClawAndIntake.ClawState.INTAKING) {
+            if(Robot.clawAndIntake.isCargoInRobot()) {
+                Robot.driveTrain.setDirection(DriveDirection.CARGO);
+            }
             return Robot.clawAndIntake.isCargoInRobot();
         }
-        else {
+        else if (state == ClawAndIntake.ClawState.EJECTING) {
+            if (System.currentTimeMillis() - startTimeMillis > timeThreshold) {
+                Robot.driveTrain.setDirection(DriveDirection.HATCH);
+            }
             return System.currentTimeMillis() - startTimeMillis > timeThreshold;
         }
+        return true;
     }
 
     @Override

@@ -78,10 +78,6 @@ public class DriveAssist {
         moveVal = MercMath.clamp(moveVal, -1.0, 1.0);
         rotateVal = MercMath.clamp(rotateVal, -1.0, 1.0);
 
-        if (direction == DriveDirection.CARGO) {
-            moveVal = -moveVal;
-        }
-
         // Square inputs, but maintain their signs.
         // This allows for more precise control at lower speeds,
         // but permits full power.

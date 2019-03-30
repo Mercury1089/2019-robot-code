@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.RobotMap.CAN;
 import frc.robot.commands.elevator.HoldPosition;
+import frc.robot.util.MercMath;
 import frc.robot.util.MercTalonSRX;
 import frc.robot.util.PIDGain;
 import frc.robot.util.interfaces.IMercMotorController;
@@ -17,6 +18,7 @@ public class Elevator extends Subsystem {
 
     public static final double NORMAL_P_VAL = 0.1;
     public static final int PRIMARY_PID_LOOP = 0;
+    public static final int MAX_ELEV_RPM = 18000;
 
     private static Logger log = LogManager.getLogger(Elevator.class);
 
@@ -66,9 +68,9 @@ public class Elevator extends Subsystem {
         ROCKET_3_C(914641.0),    // 3st level Rocket: Cargo
         ROCKET_2_C(551295.0),    // 2rd level Rocket: Cargo
         ROCKET_1_C(179359.0),    // 1nd level Rocket: Cargo
-        ROCKET_3_HP(678940.0),   // 3th level Rocket: Hatch Panel
-        ROCKET_2_HP(304939.0),   // 2st level Rocket: Hatch Panel
-        CARGOSHIP_C(195349.0),   // Cargo ship: Cargo
+        ROCKET_3_HP(723000.0),   // 3th level Rocket: Hatch Panel
+        ROCKET_2_HP(355720.0),   // 2st level Rocket: Hatch Panel
+        CARGOSHIP_C(380000.0),   // Cargo ship: Cargo
         DANGER_LINE(150000.0),   // Line where Claw is in danger of hitting the Mouth
         //3062
         BOTTOM(-5000.0);         // Elevator bottom, can do hatchpanels at: loading station, rocket level 1, and cargo ship

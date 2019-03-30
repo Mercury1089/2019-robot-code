@@ -37,6 +37,8 @@ public class Stinger extends Subsystem {
 
         ejector.setPosition(0);
 
+        ejector.configVoltage(0, 0.75);
+
         ejector.configPID(EJECTOR_PID_SLOT, ejectorGain);
 
         ejector.configAllowableClosedLoopError(EJECTOR_PID_SLOT, EJECTOR_THRESHOLD);
