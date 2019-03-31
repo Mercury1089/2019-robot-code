@@ -248,7 +248,7 @@ public class Limelight implements PIDSource, TableEntryListener {
     }
 
     public void setPipeline(LimelightPosition position) {
-        nt.getEntry("pipeline").setNumber(position.pipeline);
+        nt.getEntry("pipeline").setNumber(1);
     }
 
     public synchronized boolean isSafeToTrack() {

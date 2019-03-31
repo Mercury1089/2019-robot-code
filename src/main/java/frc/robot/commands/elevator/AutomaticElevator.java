@@ -27,15 +27,15 @@ public class AutomaticElevator extends Command {
     public AutomaticElevator(ElevatorPosition pos) {
         requires(Robot.elevator);
         targetPos = pos;
-        endable = false;
+        endable = true;
 
         setName("UseElevator (" + pos + ")");
         LOG.info(getName() + " Constructed");
     }
-
+    
     public AutomaticElevator(ElevatorPosition pos, boolean endable) {
         this(pos);
-        this.endable = endable;
+        this.endable = true;
     }
 
     @Override

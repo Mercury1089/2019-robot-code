@@ -82,8 +82,6 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.ON);
-
-        new AutonMove(oi.getAutonFirstStep()).start();
     }
 
     @Override
@@ -99,7 +97,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        System.out.println(stinger.getCurrentCommandName());
         Scheduler.getInstance().run();
     }
 

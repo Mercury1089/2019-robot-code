@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Elevator extends Subsystem {
 
-    public static final double NORMAL_P_VAL = 0.12;
+    public static final double NORMAL_P_VAL = 0.18;
     public static final int PRIMARY_PID_LOOP = 0;
     public static final int MAX_ELEV_RPM = 18000;
 
@@ -28,7 +28,7 @@ public class Elevator extends Subsystem {
         elevatorLeader = new MercTalonSRX(CAN.ELEVATOR_TALON);
         elevatorLeader.setNeutralMode(NeutralMode.Brake);
 
-        elevatorLeader.configMotionAcceleration((int)(MercMath.revsPerMinuteToTicksPerTenth(9000)));
+        elevatorLeader.configMotionAcceleration((int)(MercMath.revsPerMinuteToTicksPerTenth(18000 * 2)));
         elevatorLeader.configMotionCruiseVelocity((int) MercMath.revsPerMinuteToTicksPerTenth(MAX_ELEV_RPM));
 
         elevatorLeader.setSensorPhase(false);

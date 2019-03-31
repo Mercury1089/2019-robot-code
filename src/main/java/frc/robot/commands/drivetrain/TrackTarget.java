@@ -35,7 +35,7 @@ public class TrackTarget extends MoveHeading {
         super.initialize();
         Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
         Robot.driveTrain.configClosedLoopPeakOutput(DriveTrain.DRIVE_PID_SLOT, .3);
-        Robot.driveTrain.configClosedLoopPeakOutput(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT, .35);
+        Robot.driveTrain.configClosedLoopPeakOutput(DriveTrain.DRIVE_SMOOTH_MOTION_SLOT, .25);
         LOG.info(getName() + " Initialized");
     }
 
@@ -43,8 +43,8 @@ public class TrackTarget extends MoveHeading {
     @Override
     protected void execute() {
         double adjustedDistance = MercMath.feetToEncoderTicks(Robot.limelightAssembly.getLimeLight().getRawVertDistance() - allowableDistError);
-        adjustedDistance *= Robot.driveTrain.getDirection().dir;
-        double adjustedHeading = -MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
+        //adjustedDistance *= Robot.driveTrain.getDirection().dir;
+        double adjustedHeading = MercMath.degreesToPigeonUnits(Robot.limelightAssembly.getLimeLight().getTargetCenterXAngle());
         right.set(ControlMode.Position, adjustedDistance, DemandType.AuxPID, adjustedHeading);
         left.follow(right, FollowerType.AuxOutput1);
         LOG.info(getName() + " Executed");

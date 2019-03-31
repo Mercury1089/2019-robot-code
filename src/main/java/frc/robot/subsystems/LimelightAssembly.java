@@ -30,7 +30,7 @@ public class LimelightAssembly extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new ManualLimelightRotation());
+        //setDefaultCommand(new ManualLimelightRotation());
     }
 
     public double getServoPosition() {
@@ -55,7 +55,7 @@ public class LimelightAssembly extends Subsystem {
 
     public enum LimelightPosition {
         FACING_HATCH_PANEL(0.94, 1),
-        FACING_CARGO(0.023, 0);
+        FACING_CARGO(0.023, 1);
 
         public double servoPosition;
         public int pipeline;

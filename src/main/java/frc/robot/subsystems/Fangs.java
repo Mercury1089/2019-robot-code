@@ -26,9 +26,9 @@ public class Fangs extends Subsystem {
 
         articulator.resetEncoder();
 
-        articulator.setInverted(true);
+        articulator.setInverted(false);
 
-        articulator.setSensorPhase(true);
+        articulator.setSensorPhase(false);
 
         articulator.setPosition(FangsPosition.IN_BOT.getEncTicks());
 
