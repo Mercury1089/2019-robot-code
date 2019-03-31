@@ -11,6 +11,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.TimeUnit;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 
 public class AutomaticElevator extends Command {
 
@@ -38,7 +40,7 @@ public class AutomaticElevator extends Command {
 
     @Override
     protected void initialize() {
-        Robot.elevator.getElevatorLeader().setPosition(targetPos.encPos);
+        Robot.elevator.getElevatorLeader().set(ControlMode.MotionMagic, targetPos.encPos);
 
         LOG.info(getName() + " initialized");
     }
@@ -65,6 +67,7 @@ public class AutomaticElevator extends Command {
     }
 
     @Override
+    
     protected void end() {
         LOG.info(getName() + "elevator ended");
     }
