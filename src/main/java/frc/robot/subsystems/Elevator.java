@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Elevator extends Subsystem {
 
-    public static final double NORMAL_P_VAL = 0.18;
+    public static final double NORMAL_P_VAL = 0.12;
     public static final int PRIMARY_PID_LOOP = 0;
     public static final int MAX_ELEV_RPM = 18000;
 
@@ -35,18 +35,18 @@ public class Elevator extends Subsystem {
         elevatorLeader.setInverted(true);
         elevatorLeader.configVoltage(0.125, 1.0);
         elevatorLeader.configClosedLoopPeriod(0, 1);
-        elevatorLeader.configAllowableClosedLoopError(0, 5);
+        //elevatorLeader.configAllowableClosedLoopError(0, 5);
         elevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RobotMap.PID.PRIMARY_PID_LOOP);
         elevatorLeader.configSetParameter(ParamEnum.eClearPositionOnLimitR, 1, 0, 0);
         elevatorLeader.setForwardSoftLimit((int) ElevatorPosition.MAX_HEIGHT.encPos);
         elevatorLeader.enableForwardSoftLimit();
 
-        elevatorLeader.configPID(Elevator.PRIMARY_PID_LOOP, new PIDGain(NORMAL_P_VAL, 0.00005, 0.0, MercMath.calculateFeedForward(MAX_ELEV_RPM)));
+        elevatorLeader.configPID(Elevator.PRIMARY_PID_LOOP, new PIDGain(NORMAL_P_VAL, 0.0, 0.0, MercMath.calculateFeedForward(MAX_ELEV_RPM)));
     }
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new HoldPosition());
+        //setDefaultCommand(new HoldPosition());
     }
 
     public IMercMotorController getElevatorLeader() {

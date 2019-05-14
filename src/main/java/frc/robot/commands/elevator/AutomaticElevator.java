@@ -24,10 +24,13 @@ public class AutomaticElevator extends Command {
 
     private boolean endable;
 
+    private boolean down;
+
     public AutomaticElevator(ElevatorPosition pos) {
         requires(Robot.elevator);
         targetPos = pos;
         endable = true;
+        down = false;
 
         setName("UseElevator (" + pos + ")");
         LOG.info(getName() + " Constructed");
@@ -38,9 +41,20 @@ public class AutomaticElevator extends Command {
         this.endable = true;
     }
 
+    public AutomaticElevator(ElevatorPosition pos, boolean endable, boolean down) {
+        this(pos);
+        this.endable = true;
+        this.down = down;
+    }
+
     @Override
     protected void initialize() {
-        Robot.elevator.getElevatorLeader().set(ControlMode.MotionMagic, targetPos.encPos);
+        if(down) {
+            Robot.elevator.getElevatorLeader().set(ControlMode.MotionMagic, targetPos.encPos);
+        }
+        else {
+            Robot.elevator.getElevatorLeader().setPosition(targetPos.encPos);
+        }
 
         LOG.info(getName() + " initialized");
     }
