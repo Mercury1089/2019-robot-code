@@ -63,26 +63,26 @@ public class OI {
         left3.whenPressed(new TrackTarget());
         left4.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
         left5.whenPressed(new ArticulateFangs(Fangs.FangsPosition.IN_BOT));
-
-        left6.whenPressed(new AutonMove("LeftMiddle"));
+        /*
+        1left6.whenPressed(new AutonMove("LeftMiddle"));
         left7.whenPressed(new AutonMove("LeftClose"));
         left8.whenPressed(new AutonMove("MidLeft"));
         left9.whenPressed(new AutonMove("MidRight"));
         left10.whenPressed(new AutonMove("RightClose"));
         left11.whenPressed(new AutonMove("RightMiddle"));
-
+        */
         right1.whenPressed(new RunStinger());
         right2.whenPressed(new RunClaw(ClawState.EJECTING));
         right3.whenPressed(new ArticulateMouth(MouthPosition.OUT));
         right4.whenPressed(new ArticulateMouth(MouthPosition.IN));
-
+        /*
         right6.whenPressed(new AutonMove("LeftRocketFar"));
         right7.whenPressed(new AutonMove("LeftRocketClose"));
         right8.whenPressed(new SwitchDriveDirection(DriveDirection.HATCH));
         right9.whenPressed(new SwitchDriveDirection(DriveDirection.CARGO));
         right10.whenPressed(new AutonMove("RightRocketClose"));
         right11.whenPressed(new AutonMove("RightRocketFar"));
-
+        */
         gamepadA.whenPressed(new UseElevator(ElevatorPosition.BOTTOM));
         gamepadB.whenPressed(new ManualElevator());
         gamepadX.whenPressed(new UseElevator(ElevatorPosition.CARGOSHIP_C));
