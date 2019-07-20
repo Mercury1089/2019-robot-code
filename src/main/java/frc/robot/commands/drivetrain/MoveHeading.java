@@ -132,7 +132,7 @@ public class MoveHeading extends Command {
     @Override
     protected void end() {
         Robot.driveTrain.stop();
-        Robot.driveTrain.configVoltage(DriveTrain.NOMINAL_OUT, DriveTrain.PEAK_OUT);
+        Robot.driveTrain.configVoltage(DriveTrain.NOMINAL_OUT, DriveTrain.getPeakOut());
         LOG.info(getName() + " Ended");
     }
 

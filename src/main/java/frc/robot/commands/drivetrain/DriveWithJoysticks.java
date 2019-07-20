@@ -22,7 +22,7 @@ public class DriveWithJoysticks extends Command {
     public DriveWithJoysticks(DriveType type) {
         requires(Robot.driveTrain);
         setName("DriveWithJoysticks Command");
-        Robot.driveTrain.configVoltage(DriveTrain.NOMINAL_OUT, DriveTrain.PEAK_OUT);
+        Robot.driveTrain.configVoltage(DriveTrain.NOMINAL_OUT, DriveTrain.getPeakOut());
         driveType = type;
         log.debug(getName() + " command created");
     }
