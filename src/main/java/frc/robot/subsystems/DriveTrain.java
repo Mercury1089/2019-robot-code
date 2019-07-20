@@ -42,9 +42,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public static final double GEAR_RATIO = 1,
             MAX_RPM = 545,
             WHEEL_DIAMETER_INCHES = 5.8;
-    public static final double NOMINAL_OUT = 0.0;
-
-    private static double PEAK_OUT;
+    public static final double NOMINAL_OUT = 0.0,
+                               PEAK_OUT = 1.0;
 
     private final PIDGain DRIVE_GAINS, SMOOTH_GAINS, MOTION_PROFILE_GAINS, TURN_GAINS;
 
@@ -69,8 +68,6 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public DriveTrain(DriveTrain.DriveTrainLayout layout) {
         //This should eventually be fully configurable
         // At this point it's based on what the layout is
-
-        setPeakOut(1.0);
 
         this.layout = layout;
         switch (layout) {
@@ -394,14 +391,6 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         leaderRight.setNeutralMode(neutralMode);
         followerLeft.setNeutralMode(neutralMode);
         followerRight.setNeutralMode(neutralMode);
-    }
-
-    public static void setPeakOut(double peak) {
-        PEAK_OUT = peak;
-    }
-
-    public static double getPeakOut() {
-        return PEAK_OUT;
     }
 
     public enum DriveTrainLayout {
