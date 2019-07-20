@@ -43,8 +43,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
             MAX_RPM = 545,
             WHEEL_DIAMETER_INCHES = 5.8;
     public static final double NOMINAL_OUT = 0.0,
-                               SAFE_PEAK_VOLTAGE = 0.2,
-                               PEAK_OUT = 1.0;
+                               PEAK_OUT = 0.4;
 
     private final PIDGain DRIVE_GAINS, SMOOTH_GAINS, MOTION_PROFILE_GAINS, TURN_GAINS;
 
