@@ -22,7 +22,6 @@ public class DriveWithJoysticks extends Command {
     public DriveWithJoysticks(DriveType type) {
         requires(Robot.driveTrain);
         setName("DriveWithJoysticks Command");
-        Robot.driveTrain.configVoltage(DriveTrain.NOMINAL_OUT, DriveTrain.PEAK_OUT);
         driveType = type;
         log.debug(getName() + " command created");
     }
@@ -30,6 +29,7 @@ public class DriveWithJoysticks extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        Robot.driveTrain.configVoltage(DriveTrain.NOMINAL_OUT, DriveTrain.PEAK_OUT);
         tDrive = Robot.driveTrain.getDriveAssist();
         log.info("Set max output to: " + tDrive.getMaxOutput());
         Robot.driveTrain.setNeutralMode(NeutralMode.Brake);

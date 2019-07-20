@@ -10,6 +10,7 @@ public class ShuffleDash {
 
     private NetworkTableInstance ntInstance;
     private SendableChooser<String> sandstormFirstStep;
+    private SendableChooser<Boolean> safetyMode;
 
     public ShuffleDash() {
         //new Notifier(this::updateDash).startPeriodic(0.020);
@@ -28,6 +29,11 @@ public class ShuffleDash {
         sandstormFirstStep.addOption("Right Middle", "RightMiddle");
         sandstormFirstStep.addOption("Right Far", "RightFar");
         sandstormFirstStep.setDefaultOption("Straight", "StraightProfile");
+
+        safetyMode = new SendableChooser<Boolean>();
+        safetyMode.addOption("Safety Mode Enabled", true);
+        safetyMode.addOption("Safety Mode Disabled", false);   
+        safetyMode.setDefaultOption("Competition Mode", false);
     }
 
     public void updateDash() {
@@ -57,6 +63,8 @@ public class ShuffleDash {
 
         SmartDashboard.putData("Sandstorm First Step", sandstormFirstStep);
 
+        SmartDashboard.putData("Safety Mode", safetyMode);
+
         SmartDashboard.putBoolean("Elevator Limit Switch Closed", Robot.elevator.getElevatorLeader().isLimitSwitchClosed(LimitSwitchDirection.REVERSE));
 
         SmartDashboard.putNumber("Elevator enc", Robot.elevator.getElevatorLeader().getEncTicks());
@@ -74,4 +82,8 @@ public class ShuffleDash {
     public String getFirstStep() {
         return sandstormFirstStep.getSelected();
     }
+
+    public boolean isSafetyModeEnabled() {
+        return safetyMode.getSelected();
+    } 
 }
