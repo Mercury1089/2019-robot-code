@@ -27,7 +27,7 @@ import org.apache.logging.log4j.Logger;
 public class DriveTrain extends Subsystem implements PIDOutput {
 
     public static final int DRIVE_PID_SLOT = 0,
-            DRIVE_SMOOTH_MOTION_SLOT = 1,
+                            DRIVE_SMOOTH_MOTION_SLOT = 1,
                             DRIVE_MOTION_PROFILE_SLOT = 2,
                             DRIVE_SMOOTH_TURN_SLOT = 3;
     public static final int REMOTE_DEVICE_0 = 0,
@@ -38,12 +38,12 @@ public class DriveTrain extends Subsystem implements PIDOutput {
                             NEO_ENCODER_TICKS_PER_REVOLUTION = 42,
                             PIGEON_NATIVE_UNITS_PER_ROTATION = 8192;
     public static final double MAX_SPEED = 1,
-            MIN_SPEED = -1;
+                            MIN_SPEED = -1;
     public static final double GEAR_RATIO = 1,
-            MAX_RPM = 545,
-            WHEEL_DIAMETER_INCHES = 5.8;
+                            MAX_RPM = 545,
+                            WHEEL_DIAMETER_INCHES = 5.8;
     public static final double NOMINAL_OUT = 0.0,
-                               PEAK_OUT = 0.4;
+                            PEAK_OUT = 0.4;
 
     private final PIDGain DRIVE_GAINS, SMOOTH_GAINS, MOTION_PROFILE_GAINS, TURN_GAINS;
 
