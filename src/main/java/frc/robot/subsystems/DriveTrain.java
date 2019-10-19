@@ -76,13 +76,13 @@ public class DriveTrain extends Subsystem implements PIDOutput {
                 leaderRight = new MercTalonSRX(CAN.DRIVETRAIN_MR);
                 followerLeft = new MercTalonSRX(CAN.DRIVETRAIN_SL);
                 followerRight = new MercTalonSRX(CAN.DRIVETRAIN_SR);
-                break;/*
+                break;
             case SPARKS:
                 leaderLeft = new MercSparkMax(CAN.DRIVETRAIN_ML);
                 leaderRight = new MercSparkMax(CAN.DRIVETRAIN_MR);
                 followerLeft = new MercSparkMax(CAN.DRIVETRAIN_SL);
                 followerRight = new MercSparkMax(CAN.DRIVETRAIN_SR);
-                break;*/
+                break;
             case TALONS:
                 leaderLeft = new MercTalonSRX(CAN.DRIVETRAIN_ML);
                 leaderRight = new MercTalonSRX(CAN.DRIVETRAIN_MR);
