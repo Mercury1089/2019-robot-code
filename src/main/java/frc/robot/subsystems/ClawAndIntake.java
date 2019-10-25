@@ -65,7 +65,7 @@ public class ClawAndIntake extends Subsystem {
                 mouthIntaker.setSpeed(0.0);
                 break;
             default: //Ejecting
-                clawLeft.setSpeed(1.0);
+                clawLeft.setSpeed(0.5);
                 mouthIntaker.setSpeed(0.0);
         }
     }

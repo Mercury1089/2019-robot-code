@@ -42,7 +42,7 @@ public class Limelight implements PIDSource, TableEntryListener {
         targetArea = nt.getEntry("ta").getDouble(0.0);
         horizontalLength = nt.getEntry("thor").getDouble(0.0);
         verticalLength = nt.getEntry("tvert").getDouble(0.0);
-        targetAcquired = nt.getEntry("tv").getDouble(0.0) == 0.0 ? false : true;
+        targetAcquired = nt.getEntry("tv").getDouble(0.0) != 0.0;
         cornerx = nt.getEntry("tcornx").getDoubleArray(new double[]{0});
         nt.addEntryListener(this, EntryListenerFlags.kUpdate);
     }
