@@ -12,7 +12,7 @@ public class RunClaw extends Command {
 
     private final Logger LOG = LogManager.getLogger(RunClaw.class);
     private ClawAndIntake.ClawState state;
-    private int timeThreshold = 550;
+    private long timeThreshold = 550;
     private long startTimeMillis;
 
     public RunClaw(ClawAndIntake.ClawState state) {

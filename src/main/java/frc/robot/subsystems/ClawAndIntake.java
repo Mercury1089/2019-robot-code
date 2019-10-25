@@ -13,7 +13,7 @@ public class ClawAndIntake extends Subsystem {
 
     public static final double CARGO_IN_ROBOT_THRESHOLD = 12.0;
 
-    private ClawState state;
+    private ClawState state = ClawState.IDLE;
 
     private MercVictorSPX clawLeft, clawRight, mouthIntaker;
     private LIDAR lidar;

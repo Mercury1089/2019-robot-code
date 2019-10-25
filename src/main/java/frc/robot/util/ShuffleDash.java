@@ -74,6 +74,7 @@ public class ShuffleDash {
 
         SmartDashboard.putBoolean("Rev Fangs limit", Robot.fangs.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.REVERSE));
 
+        SmartDashboard.putString("Claw State", (Robot.clawAndIntake.getClawState().toString()));
         //SmartDashboard.putBoolean("Auton Initialized", ntInstance.getTable("AutonConfiguration").containsKey("startingPosition"));
 
         // SmartDashboard.putString("LED Output",Robot.claw.getCurrentLEDOutput()[0]+","+Robot.claw.getCurrentLEDOutput()[1]+","+Robot.claw.getCurrentLEDOutput()[2]);
