@@ -36,14 +36,14 @@ public class Limelight implements PIDSource, TableEntryListener {
      */
     public Limelight() {
         nt = NetworkTableInstance.getDefault().getTable("limelight-merc");
-        numTargets = nt.getEntry("tv").getDouble(0.0);
-        targetCenterXAngle = nt.getEntry("tx").getDouble(0.0);
-        targetCenterYAngle = nt.getEntry("ty").getDouble(0.0);
-        targetArea = nt.getEntry("ta").getDouble(0.0);
-        horizontalLength = nt.getEntry("thor").getDouble(0.0);
-        verticalLength = nt.getEntry("tvert").getDouble(0.0);
-        targetAcquired = nt.getEntry("tv").getDouble(0.0) != 0.0;
-        cornerx = nt.getEntry("tcornx").getDoubleArray(new double[]{0});
+        numTargets = 0.0;
+        targetCenterXAngle = 0.0;
+        targetCenterYAngle = 0.0;
+        targetArea = 0.0;
+        horizontalLength = 0.0;
+        verticalLength = 0.0;
+        targetAcquired = false;
+        cornerx = new double[]{};
         nt.addEntryListener(this, EntryListenerFlags.kUpdate);
     }
 
