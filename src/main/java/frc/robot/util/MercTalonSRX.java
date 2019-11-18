@@ -240,6 +240,12 @@ public class MercTalonSRX implements IMercMotorController {
         return talonsrx.getClosedLoopError(slotIdx);
     }
 
+    @Override
+    public void configPeakCurrentLimit(int amps){
+        talonsrx.configPeakCurrentLimit(amps);
+    }
+
+    @Override
     public void configFactoryReset() {
         talonsrx.configFactoryDefault();
     }
