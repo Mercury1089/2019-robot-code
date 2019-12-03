@@ -46,20 +46,20 @@ public class Robot extends TimedRobot {
         driveTrain = new DriveTrain(DriveTrainLayout.TALONS);
 
         //Cargo Subsystems
-        mouthArticulator = new MouthArticulator();
-        clawAndIntake = new ClawAndIntake();
+        //mouthArticulator = new MouthArticulator();
+        //clawAndIntake = new ClawAndIntake();
 
         //Elevator
-        elevator = new Elevator();
+        //elevator = new Elevator();
 
         //Hatch Panel Subsystems
-        stinger = new Stinger();
+        //stinger = new Stinger();
 
         //Climber Subsystems
-        fangs = new Fangs();
-        legs = new Legs();
+        //fangs = new Fangs();
+        //legs = new Legs();
 
-        limelightAssembly = new LimelightAssembly();
+        //limelightAssembly = new LimelightAssembly();
 
         oi = new OI();
     }
@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
-        limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.OFF);
+        //limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.OFF);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.ON);
+        //limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.ON);
     }
 
     @Override
@@ -91,8 +91,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.ON);
-        (new SwitchDriveDirection(DriveDirection.HATCH)).start();
+        //limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.ON);
+        //(new SwitchDriveDirection(DriveDirection.HATCH)).start();
     }
 
     @Override
@@ -103,6 +103,6 @@ public class Robot extends TimedRobot {
     @Override
     public void testPeriodic() {
         super.testInit();
-        limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.ON);
+        //limelightAssembly.getLimeLight().setLEDState(LimelightLEDState.ON);
     }
 }

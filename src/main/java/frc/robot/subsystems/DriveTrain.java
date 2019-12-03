@@ -77,12 +77,12 @@ public class DriveTrain extends Subsystem implements PIDOutput {
                 followerLeft = new MercTalonSRX(CAN.DRIVETRAIN_SL);
                 followerRight = new MercTalonSRX(CAN.DRIVETRAIN_SR);
                 break;
-            case SPARKS:
-                leaderLeft = new MercSparkMax(CAN.DRIVETRAIN_ML);
-                leaderRight = new MercSparkMax(CAN.DRIVETRAIN_MR);
-                followerLeft = new MercSparkMax(CAN.DRIVETRAIN_SL);
-                followerRight = new MercSparkMax(CAN.DRIVETRAIN_SR);
-                break;
+            //case SPARKS:
+                //leaderLeft = new MercSparkMax(CAN.DRIVETRAIN_ML);
+                //leaderRight = new MercSparkMax(CAN.DRIVETRAIN_MR);
+                //followerLeft = new MercSparkMax(CAN.DRIVETRAIN_SL);
+                //followerRight = new MercSparkMax(CAN.DRIVETRAIN_SR);
+                //break;
             case TALONS:
                 leaderLeft = new MercTalonSRX(CAN.DRIVETRAIN_ML);
                 leaderRight = new MercTalonSRX(CAN.DRIVETRAIN_MR);
@@ -230,10 +230,10 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     @Override
     public void periodic() {
         hatchLidar.updatePWMInput();
-        updateLEDs();
+        //updateLEDs();
     }
 
-    private void updateLEDs() {
+    /*private void updateLEDs() {
         if (Robot.clawAndIntake.isCargoInRobot()) {
             setLEDColor(LEDColor.GREEN);
         } else if (Robot.clawAndIntake.getClawState() == ClawAndIntake.ClawState.EJECTING) {

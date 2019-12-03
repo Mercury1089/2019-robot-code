@@ -50,11 +50,11 @@ public class ShuffleDash {
         SmartDashboard.putNumber("Left Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getLeftLeader().getEncVelo()));
         SmartDashboard.putNumber("Right Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getRightLeader().getEncVelo()));
 
-        SmartDashboard.putNumber("LIDAR Raw Distance (in.)", MercMath.roundFloat(Robot.clawAndIntake.getLidar().getRawDistance(), 10));
+        //SmartDashboard.putNumber("LIDAR Raw Distance (in.)", MercMath.roundFloat(Robot.clawAndIntake.getLidar().getRawDistance(), 10));
 
         SmartDashboard.putNumber("Ultrasonic Distance (Some unit)", Robot.driveTrain.getLeftUltrasonic().getDistance());
 
-        SmartDashboard.putNumber("Lime Dist From Vertical", Robot.limelightAssembly.getLimeLight().getRawVertDistance());
+        //SmartDashboard.putNumber("Lime Dist From Vertical", Robot.limelightAssembly.getLimeLight().getRawVertDistance());
 
         SmartDashboard.putNumber("Gyro Angle", Robot.driveTrain.getPigeonYaw());
 
@@ -65,14 +65,14 @@ public class ShuffleDash {
 
         SmartDashboard.putData("Safety Mode", safetyMode);
 
-        SmartDashboard.putBoolean("Elevator Limit Switch Closed", Robot.elevator.getElevatorLeader().isLimitSwitchClosed(LimitSwitchDirection.REVERSE));
+        //SmartDashboard.putBoolean("Elevator Limit Switch Closed", Robot.elevator.getElevatorLeader().isLimitSwitchClosed(LimitSwitchDirection.REVERSE));
 
-        SmartDashboard.putNumber("Elevator enc", Robot.elevator.getElevatorLeader().getEncTicks());
-        SmartDashboard.putNumber("Hatch pos", Robot.stinger.getEjector().getEncTicks());
+        //SmartDashboard.putNumber("Elevator enc", Robot.elevator.getElevatorLeader().getEncTicks());
+        //SmartDashboard.putNumber("Hatch pos", Robot.stinger.getEjector().getEncTicks());
 
-        SmartDashboard.putNumber("Fangs Enc", Robot.fangs.getArticulator().getEncTicks());
+        //SmartDashboard.putNumber("Fangs Enc", Robot.fangs.getArticulator().getEncTicks());
 
-        SmartDashboard.putBoolean("Rev Fangs limit", Robot.fangs.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.REVERSE));
+        //SmartDashboard.putBoolean("Rev Fangs limit", Robot.fangs.getArticulator().isLimitSwitchClosed(LimitSwitchDirection.REVERSE));
 
         //SmartDashboard.putBoolean("Auton Initialized", ntInstance.getTable("AutonConfiguration").containsKey("startingPosition"));
 
