@@ -90,17 +90,18 @@ public class DriveTrain extends Subsystem implements PIDOutput {
                 followerRight = new MercVictorSPX(CAN.DRIVETRAIN_SR);
                 break;
         }
-
+        /*
         //Initialize podgeboi
         podgeboi = new PigeonIMU(CAN.PIGEON);
         podgeboi.configFactoryDefault();
-
+        */
+        /*
         //CANifier and distance sensors
         canifier = new CANifier(RobotMap.CAN.CANIFIER);
         hatchLidar = new LIDAR(canifier, CANifier.PWMChannel.PWMChannel0, PWMOffset.EQUATION_C);
         rightUltrasonic = new Ultrasonic(RobotMap.AIO.RIGHT_ULTRASONIC);
         leftUltrasonic = new Ultrasonic(RobotMap.AIO.LEFT_ULTRASONIC);
-
+        */
         //Account for motor orientation.
         leaderLeft.setInverted(false);
         followerLeft.setInverted(false);
