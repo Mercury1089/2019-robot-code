@@ -28,7 +28,7 @@ public class ClawAndIntake extends Subsystem {
 
         clawRight.follow(clawLeft);
 
-        lidar = new LIDAR(Robot.driveTrain.getCanifier(), CANifier.PWMChannel.valueOf(0), LIDAR.PWMOffset.EQUATION_C);
+        //lidar = new LIDAR(Robot.driveTrain.getCanifier(), CANifier.PWMChannel.valueOf(0), LIDAR.PWMOffset.EQUATION_C);
     }
 
     @Override

@@ -54,15 +54,15 @@ public class OI {
         rightJoystick = new Joystick(DS_USB.RIGHT_STICK);
         gamepad = new Joystick(DS_USB.GAMEPAD);
 
-        shuffleDash = new ShuffleDash();
+        //shuffleDash = new ShuffleDash();
 
         initalizeJoystickButtons();
 
-        left1.whenPressed(new IntakeCargo());
+        //left1.whenPressed(new IntakeCargo());
         //left2.whenPressed(new SwitchDriveDirection(DriveDirection.HATCH));
-        left3.whenPressed(new TrackTarget());
+        //left3.whenPressed(new TrackTarget());
         left4.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
-        left5.whenPressed(new ArticulateFangs(Fangs.FangsPosition.IN_BOT));
+        //left5.whenPressed(new ArticulateFangs(Fangs.FangsPosition.IN_BOT));
         /*
         1left6.whenPressed(new AutonMove("LeftMiddle"));
         left7.whenPressed(new AutonMove("LeftClose"));
@@ -71,10 +71,10 @@ public class OI {
         left10.whenPressed(new AutonMove("RightClose"));
         left11.whenPressed(new AutonMove("RightMiddle"));
         */
-        right1.whenPressed(new RunStinger());
-        right2.whenPressed(new RunClaw(ClawState.EJECTING));
-        right3.whenPressed(new ArticulateMouth(MouthPosition.OUT));
-        right4.whenPressed(new ArticulateMouth(MouthPosition.IN));
+        //right1.whenPressed(new RunStinger());
+        //right2.whenPressed(new RunClaw(ClawState.EJECTING));
+        //right3.whenPressed(new ArticulateMouth(MouthPosition.OUT));
+        //right4.whenPressed(new ArticulateMouth(MouthPosition.IN));
         /*
         right6.whenPressed(new AutonMove("LeftRocketFar"));
         right7.whenPressed(new AutonMove("LeftRocketClose"));
@@ -83,17 +83,17 @@ public class OI {
         right10.whenPressed(new AutonMove("RightRocketClose"));
         right11.whenPressed(new AutonMove("RightRocketFar"));
         */
-        gamepadA.whenPressed(new UseElevator(ElevatorPosition.BOTTOM));
-        gamepadB.whenPressed(new ManualElevator());
-        gamepadX.whenPressed(new UseElevator(ElevatorPosition.CARGOSHIP_C));
-        gamepadY.whenPressed(new UseElevator(ElevatorPosition.ROCKET_1_C));
-        gamepadLB.whenPressed(new ConditionalLevel2Elevator());
-        gamepadRB.whenPressed(new ConditionalLevel3Elevator());
+        //gamepadA.whenPressed(new UseElevator(ElevatorPosition.BOTTOM));
+        //gamepadB.whenPressed(new ManualElevator());
+        //gamepadX.whenPressed(new UseElevator(ElevatorPosition.CARGOSHIP_C));
+        //gamepadY.whenPressed(new UseElevator(ElevatorPosition.ROCKET_1_C));
+        //gamepadLB.whenPressed(new ConditionalLevel2Elevator());
+        //gamepadRB.whenPressed(new ConditionalLevel3Elevator());
         //gamepadBack.whenPressed(new DriveWithJoysticks(DriveType.ARCADE));
         //gamepadStart.whenPressed(new TurtleMode());
-        gamepadBack.whenPressed(new MoveLegs(LegsPosition.OUT));
-        gamepadStart.whenPressed(new MoveLegs(LegsPosition.IN));
-        gamepadLeftStickButton.whenPressed(new ManualFangsControl());
+        //gamepadBack.whenPressed(new MoveLegs(LegsPosition.OUT));
+        //gamepadStart.whenPressed(new MoveLegs(LegsPosition.IN));
+        //gamepadLeftStickButton.whenPressed(new ManualFangsControl());
     }
 
     public String getAutonFirstStep() {
@@ -137,9 +137,9 @@ public class OI {
         return ((axis % 2 != 0 && axis != 3) ? -1.0 : 1.0) * gamepad.getRawAxis(axis);
     }
 
-    public void updateDash() {
-        shuffleDash.updateDash();
-    }
+    //public void updateDash() {
+        //shuffleDash.updateDash();
+    //}
 
     private void initalizeJoystickButtons() {
         left1 = new JoystickButton(leftJoystick, JOYSTICK_BUTTONS.BTN1);

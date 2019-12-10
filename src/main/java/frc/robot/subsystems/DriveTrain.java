@@ -52,10 +52,10 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     private IMercMotorController leaderLeft, leaderRight, followerLeft, followerRight;
     private DriveAssist driveAssist;
     private PigeonIMU podgeboi;
-    private CANifier canifier;
-    private LIDAR hatchLidar;
-    private Ultrasonic leftUltrasonic;
-    private Ultrasonic rightUltrasonic;
+    //private CANifier canifier;
+    //private LIDAR hatchLidar;
+    //private Ultrasonic leftUltrasonic;
+    //private Ultrasonic rightUltrasonic;
     private DriveTrainLayout layout;
     private boolean isInMotionMagicMode;
     private LEDColor currentLEDColor;
@@ -90,11 +90,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
                 followerRight = new MercVictorSPX(CAN.DRIVETRAIN_SR);
                 break;
         }
-        /*
+        
         //Initialize podgeboi
         podgeboi = new PigeonIMU(CAN.PIGEON);
         podgeboi.configFactoryDefault();
-        */
+        
         /*
         //CANifier and distance sensors
         canifier = new CANifier(RobotMap.CAN.CANIFIER);
@@ -230,7 +230,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
 
     @Override
     public void periodic() {
-        hatchLidar.updatePWMInput();
+        //hatchLidar.updatePWMInput();
         //updateLEDs();
     }
 
@@ -252,14 +252,14 @@ public class DriveTrain extends Subsystem implements PIDOutput {
      */
     private void setLEDColor(LEDColor ledColor) {
         currentLEDColor = ledColor;
-        canifier.setLEDOutput(ledColor.getRed(), CANifier.LEDChannel.LEDChannelB);
-        canifier.setLEDOutput(ledColor.getBlue(), CANifier.LEDChannel.LEDChannelA);
-        canifier.setLEDOutput(ledColor.getGreen(), CANifier.LEDChannel.LEDChannelC);
+        //canifier.setLEDOutput(ledColor.getRed(), CANifier.LEDChannel.LEDChannelB);
+        //canifier.setLEDOutput(ledColor.getBlue(), CANifier.LEDChannel.LEDChannelA);
+        //canifier.setLEDOutput(ledColor.getGreen(), CANifier.LEDChannel.LEDChannelC);
     }
 
-    public CANifier getCanifier() {
-        return canifier;
-    }
+    //public CANifier getCanifier() {
+        //return canifier;
+    //}
 
     /**
      * Stops the driveAssist train.
@@ -267,11 +267,11 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public void stop() {
         leaderLeft.stop();
         leaderRight.stop();
-        if (layout == DriveTrainLayout.SPARKS) {
+        //if (layout == DriveTrainLayout.SPARKS) {
             //NOTE: CALLING STOP ON VICTOR FOLLOWERS BREAKS THEM OUT OF FOLLOW MODE!!
-            followerLeft.stop();
-            followerRight.stop();
-        }
+          //  followerLeft.stop();
+          //  followerRight.stop();
+        //}
     }
 
     /**
@@ -292,14 +292,14 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public void setDirection(DriveDirection dd) {
         driveAssist.setDirection(dd);
     }
-
+    
     public PigeonIMU getPigeon() {
         if (podgeboi == null) {
             log.error("PigeonIMU was not initialized!");
         }
         return podgeboi;
     }
-
+/*
     public LIDAR getHatchLidar() {
         if (hatchLidar == null) {
             log.error("LIDAR was not initialized!");
@@ -320,7 +320,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         }
         return leftUltrasonic;
     }
-
+*/
     public double getPigeonYaw() {
         double[] currYawPitchRoll = new double[3];
         podgeboi.getYawPitchRoll(currYawPitchRoll);
@@ -338,7 +338,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public void resetPigeonYaw() {
         podgeboi.setYaw(0);
     }
-
+/*
     public double getLeftEncPositionInTicks() {
         return leaderLeft.getEncTicks();
     }
@@ -354,7 +354,7 @@ public class DriveTrain extends Subsystem implements PIDOutput {
     public double getRightEncPositionInFeet() {
         return MercMath.getEncPosition(getRightEncPositionInTicks());
     }
-
+*/
     public IMercMotorController getLeftLeader() {
         return leaderLeft;
     }
@@ -434,5 +434,6 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         public double getBlue() {
             return b;
         }
+        
     }
 }

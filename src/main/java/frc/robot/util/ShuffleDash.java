@@ -42,28 +42,28 @@ public class ShuffleDash {
         // SmartDashboard.putNumber("Left Enc in ticks", Robot.driveTrain.getLeftLeader().getEncTicks());
         // SmartDashboard.putNumber("Right Enc in ticks", Robot.driveTrain.getRightLeader().getEncTicks());
 
-        SmartDashboard.putString("direction", Robot.driveTrain.getDirection().name());
+        //SmartDashboard.putString("direction", Robot.driveTrain.getDirection().name());
 
-        SmartDashboard.putNumber("Left Enc in feet", Robot.driveTrain.getLeftEncPositionInFeet());
-        SmartDashboard.putNumber("Right Enc in feet", Robot.driveTrain.getRightEncPositionInFeet());
+        //SmartDashboard.putNumber("Left Enc in feet", Robot.driveTrain.getLeftEncPositionInFeet());
+        //SmartDashboard.putNumber("Right Enc in feet", Robot.driveTrain.getRightEncPositionInFeet());
 
-        SmartDashboard.putNumber("Left Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getLeftLeader().getEncVelo()));
-        SmartDashboard.putNumber("Right Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getRightLeader().getEncVelo()));
+        //SmartDashboard.putNumber("Left Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getLeftLeader().getEncVelo()));
+        //SmartDashboard.putNumber("Right Wheel RPM", MercMath.ticksPerTenthToRevsPerMinute(Robot.driveTrain.getRightLeader().getEncVelo()));
 
         //SmartDashboard.putNumber("LIDAR Raw Distance (in.)", MercMath.roundFloat(Robot.clawAndIntake.getLidar().getRawDistance(), 10));
 
-        SmartDashboard.putNumber("Ultrasonic Distance (Some unit)", Robot.driveTrain.getLeftUltrasonic().getDistance());
+        //SmartDashboard.putNumber("Ultrasonic Distance (Some unit)", Robot.driveTrain.getLeftUltrasonic().getDistance());
 
         //SmartDashboard.putNumber("Lime Dist From Vertical", Robot.limelightAssembly.getLimeLight().getRawVertDistance());
 
-        SmartDashboard.putNumber("Gyro Angle", Robot.driveTrain.getPigeonYaw());
+        //SmartDashboard.putNumber("Gyro Angle", Robot.driveTrain.getPigeonYaw());
 
-        SmartDashboard.putString("FrontCamera", (Robot.driveTrain.getDirection() == DriveAssist.DriveDirection.HATCH) ? "Panel" : "Cargo");
-        SmartDashboard.putString("BackCamera", (Robot.driveTrain.getDirection() == DriveAssist.DriveDirection.HATCH) ? "Cargo" : "Panel");
+        //SmartDashboard.putString("FrontCamera", (Robot.driveTrain.getDirection() == DriveAssist.DriveDirection.HATCH) ? "Panel" : "Cargo");
+        //SmartDashboard.putString("BackCamera", (Robot.driveTrain.getDirection() == DriveAssist.DriveDirection.HATCH) ? "Cargo" : "Panel");
 
-        SmartDashboard.putData("Sandstorm First Step", sandstormFirstStep);
+        //SmartDashboard.putData("Sandstorm First Step", sandstormFirstStep);
 
-        SmartDashboard.putData("Safety Mode", safetyMode);
+        //SmartDashboard.putData("Safety Mode", safetyMode);
 
         //SmartDashboard.putBoolean("Elevator Limit Switch Closed", Robot.elevator.getElevatorLeader().isLimitSwitchClosed(LimitSwitchDirection.REVERSE));
 
