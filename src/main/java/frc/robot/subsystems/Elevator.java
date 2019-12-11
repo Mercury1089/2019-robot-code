@@ -25,7 +25,7 @@ public class Elevator extends Subsystem {
     private IMercMotorController elevatorLeader;
 
     public Elevator() {
-        elevatorLeader = new MercTalonSRX(CAN.ELEVATOR_TALON);
+        //elevatorLeader = new MercTalonSRX(CAN.ELEVATOR_TALON);
         elevatorLeader.setNeutralMode(NeutralMode.Brake);
 
         elevatorLeader.configMotionAcceleration((int)(MercMath.revsPerMinuteToTicksPerTenth(18000 * 2)));

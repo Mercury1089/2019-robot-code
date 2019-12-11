@@ -31,17 +31,17 @@ public class Stinger extends Subsystem {
     private StingerState state;
 
     public Stinger() {
-        ejector = new MercTalonSRX(CAN.HATCH_EJECTOR);
+        //ejector = new MercTalonSRX(CAN.HATCH_EJECTOR);
 
-        ejector.resetEncoder();
+        //ejector.resetEncoder();
 
-        ejector.setPosition(0);
+        //ejector.setPosition(0);
 
-        ejector.configVoltage(0, 0.75);
+        //ejector.configVoltage(0, 0.75);
 
-        ejector.configPID(EJECTOR_PID_SLOT, ejectorGain);
+        //ejector.configPID(EJECTOR_PID_SLOT, ejectorGain);
 
-        ejector.configAllowableClosedLoopError(EJECTOR_PID_SLOT, EJECTOR_THRESHOLD);
+        //ejector.configAllowableClosedLoopError(EJECTOR_PID_SLOT, EJECTOR_THRESHOLD);
     }
 
     public void initDefaultCommand() {

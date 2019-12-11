@@ -10,7 +10,7 @@ public class MouthArticulator extends Subsystem {
     private DoubleSolenoid articulator;
 
     public MouthArticulator() {
-        articulator = new DoubleSolenoid(RobotMap.CAN.PCM, RobotMap.PCM.MOUTH_ACTUATE, RobotMap.PCM.MOUTH_RETRACT);
+        //articulator = new DoubleSolenoid(RobotMap.CAN.PCM, RobotMap.PCM.MOUTH_ACTUATE, RobotMap.PCM.MOUTH_RETRACT);
     }
 
     @Override

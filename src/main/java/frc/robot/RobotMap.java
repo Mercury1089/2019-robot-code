@@ -10,29 +10,29 @@ public class RobotMap {
                 DRIVETRAIN_MR = 2,
                 DRIVETRAIN_SL = 3,
                 DRIVETRAIN_SR = 4,
-                ELEVATOR_TALON = 5,
-                CLAW_LEFT = 6,
-                CLAW_RIGHT = 7,
-                MOUTH_INTAKE = 8,
-                CANIFIER = 9,
-                PIGEON = 10,
-                FANGS = 11,
-                HATCH_EJECTOR = 12,
-                SCREW_BL = 14,
-                SCREW_BR = 15,
-                SCREW_FRONT = 16,
-                SCREW_DRIVE = 17,
-                PCM = 18;
+                //ELEVATOR_TALON = 5,
+                //CLAW_LEFT = 6,
+                //CLAW_RIGHT = 7,
+                //MOUTH_INTAKE = 8,
+                //CANIFIER = 9,
+                PIGEON = 10;
+                //FANGS = 11,
+                //HATCH_EJECTOR = 12,
+                //SCREW_BL = 14,
+                //SCREW_BR = 15,
+                //SCREW_FRONT = 16,
+                //SCREW_DRIVE = 17,
+                //PCM = 18;
 
         private CAN() {
         }
     }
 
     public static class PCM {
-        public static final int HAB_ACTUATE = 0,
-            HAB_RETRACT = 1,
-            MOUTH_ACTUATE = 2,
-            MOUTH_RETRACT = 3;
+        public static final int HAB_ACTUATE = 0;
+            //HAB_RETRACT = 1,
+            //MOUTH_ACTUATE = 2,
+            //MOUTH_RETRACT = 3;
 
 
         private PCM() {
@@ -41,8 +41,8 @@ public class RobotMap {
     }
 
     public static class AIO {
-        public static final int LEFT_ULTRASONIC = 0;
-        public static final int RIGHT_ULTRASONIC = 1;
+        //public static final int LEFT_ULTRASONIC = 0;
+        //public static final int RIGHT_ULTRASONIC = 1;
 
         private AIO() {
         }
@@ -56,9 +56,9 @@ public class RobotMap {
     }
 
     public static class CANIFIER_PWM {
-        public static final int
-                HATCH_LIDAR = 0,
-                CARGO_LIDAR = 1;
+        //public static final int
+                //HATCH_LIDAR = 0,
+                //CARGO_LIDAR = 1;
 
         private CANIFIER_PWM() {
         }

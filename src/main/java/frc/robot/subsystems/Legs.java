@@ -11,7 +11,7 @@ public class Legs extends Subsystem {
 
   public Legs(){
     isInLiftMode = false;
-    legs = new DoubleSolenoid(CAN.PCM, PCM.HAB_ACTUATE, PCM.HAB_RETRACT);
+    //legs = new DoubleSolenoid(CAN.PCM, PCM.HAB_ACTUATE, PCM.HAB_RETRACT);
   }
 
   @Override

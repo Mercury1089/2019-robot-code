@@ -19,9 +19,9 @@ public class ClawAndIntake extends Subsystem {
     private LIDAR lidar;
 
     public ClawAndIntake() {
-        clawLeft = new MercVictorSPX(CAN.CLAW_LEFT);
-        clawRight = new MercVictorSPX(CAN.CLAW_RIGHT);
-        mouthIntaker = new MercVictorSPX(CAN.MOUTH_INTAKE);
+        //clawLeft = new MercVictorSPX(CAN.CLAW_LEFT);
+        //clawRight = new MercVictorSPX(CAN.CLAW_RIGHT);
+        //mouthIntaker = new MercVictorSPX(CAN.MOUTH_INTAKE);
 
         clawLeft.setInverted(true);
         clawRight.setInverted(false);

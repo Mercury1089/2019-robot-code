@@ -22,7 +22,7 @@ public class Fangs extends Subsystem {
     private IMercMotorController articulator;
 
     public Fangs() {
-        articulator = new MercTalonSRX(RobotMap.CAN.FANGS);
+        //articulator = new MercTalonSRX(RobotMap.CAN.FANGS);
 
         articulator.resetEncoder();
 
