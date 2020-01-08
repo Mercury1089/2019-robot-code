@@ -58,14 +58,14 @@ public class ClawAndIntake extends Subsystem {
         switch (state) {
             case INTAKING:
                 clawLeft.setSpeed(-0.3);
-                mouthIntaker.setSpeed(1.0);
+                mouthIntaker.setSpeed(0.7);
                 break;
             case IDLE:
                 clawLeft.setSpeed(0.0);
                 mouthIntaker.setSpeed(0.0);
                 break;
             default: //Ejecting
-                clawLeft.setSpeed(0.5);
+                clawLeft.setSpeed(0.7);
                 mouthIntaker.setSpeed(0.0);
         }
     }

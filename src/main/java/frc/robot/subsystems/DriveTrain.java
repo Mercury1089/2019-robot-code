@@ -160,6 +160,8 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         isInMotionMagicMode = false;
     }
 
+
+
     public void initializeMotionMagicFeedback() {
         /* Configure left's encoder as left's selected sensor */
         leaderLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, DriveTrain.PRIMARY_LOOP);

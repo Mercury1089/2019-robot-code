@@ -14,6 +14,7 @@ import frc.robot.commands.conditionals.ConditionalLevel2Elevator;
 import frc.robot.commands.conditionals.ConditionalLevel3Elevator;
 import frc.robot.commands.conditionals.GeneralEject;
 import frc.robot.commands.conditionals.UseElevator;
+import frc.robot.commands.drivetrain.DriveDistance;
 import frc.robot.commands.drivetrain.DriveWithJoysticks;
 import frc.robot.commands.drivetrain.DriveWithJoysticks.DriveType;
 import frc.robot.commands.drivetrain.SwitchDriveDirection;
@@ -75,6 +76,8 @@ public class OI {
         right2.whenPressed(new RunClaw(ClawState.EJECTING));
         right3.whenPressed(new ArticulateMouth(MouthPosition.OUT));
         right4.whenPressed(new ArticulateMouth(MouthPosition.IN));
+        
+        right9.whenPressed(new DriveDistance(48));
         /*
         right6.whenPressed(new AutonMove("LeftRocketFar"));
         right7.whenPressed(new AutonMove("LeftRocketClose"));
@@ -83,6 +86,7 @@ public class OI {
         right10.whenPressed(new AutonMove("RightRocketClose"));
         right11.whenPressed(new AutonMove("RightRocketFar"));
         */
+        
         gamepadA.whenPressed(new UseElevator(ElevatorPosition.BOTTOM));
         gamepadB.whenPressed(new ManualElevator());
         gamepadX.whenPressed(new UseElevator(ElevatorPosition.CARGOSHIP_C));
@@ -99,7 +103,7 @@ public class OI {
     public String getAutonFirstStep() {
         return shuffleDash.getFirstStep();
     }
-
+    
     public double getJoystickX(int port) {
         switch (port) {
             case DS_USB.LEFT_STICK:

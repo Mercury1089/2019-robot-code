@@ -13,7 +13,7 @@ public class MoveLegs extends Command {
 
   public MoveLegs(LegsPosition position) {
     requires(Robot.legs);
-    setName("ActuateFangs Command");
+    setName("ActuateFangs Command" + position.toString());
     LOG.info(getName() + " Constructed");
 
     this.position = position;

@@ -78,11 +78,12 @@ public class MoveHeading extends Command {
         right.configClosedLoopPeriod(0, closedLoopTimeMs);
         right.configClosedLoopPeriod(1, closedLoopTimeMs);
 
-        right.configAuxPIDPolarity(true);
+        right.configAuxPIDPolarity(false);
 
         Robot.driveTrain.configPIDSlots(DriveTrainSide.RIGHT, DriveTrain.DRIVE_PID_SLOT, DriveTrain.DRIVE_SMOOTH_MOTION_SLOT);
 
         Robot.driveTrain.resetPigeonYaw();
+        Robot.driveTrain.resetEncoders();
 
         LOG.info(getName() + " Initialized");
     }
