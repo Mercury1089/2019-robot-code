@@ -117,6 +117,10 @@ public class DriveTrain extends Subsystem implements PIDOutput {
         //Config feedback sensors for each PID slot, ready for MOTION PROFILING
         initializeMotionMagicFeedback();
 
+        // sets the maximum current the talons can pull
+        leaderLeft.configPeakCurrentLimit(40);
+        leaderRight.configPeakCurrentLimit(40);
+
         // Config PID
         DRIVE_GAINS = new PIDGain(0.125, 0.0, 0.05, 0.0, .75);   // .3
         SMOOTH_GAINS = new PIDGain(0.6, 0.00032, 0.45, getFeedForward(), 1.0);    //.00032

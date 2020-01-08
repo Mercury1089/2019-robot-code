@@ -33,6 +33,7 @@ public class Elevator extends Subsystem {
 
         elevatorLeader.setSensorPhase(false);
         elevatorLeader.setInverted(true);
+        elevatorLeader.configPeakCurrentLimit(40);
         elevatorLeader.configVoltage(0.125, 1.0);
         elevatorLeader.configClosedLoopPeriod(0, 1);
         //elevatorLeader.configAllowableClosedLoopError(0, 5);

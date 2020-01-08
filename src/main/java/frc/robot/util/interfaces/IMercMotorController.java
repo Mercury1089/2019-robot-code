@@ -181,6 +181,8 @@ public interface IMercMotorController {
 
     void configMotionCruiseVelocity(int sensorUnitsPer100ms);
 
+    void configPeakCurrentLimit(int amps);
+
     void configFactoryReset();
 
     enum LimitSwitchDirection {

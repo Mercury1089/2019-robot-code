@@ -212,6 +212,12 @@ public class MercVictorSPX implements IMercMotorController {
         victorspx.configMotionCruiseVelocity(sensorUnitsPer100ms, RobotMap.CTRE_TIMEOUT);
     }
 
+    //Victors don't have an equivalent method
+    
+    @Override
+    public void configPeakCurrentLimit(int amps) {
+    }
+
     @Override
     public void follow(IMercMotorController leader, FollowerType followerType) {
         if (leader instanceof MercTalonSRX) {
